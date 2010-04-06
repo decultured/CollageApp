@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	layout="absolute"
+	minHeight="480"	minWidth="640"
+	height="700" width="1000"
+	menu="{nativeMenu}"
+	title="Collage"
+	buttonAlignment="auto"
+	cornerRadius="4"
+	borderThickness="1"	borderColor="#999999"
+	dropShadowEnabled="true"
+	horizontalScrollPolicy="off"
+	verticalScrollPolicy="off"
+	>
+	<mx:Script>
+		<![CDATA[
+/*
+		applicationComplete="Initialize()"
+		keyDown="HandleKeyDown(event);"
+		nativeDragEnter="onDragIn(event)"
+		nativeDragDrop="onDrop(event)"
+		invoke="OnInvoke(event)"
+		closing="WindowClosing(event)" 
+*/
+		]]>
+	</mx:Script>
+</mx:WindowedApplication>

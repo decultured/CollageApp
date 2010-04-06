@@ -1,0 +1,22 @@
+#!/bin/sh
+
+./buildrelease
+
+mkdir airpackage
+
+cp assets/app-icons/*.png airpackage/
+cp collagecert.p12 airpackage/
+cp src/Desktop/Collage.xml airpackage/
+cp src/Desktop/Collage.swf airpackage/
+
+cd airpackage
+
+adt -package -storetype pkcs12 -keystore collagecert.p12 -storepass 4Sq_gD_ecPi4fEA Collage.air Collage.xml Collage.swf file-128.png icon-128.png
+
+cd ../
+
+cp airpackage/Collage.air ./
+
+rm -rf airpackage
+
+echo "Done!"
