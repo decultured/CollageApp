@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication
-	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+    xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:mx="library://ns.adobe.com/flex/mx"
 	layout="absolute"
 	minHeight="480"	minWidth="640"
 	height="700" width="1000"
-	menu="{nativeMenu}"
 	title="Collage"
 	buttonAlignment="auto"
-	cornerRadius="4"
-	borderThickness="1"	borderColor="#999999"
-	dropShadowEnabled="true"
 	horizontalScrollPolicy="off"
 	verticalScrollPolicy="off"
 	>
-	<mx:Script>
-		<![CDATA[
-/*
-		applicationComplete="Initialize()"
-		keyDown="HandleKeyDown(event);"
-		nativeDragEnter="onDragIn(event)"
-		nativeDragDrop="onDrop(event)"
-		invoke="OnInvoke(event)"
-		closing="WindowClosing(event)" 
-*/
-		]]>
-	</mx:Script>
+	<fx:Script><![CDATA[
+		import Desktop.Application.*;
+		
+		private function Initialize():void
+		{
+			
+		}
+		
+	]]></fx:Script>
+<!--	<mx:FlexNativeMenu id="nativeMenu" dataProvider="{collageMenuData}" 
+		showRoot="false"
+		itemClick="{menuItemClicked(event)}"
+		menuShow="{menuShow(event)}"
+		labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex"
+ 		keyEquivalentModifiersFunction="StandardOSModifier"
+		/>
+		
+-->
+	<mx:HBox id="toolBar" right="0" left="0" top="0" bottom="45" />
+	<mx:Canvas right="0" left="0" top="45" bottom="20" color="0x323232" backgroundColor="#ACACAC" backgroundAlpha="1" >
+		<mx:Box id="documentCanvas" left="0" right="0" bottom="0" top="0" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"  horizontalAlign="center" verticalAlign="middle" backgroundAlpha="0" backgroundColor="0xffffff" />
+	</mx:Canvas>
+	<mx:HBox id="appStatusBar" right="0" left="0" top="0" bottom="45" />
 </mx:WindowedApplication>
