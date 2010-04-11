@@ -29,7 +29,5 @@ package Collage.Document
 			// TODO : Properly unload clips from memory
 			clips = new Object();
 		}
-
-		
 	}
 }

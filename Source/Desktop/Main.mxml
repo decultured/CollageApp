@@ -3,6 +3,8 @@
 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
     xmlns:s="library://ns.adobe.com/flex/spark" 
     xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:clg="Desktop.Application.*"
+	menu="{nativeMenu}"
 	layout="absolute"
 	minHeight="480"	minWidth="640"
 	height="700" width="1000"
@@ -20,15 +22,10 @@
 		}
 		
 	]]></fx:Script>
-<!--	<mx:FlexNativeMenu id="nativeMenu" dataProvider="{collageMenuData}" 
-		showRoot="false"
-		itemClick="{menuItemClicked(event)}"
-		menuShow="{menuShow(event)}"
-		labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex"
- 		keyEquivalentModifiersFunction="StandardOSModifier"
-		/>
-		
--->
+	<fx:Declarations>
+		<clg:CollageMenu id="nativeMenu" showRoot="false"
+			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
+	</fx:Declarations>
 	<mx:HBox id="toolBar" right="0" left="0" top="0" bottom="45" />
 	<mx:Canvas right="0" left="0" top="45" bottom="20" color="0x323232" backgroundColor="#ACACAC" backgroundAlpha="1" >
 		<mx:Box id="documentCanvas" left="0" right="0" bottom="0" top="0" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"  horizontalAlign="center" verticalAlign="middle" backgroundAlpha="0" backgroundColor="0xffffff" />
