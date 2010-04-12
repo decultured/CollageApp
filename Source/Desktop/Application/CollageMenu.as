@@ -87,8 +87,9 @@ package Desktop.Application
 
 		private function menuItemClicked(menuEvent:FlexNativeMenuEvent):void
 		{
-			if (!collageApp)
+			if (!collageApp) {
 				return;
+			}
 
 			var command:String = menuEvent.item.@command;
 			switch(command){
@@ -108,7 +109,7 @@ package Desktop.Application
 				case "print":		break;
 				case "undo":		break;
 				case "redo":		break;
-				case "new": 		collageApp.NewDocument(); break;
+				case "new": 		collageApp.document.NewDocument(); break;
 				case "moveForward":		collageApp.document.MoveSelectedForward(); break;
 				case "moveBackward": 	collageApp.document.MoveSelectedBackward(); break;
 				case "moveToFront":		collageApp.document.MoveSelectedToFront(); break;

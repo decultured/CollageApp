@@ -4,6 +4,7 @@ package Collage.Document
 	{
 		public function EditDocument():void
 		{
+			super();
 		}
 		
 		public function DeleteSelected():void

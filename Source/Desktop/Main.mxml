@@ -5,6 +5,7 @@
     xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:clg="Desktop.Application.*"
 	menu="{nativeMenu}"
+	showStatusBar="false"
 	layout="absolute"
 	minHeight="480"	minWidth="640"
 	height="700" width="1000"
@@ -12,13 +13,18 @@
 	buttonAlignment="auto"
 	horizontalScrollPolicy="off"
 	verticalScrollPolicy="off"
+	applicationComplete="Initialize()"
 	>
 	<fx:Script><![CDATA[
 		import Desktop.Application.*;
+		import mx.controls.Alert;
+		
+		private var app:AppMain;
 		
 		private function Initialize():void
 		{
-			
+			app = new AppMain();
+			nativeMenu.collageApp = app;
 		}
 		
 	]]></fx:Script>
