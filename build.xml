@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<project name="Collage" default="air-build-debug-and-run">
+	<property name="src.dir" value="./Source/"/>
+	
+	<target name="clean">
+		<delete file="Collage.air" />
+		<delete dir="./Build/Debug/" />
+		<delete dir="./Build/Release/" />
+		<delete dir="./Build/Package/" />
+		<mkdir dir="./Build/Debug/" />
+		<mkdir dir="./Build/Release/" />
+		<mkdir dir="./Build/Package/" />
+	</target>
+	
+	<target name="air-debug" depends="clean">
+		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
+		
+		<exec executable="amxmlc" failonerror="true">
+			<arg line="-source-path '${src.dir}'" />
+			<arg line="-output '${deploy.dir}/Main.swf'"/>
+			<arg line="${src.dir}/Desktop/Main.mxml"/>
+		</exec>
+	</target>
+	
+	<target name="air-release" depends="clean">
+		<property name="deploy.dir" value="./Build/Release/Desktop/"/>
+		
+		<exec executable="amxmlc" failonerror="true">
+			<arg line="-debug=false" />
+			<arg line="-source-path '${src.dir}'" />
+			<arg line="-output '${deploy.dir}/Main.swf'"/>
+			<arg line="${src.dir}/Desktop/Main.mxml"/>
+		</exec>
+	</target>
+	
+	<target name="air-run">
+		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
+		
+		<exec executable="adl" failonerror="true">
+			<arg line="${src.dir}/Desktop/Main-app.xml" />
+			<arg line="${deploy.dir}"/>
+		</exec>
+	</target>
+	
+	<target name="air-build-debug-and-run" depends="air-debug,air-run" />
+	
+	<target name="air-package" depends="air-release">
+		<property name="assets.dir" value="./Assets/"/>
+		<property name="release.dir" value="./Build/Release/Desktop/"/>
+		<property name="package.dir" value="./Build/Package/Desktop/"/>
+		
+		<copy file="${src.dir}/Desktop/Main-app.xml" tofile="${package.dir}/Main-app.xml" />
+		<copy file="${release.dir}/Main.swf" tofile="${package.dir}/Main.swf" />
+		<copy file="./Build/collagecert.p12" tofile="${package.dir}/collagecert.p12" />
+		<copy todir="${package.dir}">
+			<fileset dir="${assets.dir}/app-icons/" />
+		</copy>
+		
+		<exec executable="adt" failonerror="true" dir="${package.dir}">
+			<arg line="-package -storetype pkcs12 -keystore collagecert.p12 -storepass 4Sq_gD_ecPi4fEA Collage.air Main-app.xml Main.swf file-128.png icon-128.png" />
+		</exec>
+		
+		<copy file="${package.dir}/Collage.air" tofile="Collage.air" />
+	</target>
+</project>
