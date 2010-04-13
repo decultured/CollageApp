@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+    xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:clg="Desktop.Application.*"
+	horizontalScrollPolicy="off"
+	verticalScrollPolicy="off"
+	>
+	<fx:Script><![CDATA[
+
+		public var model:ClipModel = new ClipModel();
+
+		public function Load(filename:String = ""):void
+		{
+			var context:LoaderContext = new LoaderContext();
+			context.securityDomain = null;//SecurityDomain.currentDomain;
+			context.applicationDomain = new ApplicationDomain();
+			contentLoader.loaderContext = context;                 
+			contentLoader.source = filename;
+			contentLoader.addEventListener(Event.COMPLETE, CompleteHandler);
+		}
+
+		private function CompleteHandler(event:Event):void
+		{
+			event.target.removeEventListener(Event.COMPLETE, CompleteHandler);
+			event.target.content.loaderInfo.sharedEvents.addEventListener("MYCHILDEVENT", ClipLoadedHandler);
+		}
+
+		public function ClipLoadedHandler(event:Event):void {
+			var newObj:Object = event as Object;
+
+			Alert.show(newObj.AString);
+		}
+
+
+		public function systemManagerHandler(event:Event):void { event.preventDefault(); }			
+
+	]]></fx:Script>
+	<mx:SWFLoader id="clipLoader" top="0" bottom="0" right="0" left="0"/>
+</mx:Canvas>

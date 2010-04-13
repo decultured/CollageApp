@@ -1,5 +1,7 @@
 package Desktop.Application
 {
+	import flash.system.*;
+	import flash.ui.*;
 	import mx.events.*;
 	import mx.controls.Alert;
 	import mx.controls.FlexNativeMenu;
@@ -75,6 +77,7 @@ package Desktop.Application
 		public function CollageMenu():void
 		{
 			dataProvider = menuData;
+			keyEquivalentModifiersFunction = StandardOSModifier;
 			addEventListener(FlexNativeMenuEvent.ITEM_CLICK, menuItemClicked);
 			addEventListener(FlexNativeMenuEvent.MENU_SHOW, menuShow);
 		}
@@ -84,6 +87,17 @@ package Desktop.Application
 //			if (!_EditDocumentView.IsObjectSelected()) {
 //			}
 		}
+
+		private function StandardOSModifier(item:Object):Array{
+			var modifiers:Array = new Array();
+			if((Capabilities.os.indexOf("Windows") >= 0)){
+				modifiers.push(Keyboard.CONTROL);
+			} else if (Capabilities.os.indexOf("Mac OS") >= 0){
+				modifiers.push(Keyboard.COMMAND);
+			}
+			return modifiers;
+		}
+
 
 		private function menuItemClicked(menuEvent:FlexNativeMenuEvent):void
 		{

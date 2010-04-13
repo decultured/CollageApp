@@ -20,6 +20,7 @@ package Collage.Document
 		
 		public function DocumentModel():void
 		{
+			
 		}
 		
 		public function NewDocument():void
@@ -31,6 +32,11 @@ package Collage.Document
 
 			// TODO : Properly unload clips from memory
 			clips = new Object();
+		}
+		
+		public function AddClip():void
+		{
+			
 		}
 	}
 }

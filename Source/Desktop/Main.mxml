@@ -4,6 +4,7 @@
     xmlns:s="library://ns.adobe.com/flex/spark" 
     xmlns:mx="library://ns.adobe.com/flex/mx"
 	xmlns:clg="Desktop.Application.*"
+	xmlns:clgdoc="Collage.Document.*"
 	menu="{nativeMenu}"
 	showStatusBar="false"
 	layout="absolute"
@@ -23,10 +24,17 @@
 		
 		private function Initialize():void
 		{
-			app = new AppMain();
+			app = new AppMain(editDoc);
 			nativeMenu.collageApp = app;
 		}
 		
+		private function Fullscreen():void
+		{
+			if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE)
+				stage.displayState = StageDisplayState.NORMAL;
+			else
+				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+		}
 	]]></fx:Script>
 	<fx:Declarations>
 		<clg:CollageMenu id="nativeMenu" showRoot="false"
@@ -34,7 +42,13 @@
 	</fx:Declarations>
 	<mx:HBox id="toolBar" right="0" left="0" top="0" bottom="45" />
 	<mx:Canvas right="0" left="0" top="45" bottom="20" color="0x323232" backgroundColor="#ACACAC" backgroundAlpha="1" >
-		<mx:Box id="documentCanvas" left="0" right="0" bottom="0" top="0" paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"  horizontalAlign="center" verticalAlign="middle" backgroundAlpha="0" backgroundColor="0xffffff" />
+		<mx:Box id="documentCanvas"
+			left="0" right="0" bottom="0" top="0"
+			paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"
+			horizontalAlign="center" verticalAlign="middle"
+			backgroundAlpha="0" backgroundColor="0xffffff">
+			<clgdoc:EditDocument id="editDoc" width="1024" height="768" backgroundColor="#ffffff"/>
+		</mx:Box>
 	</mx:Canvas>
 	<mx:HBox id="appStatusBar" right="0" left="0" top="0" bottom="45" />
 </mx:WindowedApplication>

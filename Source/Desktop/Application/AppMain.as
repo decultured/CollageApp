@@ -10,16 +10,15 @@ package Desktop.Application
 		public var clgClipboard:AppClipboard;
 		public var document:EditDocument;
 		
-		public function AppMain():void
+		public function AppMain(editDoc:EditDocument):void
 		{
 			clgClipboard = new AppClipboard(this);
-			document = new EditDocument();
+			document = editDoc;
 		}
 		
 		public function Quit():void
 		{
 			NativeApplication.nativeApplication.exit();	
-//			mainWindow.Quit();
 		}
 		
 		public function Fullscreen():void
