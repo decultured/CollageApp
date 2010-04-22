@@ -1,4 +1,4 @@
-package Collage.Document
+/*package Collage.Document
 {
 	public class DocumentModel
 	{
@@ -40,3 +40,4 @@ package Collage.Document
 		}
 	}
 }
+*/

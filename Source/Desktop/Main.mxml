@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication
+<s:WindowedApplication
 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
     xmlns:s="library://ns.adobe.com/flex/spark" 
     xmlns:mx="library://ns.adobe.com/flex/mx"
@@ -7,18 +7,16 @@
 	xmlns:clgdoc="Collage.Document.*"
 	menu="{nativeMenu}"
 	showStatusBar="false"
-	layout="absolute"
 	minHeight="480"	minWidth="640"
 	height="700" width="1000"
 	title="Collage"
-	buttonAlignment="auto"
-	horizontalScrollPolicy="off"
-	verticalScrollPolicy="off"
 	applicationComplete="Initialize()"
+	click="ClickHandler(event)"
 	>
 	<fx:Script><![CDATA[
 		import Desktop.Application.*;
 		import mx.controls.Alert;
+		import Collage.Clips.*;
 		
 		private var app:AppMain;
 		
@@ -35,20 +33,31 @@
 			else
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 		}
+		
+		protected function ClickHandler(event:MouseEvent):void
+		{
+			if(event) {
+				if (event.currentTarget is Clip) {
+					event.stopPropagation();
+					event.stopImmediatePropagation();
+					return;
+			 	} else {
+					app.document.objectHandles.selectionManager.clearSelection();
+					event.stopPropagation();
+					event.stopImmediatePropagation();
+				}
+			} else {
+				app.document.objectHandles.selectionManager.clearSelection();
+			}
+		}
 	]]></fx:Script>
 	<fx:Declarations>
 		<clg:CollageMenu id="nativeMenu" showRoot="false"
 			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
 	</fx:Declarations>
 	<mx:HBox id="toolBar" right="0" left="0" top="0" bottom="45" />
-	<mx:Canvas right="0" left="0" top="45" bottom="20" color="0x323232" backgroundColor="#ACACAC" backgroundAlpha="1" >
-		<mx:Box id="documentCanvas"
-			left="0" right="0" bottom="0" top="0"
-			paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"
-			horizontalAlign="center" verticalAlign="middle"
-			backgroundAlpha="0" backgroundColor="0xffffff">
-			<clgdoc:EditDocument id="editDoc" width="1024" height="768" backgroundColor="#ffffff"/>
-		</mx:Box>
-	</mx:Canvas>
+	<s:BorderContainer id="docContainer" right="0" left="0" top="45" bottom="20" color="0x323232">
+		<clgdoc:EditDocument id="editDoc" width="1024" height="768"/>
+	</s:BorderContainer>
 	<mx:HBox id="appStatusBar" right="0" left="0" top="0" bottom="45" />
-</mx:WindowedApplication>
+</s:WindowedApplication>
