@@ -74,13 +74,20 @@
 
 			Alert.show(newObj.AString);
 		}
+		
+		public function Resized():void {
+			if (clipLoader.content) {
+				clipLoader.content.width = width;
+				clipLoader.content.height = height;
+			}
+		}
 
 		public function systemManagerHandler(event:Event):void { event.preventDefault(); }			
 
 	]]></fx:Script>
-	<mx:SWFLoader id="clipLoader" top="0" bottom="0" right="0" left="0" scaleContent="false" />
 	<s:BorderContainer id="brdr" top="0" left="0" right="0" bottom="0"
-		cornerRadius="2" borderWeight="1" 
-		borderColor="0xFFFF00" dropShadowVisible="false"
-		backgroundColor="0x000000" backgroundAlpha="0" />
+		cornerRadius="0" borderWeight="2" 
+		borderColor="0x0000FF" dropShadowVisible="false"
+		backgroundColor="0x000000" backgroundAlpha="1" />
+	<mx:SWFLoader id="clipLoader" top="0" bottom="0" right="0" left="0" percentWidth="100" percentHeight="100" scaleContent="false" maintainAspectRatio="false" />
 </s:BorderContainer>

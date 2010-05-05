@@ -47,7 +47,7 @@ package Collage.Clips
 			view.model = this;
 		}
 		
-		public function Resized():void { }
+		public function Resized():void {if (view) view.Resized(); }
 		public function Moved():void { }
  		public function Rotated():void { }
 		public function LoadFromData(data:Object):Boolean { return false; }
