@@ -40,7 +40,7 @@
 	<target name="air-run">
 		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
 		
-		<exec executable="adl" failonerror="true">
+		<exec executable="adl" spawn="true">
 			<arg line="${src.dir}/Desktop/Main-app.xml" />
 			<arg line="${deploy.dir}"/>
 		</exec>

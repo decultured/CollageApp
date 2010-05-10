@@ -59,5 +59,7 @@
 	<s:BorderContainer id="docContainer" right="0" left="0" top="45" bottom="20" color="0x323232">
 		<clgdoc:EditDocument id="editDoc" width="1024" height="768"/>
 	</s:BorderContainer>
-	<mx:HBox id="appStatusBar" right="0" left="0" top="0" bottom="45" />
+	<mx:HBox id="appStatusBar" right="0" left="0" top="0" bottom="45">
+		<s:Label text="hello!" />
+	</mx:HBox>
 </s:WindowedApplication>
