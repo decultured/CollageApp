@@ -17,7 +17,8 @@
 	
 	<target name="air-debug" depends="clean">
 		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
-		<exec executable="amxmlc" failonerror="true">
+		<exec executable="./fcshctl-mxmlc" failonerror="true">
+			<arg line="+configname=air" />
 			<arg line="-source-path '${src.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
 			<arg value="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
