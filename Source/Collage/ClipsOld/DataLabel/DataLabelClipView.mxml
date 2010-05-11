@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clg:ClipView xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:clg="Collage.Clip.*"
+	backgroundColor="{model.backgroundColor}"
+	backgroundAlpha="{model.backgroundAlpha}"
+	horizontalScrollPolicy="off"
+	verticalScrollPolicy="off"
+	creationComplete="Initialize()" >
+	
+	<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import mx.events.PropertyChangeEvent;
+		import mx.events.FlexEvent;
+		
+		public function Initialize():void
+		{
+			onModelChange(null);
+		}
+
+		protected override function onModelChange(event:PropertyChangeEvent):void
+		{
+			if (displayLabel) {
+				var dataLabelModel:DataLabelClip = _Model as DataLabelClip;
+				dataLabelModel.textWidth = displayLabel.textWidth + 20;
+				dataLabelModel.textHeight = displayLabel.textHeight;
+				displayLabel.validateNow();
+				dataLabelModel.Resized();
+			}
+			super.onModelChange(event);
+		}
+	]]>
+    </mx:Script>
+	<mx:Label id="displayLabel" text="{model.text}" color="{model.color}" fontSize="{model.fontSize}" textAlign="center" left="0" right="0" top="0" bottom="0" />
+</clg:ClipView>

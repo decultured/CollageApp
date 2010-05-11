@@ -1,10 +1,11 @@
 package Collage.Document
 {
 	import mx.controls.Alert;
-	import Collage.Clips.*;
+	import Collage.Clip.*;
 	import com.roguedevelopment.objecthandles.*;
 	import com.roguedevelopment.objecthandles.decorators.AlignmentDecorator;
 	import com.roguedevelopment.objecthandles.decorators.DecoratorManager;
+	import mx.managers.PopUpManager;
 
 	public class EditDocument extends Document
 	{
@@ -23,10 +24,11 @@ package Collage.Document
 
 		public override function NewDocument():void
 		{
-/*			var childArray:Array = getChildren();
+/*
+			var childArray:Array = getChildren();
 			for (var i:uint = 0; i < childArray.length; i++) {
 				if (childArray[i] && childArray[i] is ClipView)
-					_ObjectHandles.unregisterComponent(childArray[i]);
+					objectHandles.unregisterComponent(childArray[i]);
 			}
 */
 			//DrawGrid();
@@ -36,17 +38,21 @@ package Collage.Document
 		public function InitObjectHandles():void
 		{
 			objectHandles = new ObjectHandles(this, null, new Flex4HandleFactory(), new Flex4ChildManager());
-//			decoratorManager = new DecoratorManager( objectHandles, drawingLayer );
-//			decoratorManager.addDecorator( new AlignmentDecorator() );
+			objectHandles.selectionManager.addEventListener(SelectionEvent.ADDED_TO_SELECTION, ObjectSelected);
+			objectHandles.selectionManager.addEventListener(SelectionEvent.REMOVED_FROM_SELECTION, ObjectDeselected);
+			objectHandles.selectionManager.addEventListener(SelectionEvent.SELECTION_CLEARED, ObjectDeselected);
+
+			decoratorManager = new DecoratorManager( objectHandles, drawingLayer );
+			decoratorManager.addDecorator( new AlignmentDecorator() );
 		}		
 
-		public function AddObjectHandles(newClip:Clip):void
+		public function AddObjectHandles(_newClip:Clip):void
 		{
 		}
 
-		public override function AddClip(clipModel:ClipModel):ClipModel
+		public override function AddClip(_clip:Clip):Clip
 		{
-			var newClip:ClipModel = super.AddClip(clipModel);
+			var newClip:Clip = super.AddClip(_clip);
 			if (!newClip) {
 				return null;
 			}
@@ -56,8 +62,32 @@ package Collage.Document
 			return newClip;
 		}
 		
+		public override function DeleteClip(_clip:Clip):void
+		{
+			objectHandles.unregisterComponent(_clip);
+			super.DeleteClip(_clip);
+		}
+		
+		public function DeselectAll():void
+		{
+			objectHandles.selectionManager.clearSelection();
+		}
+		
+		protected function ObjectSelected(event:SelectionEvent):void {
+			for each (var clip:Clip in event.targets) {
+				clip.selected = true;
+			}
+		}
+
+		protected function ObjectDeselected(event:SelectionEvent):void {
+			for each (var clip:Clip in event.targets) {
+				clip.selected = false;
+			}
+		}
+
 		public function DeleteSelected():void
 		{
+			
 		}
 		
 		public function MoveSelectedForward():void

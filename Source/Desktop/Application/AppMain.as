@@ -1,6 +1,7 @@
 package Desktop.Application
 {
 	import Collage.Document.*;
+	import Collage.Clip.*;
 	import Collage.Clips.*;
 	import mx.core.*;
 	import flash.events.*;
@@ -17,18 +18,27 @@ package Desktop.Application
 			document = editDoc;
 
 			document.InitializeForEdit();
-			
-			var newClip:ClipModel = new ClipModel();
-			newClip.clipName = "./Clips/TextBoxClip.swf";
+
+			var newClip:LabelClip = new LabelClip();
 			newClip.x = 150;
 			newClip.y = 150;
 			document.AddClip(newClip);
+			
+			/*var newClip:TextBoxClip = new TextBoxClip();
+			newClip.model.x = 150;
+			newClip.model.y = 150;
+			document.AddClip(newClip);
 
-			var newClip2:ClipModel = new ClipModel();
-			newClip2.clipName = "./Clips/LabelClip.swf";
-			newClip2.x = 250;
-			newClip2.y = 350;
+			var newClip2:LabelClip = new LabelClip();
+			newClip2.model.x = 150;
+			newClip2.model.y = 150;
 			document.AddClip(newClip2);
+
+			var newClip3:LabelNewClip = new LabelNewClip();
+			newClip3.model.x = 150;
+			newClip3.model.y = 150;
+			document.AddClip(newClip3);
+*/
 		}
 		
 		public function Quit():void

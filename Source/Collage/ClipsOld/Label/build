@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mxmlc -source-path="../../Shared/" -incremental=true -includes=mx.managers.systemClasses.MarshallingSupport -debug=true -output=../../Build/LabelClip.swf LabelClipView.mxml;
+cp ../../Build/LabelClip.swf ../../test;

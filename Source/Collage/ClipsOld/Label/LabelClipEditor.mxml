@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clg:ClipEditor xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:clg="Collage.Clip.*"
+	xmlns:flexlib="flexlib.containers.*"
+	creationComplete="Initialize()" >
+	<mx:Script>
+	<![CDATA[
+		private function Initialize():void
+		{
+			if (_Model) {
+				var labelModel:LabelClip = _Model as LabelClip;
+				src.text = labelModel.text;
+			}
+		}
+		
+		private function SettingsChanged():void
+		{
+			if (_Model) {
+				var labelModel:LabelClip = _Model as LabelClip;
+				labelModel.text = src.text;
+				labelModel.color = textColorPicker.selectedColor;
+				labelModel.backgroundColor = backgroundColorPicker.selectedColor;
+				labelModel.backgroundAlpha = transparencySlider.value;
+				labelModel.fontSize = textFontSize.value;
+			}
+		}
+	]]>
+    </mx:Script>
+	<flexlib:WindowShade label="Label Settings" styleName="linkButtonWindowShade" width="100%">
+		<mx:HRule width="100%" />
+		<mx:Label text="Text:" color="#000000" fontWeight="bold" />
+		<mx:TextInput id="src" text="{model.text}" color="0x323232" width="100%" change="SettingsChanged()"/>
+		<mx:HRule width="100%" />
+		<mx:HBox width="100%" >
+			<mx:Label text="Text Color:" color="#000000" fontWeight="bold" />
+			<mx:ColorPicker id="textColorPicker" showTextField="true" selectedColor="{model.color}" change="SettingsChanged()" />
+		</mx:HBox>
+		<mx:HBox width="100%" >
+			<mx:Label text="Background Color:" color="#000000" fontWeight="bold" />
+			<mx:ColorPicker id="backgroundColorPicker" showTextField="true" selectedColor="{model.backgroundColor}" change="SettingsChanged()" />
+		</mx:HBox>
+		<mx:Label text="Background Transparency:" color="#000000" fontWeight="bold" />
+		<mx:HSlider id="transparencySlider" minimum="0" maximum="1" value="{model.backgroundAlpha}"
+            allowTrackClick="true" liveDragging="true" change="SettingsChanged()" />
+		<mx:Label text="Font Size:" color="#000000" fontWeight="bold" />
+		<mx:HSlider id="textFontSize" minimum="6" maximum="96" value="{model.fontSize}" snapInterval="1" change="SettingsChanged()" />
+	</flexlib:WindowShade>
+</clg:ClipEditor>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clg:ClipView xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:clg="Collage.Clip.*"
+	backgroundColor="{model.backgroundColor}"
+	backgroundAlpha="{model.backgroundAlpha}"
+	horizontalScrollPolicy="off"
+	verticalScrollPolicy="off" >
+	
+	<mx:Script>
+		<![CDATA[
+        import mx.collections.ArrayCollection;
+		import mx.events.PropertyChangeEvent;
+        import mx.collections.ArrayCollection;
+
+        private function displayLabel(data:Object, field:String, index:Number, percentValue:Number):String {
+			var pieChartModel:PieChartClip = _Model as PieChartClip;
+            var temp:String= (" " + percentValue).substr(0,6);
+            return pieChartModel.labelColumn + ": " + data.label + "\n" + pieChartModel.dataColumn + ": " + data.value + '\n' + temp + "%";
+        }
+
+		protected override function onModelChange( event:PropertyChangeEvent):void
+		{
+			var pieChartModel:PieChartClip = _Model as PieChartClip;
+
+			chart.invalidateDisplayList();
+			
+			if (!pieChartModel.Data || pieChartModel.Data.length < 1)
+				noDataWarningLabel.visible = true
+			else 
+				noDataWarningLabel.visible = false;
+
+			super.onModelChange(event);
+		}
+		]]>
+     </mx:Script>
+
+	<mx:Stroke id="callouts" weight="{model.calloutWeight}" color="{model.calloutColor}" alpha="{model.calloutAlpha}" caps="none"/>
+    <mx:Stroke id="radial" weight="{model.radialWeight}" color="{model.radialColor}" alpha="{model.radialAlpha}"/>
+    <mx:Stroke id="pieborder" color="{model.borderColor}" weight="{model.borderWeight}" alpha="{model.borderAlpha}"/>
+     <mx:PieChart id="chart" height="100%" width="100%" innerRadius="{model.innerRadius}"
+        showDataTips="true" dataProvider="{model.Data}" >
+        <mx:series>
+            <mx:PieSeries
+				explodeRadius="{model.explodeRadius}"
+				labelPosition="{model.labelPosition}"
+				field="value"
+				fontAntiAliasType="advanced"
+				fontSharpness="-400"
+				fontSize="{model.labelSize}"
+				color="{model.labelColor}"
+				nameField="label"
+                labelFunction="displayLabel" 
+                calloutStroke="{callouts}" 
+                radialStroke="{radial}" 
+                stroke="{pieborder}" >
+				<mx:filters>
+					<mx:Array/>
+				</mx:filters>
+            </mx:PieSeries>
+        </mx:series>
+    </mx:PieChart>
+	<mx:Canvas id="noDataWarningLabel" visible="false"  backgroundColor="#CCCCCC" backgroundAlpha="1" left="0" right="0" top="0" bottom="0" >
+	<mx:Label text="No Data Loaded..." color="#FF0000" fontWeight="bold" fontSize="18" textAlign="center" left="0" right="0" top="0" bottom="0" />
+	</mx:Canvas>
+</clg:ClipView>

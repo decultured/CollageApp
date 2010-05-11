@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clg:Clip
+	xmlns:clg="Collage.Clip.*"
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+    xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+	>
+	<fx:Script><![CDATA[
+
+	[Bindable]public var text:String = "This is a badass label";
+	[Bindable]public var fontSize:Number = 12;
+	[Bindable]public var color:Number = 0xff0000;
+
+	]]></fx:Script>
+	<s:Label id="displayLabel"
+		text="{text}" fontSize="{fontSize}" color="{color}"
+		textAlign="center"
+		left="0" right="0" top="0"/>
+</clg:Clip>

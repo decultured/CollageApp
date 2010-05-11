@@ -11,12 +11,11 @@
 	height="700" width="1000"
 	title="Collage"
 	applicationComplete="Initialize()"
-	click="ClickHandler(event)"
 	>
 	<fx:Script><![CDATA[
 		import Desktop.Application.*;
 		import mx.controls.Alert;
-		import Collage.Clips.*;
+		import Collage.Clip.*;
 		
 		private var app:AppMain;
 		
@@ -37,17 +36,9 @@
 		protected function ClickHandler(event:MouseEvent):void
 		{
 			if(event) {
-				if (event.currentTarget is Clip) {
-					event.stopPropagation();
-					event.stopImmediatePropagation();
-					return;
-			 	} else {
-					app.document.objectHandles.selectionManager.clearSelection();
-					event.stopPropagation();
-					event.stopImmediatePropagation();
+				if (event.target is EditDocument) {
+					app.document.DeselectAll();
 				}
-			} else {
-				app.document.objectHandles.selectionManager.clearSelection();
 			}
 		}
 	]]></fx:Script>
@@ -57,7 +48,7 @@
 	</fx:Declarations>
 	<mx:HBox id="toolBar" right="0" left="0" top="0" bottom="45" />
 	<s:BorderContainer id="docContainer" right="0" left="0" top="45" bottom="20" color="0x323232">
-		<clgdoc:EditDocument id="editDoc" width="1024" height="768"/>
+		<clgdoc:EditDocument id="editDoc" width="1024" height="768" click="ClickHandler(event);"/>
 	</s:BorderContainer>
 	<mx:HBox id="appStatusBar" right="0" left="0" top="0" bottom="45" />
 </s:WindowedApplication>

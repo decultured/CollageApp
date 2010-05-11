@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clg:ClipEditor xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:clg="Collage.Clip.*"
+	xmlns:flexlib="flexlib.containers.*"
+	creationComplete="Initialize()" >
+	<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import Collage.DataEngine.*;
+		import mx.collections.ArrayCollection;
+
+		// min, max, average/avg, sum, count, mode
+		[Bindable]
+		public var modifierSelections:ArrayCollection = new ArrayCollection(
+		    [ {label:"Average", data:"avg"},
+		      {label:"Mode", data:"mode"}
+			]);
+
+		[Bindable] public var dataSetSelections:Array = new Array();
+		[Bindable] public var dataSetColumnSelections:Array = new Array();
+
+		private function Initialize():void
+		{
+			DataEngineConnect();
+			if (_Model) {
+				var guageModel:GuageClip = _Model as GuageClip;
+				guageValue.minimum = guageModel.minimum;
+				guageValue.maximum = guageModel.maximum;
+				guageValue.value = guageModel.value;
+			}
+		}
+		
+		private function SettingsChanged():void
+		{
+			if (_Model) {
+				var guageModel:GuageClip = _Model as GuageClip;
+				guageModel.minimum = guageValue.minimum;
+				guageModel.maximum = guageValue.maximum;
+				guageModel.value = guageValue.value;
+				guageModel.backgroundColor = backgroundColorPicker.selectedColor;
+				guageModel.bezelColor = bezelColorPicker.selectedColor;
+				guageModel.measureMarksColor = tickMarksColorPicker.selectedColor;
+				guageModel.measureMarksAlpha = tickMarksAlpha.value;
+
+				guageModel.startAngle = minMaxAngle.values[0];
+				guageModel.endAngle = minMaxAngle.values[1];
+				guageModel.indicatorColor = indicatorColorPicker.selectedColor;
+				guageModel.indicatorCrownColor = crownColorPicker.selectedColor;
+			}
+		}
+
+		private function DataEngineConnect():void
+		{
+			DataEngine.events.addEventListener(DataEngine.COMPLETE, DatasLoaded);
+			DatasLoaded(null);
+		}
+
+		private function DatasLoaded(event:Event):void
+		{
+			/*DataEngine.events.removeEventListener(DataEngine.COMPLETE, DatasLoaded);*/
+			dataSetSelections = DataEngine.GetDataSetsComboBox(new Array("numeric", "datetime"), 2, 3);
+		}
+
+		private function ColumnSelectorChanged():void
+		{
+			var dataset:DataSet = DataEngine.GetDataSetByID(dataSetSelector.selectedItem.data);
+
+			if (!dataset || !_Model)
+				return;
+
+			var guageModel:GuageClip = _Model as GuageClip;
+			var dataColumn:DataSetColumn = null;
+
+			if (dataSetColumnSelector.selectedItem)
+				dataColumn = dataset.GetColumnByID(dataSetColumnSelector.selectedItem.data);
+			if (modifierSelector.selectedItem)
+				guageModel.dataSetColumnModifier = modifierSelector.selectedItem.data;
+
+			if (dataColumn) {
+				guageModel.dataSetColumn = dataColumn.label;
+			}
+
+			guageModel.RunQuery();
+		}
+
+		private function ModifierSelectorChanged():void
+		{
+			if (!_Model)
+				return;
+
+			var guageModel:GuageClip = _Model as GuageClip;
+			if (modifierSelector.selectedItem)
+				guageModel.dataSetColumnModifier = modifierSelector.selectedItem.data;
+			guageModel.RunQuery();
+		}
+
+		private function DataSetSelectorChanged():void
+		{
+			if (!_Model)
+				return;
+
+			var guageModel:GuageClip = _Model as GuageClip;
+
+			guageModel.dataSetColumn = null;
+			guageModel.ResetData();
+
+			var dataset:DataSet = DataEngine.GetDataSetByID(dataSetSelector.selectedItem.data);
+
+			if (dataset) {
+				guageModel.dataSetID = dataSetSelector.selectedItem.data;
+				dataSetColumnSelections = dataset.GetColumnsComboBox();
+				dataSetColumnSelector.enabled = true;
+				modifierSelector.enabled = true;
+			} else {
+				guageModel.dataSetID = null;
+				dataSetColumnSelector.enabled = false;
+				modifierSelector.enabled = false;
+//				guageModel.ResetData();
+			}
+		}
+	]]>
+    </mx:Script>
+	<flexlib:WindowShade label="Data Connection" styleName="linkButtonWindowShade" width="100%">
+		<mx:Label text="Data Set:" color="#000000" fontWeight="bold" />
+		<mx:ComboBox id="dataSetSelector" dataProvider="{dataSetSelections}" width="200" change="DataSetSelectorChanged()" prompt="Please select a dataset..."/>
+		<mx:Label text="Y Axis Value:" color="#000000" fontWeight="bold" />
+		<mx:ComboBox id="dataSetColumnSelector" dataProvider="{dataSetColumnSelections}" enabled="false" width="200" change="ColumnSelectorChanged()" prompt="Please select a column..."/>
+		<mx:Label text="Modifier:" color="#000000" fontWeight="bold" />
+		<mx:ComboBox id="modifierSelector" dataProvider="{modifierSelections}" enabled="false" width="200" change="ModifierSelectorChanged()" prompt="Please select a modifier..."/>
+	</flexlib:WindowShade>
+	<flexlib:WindowShade label="Guage Chart Settings" styleName="linkButtonWindowShade" width="100%">
+		<mx:Form>
+		<mx:FormItem label="Value">
+			<mx:HSlider id="guageValue" width="100" value="{model.value}" change="SettingsChanged()" />
+		</mx:FormItem>
+		<mx:HRule width="100%" />
+		<mx:FormItem label="Face">
+			<mx:ColorPicker selectedColor="{model.backgroundColor}" id="backgroundColorPicker" change="SettingsChanged()" />
+		</mx:FormItem>
+		<mx:FormItem label="Rim (Bezel)">
+			<mx:ColorPicker selectedColor="{model.bezelColor}" id="bezelColorPicker" change="SettingsChanged()" />
+		</mx:FormItem>
+		<mx:FormItem label="Indicator">
+			<mx:ColorPicker selectedColor="{model.indicatorColor}" id="indicatorColorPicker" change="SettingsChanged()" />
+		</mx:FormItem>
+		<mx:FormItem label="Crown">
+			<mx:ColorPicker selectedColor="{model.indicatorCrownColor}" id="crownColorPicker" change="SettingsChanged()" />
+		</mx:FormItem>
+		<mx:FormItem label="Tick Marks">
+			<mx:ColorPicker selectedColor="{model.measureMarksColor}" id="tickMarksColorPicker" change="SettingsChanged()" />
+		</mx:FormItem>
+		<mx:FormItem label="Tick Alpha">
+			<mx:HSlider value="{model.measureMarksAlpha}" minimum="0" maximum="1" snapInterval=".01" width="100" id="tickMarksAlpha" change="SettingsChanged()" />
+		</mx:FormItem>
+		<mx:HRule width="100%" />
+		<mx:FormItem label="Angles">
+			<mx:HSlider id="minMaxAngle" thumbCount="2" allowThumbOverlap="false" width="100" minimum="0" maximum="360" values="{[model.startAngle,model.endAngle]}" change="SettingsChanged()" />
+		</mx:FormItem>
+		</mx:Form>
+	</flexlib:WindowShade>
+</clg:ClipEditor>

@@ -3,7 +3,7 @@ package Collage.Document
 	import mx.core.*;  
 	import spark.components.Group;
 	import spark.components.BorderContainer;
-	import Collage.Clips.*;
+	import Collage.Clip.*;
 	
 	public class Document extends Group
 	{
@@ -38,28 +38,19 @@ package Collage.Document
 			_Clips = new Object();
 		}
 
-		public function AddClip(clipModel:ClipModel):ClipModel
+		public function AddClip(clip:Clip):Clip
 		{
-			if (clipModel && !_Clips[clipModel.uid]) {
-				_Clips[clipModel.uid] = clipModel;
-				addElement(clipModel.view);
-				return clipModel;
+			if (clip && !_Clips[clip.uid]) {
+				_Clips[clip.uid] = clip;
+				addElement(clip.view);
+				return clip;
 			}
 			return null;
 		}
-
-		public function AddClipByType(clipType:String):ClipModel
+		
+		public function DeleteClip(clip:Clip):void
 		{
-/*			var newClip:Clip = ClipFactory.CreateByType(clipType, dataObject);
-			if (!newClip || !AddClip(newClip))
-				return null;
-			if (position)
-				PositionClip(newClip, position);
 			
-			return newClip;
-*/
-			return new ClipModel();
 		}
-
 	} 
 }

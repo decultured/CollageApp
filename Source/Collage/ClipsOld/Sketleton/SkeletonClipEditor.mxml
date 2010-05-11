@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clg:ClipEditor xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:clg="Collage.Clip.*"
+	xmlns:flexlib="flexlib.containers.*"
+	creationComplete="Initialize()" >
+	<mx:Script>
+	<![CDATA[
+		private function Initialize():void
+		{
+			if (_Model) {
+				var skeletonModel:SkeletonClip = _Model as SkeletonClip;
+			}
+		}
+		
+		private function SettingsChanged():void
+		{
+			if (_Model) {
+			}
+		}
+	]]>
+    </mx:Script>
+	<flexlib:WindowShade label="Settings" styleName="linkButtonWindowShade" width="100%">
+	</flexlib:WindowShade>
+</clg:ClipEditor>
