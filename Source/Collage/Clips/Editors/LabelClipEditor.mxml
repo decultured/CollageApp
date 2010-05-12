@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009" >
+    
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" />
+    </s:states>
+
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipEditor")]
+        ]]>
+    </fx:Metadata> 
+    
+	<s:TextInput id="displayLabelInput"
+		text="@{hostComponent.model.text}"
+		textAlign="center"
+		left="0" right="0" top="2"/>
+</s:Skin>

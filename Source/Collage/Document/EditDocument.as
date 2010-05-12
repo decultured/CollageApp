@@ -2,6 +2,7 @@ package Collage.Document
 {
 	import mx.controls.Alert;
 	import Collage.Clip.*;
+	import spark.components.Group;
 	import com.roguedevelopment.objecthandles.*;
 	import com.roguedevelopment.objecthandles.decorators.AlignmentDecorator;
 	import com.roguedevelopment.objecthandles.decorators.DecoratorManager;
@@ -11,7 +12,8 @@ package Collage.Document
 	{
 		public var objectHandles:ObjectHandles;
 		protected var decoratorManager:DecoratorManager;
-
+		public var toolbar:Group;
+		
 		public function EditDocument():void
 		{
 			super();
@@ -42,8 +44,8 @@ package Collage.Document
 			objectHandles.selectionManager.addEventListener(SelectionEvent.REMOVED_FROM_SELECTION, ObjectDeselected);
 			objectHandles.selectionManager.addEventListener(SelectionEvent.SELECTION_CLEARED, ObjectDeselected);
 
-			decoratorManager = new DecoratorManager( objectHandles, drawingLayer );
-			decoratorManager.addDecorator( new AlignmentDecorator() );
+//			decoratorManager = new DecoratorManager( objectHandles, this );
+//			decoratorManager.addDecorator( new AlignmentDecorator() );
 		}		
 
 		public function AddObjectHandles(_newClip:Clip):void
@@ -64,6 +66,9 @@ package Collage.Document
 		
 		public override function DeleteClip(_clip:Clip):void
 		{
+			if (toolbar)
+				toolbar.removeAllElements();
+
 			objectHandles.unregisterComponent(_clip);
 			super.DeleteClip(_clip);
 		}
@@ -71,15 +76,31 @@ package Collage.Document
 		public function DeselectAll():void
 		{
 			objectHandles.selectionManager.clearSelection();
+			if (toolbar)
+				toolbar.removeAllElements();
 		}
 		
 		protected function ObjectSelected(event:SelectionEvent):void {
+			if (!toolbar) {
+				objectHandles.selectionManager.clearSelection();
+				return;
+			}
+			
+			toolbar.removeAllElements();
+			if (event.targets && event.targets.length == 1) {
+				var selectedClip:Clip = event.targets[0] as Clip;
+				toolbar.addElement(selectedClip.CreateEditor());
+			}
+			
 			for each (var clip:Clip in event.targets) {
 				clip.selected = true;
 			}
 		}
 
 		protected function ObjectDeselected(event:SelectionEvent):void {
+			if (toolbar)
+				toolbar.removeAllElements();
+
 			for each (var clip:Clip in event.targets) {
 				clip.selected = false;
 			}

@@ -23,6 +23,7 @@
 		{
 			app = new AppMain(editDoc);
 			nativeMenu.collageApp = app;
+			editDoc.toolbar = toolbar;
 		}
 		
 		private function Fullscreen():void
@@ -46,11 +47,10 @@
 		<clg:CollageMenu id="nativeMenu" showRoot="false"
 			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
 	</fx:Declarations>
-	<mx:HBox id="toolBar" right="0" left="0" top="0" bottom="45" />
+	<s:Group id="toolbar" right="0" left="0" top="0" bottom="45" />
 	<s:BorderContainer id="docContainer" right="0" left="0" top="45" bottom="20" color="0x323232">
 		<clgdoc:EditDocument id="editDoc" width="1024" height="768" click="ClickHandler(event);"/>
 	</s:BorderContainer>
-	<mx:HBox id="appStatusBar" right="0" left="0" top="0" bottom="45">
-		<s:Label text="hello!" />
-	</mx:HBox>
+	<s:Group id="appStatusBar" right="0" left="0" top="0" bottom="45">
+	</s:Group>
 </s:WindowedApplication>

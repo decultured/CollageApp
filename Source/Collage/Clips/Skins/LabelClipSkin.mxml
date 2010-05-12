@@ -14,28 +14,26 @@
         <s:State name="editing" />
     </s:states>
     
-    <s:Rect left="0" right="0" top="0" bottom="0" radiusX="5" radiusY="5">
+    <s:Rect left="0" right="0" top="0" height="{hostComponent.model.fontSize + 2}" radiusX="5" radiusY="5">
         <s:stroke>
-            <s:LinearGradientStroke weight="2"/>
+            <s:LinearGradientStroke weight="0"/>
         </s:stroke>
         <s:fill>
             <s:LinearGradient rotation="90">
                 <s:entries>
-                    <s:GradientEntry color="0xCCCCCC"/>
-                    <s:GradientEntry color="0x323232" alpha=".8" />
+                    <s:GradientEntry color="0xCCCCCC" alpha=".2" />
+                    <s:GradientEntry color="0x323232" alpha=".2" />
                 </s:entries>
             </s:LinearGradient>
         </s:fill>
     </s:Rect>
 
-    <s:Group id="contentGroup" left="0" right="0" top="0" bottom="0" minWidth="0" minHeight="0">
-		<s:Label id="displayLabel" includeIn="normal" 
-			text="{hostComponent.model.text}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
-			textAlign="center"
-			left="0" right="0" top="0"/>
- 		<s:TextInput id="displayLabelInput" includeIn="editing"
-			text="@{hostComponent.model.text}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
-			textAlign="center"
-			left="0" right="0" top="0"/>
-    </s:Group>
+	<s:Label id="displayLabel" includeIn="normal" lineBreak="explicit"
+		text="{hostComponent.model.text}" height="{hostComponent.model.fontSize}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
+		textAlign="center"
+		left="0" right="0" top="2"/>
+	<s:TextInput id="displayLabelInput" includeIn="editing"
+		text="@{hostComponent.model.text}" height="{hostComponent.model.fontSize}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
+		textAlign="center"
+		left="0" right="0" top="2"/>
 </s:Skin>
