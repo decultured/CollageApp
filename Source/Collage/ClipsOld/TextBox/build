@@ -1,4 +1,0 @@
-#!/bin/sh
-
-mxmlc -source-path="../../Shared/" -incremental=true -includes=mx.managers.systemClasses.MarshallingSupport -debug=true -output=../../Build/TextBoxClip.swf TextBoxClipView.mxml;
-cp ../../Build/TextBoxClip.swf ../../test;
