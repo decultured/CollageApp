@@ -1,6 +1,6 @@
 package Desktop.Application
 {
-	import Collage.Applcation.*;
+	import Collage.Application.*;
 	
 	public class AppMain extends CollageApp
 	{
