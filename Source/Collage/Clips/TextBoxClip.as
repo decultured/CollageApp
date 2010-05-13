@@ -5,8 +5,8 @@ package Collage.Clips
 	import Collage.Clips.Editors.*;
 	
 	public class TextBoxClip extends Clip
-	{             
-		[Bindable]public var text:String = "Defaulting Text";
+	{            
+		[Bindable]public var text:String = "<h1>Defaulting Text</h1><p>Wassat?</p>";
 		[Bindable]public var color:Number = 0xFF0000;
 		[Bindable]public var backgroundAlpha:Number = 1.0;
 		[Bindable]public var backgroundColor:Number = 0xFFFFFF;

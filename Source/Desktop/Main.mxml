@@ -53,7 +53,7 @@
 	<s:BorderContainer id="docContainer" backgroundColor="0x555555"
 		borderWeight="0" borderColor="0xffffff" dropShadowVisible="false"
 		right="0" left="0" top="45" bottom="25" borderVisible="false">
-		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%">
+		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0x555555">
 			<s:Group>
 				<s:layout>
 					<s:VerticalLayout  paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"/>
@@ -69,5 +69,5 @@
 		</s:Scroller>
 	</s:BorderContainer>
 
-	<s:SkinnableContainer id="appStatusBar" right="0" bottom="0" height="25" left="0"/>
+	<s:BorderContainer id="appStatusBar" right="0" bottom="0" height="25" left="0" backgroundColor="0x333333"/>
 </s:WindowedApplication>

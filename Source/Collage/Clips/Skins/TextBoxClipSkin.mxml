@@ -11,11 +11,12 @@
         <s:State name="disabled" />
         <s:State name="editing" />
     </s:states>
-	<s:RichText id="displayLabel" includeIn="normal" lineBreak="explicit"
-		fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
-		left="0" right="0" top="0" bottom="0"
-		content="{hostComponent.model.text}" />
-	<s:RichEditableText id="displayLabelInput" includeIn="editing"
-		text="@{hostComponent.model.text}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
-		left="0" right="0" top="0" bottom="0"/>
+	<s:Scroller>
+		<s:RichEditableText id="displayLabel" lineBreak="explicit"
+			editable.editing="true" selectable.editing="true"
+			editable.normal="false" selectable.normal="false"
+			fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
+			left="0" right="0" top="0" bottom="0"
+			content="{hostComponent.model.text}" />
+	</s:Scroller>
 </s:Skin>
