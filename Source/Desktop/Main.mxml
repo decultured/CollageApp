@@ -64,5 +64,5 @@
 		</s:Scroller>
 	</s:BorderContainer>
 
-	<s:SkinnableContainer id="appStatusBar" right="0" left="0" top="0" bottom="45" />
+	<s:SkinnableContainer id="appStatusBar" right="0" left="0" height="45" bottom="0" />
 </s:WindowedApplication>
