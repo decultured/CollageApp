@@ -46,5 +46,5 @@
 		<clg:CollageMenu id="nativeMenu" showRoot="false"
 			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
 	</fx:Declarations>
-	<clg:AppMain id="clgApp" skinClass="ApplcationSkin"/>
+	<clg:AppMain id="clgApp" skinClass="Collage.Application.Skins.ApplicationSkin" height="100%" width="100%" />
 </s:WindowedApplication>

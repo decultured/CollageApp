@@ -1,6 +1,12 @@
 package Desktop.Application
 {
 	import Collage.Application.*;
+	import Collage.Document.*;
+	import Collage.Clip.*;
+	import Collage.Clips.*;
+	import mx.core.*;
+	import flash.events.*;
+	import flash.desktop.*;
 	
 	public class AppMain extends CollageApp
 	{

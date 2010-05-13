@@ -2,6 +2,7 @@ package Collage.Document
 {
 	import mx.controls.Alert;
 	import Collage.Clip.*;
+	import Collage.Clips.*;
 	import spark.components.Group;
 	import spark.components.SkinnableContainer;
 	import com.roguedevelopment.objecthandles.*;
@@ -13,7 +14,7 @@ package Collage.Document
 	{
 		public var objectHandles:ObjectHandles;
 		protected var decoratorManager:DecoratorManager;
-		public var toolbar:SkinnableContainer;
+		public var toolbar:Group;
 		
 		public function EditDocument():void
 		{
@@ -23,6 +24,16 @@ package Collage.Document
 		public function InitializeForEdit():void
 		{
 			InitObjectHandles();
+
+			var newClip:LabelClip = new LabelClip();
+			newClip.x = 150;
+			newClip.y = 150;
+			AddClip(newClip);
+
+			var newClip2:TextBoxClip = new TextBoxClip();
+			newClip2.x = 150;
+			newClip2.y = 150;
+			AddClip(newClip2);
 		}
 
 		public override function NewDocument():void
