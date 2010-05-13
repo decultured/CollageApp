@@ -47,7 +47,7 @@
 		<clg:CollageMenu id="nativeMenu" showRoot="false"
 			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
 	</fx:Declarations>
-
+	<clg:AppMain skinClass="ApplcationSkin"/>
 	<s:SkinnableContainer id="toolbar" right="0" left="0" top="0" height="45" contentBackgroundColor="#333333" skinClass="Collage.Skins.ToolbarSkin" />
 
 	<s:BorderContainer id="docContainer" backgroundColor="0x555555"
