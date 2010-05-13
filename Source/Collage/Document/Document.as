@@ -2,7 +2,6 @@ package Collage.Document
 {
 	import mx.core.*;  
 	import spark.components.Group;
-	import spark.components.BorderContainer;
 	import Collage.Clip.*;
 	
 	public class Document extends Group

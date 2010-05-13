@@ -3,6 +3,7 @@ package Collage.Document
 	import mx.controls.Alert;
 	import Collage.Clip.*;
 	import spark.components.Group;
+	import spark.components.SkinnableContainer;
 	import com.roguedevelopment.objecthandles.*;
 	import com.roguedevelopment.objecthandles.decorators.AlignmentDecorator;
 	import com.roguedevelopment.objecthandles.decorators.DecoratorManager;
@@ -12,7 +13,7 @@ package Collage.Document
 	{
 		public var objectHandles:ObjectHandles;
 		protected var decoratorManager:DecoratorManager;
-		public var toolbar:Group;
+		public var toolbar:SkinnableContainer;
 		
 		public function EditDocument():void
 		{

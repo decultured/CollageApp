@@ -24,21 +24,10 @@ package Desktop.Application
 			newClip.y = 150;
 			document.AddClip(newClip);
 			
-			/*var newClip:TextBoxClip = new TextBoxClip();
-			newClip.model.x = 150;
-			newClip.model.y = 150;
-			document.AddClip(newClip);
-
-			var newClip2:LabelClip = new LabelClip();
-			newClip2.model.x = 150;
-			newClip2.model.y = 150;
+			var newClip2:TextBoxClip = new TextBoxClip();
+			newClip2.x = 150;
+			newClip2.y = 150;
 			document.AddClip(newClip2);
-
-			var newClip3:LabelNewClip = new LabelNewClip();
-			newClip3.model.x = 150;
-			newClip3.model.y = 150;
-			document.AddClip(newClip3);
-*/
 		}
 		
 		public function Quit():void
