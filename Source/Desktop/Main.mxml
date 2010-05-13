@@ -48,21 +48,26 @@
 			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
 	</fx:Declarations>
 
-	<s:SkinnableContainer id="toolbar" right="0" left="0" top="0" bottom="45" />
+	<s:SkinnableContainer id="toolbar" right="0" left="0" top="0" height="45" contentBackgroundColor="#333333"/>
 
 	<s:BorderContainer id="docContainer" backgroundColor="0x555555"
 		borderWeight="0" borderColor="0xffffff" dropShadowVisible="false"
-		right="0" left="0" top="45" bottom="20">
-		<s:Scroller hasFocusableChildren="true" tabEnabled="false">
-			<s:Group horizontalScrollPosition="20" verticalScrollPosition="30" top="0" bottom="0" right="0" left="0" clipAndEnableScrolling="true">
-				<s:BorderContainer top="50" bottom="50" right="50" left="50"
-					borderWeight="0" borderColor="0xffffff" 
-					dropShadowVisible="true" backgroundColor="0xffffff">
-					<clgdoc:EditDocument id="editDoc" width="1024" height="768" click="ClickHandler(event);"/>
+		right="0" left="0" top="45" bottom="25" borderVisible="false">
+		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%">
+			<s:Group>
+				<s:layout>
+					<s:VerticalLayout  paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"/>
+				</s:layout>
+				<s:BorderContainer borderColor="0xffffff" dropShadowVisible="true" backgroundColor="0xffffff">
+					<clgdoc:EditDocument id="editDoc" width="1024" height="768" click="ClickHandler(event);" clipAndEnableScrolling="true">
+						<clgdoc:layout>
+							<s:BasicLayout />
+						</clgdoc:layout>
+					</clgdoc:EditDocument>
 				</s:BorderContainer>
 			</s:Group>
 		</s:Scroller>
 	</s:BorderContainer>
 
-	<s:SkinnableContainer id="appStatusBar" right="0" left="0" top="0" bottom="45" />
+	<s:SkinnableContainer id="appStatusBar" right="0" bottom="0" height="25" left="0"/>
 </s:WindowedApplication>
