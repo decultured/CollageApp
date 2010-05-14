@@ -12,8 +12,9 @@
         	[HostComponent("Collage.Clip.ClipEditor")]
         ]]>
     </fx:Metadata> 
-	<s:TextInput id="displayLabelInput"
-		text="@{hostComponent.model.text}"
-		textAlign="center"
-		left="0" right="0" top="2"/>
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+	</s:layout>
+	<s:Label text="Text:" />
+	<s:TextInput id="displayLabelInput" text="@{hostComponent.model.text}" />
 </s:Skin>

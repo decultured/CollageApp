@@ -2,6 +2,7 @@ package Collage.Application
 {
 	import spark.components.SkinnableContainer;
 	import spark.components.Group;
+	import mx.events.FlexEvent;
 	import mx.controls.Alert;
 	import Collage.Document.*;
 	import Collage.Clip.*;
@@ -18,7 +19,7 @@ package Collage.Application
 		public var toolbar:Group;
 
 		[SkinPart(required="true")]
-		public var appStatusBar:SkinnableContainer;
+		public var appStatusBar:CollageStatusBar;
 
 		[SkinPart(required="true")]
 		public var editDoc:EditDocument;
@@ -26,15 +27,15 @@ package Collage.Application
 		public function CollageApp():void
 		{
 			clgClipboard = new CollageClipboard(this);
-
 		}
-
+		
 		override protected function partAdded(partName:String, instance:Object):void {
 			super.partAdded(partName, instance);
 			
-			if (instance == editDoc) {
-				editDoc.InitializeForEdit();
-				Alert.show("asdfasdf");
+			if (instance == editDoc && toolbar) {
+				editDoc.toolbar = toolbar;
+			} else if (instance == toolbar && editDoc) {
+				editDoc.toolbar = toolbar;
 			}
 		}
 		

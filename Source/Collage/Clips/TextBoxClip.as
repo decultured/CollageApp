@@ -17,7 +17,6 @@ package Collage.Clips
 
 		public function TextBoxClip()
 		{
-			verticalSizable = false;
 			super(TextBoxClipSkin, TextBoxClipEditor);
 		}
 	}

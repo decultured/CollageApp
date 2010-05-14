@@ -9,12 +9,11 @@
     </s:states>
     <fx:Metadata>
         <![CDATA[ 
-        	[HostComponent("Collage.Clip.ClipEditor")]
+        	[HostComponent("Collage.Document.EditDocumentToolbar")]
         ]]>
     </fx:Metadata> 
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<s:Label text="Text:" />
-	<s:TextInput id="displayLabelInput" text="@{hostComponent.model.text}" />
+	<s:Label text="Document Toolbar" color="0xff9900" fontWeight="bold" />
 </s:Skin>

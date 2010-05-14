@@ -58,10 +58,27 @@ package Collage.Document
 
 //			decoratorManager = new DecoratorManager( objectHandles, this );
 //			decoratorManager.addDecorator( new AlignmentDecorator() );
-		}		
+		}
 
 		public function AddObjectHandles(_newClip:Clip):void
 		{
+		}
+		
+		private function SetToolbar():void
+		{
+			if (!toolbar)
+				return;
+				
+			toolbar.removeAllElements();
+
+		 	if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				var selectedClip:Clip = objectHandles.selectionManager.currentlySelected[0] as Clip;
+				toolbar.addElement(selectedClip.CreateEditor());
+			} else if (objectHandles.selectionManager.currentlySelected.length > 1) {
+				
+			} else {
+				toolbar.addElement(new EditDocumentToolbar(this));
+			}
 		}
 
 		public override function AddClip(_clip:Clip):Clip
@@ -71,6 +88,7 @@ package Collage.Document
 				return null;
 			}
 			
+			objectHandles.selectionManager.clearSelection();
 			objectHandles.registerComponent(newClip, newClip.view);
 			objectHandles.selectionManager.addToSelected(newClip);
 			return newClip;
@@ -78,35 +96,24 @@ package Collage.Document
 		
 		public override function DeleteClip(_clip:Clip):void
 		{
-			if (toolbar)
-				toolbar.removeAllElements();
-
 			objectHandles.unregisterComponent(_clip);
+			SetToolbar();
 			super.DeleteClip(_clip);
 		}
 		
 		public function DeselectAll():void
 		{
+			if (!objectHandles)
+				return;
+				
 			objectHandles.selectionManager.clearSelection();
-			if (toolbar)
-				toolbar.removeAllElements();
 		}
 		
 		protected function ObjectSelected(event:SelectionEvent):void {
-			if (!toolbar) {
-				objectHandles.selectionManager.clearSelection();
-				return;
-			}
-			
-			toolbar.removeAllElements();
-			if (event.targets && event.targets.length == 1) {
-				var selectedClip:Clip = event.targets[0] as Clip;
-				toolbar.addElement(selectedClip.CreateEditor());
-			}
-			
 			for each (var clip:Clip in event.targets) {
 				clip.selected = true;
 			}
+			SetToolbar();
 		}
 
 		protected function ObjectDeselected(event:SelectionEvent):void {
@@ -116,6 +123,7 @@ package Collage.Document
 			for each (var clip:Clip in event.targets) {
 				clip.selected = false;
 			}
+			SetToolbar();
 		}
 
 		public function DeleteSelected():void

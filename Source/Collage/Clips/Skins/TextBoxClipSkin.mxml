@@ -9,14 +9,24 @@
     <s:states>
         <s:State name="normal" />
         <s:State name="disabled" />
-        <s:State name="editing" />
+        <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
-	<s:Scroller>
-		<s:RichEditableText id="displayLabel" lineBreak="explicit"
+	<fx:Script><![CDATA[
+		import mx.events.FlexEvent;
+		protected function EnterEditState(event:FlexEvent):void
+		{
+			displayLabel.setFocus();
+			displayLabel.drawFocus(true);
+		}
+	]]></fx:Script>
+		<s:RichEditableText id="displayLabel" lineBreak="toFit"
+			clipAndEnableScrolling="true"
+			backgroundColor="0xffffff"
+			backgroundAlpha="0"
+			selectionHighlighting="TextSelectionHighlighting.WHEN_FOCUSED"
 			editable.editing="true" selectable.editing="true"
 			editable.normal="false" selectable.normal="false"
 			fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
-			left="0" right="0" top="0" bottom="0"
-			content="{hostComponent.model.text}" />
-	</s:Scroller>
+			width="100%" height="100%"
+			text="@{hostComponent.model.text}" />
 </s:Skin>
