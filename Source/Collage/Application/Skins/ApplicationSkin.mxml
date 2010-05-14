@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 		xmlns:clgapp="Collage.Application.*"
 		xmlns:clgdoc="Collage.Document.*" >
@@ -58,12 +59,28 @@
 				<s:layout>
 					<s:VerticalLayout  paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"/>
 				</s:layout>
-				<s:BorderContainer borderColor="0xffffff" dropShadowVisible="true" backgroundColor="0xffffff">
+				<s:BorderContainer borderColor="0xffffff" dropShadowVisible="true" backgroundColor="0xffffff" width="{editDoc.width}" height="{editDoc.height}" >
 					<clgdoc:EditDocument id="editDoc" click="ClickHandler(event);" creationComplete="editDoc.InitializeForEdit();" clipAndEnableScrolling="true">
 						<clgdoc:layout>
 							<s:BasicLayout />
 						</clgdoc:layout>
 					</clgdoc:EditDocument>
+					<s:Group id="optionsBox" visible="true">
+						<s:Group id="buttons" top="-24" horizontalCenter="0">
+							<s:layout>
+								<s:HorizontalLayout />
+							</s:layout>
+							<s:Group click="editDoc.RefreshSelected()" >
+								<s:BitmapImage id="refreshButton" source="@Embed('../../../../Assets/icons/refresh-clip.png')" smooth="true" />
+							</s:Group>
+							<s:Group click="editDoc.ToggleEditSelected()" >
+								<s:BitmapImage id="editButton" source="@Embed('../../../../Assets/icons/edit.png')" smooth="true" />
+							</s:Group>
+							<s:Group click="editDoc.DeleteSelected()" >
+								<s:BitmapImage id="deleteButton" source="@Embed('../../../../Assets/icons/delete.png')" smooth="true" />
+							</s:Group>
+						</s:Group>
+					</s:Group>
 				</s:BorderContainer>
 			</s:Group>
 		</s:Scroller>

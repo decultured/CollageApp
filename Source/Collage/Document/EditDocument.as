@@ -3,9 +3,11 @@ package Collage.Document
 	import mx.controls.Alert;
 	import Collage.Clip.*;
 	import Collage.Clips.*;
+	import flash.geom.*;
 	import spark.components.Group;
 	import spark.components.SkinnableContainer;
 	import com.roguedevelopment.objecthandles.*;
+	import com.roguedevelopment.objecthandles.constraints.*;
 	import com.roguedevelopment.objecthandles.decorators.AlignmentDecorator;
 	import com.roguedevelopment.objecthandles.decorators.DecoratorManager;
 	import mx.managers.PopUpManager;
@@ -15,7 +17,9 @@ package Collage.Document
 	{
 		public var objectHandles:ObjectHandles;
 		protected var decoratorManager:DecoratorManager;
+		
 		public var toolbar:Group;
+		public var optionsBox:Group;
 		
 		public function EditDocument():void
 		{
@@ -26,17 +30,15 @@ package Collage.Document
 		{
 			InitObjectHandles();
 
-			var newClip:LabelClip = new LabelClip();
-			newClip.x = 150;
-			newClip.y = 150;
-			AddClip(newClip);
-
 			var newClip2:TextBoxClip = new TextBoxClip();
 			newClip2.x = 150;
 			newClip2.y = 150;
 			AddClip(newClip2);
 			
-			Logger.LogDebug("Document Initialized", this);
+			var newClip:LabelClip = new LabelClip();
+			newClip.x = 150;
+			newClip.y = 150;
+			AddClip(newClip);
 		}
 
 		public override function NewDocument():void
@@ -59,14 +61,90 @@ package Collage.Document
 			objectHandles.selectionManager.addEventListener(SelectionEvent.REMOVED_FROM_SELECTION, ObjectDeselected);
 			objectHandles.selectionManager.addEventListener(SelectionEvent.SELECTION_CLEARED, ObjectDeselected);
 
+			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_MOVED, ObjectChanged);
+			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_MOVING, ObjectChanged);
+			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_RESIZED, ObjectChanged);
+			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_RESIZING, ObjectChanged);
+			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_ROTATED, ObjectChanged);
+			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_ROTATING, ObjectChanged);
+
+			var sizeConstraint:SizeConstraint = new SizeConstraint();
+			sizeConstraint.minWidth = 20;
+			sizeConstraint.minHeight = 20;
+			
+			objectHandles.addDefaultConstraint(sizeConstraint);							
+
+			Logger.LogDebug("ObjectHandles Initialized", this);
+
 //			decoratorManager = new DecoratorManager( objectHandles, this );
 //			decoratorManager.addDecorator( new AlignmentDecorator() );
 		}
 
-		public function AddObjectHandles(_newClip:Clip):void
+		public function AddObjectHandles(newClip:Clip):void
 		{
+			if (newClip) {
+				var handles:Array = [];
+
+				if (newClip.verticalSizable && newClip.horizontalSizable) {
+					handles.push( new HandleDescription( HandleRoles.RESIZE_UP + HandleRoles.RESIZE_LEFT, new Point(0,0), new Point(0,0)));
+					handles.push( new HandleDescription( HandleRoles.RESIZE_UP + HandleRoles.RESIZE_RIGHT, new Point(100,0), new Point(0,0))); 
+					handles.push( new HandleDescription( HandleRoles.RESIZE_DOWN + HandleRoles.RESIZE_RIGHT, new Point(100,100), new Point(0,0))); 
+					handles.push( new HandleDescription( HandleRoles.RESIZE_DOWN + HandleRoles.RESIZE_LEFT, new Point(0,100), new Point(0,0))); 
+				}
+				if (newClip.verticalSizable) {
+					handles.push( new HandleDescription( HandleRoles.RESIZE_UP, new Point(50,0), new Point(0,0))); 
+					handles.push( new HandleDescription( HandleRoles.RESIZE_DOWN, new Point(50,100), new Point(0,0))); 
+				}
+				if (newClip.horizontalSizable) {
+					handles.push( new HandleDescription( HandleRoles.RESIZE_LEFT, new Point(0,50), new Point(0,0))); 
+					handles.push( new HandleDescription( HandleRoles.RESIZE_RIGHT, new Point(100,50), new Point(0,0))); 
+				}
+				if (newClip.rotatable)
+					handles.push( new HandleDescription( HandleRoles.ROTATE, new Point(100,50), new Point(20,0))); 
+				
+				Logger.Log("Vertical: " + newClip.verticalSizable.toString() + " horizontal:" + newClip.horizontalSizable.toString() + " rotatable:" + newClip.rotatable);				
+				objectHandles.registerComponent(newClip, newClip.view, handles);
+				DeselectAll();
+				objectHandles.selectionManager.addToSelected(newClip);
+			}
 		}
 		
+		public override function ViewResized():void
+		{
+			super.ViewResized();
+		}
+		
+		protected function PositionOptionsBox():void
+		{
+			if (!optionsBox) {
+				return;
+			}
+			
+			if (!objectHandles.selectionManager.currentlySelected.length) {
+				optionsBox.visible = false;
+				return;
+			}
+			
+			var geom:DragGeometry = objectHandles.selectionManager.getGeometry();
+
+			if (!geom) {
+				optionsBox.visible = false;
+				return;
+			}
+
+			optionsBox.visible = true;
+
+			optionsBox.y = geom.y;
+			optionsBox.x = geom.x;
+			optionsBox.width = geom.width;
+			optionsBox.height = geom.height;
+			optionsBox.rotation = geom.rotation;
+
+			if (geom.y < 30) {
+			} else {
+			}
+		}
+				
 		private function SetToolbar():void
 		{
 			if (!toolbar)
@@ -84,6 +162,22 @@ package Collage.Document
 			}
 		}
 
+		private function ObjectChanged(event:ObjectChangedEvent):void{
+			var num:Number = 0;
+			for each (var clip:Clip in event.relatedObjects) {
+				if (event.type == ObjectChangedEvent.OBJECT_MOVED) {
+					clip.Moved();
+				}
+				else if (event.type == ObjectChangedEvent.OBJECT_RESIZED) {
+					clip.Resized();
+				}
+				else if (event.type == ObjectChangedEvent.OBJECT_ROTATED) {
+					clip.Rotated();
+				}
+				PositionOptionsBox();
+			}
+		}
+
 		public override function AddClip(_clip:Clip):Clip
 		{
 			var newClip:Clip = super.AddClip(_clip);
@@ -91,9 +185,7 @@ package Collage.Document
 				return null;
 			}
 			
-			objectHandles.selectionManager.clearSelection();
-			objectHandles.registerComponent(newClip, newClip.view);
-			objectHandles.selectionManager.addToSelected(newClip);
+			AddObjectHandles(newClip);
 			return newClip;
 		}
 		
@@ -117,6 +209,7 @@ package Collage.Document
 				clip.selected = true;
 			}
 			SetToolbar();
+			PositionOptionsBox();
 		}
 
 		protected function ObjectDeselected(event:SelectionEvent):void {
@@ -127,11 +220,48 @@ package Collage.Document
 				clip.selected = false;
 			}
 			SetToolbar();
+			PositionOptionsBox();
 		}
 
 		public function DeleteSelected():void
 		{
+			if (objectHandles.selectionManager.currentlySelected.length > 0) {
+				for (var i:int; i < objectHandles.selectionManager.currentlySelected.length; i++) {
+					deleteClip(objectHandles.selectionManager.currentlySelected[i] as Clip);
+				}
+			}
+			objectHandles.selectionManager.clearSelection();
+		}
+
+		public function ToggleEditSelected():void
+		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				(objectHandles.selectionManager.currentlySelected[0] as Clip).ToggleEditMode();
+			}
+		}
+
+		public function RefreshSelected():void
+		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				(objectHandles.selectionManager.currentlySelected[0] as Clip).Refresh();
+			}
+		}
+
+		public function ToggleLockSelected():void
+		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				(objectHandles.selectionManager.currentlySelected[0] as Clip).ToggleLocked();
+			}
+		}
+
+		public function deleteClip(clip:Clip):void
+		{
+			if (!clip || !clip.view)
+				return;
 			
+			objectHandles.unregisterComponent(clip.view);
+			removeElement(clip.view);
+			Logger.Log("Clip Deleted!", this);
 		}
 		
 		public function MoveSelectedForward():void

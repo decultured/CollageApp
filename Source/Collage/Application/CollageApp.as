@@ -20,6 +20,9 @@ package Collage.Application
 		public var toolbar:Group;
 
 		[SkinPart(required="true")]
+		public var optionsBox:Group;
+
+		[SkinPart(required="true")]
 		public var appStatusBar:CollageStatusBar;
 
 		[SkinPart(required="true")]
@@ -34,10 +37,11 @@ package Collage.Application
 		override protected function partAdded(partName:String, instance:Object):void {
 			super.partAdded(partName, instance);
 			
-			if (instance == editDoc && toolbar) {
+			if ((editDoc && toolbar) && (instance == editDoc || instance == toolbar)) {
 				editDoc.toolbar = toolbar;
-			} else if (instance == toolbar && editDoc) {
-				editDoc.toolbar = toolbar;
+			} 
+			if ((editDoc && optionsBox) && (instance == editDoc || instance == optionsBox)) {
+				editDoc.optionsBox = optionsBox;
 			}
 		}
 		

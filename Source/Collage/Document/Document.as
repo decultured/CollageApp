@@ -38,6 +38,11 @@ package Collage.Document
 			_Clips = new Object();
 		}
 
+		public function ViewResized():void
+		{
+			// TODO : Reposition all objects to fit in new size
+		}
+
 		public function AddClip(clip:Clip):Clip
 		{
 			if (clip && !_Clips[clip.uid]) {

@@ -22,6 +22,7 @@
 			<arg line="-source-path '${src.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
 			<arg value="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
+			<arg value="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
 			<arg line="${src.dir}/Desktop/Main.mxml"/>
 		</exec>
 	</target>
