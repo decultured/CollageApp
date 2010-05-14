@@ -9,6 +9,7 @@ package Collage.Document
 	import com.roguedevelopment.objecthandles.decorators.AlignmentDecorator;
 	import com.roguedevelopment.objecthandles.decorators.DecoratorManager;
 	import mx.managers.PopUpManager;
+	import Collage.Utilities.Logger.*;
 
 	public class EditDocument extends Document
 	{
@@ -34,6 +35,8 @@ package Collage.Document
 			newClip2.x = 150;
 			newClip2.y = 150;
 			AddClip(newClip2);
+			
+			Logger.LogDebug("Document Initialized", this);
 		}
 
 		public override function NewDocument():void

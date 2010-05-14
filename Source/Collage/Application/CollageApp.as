@@ -10,6 +10,7 @@ package Collage.Application
 	import mx.core.*;
 	import flash.events.*;
 	import flash.desktop.*;
+	import Collage.Utilities.Logger.*;
 	
 	public class CollageApp extends SkinnableContainer
 	{
@@ -26,6 +27,7 @@ package Collage.Application
 
 		public function CollageApp():void
 		{
+			Logger.LogDebug("App Created", this);
 			clgClipboard = new CollageClipboard(this);
 		}
 		
