@@ -15,10 +15,12 @@
     </s:states>
 
 	<fx:Declarations>
+		<s:BitmapImage id="richText" source="@Embed('/Assets/toolbar/richText.png')" />
 		<s:BitmapImage id="textPage" source="@Embed('/Assets/toolbar/textPage.png')" />
 		
 		<s:ArrayList id="arrComponentList">
-			<fx:Object label="Label" image="{textPage}" componentType="label" />
+			<fx:Object label="Headline" image="{textPage}" componentType="label" />
+			<fx:Object label="Body Text" image="{richText}" componentType="textbox" />
 		</s:ArrayList>
 	</fx:Declarations>
 
@@ -50,6 +52,10 @@
 			switch(event.item.componentType) {
 				case "label":
 					newClip = new LabelClip();
+					break;
+				
+				case "textbox":
+					newClip = new TextBoxClip();
 					break;
 				
 				default:
