@@ -1,28 +1,25 @@
 <?xml version="1.0"?>
 <project name="Collage" default="air-build-debug-and-run">
+	<property name="assets.dir" value="./Assets/"/>
 	<property name="src.dir" value="./Source/"/>
 	<property name="lib.dir" value="./Libraries/"/>
 	
 	<target name="clean">
 		<delete file="Collage.air" />
-<!--
-		<delete dir="./Build/Debug/" />
-		<delete dir="./Build/Release/" />
-		<delete dir="./Build/Package/" />
-		<mkdir dir="./Build/Debug/" />
-		<mkdir dir="./Build/Release/" />
-		<mkdir dir="./Build/Package/" />
--->
 	</target>
 	
-	<target name="air-debug" depends="clean">
+	<target name="copy-ep-flex4">
+		<copy file="../CollageComponents/build/endlesspathsflex4com.swc" todir="${lib.dir}" />
+	</target>
+	
+	<target name="air-debug" depends="clean,copy-ep-flex4">
 		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
 		<exec executable="./fcshctl-mxmlc" failonerror="true">
 			<arg line="+configname=air" />
-			<arg line="-source-path '${src.dir}'" />
+			<arg line="-source-path '${src.dir}' '${assets.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
-			<arg value="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
-			<arg value="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
+			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
+			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
 			<arg line="${src.dir}/Desktop/Main.mxml"/>
 		</exec>
 	</target>
@@ -40,7 +37,9 @@
 	
 	<target name="air-run">
 		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
-		
+		<exec executable="killall">
+			<arg value="adl" />
+		</exec>
 		<exec executable="adl" spawn="true">
 			<arg line="${src.dir}/Desktop/Main-app.xml" />
 			<arg line="${deploy.dir}"/>

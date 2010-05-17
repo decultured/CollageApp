@@ -3,7 +3,8 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 		xmlns:clgapp="Collage.Application.*"
-		xmlns:clgdoc="Collage.Document.*" >
+		xmlns:clgdoc="Collage.Document.*"
+		xmlns:ep="com.endlesspaths.components.*" >
     <fx:Metadata>
         <![CDATA[ 
         [HostComponent("Collage.Document.Document")]
@@ -14,11 +15,22 @@
         <s:State name="disabled" />
     </s:states>
 
+	<fx:Declarations>
+		<s:BitmapImage id="textPage" source="@Embed('/Assets/toolbar/textPage.png')" />
+		
+		<s:ArrayList id="arrComponentList">
+			<fx:Object label="Label" image="{textPage}" componentType="label" />
+		</s:ArrayList>
+	</fx:Declarations>
+
 	<fx:Script><![CDATA[
 		import Collage.Document.*;
+		import Collage.Clips.*;
 		import Desktop.Application.*;
 		import mx.controls.Alert;
 		import Collage.Clip.*;
+		import spark.components.DropDownList;
+		import mx.events.ItemClickEvent;
 		
 		protected function ClickHandler(event:MouseEvent):void
 		{
@@ -27,6 +39,33 @@
 					editDoc.DeselectAll();
 				}
 			}
+		}
+		
+		protected function componentList_Init():void {
+			componentList.addEventListener(ItemClickEvent.ITEM_CLICK, componentList_itemClickHandler);
+		}
+		
+		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
+			var newClip:Clip = null;
+			
+			switch(event.item.componentType) {
+				case "label":
+					newClip = new LabelClip();
+					break;
+				
+				default:
+					Alert.show("Unknown component type: "+ event.item.componentType);
+					break;
+			}
+			
+			if(newClip != null) {
+				newClip.x = 100;
+				newClip.y = 100;
+				
+				editDoc.AddClip(newClip);
+			}
+			
+			btnAddComponent.close();
 		}
 	]]></fx:Script>
 
@@ -90,6 +129,14 @@
 			</s:Group>
 		</s:Scroller>
 	</s:BorderContainer>
-
+	
+	<ep:ButtonCalloutPanel id="btnAddComponent" label="Add stuff" bottom="75" left="50" skinClass="com.endlesspaths.skins.ButtonCalloutPanelBlackHUDSkin" arrowPosition="bottom">
+		<s:List id="componentList" initialize="componentList_Init()"  dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.components.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
+			<s:layout>
+				<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />
+			</s:layout>
+		</s:List>
+	</ep:ButtonCalloutPanel>
+	
 	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="25" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
 </s:Skin>
