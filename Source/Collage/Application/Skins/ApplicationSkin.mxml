@@ -17,9 +17,13 @@
 
 	<fx:Declarations>
 		<s:BitmapImage id="textPage" source="@Embed('/Assets/toolbar/textPage.png')" />
+		<s:BitmapImage id="richText" source="@Embed('/Assets/toolbar/richText.png')" />
+		<s:BitmapImage id="imageClip" source="@Embed('/Assets/toolbar/photo.png')" />
 		
 		<s:ArrayList id="arrComponentList">
 			<fx:Object label="Label" image="{textPage}" componentType="label" />
+			<fx:Object label="Rich Text" image="{richText}" componentType="textbox" />
+			<fx:Object label="Image" image="{imageClip}" componentType="image" />
 		</s:ArrayList>
 	</fx:Declarations>
 
@@ -29,6 +33,7 @@
 		import Desktop.Application.*;
 		import mx.controls.Alert;
 		import Collage.Clip.*;
+		import Collage.Utilities.Logger.*;
 		import spark.components.DropDownList;
 		import mx.events.ItemClickEvent;
 		
@@ -46,24 +51,12 @@
 		}
 		
 		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
-			var newClip:Clip = null;
-			
-			switch(event.item.componentType) {
-				case "label":
-					newClip = new LabelClip();
-					break;
-				
-				default:
-					Alert.show("Unknown component type: "+ event.item.componentType);
-					break;
-			}
-			
-			if(newClip != null) {
-				newClip.x = 100;
-				newClip.y = 100;
-				
+			var newClip:Clip = ClipFactory.CreateByType(event.item.componentType);
+
+			if (newClip)
 				editDoc.AddClip(newClip);
-			}
+			else
+				Logger.LogError("Unknown component type: " + event.item.componentType);
 			
 			btnAddComponent.close();
 		}
@@ -125,7 +118,7 @@
 					</s:Group>
 					-->
 
-					<s:Group id="optionsBox" visible="true">
+					<s:Group id="optionsBox" visible="false">
 						<s:Rect width="100%" height="100%">
 							<s:stroke>
 								<s:SolidColorStroke weight="1" alpha="0.4" color="0xff9900"/>
@@ -153,7 +146,7 @@
 
 	<clgapp:CollageSideBar id="collageSideBar" right="0" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" skinClass="Collage.Application.Skins.CollageSideBarSkin" />
 	
-	<ep:ButtonCalloutPanel id="btnAddComponent" label="Add stuff" bottom="{appStatusBar.height + 20}" left="{collageSideBar.width + 30}" skinClass="com.endlesspaths.skins.ButtonCalloutPanelBlackHUDSkin" arrowPosition="bottom">
+	<ep:ButtonCalloutPanel id="btnAddComponent" label="Insert" bottom="{appStatusBar.height + 20}" left="{collageSideBar.width + 30}" skinClass="com.endlesspaths.skins.ButtonCalloutPanelBlackHUDSkin" arrowPosition="bottom">
 		<s:List id="componentList" initialize="componentList_Init()"  dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.components.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
 			<s:layout>
 				<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />

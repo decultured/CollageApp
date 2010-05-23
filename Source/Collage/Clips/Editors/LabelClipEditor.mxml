@@ -18,7 +18,7 @@
 	</s:layout>
 	<s:Label text="Text:" />
 	<s:TextInput id="displayLabelInput" text="@{hostComponent.model.text}" />
-	<ep:ButtonCalloutPanel label="Click me!" skinClass="com.endlesspaths.skins.ButtonCalloutPanelSkin" arrowPosition="top">
+	<ep:ButtonCalloutPanel label="Color" skinClass="com.endlesspaths.skins.ButtonCalloutPanelSkin" arrowPosition="top">
 		<ep:ColorSelector skinClass="com.endlesspaths.skins.ColorSelectorSkin" selectedColor="@{hostComponent.model.color}" />
 	</ep:ButtonCalloutPanel>
 </s:Skin>

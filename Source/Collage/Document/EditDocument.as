@@ -29,9 +29,6 @@ package Collage.Document
 		public function InitializeForEdit():void
 		{
 			InitObjectHandles();
-
-			AddClip(ClipFactory.CreateByType("textbox"));
-			AddClip(ClipFactory.CreateByType("label"));
 		}
 
 		public override function NewDocument():void
