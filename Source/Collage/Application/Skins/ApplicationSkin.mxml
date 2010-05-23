@@ -39,11 +39,8 @@
 		
 		protected function ClickHandler(event:MouseEvent):void
 		{
-			if(event) {
-				if (event.target is EditDocument) {
-					editDoc.DeselectAll();
-				}
-			}
+			if(event && event.target is EditDocument)
+				editDoc.DeselectAll();
 		}
 		
 		protected function componentList_Init():void {
@@ -51,13 +48,7 @@
 		}
 		
 		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
-			var newClip:Clip = ClipFactory.CreateByType(event.item.componentType);
-
-			if (newClip)
-				editDoc.AddClip(newClip);
-			else
-				Logger.LogError("Unknown component type: " + event.item.componentType);
-			
+			editDoc.AddClipByType(event.item.componentType);
 			btnAddComponent.close();
 		}
 
@@ -153,7 +144,6 @@
 			</s:layout>
 		</s:List>
 	</ep:ButtonCalloutPanel>
-
 
 	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="25" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
 </s:Skin>
