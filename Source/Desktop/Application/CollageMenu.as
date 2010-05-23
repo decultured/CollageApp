@@ -129,10 +129,10 @@ package Desktop.Application
 				case "moveBackward": 	collageApp.document.MoveSelectedBackward(); break;
 				case "moveToFront":		collageApp.document.MoveSelectedToFront(); break;
 				case "moveToBack":		collageApp.document.MoveSelectedToBack();	break;
-/*				case "insertImage":		addImageClip();	break;
+				case "insertImage":		collageApp.editDoc.();	break;
 				case "insertLabel":		_EditDocumentView.AddClipByType('label', new Rectangle(150, 150, 300, 300)); break;
 				case "insertTextBox": 	_EditDocumentView.AddClipByType('textbox', new Rectangle(150, 150, 300, 300)); break;
-				case "insertDataLabel":	_EditDocumentView.AddClipByType('datalabel', new Rectangle(150, 150, 300, 300)); break;
+/*				case "insertDataLabel":	_EditDocumentView.AddClipByType('datalabel', new Rectangle(150, 150, 300, 300)); break;
 				case "insertTable":		_EditDocumentView.AddClipByType('table', new Rectangle(150, 150, 300, 300)); break;
 				case "insertLineChart":	_EditDocumentView.AddClipByType('linechart', new Rectangle(150, 150, 300, 300)); break;
 				case "insertScatterChart":	_EditDocumentView.AddClipByType('scatterchart', new Rectangle(150, 150, 300, 300));	break;

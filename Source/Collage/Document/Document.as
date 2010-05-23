@@ -54,6 +54,11 @@ package Collage.Document
 			Logger.LogWarning("Problem Adding Clip", clip);
 			return null;
 		}
+
+		public function AddClipByType(type:String):Clip
+		{
+			return AddClip(ClipFactory.CreateByType(type));
+		}
 		
 		public function DeleteClip(clip:Clip):void
 		{
