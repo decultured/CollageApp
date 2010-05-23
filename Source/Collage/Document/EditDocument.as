@@ -30,15 +30,8 @@ package Collage.Document
 		{
 			InitObjectHandles();
 
-			var newClip2:TextBoxClip = new TextBoxClip();
-			newClip2.x = 150;
-			newClip2.y = 150;
-			AddClip(newClip2);
-			
-			var newClip:LabelClip = new LabelClip();
-			newClip.x = 150;
-			newClip.y = 150;
-			AddClip(newClip);
+			AddClip(ClipFactory.CreateByType("textbox"));
+			AddClip(ClipFactory.CreateByType("label"));
 		}
 
 		public override function NewDocument():void
