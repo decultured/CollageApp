@@ -30,15 +30,8 @@ package Collage.Document
 		{
 			InitObjectHandles();
 
-			var newClip2:TextBoxClip = new TextBoxClip();
-			newClip2.x = 150;
-			newClip2.y = 150;
-			AddClip(newClip2);
-			
-			var newClip:LabelClip = new LabelClip();
-			newClip.x = 150;
-			newClip.y = 150;
-			AddClip(newClip);
+			AddClip(ClipFactory.CreateByType("textbox"));
+			AddClip(ClipFactory.CreateByType("label"));
 		}
 
 		public override function NewDocument():void
@@ -191,6 +184,9 @@ package Collage.Document
 		
 		public override function DeleteClip(_clip:Clip):void
 		{
+			if (_clip == null)
+				return;
+				
 			objectHandles.unregisterComponent(_clip);
 			SetToolbar();
 			super.DeleteClip(_clip);
@@ -225,11 +221,17 @@ package Collage.Document
 
 		public function DeleteSelected():void
 		{
-			if (objectHandles.selectionManager.currentlySelected.length > 0) {
-				for (var i:int; i < objectHandles.selectionManager.currentlySelected.length; i++) {
-					deleteClip(objectHandles.selectionManager.currentlySelected[i] as Clip);
-				}
+			var selectedArray:Array = new Array();
+
+			for (var i:int = 0; i < objectHandles.selectionManager.currentlySelected.length; i++) {
+				if (objectHandles.selectionManager.currentlySelected[i] != null && objectHandles.selectionManager.currentlySelected[i] is Clip)
+					selectedArray.push(objectHandles.selectionManager.currentlySelected[i] as Clip);
 			}
+
+			for (i = 0; i < selectedArray.length; i++) {
+				DeleteClip(selectedArray[i]);
+			}
+
 			objectHandles.selectionManager.clearSelection();
 		}
 
@@ -254,16 +256,6 @@ package Collage.Document
 			}
 		}
 
-		public function deleteClip(clip:Clip):void
-		{
-			if (!clip || !clip.view)
-				return;
-			
-			objectHandles.unregisterComponent(clip.view);
-			removeElement(clip.view);
-			Logger.Log("Clip Deleted!", this);
-		}
-		
 		public function MoveSelectedForward():void
 		{
 		}

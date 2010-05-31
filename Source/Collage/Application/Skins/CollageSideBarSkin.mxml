@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
+		width.hidden="20" width.extended="200"
+		currentState="hidden" >
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="hidden" />
+        <s:State name="extended" />
+        <s:State name="disabled" />
+    </s:states>
+    <fx:Script>
+        <![CDATA[
+	        protected function ButtonClickHandler(event:MouseEvent):void
+	        {
+	            if (showBtn.selected || showBtn2.selected || showBtn3.selected) 
+	                currentState = "extended";
+	            else currentState = "hidden";
+	        }
+        ]]>
+    </fx:Script>
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Application.CollageSideBar")]
+        ]]>
+    </fx:Metadata> 
+	<s:transitions> 
+		<s:Transition fromState="hidden"> 
+		     <s:Parallel> 
+		         <s:Wipe duration="100" direction="left" target="{hostComponent}"/> 
+		     </s:Parallel> 
+		 </s:Transition> 
+		<s:Transition fromState="extended"> 
+		     <s:Sequence> 
+		         <s:Resize duration="100"/> 
+		     </s:Sequence> 
+		 </s:Transition> 
+	</s:transitions>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+    <s:Rect width="24" left="0" height="100%" >
+        <s:fill>
+			<s:SolidColor color="0x777777" alpha="1.0"/>
+        </s:fill>
+    </s:Rect>
+	<s:Group width="24" left="0" height="100%">
+		<s:ToggleButton right="-20" rotation="-90" id="showBtn" label="Pages" click="ButtonClickHandler(event)"/>
+		<s:ToggleButton right="-20" rotation="-90" id="showBtn2" label="Layers" click="ButtonClickHandler(event)"/>
+		<s:ToggleButton right="-20" rotation="-90" id="showBtn3" label="Datasets" click="ButtonClickHandler(event)"/>
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="right" />
+		</s:layout>
+	</s:Group>
+    <s:Rect right="0" left="24" height="100%" >
+        <s:fill>
+			<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
+        </s:fill>
+    </s:Rect>
+	<s:Group right="0" left="24" height="100%">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="center"/>
+		</s:layout>
+	</s:Group>
+</s:Skin>
