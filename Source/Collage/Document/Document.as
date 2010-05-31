@@ -1,5 +1,6 @@
 package Collage.Document
 {
+	import Collage.Utilities.Logger.*;
 	import mx.core.*;  
 	import spark.components.Group;
 	import Collage.Clip.*;
@@ -37,13 +38,20 @@ package Collage.Document
 			_Clips = new Object();
 		}
 
+		public function ViewResized():void
+		{
+			// TODO : Reposition all objects to fit in new size
+		}
+
 		public function AddClip(clip:Clip):Clip
 		{
 			if (clip && !_Clips[clip.uid]) {
 				_Clips[clip.uid] = clip;
 				addElement(clip.view);
+				Logger.LogDebug("Clip Added", clip);
 				return clip;
 			}
+			Logger.LogWarning("Problem Adding Clip", clip);
 			return null;
 		}
 		

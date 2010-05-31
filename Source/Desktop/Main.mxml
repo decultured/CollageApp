@@ -7,7 +7,7 @@
 	xmlns:clgdoc="Collage.Document.*"
 	menu="{nativeMenu}"
 	showStatusBar="false"
-	minHeight="480"	minWidth="640"
+	minHeight="650"	minWidth="900"
 	height="700" width="1000"
 	title="Collage"
 	applicationComplete="Initialize()"

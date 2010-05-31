@@ -5,6 +5,7 @@ package Desktop.Application
 	import mx.events.*;
 	import mx.controls.Alert;
 	import mx.controls.FlexNativeMenu;
+	import Collage.Utilities.Logger.*;
 	
 	public class CollageMenu extends FlexNativeMenu
 	{
@@ -153,8 +154,7 @@ package Desktop.Application
 //					newLoggerWindow.open();
 					break;
 				default:
-					Alert.show("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);
-
+					Logger.LogWarning("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);
 			}
 		}		
 	}

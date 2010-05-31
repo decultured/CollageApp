@@ -1,4 +1,4 @@
-package Collage.Logger
+package Collage.Utilities.Logger
 {
 	public class LogEntry
 	{

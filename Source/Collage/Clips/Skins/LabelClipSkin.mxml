@@ -8,6 +8,7 @@
     </fx:Metadata> 
 	<fx:Script><![CDATA[
 		import mx.events.FlexEvent;
+
 		protected function EnterEditState(event:FlexEvent):void
 		{
 			displayLabelInput.setFocus();
@@ -20,11 +21,13 @@
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
 	<s:Label id="displayLabel" includeIn="normal" lineBreak="explicit"
-		text="{hostComponent.model.text}" height="{hostComponent.model.fontSize}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
+		text="{hostComponent.model.displayText}" height="{hostComponent.model.fontSize}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
 		textAlign="center"
 		left="0" right="0" top="0"/>
 	<s:TextInput id="displayLabelInput" includeIn="editing"
 		text="@{hostComponent.model.text}" height="{hostComponent.model.fontSize}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
 		textAlign="center"
+		paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0"
+		borderVisible="false"
 		left="0" right="0" top="0"/>
 </s:Skin>

@@ -4,7 +4,10 @@ package Collage.Clip
 	import com.roguedevelopment.objecthandles.IResizeable;
 	import mx.events.PropertyChangeEvent;
 	import flash.events.MouseEvent;
+	import flash.events.KeyboardEvent;
 	import mx.utils.*;
+	import Collage.Utilities.KeyCodes;
+	import Collage.Utilities.Logger.*;
 	
 	public class Clip implements IResizeable, IMoveable
 	{
@@ -13,15 +16,16 @@ package Collage.Clip
 		[Bindable] public var selected:Boolean = false;
 		[Bindable] public var x:Number = 10;
 		[Bindable] public var y:Number  = 10;
-		[Bindable] public var height:Number = 350;
-		[Bindable] public var width:Number = 150;
+		[Bindable] public var height:Number = 200;
+		[Bindable] public var width:Number = 200;
+		[Bindable] public var rotation:Number = 0;
 		[Bindable] public var isLocked:Boolean = false;
 		
 		private var _ClipEditorSkin:Class = null;
 		
 		public var verticalSizable:Boolean = true;
 		public var horizontalSizable:Boolean = true;
-		public var moveFromCenter:Boolean = false;
+		public var rotatable:Boolean = true;
 		
 		public var view:ClipView;
 		
@@ -38,6 +42,7 @@ package Collage.Clip
 			_ClipEditorSkin = _clipEditorSkin;
 			addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged );
 			view.addEventListener(MouseEvent.DOUBLE_CLICK, OnDoubleClick);
+			view.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
 		}
 		
 		public function CreateEditor():ClipEditor
@@ -47,24 +52,62 @@ package Collage.Clip
 		
 		protected function ModelChanged(event:PropertyChangeEvent):void
 		{
-			removeEventListener( PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged );
-			addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged );
-			
 			// Possible performance increase, check bound item, only change that
 			switch( event.property )
 			{
 				case "selected":
-					if (view.skin && !selected && view.skin.currentState == "editing")
-						view.skin.currentState = "normal";
+					if (!selected)
+						SetEditMode(false);
 					return;
 			}
 			
 			Reposition();
 		}
 
-		public function OnDoubleClick(event:MouseEvent):void {
-			if (view.skin)
+		protected function OnDoubleClick(event:MouseEvent):void {
+			SetEditMode(true);
+		}
+		
+		protected function OnKeyDown(event:KeyboardEvent):void
+		{
+		}
+		
+		public function Refresh():void
+		{
+			Logger.LogCritical("Refresh, it works!", this);
+		}
+
+		public function SetEditMode(isEditing:Boolean):void
+		{
+			if (!isEditing && view.skin && view.skin.currentState == "editing") {
+				isLocked = false;
+				view.skin.currentState = "normal";
+			} else if (isEditing && view.skin && view.skin.currentState == "normal") { 
+				isLocked = true;
 				view.skin.currentState = "editing";
+			}
+		}
+
+		public function ToggleEditMode():void
+		{
+			if (view.skin && view.skin.currentState == "editing") {
+				isLocked = false;
+				view.skin.currentState = "normal";
+			} else if (view.skin && view.skin.currentState == "normal") {
+				isLocked = true;
+				view.skin.currentState = "editing";
+			}
+		}
+		
+		public function ToggleLocked():void
+		{
+			if (isLocked) {
+				isLocked = false;
+				Logger.Log("Un-Locked!");
+			} else {
+				isLocked = true;
+				Logger.Log("Locked!");
+			}
 		}
 
 		public function Reposition():void
@@ -73,6 +116,7 @@ package Collage.Clip
 			view.y = y;
 			view.width = width;
 			view.height = height;
+			view.rotation = rotation;
 		}
 
 		public function Resized():void { }
