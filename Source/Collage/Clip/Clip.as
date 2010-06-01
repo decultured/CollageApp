@@ -72,6 +72,8 @@ package Collage.Clip
 		
 		protected function OnKeyDown(event:KeyboardEvent):void
 		{
+			if (event.keyCode == KeyCodes.ESCAPE && view.skin && view.skin.currentState == "editing")
+				SetEditMode(false);
 		}
 		
 		public function Refresh():void

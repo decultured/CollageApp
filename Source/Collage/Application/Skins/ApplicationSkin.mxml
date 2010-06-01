@@ -17,9 +17,13 @@
 
 	<fx:Declarations>
 		<s:BitmapImage id="textPage" source="@Embed('/Assets/toolbar/textPage.png')" />
+		<s:BitmapImage id="richText" source="@Embed('/Assets/toolbar/richText.png')" />
+		<s:BitmapImage id="imageClip" source="@Embed('/Assets/toolbar/photo.png')" />
 		
 		<s:ArrayList id="arrComponentList">
 			<fx:Object label="Label" image="{textPage}" componentType="label" />
+			<fx:Object label="Rich Text" image="{richText}" componentType="textbox" />
+			<fx:Object label="Image" image="{imageClip}" componentType="image" />
 		</s:ArrayList>
 	</fx:Declarations>
 
@@ -29,16 +33,14 @@
 		import Desktop.Application.*;
 		import mx.controls.Alert;
 		import Collage.Clip.*;
+		import Collage.Utilities.Logger.*;
 		import spark.components.DropDownList;
 		import mx.events.ItemClickEvent;
 		
 		protected function ClickHandler(event:MouseEvent):void
 		{
-			if(event) {
-				if (event.target is EditPage) {
-					editPage.DeselectAll();
-				}
-			}
+			if(event && event.target is EditDocument)
+				editDoc.DeselectAll();
 		}
 		
 		protected function componentList_Init():void {
@@ -46,30 +48,13 @@
 		}
 		
 		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
-			var newClip:Clip = null;
-			
-			switch(event.item.componentType) {
-				case "label":
-					newClip = new LabelClip();
-					break;
-				
-				default:
-					Alert.show("Unknown component type: "+ event.item.componentType);
-					break;
-			}
-			
-			if(newClip != null) {
-				newClip.x = 100;
-				newClip.y = 100;
-				
-				editPage.AddClip(newClip);
-			}
-			
-//			btnAddComponent.close();
+			editDoc.AddClipByType(event.item.componentType);
+			btnAddComponent.close();
 		}
+
 	]]></fx:Script>
 
-	<s:SkinnableContainer right="0" left="0" top="0" height="45">
+	<s:SkinnableContainer id="toolbarContainer" right="0" left="0" top="0" height="45">
 	    <s:Rect left="0" right="0" bottom="0" top="0">
 	        <s:fill>
 				<s:LinearGradient rotation="270">
@@ -89,14 +74,14 @@
 			</s:layout>
 		</s:Group>
 	</s:SkinnableContainer>
-
+	
 	<s:BorderContainer id="docContainer" backgroundColor="0x555555"
 		borderWeight="0" borderColor="0xffffff" dropShadowVisible="false"
-		width="100%" top="45" bottom="25" borderVisible="false">
+		left="0" right="{collageSideBar.width}" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" borderVisible="false">
 		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0x555555">
 			<s:Group>
 				<s:layout>
-					<s:VerticalLayout  paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"/>
+					<s:VerticalLayout paddingLeft="25" paddingRight="25" paddingTop="25" paddingBottom="25"/>
 				</s:layout>
 				<s:BorderContainer borderColor="0xffffff" dropShadowVisible="true" backgroundColor="0xffffff" width="{editPage.width}" height="{editPage.height}" >
 					<clgdoc:EditPage id="editPage"
@@ -110,6 +95,26 @@
 						</clgdoc:layout>
 					</clgdoc:EditPage>
 					<s:Group id="optionsBox" visible="true">
+					<!--
+					<s:Group width="100%" height="100%">
+						<s:Path winding="nonZero" data="M{editDoc.width} {editDoc.height}
+							 							0 {editDoc.height}
+														0 0
+														{editDoc.width} 0
+														{editDoc.width} {editDoc.height}
+														ZM52.4556 25.1177
+														18.2974 37.7788
+														39.873 76.3315
+														74.0312 63.6709
+														52.4556 25.1177Z">
+							<s:fill>
+								<s:SolidColor color="#000000" alpha="0.1"/>
+							</s:fill>
+						</s:Path>
+					</s:Group>
+					-->
+
+					<s:Group id="optionsBox" visible="false">
 						<s:Rect width="100%" height="100%">
 							<s:stroke>
 								<s:SolidColorStroke weight="1" alpha="0.4" color="0xff9900"/>
@@ -134,14 +139,16 @@
 			</s:Group>
 		</s:Scroller>
 	</s:BorderContainer>
+
+	<clgapp:CollageSideBar id="collageSideBar" right="0" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" skinClass="Collage.Application.Skins.CollageSideBarSkin" />
 	
-	<ep:ButtonCalloutPanel id="btnAddComponent" label="Add stuff" bottom="75" left="50" skinClass="com.endlesspaths.skins.ButtonCalloutPanelBlackHUDSkin" arrowPosition="bottom">
+	<ep:ButtonCalloutPanel id="btnAddComponent" label="Insert" bottom="{appStatusBar.height + 20}" left="{collageSideBar.width + 30}" skinClass="com.endlesspaths.skins.ButtonCalloutPanelBlackHUDSkin" arrowPosition="bottom">
 		<s:List id="componentList" initialize="componentList_Init()"  dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.components.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
 			<s:layout>
 				<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />
 			</s:layout>
 		</s:List>
 	</ep:ButtonCalloutPanel>
-	
+
 	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="25" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
 </s:Skin>

@@ -32,7 +32,7 @@ package Collage.Clips
 		
 		protected override function OnKeyDown(event:KeyboardEvent):void
 		{
-			if ((event.keyCode == KeyCodes.ENTER || event.keyCode == KeyCodes.ESCAPE) && view.skin && view.skin.currentState == "editing")
+			if (event.keyCode == KeyCodes.ENTER && view.skin && view.skin.currentState == "editing")
 				SetEditMode(false);
 		}
 

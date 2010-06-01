@@ -29,16 +29,6 @@ package Collage.Document
 		public function InitializeForEdit():void
 		{
 			InitObjectHandles();
-
-			var newClip2:TextBoxClip = new TextBoxClip();
-			newClip2.x = 150;
-			newClip2.y = 150;
-			AddClip(newClip2);
-			
-			var newClip:LabelClip = new LabelClip();
-			newClip.x = 150;
-			newClip.y = 150;
-			AddClip(newClip);
 		}
 
 		public override function New():void
@@ -187,6 +177,11 @@ package Collage.Document
 			
 			AddObjectHandles(newClip);
 			return newClip;
+		}
+		
+		public override function AddClipByType(type:String):Clip
+		{
+			return AddClip(ClipFactory.CreateByType(type));
 		}
 		
 		public override function DeleteClip(_clip:Clip):void
