@@ -7,7 +7,7 @@
 		xmlns:ep="com.endlesspaths.components.*" >
     <fx:Metadata>
         <![CDATA[ 
-        [HostComponent("Collage.Document.Document")]
+        [HostComponent("Collage.Application.CollageApp")]
         ]]>
     </fx:Metadata> 
     <s:states>
@@ -35,8 +35,8 @@
 		protected function ClickHandler(event:MouseEvent):void
 		{
 			if(event) {
-				if (event.target is EditDocument) {
-					editDoc.DeselectAll();
+				if (event.target is EditPage) {
+					editPage.DeselectAll();
 				}
 			}
 		}
@@ -62,10 +62,10 @@
 				newClip.x = 100;
 				newClip.y = 100;
 				
-				editDoc.AddClip(newClip);
+				editPage.AddClip(newClip);
 			}
 			
-			btnAddComponent.close();
+//			btnAddComponent.close();
 		}
 	]]></fx:Script>
 
@@ -98,12 +98,17 @@
 				<s:layout>
 					<s:VerticalLayout  paddingLeft="20" paddingRight="20" paddingTop="20" paddingBottom="20"/>
 				</s:layout>
-				<s:BorderContainer borderColor="0xffffff" dropShadowVisible="true" backgroundColor="0xffffff" width="{editDoc.width}" height="{editDoc.height}" >
-					<clgdoc:EditDocument id="editDoc" click="ClickHandler(event);" creationComplete="editDoc.InitializeForEdit();" clipAndEnableScrolling="true">
+				<s:BorderContainer borderColor="0xffffff" dropShadowVisible="true" backgroundColor="0xffffff" width="{editPage.width}" height="{editPage.height}" >
+					<clgdoc:EditPage id="editPage"
+						click="ClickHandler(event);"
+						creationComplete="editPage.InitializeForEdit();"
+						clipAndEnableScrolling="true"
+						toolbar="{toolbar}"
+						optionsBox="{optionsBox}">
 						<clgdoc:layout>
 							<s:BasicLayout />
 						</clgdoc:layout>
-					</clgdoc:EditDocument>
+					</clgdoc:EditPage>
 					<s:Group id="optionsBox" visible="true">
 						<s:Rect width="100%" height="100%">
 							<s:stroke>
@@ -114,13 +119,13 @@
 							<s:layout>
 								<s:HorizontalLayout />
 							</s:layout>
-							<s:Group click="editDoc.RefreshSelected()" >
+							<s:Group click="editPage.RefreshSelected()" >
 								<s:BitmapImage id="refreshButton" source="@Embed('../../../../Assets/icons/refresh-clip.png')" smooth="true" />
 							</s:Group>
-							<s:Group click="editDoc.ToggleEditSelected()" >
+							<s:Group click="editPage.ToggleEditSelected()" >
 								<s:BitmapImage id="editButton" source="@Embed('../../../../Assets/icons/edit.png')" smooth="true" />
 							</s:Group>
-							<s:Group click="editDoc.DeleteSelected()" >
+							<s:Group click="editPage.DeleteSelected()" >
 								<s:BitmapImage id="deleteButton" source="@Embed('../../../../Assets/icons/delete.png')" smooth="true" />
 							</s:Group>
 						</s:Group>

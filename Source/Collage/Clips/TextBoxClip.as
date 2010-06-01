@@ -9,15 +9,15 @@ package Collage.Clips
 	
 	public class TextBoxClip extends Clip
 	{            
-		[Bindable]public var text:String = "";
-		[Bindable]public var displayText:String = "Double Click to Edit";
-		[Bindable]public var color:Number = 0x222299;
-		[Bindable]public var backgroundAlpha:Number = 1.0;
-		[Bindable]public var backgroundColor:Number = 0xFFFFFF;
-                  
-		[Bindable]public var textWidth:Number = 200;
-		[Bindable]public var textHeight:Number = 24;
-		[Bindable]public var fontSize:Number = 18;
+		[Bindable][Savable]public var text:String = "";
+		[Bindable][Savable]public var displayText:String = "Double Click to Edit";
+		[Bindable][Savable]public var color:Number = 0x222299;
+		[Bindable][Savable]public var backgroundAlpha:Number = 1.0;
+		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
+
+		[Bindable][Savable]public var textWidth:Number = 200;
+		[Bindable][Savable]public var textHeight:Number = 24;
+		[Bindable][Savable]public var fontSize:Number = 18;
 
 		public function TextBoxClip()
 		{
