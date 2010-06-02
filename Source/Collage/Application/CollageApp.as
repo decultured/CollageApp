@@ -10,6 +10,7 @@ package Collage.Application
 	import mx.core.*;
 	import flash.events.*;
 	import flash.desktop.*;
+	import flash.utils.*;
 	import Collage.Utilities.Logger.*;
 	
 	public class CollageApp extends SkinnableContainer
@@ -28,6 +29,8 @@ package Collage.Application
 		[SkinPart(required="true")]
 		public var editPage:EditPage;
 
+		[Savable]public var TestVar:String="This is a test!"
+
 		public var pageManager:PageManager = new PageManager();
 
 		public function CollageApp():void
@@ -35,42 +38,12 @@ package Collage.Application
 			Logger.LogDebug("App Created", this);
 			clgClipboard = new CollageClipboard(this);
 		}
-		
-		override protected function partAdded(partName:String, instance:Object):void {
-			super.partAdded(partName, instance);
-/*			
-			if ((editDoc && toolbar) && (instance == editDoc || instance == toolbar)) {
-				editDoc.toolbar = toolbar;
-			} 
-			if ((editDoc && optionsBox) && (instance == editDoc || instance == optionsBox)) {
-				editDoc.optionsBox = optionsBox;
-			}
-*/
-		}
-		
-		override protected function partRemoved(partName:String, instance:Object):void {
-			super.partRemoved(partName, instance);
-/*			
-			if (instance == editDoc) {
-				// TODO: Maybe something goes here.
-			}
-*/
-		}
-
 
 		public function Quit():void
 		{
 		}
 
 		public function Fullscreen():void
-		{
-		}
-
-		public function SaveFile():void
-		{
-		}
-
-		public function OpenFile():void
 		{
 		}
 
@@ -84,6 +57,57 @@ package Collage.Application
 
 		public function UploadDataFile():void
 		{
+		}
+
+		public function SaveToObject():Object
+		{
+			// Load App Stuff
+			var typeDef:XML = describeType(this);
+			var newObject:Object = new Object();
+			for each (var metadata:XML in typeDef..metadata) {
+				if (metadata["@name"] != "Savable") continue;
+				if (this.hasOwnProperty(metadata.parent()["@name"]))
+					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
+			}
+
+			pageManager.currentPage = editPage.SaveToObject();
+
+			// Load Pages
+			newObject["pages"] = pageManager.pageArray;
+
+			return newObject;
+		}
+
+
+		public function LoadFromObject(dataObject:Object):Boolean
+		{
+			if (!dataObject) return false;
+
+			pageManager.New(false);
+			editPage.New();
+			
+			Logger.Log("Document Loading", this);
+			
+			for (var key:String in dataObject)
+			{
+				if (key == "document") {
+					for(var obj_k:String in dataObject[key]) {
+						try {
+							if(this.hasOwnProperty(obj_k))
+								this[obj_k] = dataObject[obj_k];
+						} catch(e:Error) { }
+					}
+				} else if (key == "pages") {
+					if (!dataObject[key] is Array)
+						continue;
+
+					pageManager.pageArray = dataObject[key];
+				}
+			}
+			
+			editPage.LoadFromObject(pageManager.currentPage);
+			
+			return true;
 		}
 	}	
 }

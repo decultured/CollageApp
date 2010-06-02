@@ -4,14 +4,15 @@ package Collage.Document
 	import mx.core.*;  
 	import spark.components.Group;
 	import Collage.Clip.*;
+	import flash.utils.*;
 	
 	public class Page extends Group
 	{
 		public static var DEFAULT_WIDTH:Number = 1024;
 		public static var DEFAULT_HEIGHT:Number = 768;
 		
-		public var backgroundURL:String = null;
-		public var backgroundColor:Number = 0xFFFFFF;
+		[Bindable][Savable]public var backgroundURL:String = null;
+		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
 		
 		private var _Clips:Object = new Object();
 
@@ -25,11 +26,13 @@ package Collage.Document
 		{
 			width = DEFAULT_WIDTH;
 			height = DEFAULT_HEIGHT;
-//			backgroundURL = null;
-//			backgroundColor = 0x555555;
+			backgroundURL = null;
+			backgroundColor = 0x555555;
 //			setStyle("backgroundColor", backgroundColor);
 
 			// TODO : Properly unload clips from memory
+
+			Logger.LogDebug("Page Reset", this);
 			_Clips = new Object();
 		}
 
@@ -60,14 +63,58 @@ package Collage.Document
 			
 		}
 		
-		public function LoadFromObject(pageObject:Object):void
-		{
-			
-		}
-		
 		public function SaveToObject():Object
 		{
-			return null;
+			var typeDef:XML = describeType(this);
+			var newObject:Object = new Object();
+			for each (var metadata:XML in typeDef..metadata) {
+				if (metadata["@name"] != "Savable") continue;
+				if (this.hasOwnProperty(metadata.parent()["@name"]))
+					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
+			}
+
+			newObject["clips"] = new Array();
+
+			for (var i:int = 0; i < numElements; i++) {
+				if (getElementAt(i) is ClipView) {
+					var clipView:ClipView = getElementAt(i) as ClipView;
+					newObject["clips"].push(clipView.model.SaveToObject());
+				}
+			}
+
+			return newObject;
+		}
+
+		public function LoadFromObject(dataObject:Object):Boolean
+		{
+			if (!dataObject) return false;
+
+			New();
+			
+			Logger.LogDebug("PageLoading", this);
+			for (var key:String in dataObject)
+			{
+				Logger.LogDebug("KeyDump " + key, this);
+				if (key == "clips") {
+					if (!dataObject[key] is Array)
+						continue;
+					var clipArray:Array = dataObject[key] as Array;
+					for (var i:uint = 0; i < clipArray.length; i++) {
+						var clipDataObject:Object = clipArray[i] as Object;
+						Logger.LogDebug("Clip KeyDump " + i + " " + clipDataObject["type"], this);
+						if (!clipDataObject["type"])
+							continue;
+						var newClip:Clip = AddClipByType(clipDataObject["type"]);
+						newClip.LoadFromObject(clipDataObject);
+					}
+				} else {
+					try {
+						if(this.hasOwnProperty(key))
+							this[key] = dataObject[key];
+					} catch(e:Error) { }
+				}
+			}
+			return true;
 		}
 	} 
 }

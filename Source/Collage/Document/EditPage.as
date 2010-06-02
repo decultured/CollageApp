@@ -273,15 +273,5 @@ package Collage.Document
 		public function MoveSelectedToBack():void
 		{
 		}
-
-		public override function LoadFromObject(pageObject:Object):void
-		{
-			
-		}
-		
-		public override function SaveToObject():Object
-		{
-			return super.SaveToObject();
-		}
 	} 
 }

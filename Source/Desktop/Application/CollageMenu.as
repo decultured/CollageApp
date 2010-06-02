@@ -23,6 +23,8 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 	                <menuitem label="Save..." command="save" key="s" />
 					<menuitem label="Save to Cloud..." command="cloudstorage_savedashboard" />
+	                <menuitem type="separator"/>
+	                <menuitem label="Save Debug Log File..." command="savelog" key="l" />
 					<menuitem type="separator"/>
 					<menuitem label="Export">
 		                <menuitem label="PNG Image" command="saveImage"/>
@@ -116,6 +118,7 @@ package Desktop.Application
 				case "about":		break;
 				case "open":		collageApp.OpenFile();	break;
 				case "save":		collageApp.SaveFile();	break;
+				case "savelog":		collageApp.SaveLogFile();	break;
 //				case "cloudstorage_opendashboard": CloudFile_OpenDashboard(); break;
 //				case "cloudstorage_savedashboard": CloudFile_SaveDashboard(); break;
 				case "saveImage": 	collageApp.SaveImage(); break;
@@ -124,14 +127,14 @@ package Desktop.Application
 				case "print":		break;
 				case "undo":		break;
 				case "redo":		break;
-				case "new": 		collageApp.editDoc.NewDocument(); break;
-				case "moveForward":		collageApp.editDoc.MoveSelectedForward(); break;
-				case "moveBackward": 	collageApp.editDoc.MoveSelectedBackward(); break;
-				case "moveToFront":		collageApp.editDoc.MoveSelectedToFront(); break;
-				case "moveToBack":		collageApp.editDoc.MoveSelectedToBack();	break;
-				case "insertImage":		collageApp.editDoc.AddClipByType('image');	break;
-				case "insertLabel":		collageApp.editDoc.AddClipByType('label'); break;
-				case "insertTextBox": 	collageApp.editDoc.AddClipByType('textbox'); break;
+				case "new": 		collageApp.editPage.New(); break;
+				case "moveForward":		collageApp.editPage.MoveSelectedForward(); break;
+				case "moveBackward": 	collageApp.editPage.MoveSelectedBackward(); break;
+				case "moveToFront":		collageApp.editPage.MoveSelectedToFront(); break;
+				case "moveToBack":		collageApp.editPage.MoveSelectedToBack();	break;
+				case "insertImage":		collageApp.editPage.AddClipByType('image');	break;
+				case "insertLabel":		collageApp.editPage.AddClipByType('label'); break;
+				case "insertTextBox": 	collageApp.editPage.AddClipByType('textbox'); break;
 /*				case "insertDataLabel":	_EditDocumentView.AddClipByType('datalabel', new Rectangle(150, 150, 300, 300)); break;
 				case "insertTable":		_EditDocumentView.AddClipByType('table', new Rectangle(150, 150, 300, 300)); break;
 				case "insertLineChart":	_EditDocumentView.AddClipByType('linechart', new Rectangle(150, 150, 300, 300)); break;

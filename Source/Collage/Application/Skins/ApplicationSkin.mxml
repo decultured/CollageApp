@@ -39,8 +39,8 @@
 		
 		protected function ClickHandler(event:MouseEvent):void
 		{
-			if(event && event.target is EditDocument)
-				editDoc.DeselectAll();
+			if(event && event.target is EditPage)
+				editPage.DeselectAll();
 		}
 		
 		protected function componentList_Init():void {
@@ -48,7 +48,7 @@
 		}
 		
 		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
-			editDoc.AddClipByType(event.item.componentType);
+			editPage.AddClipByType(event.item.componentType);
 			btnAddComponent.close();
 		}
 
@@ -94,7 +94,6 @@
 							<s:BasicLayout />
 						</clgdoc:layout>
 					</clgdoc:EditPage>
-					<s:Group id="optionsBox" visible="true">
 					<!--
 					<s:Group width="100%" height="100%">
 						<s:Path winding="nonZero" data="M{editDoc.width} {editDoc.height}
