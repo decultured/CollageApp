@@ -78,6 +78,7 @@ package Collage.Document
 			for (var i:int = 0; i < numElements; i++) {
 				if (getElementAt(i) is ClipView) {
 					var clipView:ClipView = getElementAt(i) as ClipView;
+					clipView.model.zindex = i;
 					newObject["clips"].push(clipView.model.SaveToObject());
 				}
 			}

@@ -14,6 +14,9 @@ package Collage.Clip
 	{
 		private var _UID:String;
 		
+		[Bindable][Savable] public var type:String = "unknown:define_in_clip_constructor";
+		[Bindable][Savable] public var zindex:uint = 0;
+
 		[Bindable] public var selected:Boolean = false;
 		[Bindable] public var isLocked:Boolean = false;
 
@@ -133,8 +136,10 @@ package Collage.Clip
 			var newObject:Object = new Object();
 			for each (var metadata:XML in typeDef..metadata) {
 				if (metadata["@name"] != "Savable") continue;
-				if (this.hasOwnProperty(metadata.parent()["@name"]))
+				if (this.hasOwnProperty(metadata.parent()["@name"])) {
+					Logger.LogDebug("Clip Instance KeyDump " + metadata.parent()["@name"] + " " + this[metadata.parent()["@name"]], this);
 					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
+				}
 			}
 
 			return newObject;

@@ -16,7 +16,6 @@
     </s:states>
 
 	<fx:Declarations>
-		<s:BitmapImage id="richText" source="@Embed('/Assets/toolbar/richText.png')" />
 		<s:BitmapImage id="textPage" source="@Embed('/Assets/toolbar/textPage.png')" />
 		<s:BitmapImage id="richText" source="@Embed('/Assets/toolbar/richText.png')" />
 		<s:BitmapImage id="imageClip" source="@Embed('/Assets/toolbar/photo.png')" />

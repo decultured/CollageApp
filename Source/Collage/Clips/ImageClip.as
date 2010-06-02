@@ -12,6 +12,7 @@ package Collage.Clips
 		public function ImageClip()
 		{
 			super(ImageClipSkin, ImageClipEditor);
+			type="image";
 		}
 	}
 }

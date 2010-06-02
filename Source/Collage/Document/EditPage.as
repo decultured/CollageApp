@@ -92,7 +92,6 @@ package Collage.Document
 				if (newClip.rotatable)
 					handles.push( new HandleDescription( HandleRoles.ROTATE, new Point(100,50), new Point(20,0))); 
 				
-				Logger.Log("Vertical: " + newClip.verticalSizable.toString() + " horizontal:" + newClip.horizontalSizable.toString() + " rotatable:" + newClip.rotatable);				
 				objectHandles.registerComponent(newClip, newClip.view, handles);
 				DeselectAll();
 				objectHandles.selectionManager.addToSelected(newClip);
