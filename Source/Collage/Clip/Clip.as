@@ -6,6 +6,7 @@ package Collage.Clip
 	import flash.events.MouseEvent;
 	import flash.events.KeyboardEvent;
 	import mx.utils.*;
+	import flash.utils.*;
 	import Collage.Utilities.KeyCodes;
 	import Collage.Utilities.Logger.*;
 	
@@ -14,12 +15,13 @@ package Collage.Clip
 		private var _UID:String;
 		
 		[Bindable] public var selected:Boolean = false;
-		[Bindable] public var x:Number = 10;
-		[Bindable] public var y:Number  = 10;
-		[Bindable] public var height:Number = 200;
-		[Bindable] public var width:Number = 200;
-		[Bindable] public var rotation:Number = 0;
 		[Bindable] public var isLocked:Boolean = false;
+
+		[Bindable][Savable] public var x:Number = 10;
+		[Bindable][Savable] public var y:Number  = 10;
+		[Bindable][Savable] public var height:Number = 200;
+		[Bindable][Savable] public var width:Number = 200;
+		[Bindable][Savable] public var rotation:Number = 0;
 		
 		private var _ClipEditorSkin:Class = null;
 		
@@ -127,11 +129,27 @@ package Collage.Clip
 		
 		public function SaveToObject():Object
 		{
-			return new Object();
+			var typeDef:XML = describeType(this);
+			var newObject:Object = new Object();
+			for each (var metadata:XML in typeDef..metadata) {
+				if (metadata["@name"] != "Savable") continue;
+				if (this.hasOwnProperty(metadata.parent()["@name"]))
+					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
+			}
+
+			return newObject;
 		}
 
 		public function LoadFromObject(dataObject:Object):Boolean
 		{
+			if (!dataObject) return false;
+
+			for(var obj_k:String in dataObject) {
+				try {
+					if(this.hasOwnProperty(obj_k))
+						this[obj_k] = dataObject[obj_k];
+				} catch(e:Error) { }
+			}
 			return true;
 		}
 		

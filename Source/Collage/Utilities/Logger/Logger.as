@@ -21,7 +21,7 @@ package Collage.Utilities.Logger
 			logEntries.push(newLog);
 
 			if (alerts && level >= alertLevel)
-				Alert.show(newLog.AlertString());
+				Alert.show(newLog.toString());
 
 			events.dispatchEvent(new Event(NEW_LOG_EVENT));
 			return newLog;
@@ -53,6 +53,16 @@ package Collage.Utilities.Logger
 				return logEntries[logEntries.length - 1];
 			else
 				return null;
+		}
+		
+		public static function toString():String
+		{
+			var output:String = "";
+			for each (var entry:LogEntry in logEntries)
+			{
+				output += entry.toString() + "\n";
+			}
+			return output;
 		}
 	}
 }

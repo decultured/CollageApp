@@ -24,9 +24,20 @@ package Collage.Utilities.Logger
 			this.userID = userID;
 		}
 		
-		public function AlertString():String
+		public function toString():String
 		{
-			return text + "\nFrom: " + className + " At: " + time.toLocaleString() + "\nBy: " +  userID;
+			var levelString:String = "";
+			switch (level)
+			{
+				case DEBUG: levelString = 		"DEBUG   "; break;
+				case INFO: levelString = 		"INFO    "; break;
+				case WARNING: levelString = 	"WARNING "; break;
+				case ERROR: levelString = 		"ERROR   "; break;
+				case CRITICAL: levelString = 	"CRITICAL"; break;
+			}		
+			
+			return userID + ":" + time.toLocaleString() + " # " + levelString + " # " + text + " at: " + className;
+			
 		}
 	}
 }

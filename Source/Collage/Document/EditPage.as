@@ -13,7 +13,7 @@ package Collage.Document
 	import mx.managers.PopUpManager;
 	import Collage.Utilities.Logger.*;
 
-	public class EditDocument extends Document
+	public class EditPage extends Page
 	{
 		public var objectHandles:ObjectHandles;
 		protected var decoratorManager:DecoratorManager;
@@ -21,7 +21,7 @@ package Collage.Document
 		public var toolbar:Group;
 		public var optionsBox:Group;
 		
-		public function EditDocument():void
+		public function EditPage():void
 		{
 			super();
 		}
@@ -29,12 +29,9 @@ package Collage.Document
 		public function InitializeForEdit():void
 		{
 			InitObjectHandles();
-
-			AddClip(ClipFactory.CreateByType("textbox"));
-			AddClip(ClipFactory.CreateByType("label"));
 		}
 
-		public override function NewDocument():void
+		public override function New():void
 		{
 /*
 			var childArray:Array = getChildren();
@@ -44,7 +41,7 @@ package Collage.Document
 			}
 */
 			//DrawGrid();
-			super.NewDocument();
+			super.New();
 		}
 
 		public function InitObjectHandles():void
@@ -151,7 +148,7 @@ package Collage.Document
 			} else if (objectHandles.selectionManager.currentlySelected.length > 1) {
 				
 			} else {
-				toolbar.addElement(new EditDocumentToolbar(this));
+				toolbar.addElement(new EditPageToolbar(this));
 			}
 		}
 
@@ -180,6 +177,11 @@ package Collage.Document
 			
 			AddObjectHandles(newClip);
 			return newClip;
+		}
+		
+		public override function AddClipByType(type:String):Clip
+		{
+			return AddClip(ClipFactory.CreateByType(type));
 		}
 		
 		public override function DeleteClip(_clip:Clip):void

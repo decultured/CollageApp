@@ -9,11 +9,11 @@
     </s:states>
     <fx:Metadata>
         <![CDATA[ 
-        	[HostComponent("Collage.Document.EditDocumentToolbar")]
+        	[HostComponent("Collage.Document.EditPageToolbar")]
         ]]>
     </fx:Metadata> 
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<s:Label text="Document Toolbar" color="0xff9900" fontWeight="bold" />
+	<s:Label text="Page Toolbar" color="0xff9900" fontWeight="bold" />
 </s:Skin>

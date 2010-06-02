@@ -18,7 +18,6 @@
 	</s:layout>
 	<s:Label text="Text:" />
 	<s:TextInput id="displayLabelInput" text="@{hostComponent.model.text}" />
-	
 	<s:Group>
 		<s:Button label="Background" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true">
