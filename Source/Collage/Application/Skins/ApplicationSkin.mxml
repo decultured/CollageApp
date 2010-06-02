@@ -77,20 +77,25 @@
 	]]></fx:Script>
 
 	<s:SkinnableContainer id="toolbarContainer" right="0" left="0" top="0" height="45">
-	    <s:Rect left="0" right="0" bottom="0" top="0">
-	        <s:fill>
-				<s:LinearGradient rotation="270">
-		            <s:GradientEntry ratio="0"/>
-		            <s:GradientEntry ratio="0.0540735" color="#171717"/>
-		            <s:GradientEntry ratio="0.110429" color="#1E1E1E"/>
-		            <s:GradientEntry ratio="0.509202" color="#515152"/>
-		            <s:GradientEntry ratio="0.546012" color="#6B6A6A"/>
-		            <s:GradientEntry ratio="0.91411" color="#CAC7C7"/>
-		            <s:GradientEntry ratio="1" color="#E3E3E3"/>
-		        </s:LinearGradient>
-	        </s:fill>
-	    </s:Rect>
-		<s:Group id="toolbar" height="45" width="100%" >
+		<s:Rect width="100%" top="0" bottom="2">
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry alpha="1.0" color="#E2E2E2" ratio="0"/>
+					<s:GradientEntry alpha="1.0" color="#C7C7C7" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Line width="100%" bottom="1">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line width="100%" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" color="#E2E2E2" joints="miter" miterLimit="4" weight="1"/>
+			</s:stroke>
+		</s:Line>
+		<s:Group id="toolbar" height="100%" width="100%" >
 			<s:layout>
 				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" verticalAlign="middle"/>
 			</s:layout>

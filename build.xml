@@ -1,20 +1,22 @@
 <?xml version="1.0"?>
 <project name="Collage" default="air-build-debug-and-run">
-	<property name="assets.dir" value="./Assets/"/>
-	<property name="src.dir" value="./Source/"/>
-	<property name="lib.dir" value="./Libraries/"/>
+	<property name="assets.dir" value="${basedir}/Assets/"/>
+	<property name="src.dir" value="${basedir}/Source/"/>
+	<property name="lib.dir" value="${basedir}/Libraries/"/>
 	
 	<target name="clean">
 		<delete file="Collage.air" />
+		<delete file="*.swf" />
 	</target>
 	
 	<target name="copy-ep-flex4">
-		<copy file="../CollageComponents/build/endlesspathsflex4com.swc" todir="${lib.dir}" />
+		<copy file="../CollageComponents/build/endlesspathsflex4com.swc" todir="${lib.dir}" overwrite="true" />
 	</target>
 	
 	<target name="air-debug" depends="clean,copy-ep-flex4">
-		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
-		<exec executable="./fcshctl-mxmlc" failonerror="true">
+		<property name="deploy.dir" value="${basedir}/Build/Debug/Desktop" />
+		
+		<exec executable="fcshctl-mxmlc" failonerror="true">
 			<arg line="+configname=air" />
 			<arg line="-source-path '${src.dir}' '${assets.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
@@ -24,8 +26,8 @@
 		</exec>
 	</target>
 	
-	<target name="air-release" depends="clean">
-		<property name="deploy.dir" value="./Build/Release/Desktop/"/>
+	<target name="air-release" depends="clean,copy-ep-flex4">
+		<property name="deploy.dir" value="./Build/Release/Desktop"/>
 		
 		<exec executable="amxmlc" failonerror="true">
 			<arg line="-debug=false" />
@@ -36,11 +38,12 @@
 	</target>
 	
 	<target name="air-run">
-		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
+		<property name="deploy.dir" value="${basedir}/Build/Debug/Desktop"/>
+		
 		<exec executable="killall">
 			<arg value="adl" />
 		</exec>
-		<exec executable="adl" spawn="true">
+		<exec executable="adl">
 			<arg line="${src.dir}/Desktop/Main-app.xml" />
 			<arg line="${deploy.dir}"/>
 		</exec>
@@ -49,9 +52,9 @@
 	<target name="air-build-debug-and-run" depends="air-debug,air-run" />
 	
 	<target name="air-package" depends="air-release">
-		<property name="assets.dir" value="./Assets/"/>
-		<property name="release.dir" value="./Build/Release/Desktop/"/>
-		<property name="package.dir" value="./Build/Package/Desktop/"/>
+		<property name="assets.dir" value="${basedir}/Assets/"/>
+		<property name="release.dir" value="${basedir}/Build/Release/Desktop/"/>
+		<property name="package.dir" value="${basedir}/Build/Package/Desktop/"/>
 		
 		<copy file="${src.dir}/Desktop/Main-app.xml" tofile="${package.dir}/Main-app.xml" />
 		<copy file="${release.dir}/Main.swf" tofile="${package.dir}/Main.swf" />

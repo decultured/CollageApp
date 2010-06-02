@@ -20,14 +20,19 @@
         <s:State name="disabled" />
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
+	<s:Rect height="100%" width="100%" includeIn="normal" horizontalCenter="0" verticalCenter="0">
+		<s:fill>
+			<s:SolidColor alpha="{hostComponent.model.backgroundAlpha}" color="{hostComponent.model.backgroundColor}" />
+		</s:fill>
+	</s:Rect>
 	<s:Label id="displayLabel" includeIn="normal" lineBreak="explicit"
-		text="{hostComponent.model.displayText}" height="{hostComponent.model.fontSize}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
+		text="{hostComponent.model.displayText}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}" alpha="{hostComponent.model.alpha}"
 		textAlign="center"
-		left="0" right="0" top="0"/>
+		horizontalCenter="0" verticalCenter="0" />
 	<s:TextInput id="displayLabelInput" includeIn="editing"
-		text="@{hostComponent.model.text}" height="{hostComponent.model.fontSize}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
+		text="@{hostComponent.model.text}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
 		textAlign="center"
 		paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0"
 		borderVisible="false"
-		left="0" right="0" top="0"/>
+		horizontalCenter="0" verticalCenter="0" />
 </s:Skin>

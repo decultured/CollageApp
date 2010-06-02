@@ -18,7 +18,21 @@
 	</s:layout>
 	<s:Label text="Text:" />
 	<s:TextInput id="displayLabelInput" text="@{hostComponent.model.text}" />
-	<ep:ButtonCalloutPanel label="Click me!" skinClass="com.endlesspaths.skins.ButtonCalloutPanelSkin" arrowPosition="top">
-		<ep:ColorSelector skinClass="com.endlesspaths.skins.ColorSelectorSkin" selectedColor="@{hostComponent.model.color}" />
-	</ep:ButtonCalloutPanel>
+	
+	<s:Group>
+		<s:Button label="Background" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" />
+		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true">
+			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" top="10" title="Background">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.backgroundColor}" selectedAlpha="@{hostComponent.model.backgroundAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	<s:Group>
+		<s:Button label="Color" click="colorEditorPopup.popUpOpen = !colorEditorPopup.popUpOpen;" />
+		<ep:AutoPopUpAnchor id="colorEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true">
+			<ep:CalloutPanel id="colorEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" top="10" title="Text Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.color}" selectedAlpha="@{hostComponent.model.alpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
 </s:Skin>

@@ -10,7 +10,7 @@ package Collage.Clips
 	public class TextBoxClip extends Clip
 	{            
 		[Bindable]public var text:String = "";
-		[Bindable]public var displayText:String = "Double Click to Edit";
+		[Bindable]public var displayText:String = "Double-click to edit";
 		[Bindable]public var color:Number = 0x222299;
 		[Bindable]public var backgroundAlpha:Number = 1.0;
 		[Bindable]public var backgroundColor:Number = 0xFFFFFF;
