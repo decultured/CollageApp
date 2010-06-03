@@ -1,5 +1,6 @@
 package Desktop.Application
 {
+	import flash.display.StageDisplayState;
 	import flash.filesystem.*;
 	import Collage.Utilities.json.*;
 	import Collage.Application.*;
@@ -26,6 +27,10 @@ package Desktop.Application
 		
 		public override function Fullscreen():void
 		{
+			if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE)
+				stage.displayState = StageDisplayState.NORMAL;
+			else
+				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 		}
 		
 		public function SaveFile():void
