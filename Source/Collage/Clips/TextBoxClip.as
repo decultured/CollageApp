@@ -11,8 +11,6 @@ package Collage.Clips
 	{            
 		[Bindable][Savable]public var text:String = "";
 		[Bindable][Savable]public var color:Number = 0x222299;
-		[Bindable][Savable]public var backgroundAlpha:Number = 1.0;
-		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
 
 		[Bindable][Savable]public var textWidth:Number = 200;
 		[Bindable][Savable]public var textHeight:Number = 24;

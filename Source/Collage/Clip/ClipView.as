@@ -1,8 +1,8 @@
 package Collage.Clip
 {
-	import spark.components.SkinnableContainer;
+	import spark.components.BorderContainer;
 	
-	public class ClipView extends SkinnableContainer
+	public class ClipView extends BorderContainer
 	{
 		[Bindable]public var model:Object;
 		

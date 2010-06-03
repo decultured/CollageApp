@@ -12,7 +12,7 @@ package Collage.Clip
 	
 	public class Clip implements IResizeable, IMoveable
 	{
-		private var _UID:String;
+		[Savable]private var _UID:String;
 		
 		[Bindable][Savable] public var type:String = "unknown:define_in_clip_constructor";
 		[Bindable][Savable] public var zindex:uint = 0;
@@ -25,6 +25,13 @@ package Collage.Clip
 		[Bindable][Savable] public var height:Number = 200;
 		[Bindable][Savable] public var width:Number = 200;
 		[Bindable][Savable] public var rotation:Number = 0;
+
+		[Bindable][Savable]public var backgroundAlpha:Number = 1.0;
+		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
+		[Bindable][Savable]public var borderColor:Number = 0xFFFFFF;
+		[Bindable][Savable]public var borderAlpha:Number = 0xFFFFFF;
+		[Bindable][Savable]public var borderWeight:Number = 0;
+		[Bindable][Savable]public var borderRadius:Number = 0;
 		
 		private var _ClipEditorSkin:Class = null;
 		

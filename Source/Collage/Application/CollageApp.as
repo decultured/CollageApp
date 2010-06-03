@@ -29,7 +29,7 @@ package Collage.Application
 		[SkinPart(required="true")]
 		public var editPage:EditPage;
 
-		[Savable]public var TestVar:String="This is a test!"
+		[Savable]public var FileFormatVersion:String="1.0";
 
 		public var pageManager:PageManager = new PageManager();
 

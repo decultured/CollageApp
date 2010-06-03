@@ -12,9 +12,6 @@ package Collage.Clips
 		[Bindable][Savable]public var text:String = "";
 		[Bindable][Savable]public var color:Number = 0x444444;
 		[Bindable][Savable]public var alpha:Number = 1.0;
-		[Bindable][Savable]public var backgroundAlpha:Number = 1.0;
-		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
-
 		[Bindable][Savable]public var fontSize:Number = 18;
 		
 		private static var DEFAULT_LABEL_TEXT:String = "Double-click to edit";

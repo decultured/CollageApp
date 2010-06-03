@@ -188,7 +188,7 @@ package Collage.Document
 			if (_clip == null)
 				return;
 				
-			objectHandles.unregisterComponent(_clip);
+			objectHandles.unregisterComponent(_clip.view);
 			SetToolbar();
 			super.DeleteClip(_clip);
 		}

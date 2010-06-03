@@ -14,7 +14,7 @@
         <![CDATA[
 	        protected function ButtonClickHandler(event:MouseEvent):void
 	        {
-	            if (showBtn.selected || showBtn2.selected || showBtn3.selected) 
+	            if (showBtn.selected) 
 	                currentState = "extended";
 	            else currentState = "hidden";
 	        }
@@ -46,9 +46,7 @@
         </s:fill>
     </s:Rect>
 	<s:Group width="24" left="0" height="100%">
-		<s:ToggleButton right="-20" rotation="-90" id="showBtn" label="Pages" click="ButtonClickHandler(event)"/>
-		<s:ToggleButton right="-20" rotation="-90" id="showBtn2" label="Layers" click="ButtonClickHandler(event)"/>
-		<s:ToggleButton right="-20" rotation="-90" id="showBtn3" label="Datasets" click="ButtonClickHandler(event)"/>
+		<s:ToggleButton right="-20" rotation="-90" id="showBtn" label="Pages and Datasets" click="ButtonClickHandler(event)"/>
 		<s:layout>
 			<s:VerticalLayout horizontalAlign="right" />
 		</s:layout>

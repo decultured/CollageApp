@@ -28,12 +28,9 @@ package Collage.Document
 			height = DEFAULT_HEIGHT;
 			backgroundURL = null;
 			backgroundColor = 0x555555;
-//			setStyle("backgroundColor", backgroundColor);
-
-			// TODO : Properly unload clips from memory
-
-			Logger.LogDebug("Page Reset", this);
+			DeleteAllClips();
 			_Clips = new Object();
+			Logger.LogDebug("Page Reset", this);
 		}
 
 		public function ViewResized():void
@@ -60,7 +57,21 @@ package Collage.Document
 		
 		public function DeleteClip(clip:Clip):void
 		{
-			
+			if (clip) {
+				Logger.LogDebug("Clip Deleted", clip);
+				_Clips[clip.uid] = null;
+				removeElement(clip.view);
+			}
+		}
+		
+		public function DeleteAllClips():void
+		{
+			for (var i:int = 0; i < numElements; i++) {
+				if (getElementAt(i) is ClipView) {
+					var clipView:ClipView = getElementAt(i) as ClipView;
+					DeleteClip(clipView.model as Clip);
+				}
+			}
 		}
 		
 		public function SaveToObject():Object
@@ -106,7 +117,8 @@ package Collage.Document
 						if (!clipDataObject["type"])
 							continue;
 						var newClip:Clip = AddClipByType(clipDataObject["type"]);
-						newClip.LoadFromObject(clipDataObject);
+						if (newClip)
+							newClip.LoadFromObject(clipDataObject);
 					}
 				} else {
 					try {
