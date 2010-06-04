@@ -5,25 +5,35 @@ package Collage.Document
 	import spark.components.Group;
 	import Collage.Clip.*;
 	import flash.utils.*;
+	import mx.utils.*;
 	
 	public class Page extends Group
 	{
+		[Savable]public var UID:String;
+
 		public static var DEFAULT_WIDTH:Number = 1024;
 		public static var DEFAULT_HEIGHT:Number = 768;
 		
+		[Bindable][Savable]public var displayName:String = "Untitled";
 		[Bindable][Savable]public var backgroundURL:String = null;
 		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
 		
 		private var _Clips:Object = new Object();
-
+		
 		public function Page():void
 		{
 			setStyle("dropShadowVisible", true);
 			New();
 		}
 
+		public function NewUID():void
+		{
+			UID = UIDUtil.createUID();
+		}
+
 		public function New():void
 		{
+			NewUID();
 			width = DEFAULT_WIDTH;
 			height = DEFAULT_HEIGHT;
 			backgroundURL = null;
@@ -40,8 +50,8 @@ package Collage.Document
 
 		public function AddClip(clip:Clip):Clip
 		{
-			if (clip && !_Clips[clip.uid]) {
-				_Clips[clip.uid] = clip;
+			if (clip && !_Clips[clip.UID]) {
+				_Clips[clip.UID] = clip;
 				addElement(clip.view);
 				Logger.LogDebug("Clip Added", clip);
 				return clip;
@@ -59,7 +69,7 @@ package Collage.Document
 		{
 			if (clip) {
 				Logger.LogDebug("Clip Deleted", clip);
-				_Clips[clip.uid] = null;
+				_Clips[clip.UID] = null;
 				removeElement(clip.view);
 			}
 		}
@@ -99,21 +109,23 @@ package Collage.Document
 
 		public function LoadFromObject(dataObject:Object):Boolean
 		{
-			if (!dataObject) return false;
-
 			New();
-			
+
 			Logger.LogDebug("PageLoading", this);
+			
+			if (!dataObject) {
+				Logger.LogWarning("PageLoading - dataObject was NULL", this);
+				return false;
+			}
+
 			for (var key:String in dataObject)
 			{
-				Logger.LogDebug("KeyDump " + key, this);
 				if (key == "clips") {
 					if (!dataObject[key] is Array)
 						continue;
 					var clipArray:Array = dataObject[key] as Array;
 					for (var i:uint = 0; i < clipArray.length; i++) {
 						var clipDataObject:Object = clipArray[i] as Object;
-						Logger.LogDebug("Clip KeyDump " + i + " " + clipDataObject["type"], this);
 						if (!clipDataObject["type"])
 							continue;
 						var newClip:Clip = AddClipByType(clipDataObject["type"]);

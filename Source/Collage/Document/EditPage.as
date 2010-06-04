@@ -33,14 +33,8 @@ package Collage.Document
 
 		public override function New():void
 		{
-/*
-			var childArray:Array = getChildren();
-			for (var i:uint = 0; i < childArray.length; i++) {
-				if (childArray[i] && childArray[i] is ClipView)
-					objectHandles.unregisterComponent(childArray[i]);
-			}
-*/
-			//DrawGrid();
+			if (objectHandles && objectHandles.selectionManager)
+				objectHandles.selectionManager.clearSelection();
 			super.New();
 		}
 

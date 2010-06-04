@@ -2,6 +2,7 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
 		width.hidden="20" width.extended="200"
 		currentState="hidden" >
     <s:states>
@@ -10,55 +11,109 @@
         <s:State name="extended" />
         <s:State name="disabled" />
     </s:states>
-    <fx:Script>
-        <![CDATA[
-	        protected function ButtonClickHandler(event:MouseEvent):void
-	        {
-	            if (showBtn.selected) 
-	                currentState = "extended";
-	            else currentState = "hidden";
-	        }
-        ]]>
-    </fx:Script>
+    <fx:Script><![CDATA[
+        protected function ButtonClickHandler(event:MouseEvent):void
+        {
+            if (showBtn.selected) 
+                currentState = "extended";
+            else currentState = "hidden";
+        }
+
+        protected function addPageHandler(event:MouseEvent):void
+        {
+			if (!hostComponent.appClass || !hostComponent.appClass.pageManager) return;
+			hostComponent.appClass.SaveCurrentPage();
+			hostComponent.appClass.pageManager.NewPage();
+			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
+        }
+
+        protected function removePageHandler(event:MouseEvent):void
+        {
+			if (!hostComponent.appClass || !hostComponent.appClass.pageManager) return;
+			hostComponent.appClass.SaveCurrentPage();
+			hostComponent.appClass.pageManager.RemovePage();
+			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
+        }
+
+        protected function copyPageHandler(event:MouseEvent):void
+        {
+			if (!hostComponent.appClass || !hostComponent.appClass.pageManager) return;
+			hostComponent.appClass.SaveCurrentPage();
+			hostComponent.appClass.pageManager.CopyPage();
+			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
+        }
+
+    ]]></fx:Script>
     <fx:Metadata>
         <![CDATA[ 
         	[HostComponent("Collage.Application.CollageSideBar")]
         ]]>
     </fx:Metadata> 
 	<s:transitions> 
-		<s:Transition fromState="hidden"> 
-		     <s:Parallel> 
-		         <s:Wipe duration="100" direction="left" target="{hostComponent}"/> 
-		     </s:Parallel> 
+		<s:Transition fromState="hidden" toState="extended"> 
+            <s:Animate target="{hostComponent}" duration="200" >
+                <s:SimpleMotionPath property="width" />
+            </s:Animate>
 		 </s:Transition> 
-		<s:Transition fromState="extended"> 
-		     <s:Sequence> 
-		         <s:Resize duration="100"/> 
-		     </s:Sequence> 
+		<s:Transition fromState="extended" toState="hidden"> 
+            <s:Animate target="{hostComponent}" duration="200" >
+                <s:SimpleMotionPath property="width" />
+            </s:Animate>
 		 </s:Transition> 
 	</s:transitions>
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
     <s:Rect width="24" left="0" height="100%" >
-        <s:fill>
-			<s:SolidColor color="0x777777" alpha="1.0"/>
-        </s:fill>
+        <s:fill><s:SolidColor color="0x777777" alpha="1.0"/></s:fill>
     </s:Rect>
 	<s:Group width="24" left="0" height="100%">
 		<s:ToggleButton right="-20" rotation="-90" id="showBtn" label="Pages and Datasets" click="ButtonClickHandler(event)"/>
-		<s:layout>
-			<s:VerticalLayout horizontalAlign="right" />
-		</s:layout>
+		<s:layout><s:VerticalLayout horizontalAlign="right" /></s:layout>
 	</s:Group>
-    <s:Rect right="0" left="24" height="100%" >
-        <s:fill>
-			<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
-        </s:fill>
-    </s:Rect>
-	<s:Group right="0" left="24" height="100%">
-		<s:layout>
-			<s:VerticalLayout horizontalAlign="center"/>
-		</s:layout>
+	<s:Group right="0" left="24" height="100%" visible.hidden="false" visible.extended="true">
+	    <s:Rect width="100%" height="100%" >
+	        <s:fill>
+				<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
+	        </s:fill>
+	    </s:Rect>
+		<s:List requireSelection="true" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ItemRenderer width="100%" height="20" doubleClick="{currentState = 'editing'}" doubleClickEnabled="true">
+						<s:states>
+					        <s:State name="normal"/>
+					        <s:State name="hovered"/>
+					        <s:State name="editing"/>
+					        <s:State name="selected" />
+						</s:states>
+						<fx:Script><![CDATA[
+							override public function set data(value:Object):void {
+								super.data = value;
+								if (data == null) // a renderer's data is set to null when it goes out of view
+									return;
+								txtStart.text = data['displayName'];
+							}
+						]]></fx:Script>
+						<s:Rect top="1" right="1" left="1" bottom="0" radiusX="3" radiusY="3">
+							<s:fill>
+								<s:SolidColor color.normal="#65A3CE" color.hovered="#1d5780" color.selected="#ff9600" color.editing="#ff0000" />
+							</s:fill>
+						</s:Rect>
+						<s:Group width="100%" height="100%" visible="true" visible.editing="false">
+							<s:Label id="txtStart" color="#FFFFFF" fontWeight="bold" width="100%" verticalCenter="2" left="20"/>
+						</s:Group>
+						<s:Group width="100%" height="100%" visible="false" visible.editing="true">
+							<s:TextInput id="displayLabelInput" text="@{data.displayName}" />
+						</s:Group>
+					</s:ItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+			<s:HGroup horizontalCenter="0" verticalAlign="middle" height="30" bottom="0" >
+				<s:Button width="50" id="addButton" label="+" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="addPageHandler(event)" fontWeight="bold"/>
+				<s:Button width="50" id="removeButton" label="-" enabled="{false}" click="removePageHandler(event)" fontWeight="bold"/>
+				<s:Button width="50" id="copyButton" label="Copy" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="copyPageHandler(event)" fontWeight="bold"/>
+			</s:HGroup>
 	</s:Group>
 </s:Skin>

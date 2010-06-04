@@ -12,7 +12,7 @@ package Collage.Clip
 	
 	public class Clip implements IResizeable, IMoveable
 	{
-		[Savable]private var _UID:String;
+		[Savable]public var UID:String;
 		
 		[Bindable][Savable] public var type:String = "unknown:define_in_clip_constructor";
 		[Bindable][Savable] public var zindex:uint = 0;
@@ -41,16 +41,10 @@ package Collage.Clip
 		
 		public var view:ClipView;
 		
-		public function get uid():String
-		{
-			if (!_UID)
-				_UID = UIDUtil.createUID();
-			return _UID;
-		}
-		
 		public function Clip(_clipViewSkin:Class, _clipEditorSkin:Class):void
 		{
 			view = new ClipView(this, _clipViewSkin);
+			UID = UIDUtil.createUID();
 			_ClipEditorSkin = _clipEditorSkin;
 			addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged );
 			view.addEventListener(MouseEvent.DOUBLE_CLICK, OnDoubleClick);
@@ -144,7 +138,6 @@ package Collage.Clip
 			for each (var metadata:XML in typeDef..metadata) {
 				if (metadata["@name"] != "Savable") continue;
 				if (this.hasOwnProperty(metadata.parent()["@name"])) {
-					Logger.LogDebug("Clip Instance KeyDump " + metadata.parent()["@name"] + " " + this[metadata.parent()["@name"]], this);
 					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
 				}
 			}

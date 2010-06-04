@@ -1,6 +1,7 @@
 package Collage.Application
 {
 	import spark.components.SkinnableContainer;
+	import mx.events.PropertyChangeEvent;
 	import spark.components.Group;
 	import mx.events.FlexEvent;
 	import mx.controls.Alert;
@@ -15,7 +16,7 @@ package Collage.Application
 	
 	public class CollageApp extends SkinnableContainer
 	{
-		public var clgClipboard:CollageClipboard;
+		[Savable]public var FileFormatVersion:String="1.0";
 
 		[SkinPart(required="true")]
 		public var toolbar:Group;
@@ -27,21 +28,42 @@ package Collage.Application
 		public var appStatusBar:CollageStatusBar;
 
 		[SkinPart(required="true")]
-		public var editPage:EditPage;
+		[Bindable]public var editPage:EditPage;
 
-		[Savable]public var FileFormatVersion:String="1.0";
+		[Bindable]public var pageManager:PageManager = new PageManager();
 
-		public var pageManager:PageManager = new PageManager();
+		public var clgClipboard:CollageClipboard;
 
 		public function CollageApp():void
 		{
 			Logger.LogDebug("App Created", this);
 			clgClipboard = new CollageClipboard(this);
+			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
 		}
 
-		public function Quit():void
+		protected function PageManagerChanged(event:PropertyChangeEvent):void
 		{
+			switch( event.property )
+			{
+				case "currentPageIndex":
+					pageManager.SetPageByUID(editPage.SaveToObject(), editPage.UID);
+					editPage.LoadFromObject(pageManager.currentPage);
+					return;
+			}
 		}
+
+		public function SaveCurrentPage():void
+		{
+			pageManager.SetPageByUID(editPage.SaveToObject(), editPage.UID);
+		}
+
+		public function New():void
+		{
+			pageManager.New(true);
+			editPage.LoadFromObject(pageManager.currentPage);
+		}
+		
+		public function Quit():void { }
 
 		public function Fullscreen():void
 		{
@@ -73,7 +95,7 @@ package Collage.Application
 			pageManager.currentPage = editPage.SaveToObject();
 
 			// Load Pages
-			newObject["pages"] = pageManager.pageArray;
+			newObject["pages"] = pageManager.pages.toArray();
 
 			return newObject;
 		}
@@ -83,8 +105,7 @@ package Collage.Application
 		{
 			if (!dataObject) return false;
 
-			pageManager.New(false);
-			editPage.New();
+			New();
 			
 			Logger.Log("Document Loading", this);
 			
@@ -101,7 +122,7 @@ package Collage.Application
 					if (!dataObject[key] is Array)
 						continue;
 
-					pageManager.pageArray = dataObject[key];
+					pageManager.LoadFromArray(dataObject[key]);
 				}
 			}
 			

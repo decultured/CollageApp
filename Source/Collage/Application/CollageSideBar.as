@@ -9,6 +9,8 @@ package Collage.Application
 		[SkinState("hidden")]
 		[SkinState("extended")]
 
+		[Bindable]public var appClass:CollageApp = null;
+
 		[Bindable]private var _IsOpen:Boolean = false;
 		public function get IsOpen():Boolean {return _IsOpen; }
 		

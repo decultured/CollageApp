@@ -145,7 +145,7 @@
 		</s:Scroller>
 	</s:BorderContainer>
 
-	<clgapp:CollageSideBar id="collageSideBar" right="0" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" skinClass="Collage.Application.Skins.CollageSideBarSkin" />
+	<clgapp:CollageSideBar id="collageSideBar" appClass="{hostComponent}" right="0" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" skinClass="Collage.Application.Skins.CollageSideBarSkin" />
 	
 	<ep:ButtonCalloutPanel id="btnAddComponent" label="Insert" bottom="{appStatusBar.height + 20}" left="30" skinClass="com.endlesspaths.skins.ButtonCalloutPanelBlackHUDSkin" arrowPosition="bottom">
 		<s:List id="componentList" initialize="componentList_Init()"  dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.components.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
@@ -154,6 +154,9 @@
 			</s:layout>
 		</s:List>
 	</ep:ButtonCalloutPanel>
-
+	<s:HGroup bottom="{appStatusBar.height + 20}" right="{collageSideBar.width + 20}" >
+		<s:Button width="50" label="prev" click="hostComponent.pageManager.PrevPage()" fontWeight="bold"/>
+		<s:Button width="50" label="next" click="hostComponent.pageManager.NextPage()" fontWeight="bold"/>
+	</s:HGroup>
 	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="25" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
 </s:Skin>

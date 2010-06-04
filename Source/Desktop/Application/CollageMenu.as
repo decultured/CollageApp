@@ -127,7 +127,7 @@ package Desktop.Application
 				case "print":		break;
 				case "undo":		break;
 				case "redo":		break;
-				case "new": 		collageApp.editPage.New(); break;
+				case "new": 		collageApp.New(); break;
 				case "moveForward":		collageApp.editPage.MoveSelectedForward(); break;
 				case "moveBackward": 	collageApp.editPage.MoveSelectedBackward(); break;
 				case "moveToFront":		collageApp.editPage.MoveSelectedToFront(); break;
