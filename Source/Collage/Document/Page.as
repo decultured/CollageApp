@@ -18,6 +18,8 @@ package Collage.Document
 		[Bindable][Savable]public var backgroundURL:String = null;
 		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
 		
+		private var _Loading:Boolean = false;
+		
 		private var _Clips:Object = new Object();
 		
 		public function Page():void
@@ -76,7 +78,7 @@ package Collage.Document
 		
 		public function DeleteAllClips():void
 		{
-			for (var i:int = 0; i < numElements; i++) {
+			for (var i:int = numElements - 1; i > -1; i--) {
 				if (getElementAt(i) is ClipView) {
 					var clipView:ClipView = getElementAt(i) as ClipView;
 					DeleteClip(clipView.model as Clip);

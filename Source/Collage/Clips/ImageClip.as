@@ -9,6 +9,8 @@ package Collage.Clips
 	
 	public class ImageClip extends Clip
 	{             
+		[Bindable][Savable]public var URL:String = "file://Users/jgraves/Desktop/test.jpg";
+		
 		public function ImageClip()
 		{
 			super(ImageClipSkin, ImageClipEditor);

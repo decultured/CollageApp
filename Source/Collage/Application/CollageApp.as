@@ -46,7 +46,7 @@ package Collage.Application
 			switch( event.property )
 			{
 				case "currentPageIndex":
-					pageManager.SetPageByUID(editPage.SaveToObject(), editPage.UID);
+					SaveCurrentPage();
 					editPage.LoadFromObject(pageManager.currentPage);
 					return;
 			}

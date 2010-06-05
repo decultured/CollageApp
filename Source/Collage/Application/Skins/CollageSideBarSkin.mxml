@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
 	    xmlns:mx="library://ns.adobe.com/flex/mx"
-		width.hidden="20" width.extended="200"
+		width.hidden="24" width.extended="200"
 		currentState="hidden" >
     <s:states>
         <s:State name="normal" />
@@ -12,11 +12,14 @@
         <s:State name="disabled" />
     </s:states>
     <fx:Script><![CDATA[
+		import Collage.Utilities.Logger.*;
+
         protected function ButtonClickHandler(event:MouseEvent):void
         {
-            if (showBtn.selected) 
+            if (showBtn.selected)
                 currentState = "extended";
             else currentState = "hidden";
+			Logger.Log("CurrentState: "+ currentState, this);
         }
 
         protected function addPageHandler(event:MouseEvent):void
@@ -49,7 +52,7 @@
         	[HostComponent("Collage.Application.CollageSideBar")]
         ]]>
     </fx:Metadata> 
-	<s:transitions> 
+	<s:transitions>
 		<s:Transition fromState="hidden" toState="extended"> 
             <s:Animate target="{hostComponent}" duration="200" >
                 <s:SimpleMotionPath property="width" />
