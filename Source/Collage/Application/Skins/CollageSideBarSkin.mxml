@@ -54,14 +54,10 @@
     </fx:Metadata> 
 	<s:transitions>
 		<s:Transition fromState="hidden" toState="extended"> 
-            <s:Animate target="{hostComponent}" duration="200" >
-                <s:SimpleMotionPath property="width" />
-            </s:Animate>
+            <s:Resize target="{hostComponent}" duration="200" />
 		 </s:Transition> 
 		<s:Transition fromState="extended" toState="hidden"> 
-            <s:Animate target="{hostComponent}" duration="200" >
-                <s:SimpleMotionPath property="width" />
-            </s:Animate>
+            <s:Resize target="{hostComponent}" duration="200" />
 		 </s:Transition> 
 	</s:transitions>
 	<s:layout>
