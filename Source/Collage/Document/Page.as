@@ -14,7 +14,7 @@ package Collage.Document
 		public static var DEFAULT_WIDTH:Number = 1024;
 		public static var DEFAULT_HEIGHT:Number = 768;
 		
-		[Bindable][Savable]public var displayName:String = "Untitled";
+		[Bindable][Savable]public var displayName:String = "UNNAMED";
 		[Bindable][Savable]public var backgroundURL:String = null;
 		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
 		
@@ -24,7 +24,6 @@ package Collage.Document
 		
 		public function Page():void
 		{
-			setStyle("dropShadowVisible", true);
 			New();
 		}
 
@@ -88,6 +87,8 @@ package Collage.Document
 		
 		public function SaveToObject():Object
 		{
+			Logger.LogDebug("PageSaving : " + UID, this);
+			
 			var typeDef:XML = describeType(this);
 			var newObject:Object = new Object();
 			for each (var metadata:XML in typeDef..metadata) {
@@ -113,7 +114,7 @@ package Collage.Document
 		{
 			New();
 
-			Logger.LogDebug("PageLoading", this);
+			Logger.LogDebug("PageLoading : " + UID, this);
 			
 			if (!dataObject) {
 				Logger.LogWarning("PageLoading - dataObject was NULL", this);

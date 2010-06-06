@@ -38,7 +38,19 @@ package Collage.Application
 		{
 			Logger.LogDebug("App Created", this);
 			clgClipboard = new CollageClipboard(this);
+			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);
 			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
+		}
+
+		protected function PropertyChangeHandler(event:PropertyChangeEvent):void
+		{
+			switch( event.property )
+			{
+				case "editPage":
+					Logger.Log("Edit Page Added");
+					editPage.LoadFromObject(pageManager.currentPage);
+					return;
+			}
 		}
 
 		protected function PageManagerChanged(event:PropertyChangeEvent):void
@@ -46,6 +58,7 @@ package Collage.Application
 			switch( event.property )
 			{
 				case "currentPageIndex":
+					Logger.Log("Page Index Changed");
 					SaveCurrentPage();
 					editPage.LoadFromObject(pageManager.currentPage);
 					return;

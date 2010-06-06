@@ -46,9 +46,9 @@ package Collage.Clip
 			view = new ClipView(this, _clipViewSkin);
 			UID = UIDUtil.createUID();
 			_ClipEditorSkin = _clipEditorSkin;
-			addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged );
-			view.addEventListener(MouseEvent.DOUBLE_CLICK, OnDoubleClick);
-			view.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);
+			addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+			view.addEventListener(MouseEvent.DOUBLE_CLICK, OnDoubleClick, false, 0, true);
+			view.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown, false, 0, true);
 		}
 		
 		public function CreateEditor():ClipEditor
