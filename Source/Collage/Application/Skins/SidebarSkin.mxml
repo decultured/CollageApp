@@ -1,76 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" xmlns:mx="library://ns.adobe.com/flex/mx" width.hidden="24" width.extended="200" currentState="hidden">
+	<fx:Metadata><![CDATA[ 
+		[HostComponent("Collage.Application.CollageSideBar")]
+	]]></fx:Metadata>
 	<s:states>
 		<s:State name="normal"/>
 		<s:State name="hidden"/>
 		<s:State name="extended"/>
 		<s:State name="disabled"/>
 	</s:states>
+	
 	<fx:Script><![CDATA[
 		import Collage.Utilities.Logger.*;
-
-        protected function ButtonClickHandler(event:MouseEvent):void
-        {
-            if (showBtn.selected)
-                currentState = "extended";
-            else currentState = "hidden";
+		
+		protected function ButtonClickHandler(event:MouseEvent):void
+		{
+			if (showBtn.selected)
+				currentState = "extended";
+			else currentState = "hidden";
 			Logger.Log("CurrentState: "+ currentState, this);
-        }
-
-        protected function addPageHandler(event:MouseEvent):void
-        {
+		}
+		
+		protected function addPageHandler(event:MouseEvent):void
+		{
 			if (!hostComponent.appClass || !hostComponent.appClass.pageManager) return;
 			hostComponent.appClass.SaveCurrentPage();
 			hostComponent.appClass.pageManager.NewPage();
 			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
-        }
-
-        protected function removePageHandler(event:MouseEvent):void
-        {
+		}
+		
+		protected function removePageHandler(event:MouseEvent):void
+		{
 			if (!hostComponent.appClass || !hostComponent.appClass.pageManager) return;
 			hostComponent.appClass.SaveCurrentPage();
 			hostComponent.appClass.pageManager.RemovePage();
 			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
-        }
-
-        protected function copyPageHandler(event:MouseEvent):void
-        {
+		}
+		
+		protected function copyPageHandler(event:MouseEvent):void
+		{
 			if (!hostComponent.appClass || !hostComponent.appClass.pageManager) return;
 			hostComponent.appClass.SaveCurrentPage();
 			hostComponent.appClass.pageManager.CopyPage();
 			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
-        }
-
-    ]]></fx:Script>
-	<fx:Metadata><![CDATA[ 
-        	[HostComponent("Collage.Application.CollageSideBar")]
-        ]]></fx:Metadata>
-	<s:transitions>
-		<s:Transition fromState="hidden" toState="extended">
-			<s:Resize target="{hostComponent}" duration="200"/>
-		</s:Transition>
-		<s:Transition fromState="extended" toState="hidden">
-			<s:Resize target="{hostComponent}" duration="200"/>
-		</s:Transition>
-	</s:transitions>
+		}
+	]]></fx:Script>
+	
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-	<s:Rect width="24" left="0" height="100%">
-		<s:fill>
-			<s:LinearGradient rotation="90">
-				<s:GradientEntry alpha="1.0" color="#C9C9C9" ratio="0"/>
-				<s:GradientEntry alpha="1.0" color="#ADADAD" ratio="1"/>
-			</s:LinearGradient>
-		</s:fill>
-	</s:Rect>
-	<s:Group left="0" height="100%">
-		<s:ToggleButton rotation="-90" id="showBtn" label="Pages and Datasets" click="ButtonClickHandler(event)"/>
+	
+	<s:Group id="leftEdge" height="100%" width="100%">
 		<s:layout>
-			<s:VerticalLayout horizontalAlign="right"/>
+			<s:BasicLayout/>
 		</s:layout>
+		<s:Rect height="100%" width="100%">
+			<s:fill>
+				<s:LinearGradient rotation="0">
+					<s:GradientEntry alpha="1.0" color="#A5A5A5" ratio="0"/>
+					<s:GradientEntry alpha="1.0" color="#8C8C8C" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:Line top="0" left="0" bottom="0">
+			<s:stroke>
+				<s:SolidColorStroke caps="square" color="#666666" joints="miter" miterLimit="4" weight="4"/>
+			</s:stroke>
+		</s:Line>
 	</s:Group>
-	<s:Group right="0" height="100%" visible.hidden="false" visible.extended="true">
+	<s:Group top="0" left="4" bottom="0">
+		<s:layout>
+			<s:VerticalLayout />
+		</s:layout>
+		<s:ToggleButton rotation="-90" id="showBtn" label="PAGES &amp; DATASETS" click="ButtonClickHandler(event)" skinClass="Collage.Application.Skins.SidebarToggleButtonSkin"/>
+	</s:Group>
+	<s:Group left="20" height="100%" visible.hidden="false" visible.extended="true">
 		<s:Rect width="100%" height="100%">
 			<s:fill>
 				<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
