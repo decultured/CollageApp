@@ -100,9 +100,6 @@
 					<s:VerticalLayout paddingLeft="25" paddingRight="25" paddingTop="25" paddingBottom="25"/>
 				</s:layout>
 				<s:BorderContainer borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="0xffffff" width="{editPage.width}" height="{editPage.height}" >
-					<s:layout>
-						<s:BasicLayout />
-					</s:layout>
 					<clgapp:Grid left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
 					<clgdoc:EditPage id="editPage"
 						click="ClickHandler(event);"
