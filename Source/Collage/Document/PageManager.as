@@ -17,7 +17,8 @@ package Collage.Document
 			SetPageAt(pageData, currentPageIndex);
 		}
 
-		public function get numPages():uint { return pages.length; }
+		[Bindable]
+		public var numPages:uint = 1;
 
 		[Bindable]
 		public function get currentPageIndex():uint { return _CurrentPage;	}
@@ -39,6 +40,7 @@ package Collage.Document
 		{
 			New(false);
 			pages = new ArrayList(newArray);
+			numPages = pages.length;
 		}
 		
 		public function New(addPage:Boolean = true):void
@@ -47,8 +49,10 @@ package Collage.Document
 			currentPageIndex = 0;
 			pagesAdded = 0;
 			pages = new ArrayList();
+			
 			if (addPage)
 				NewPage();
+			numPages = pages.length;
 		}
 		
 		public function NextPage():void
@@ -165,6 +169,7 @@ package Collage.Document
 				currentPageIndex = index;
 			}
 			Logger.LogDebug("Page Added", this);
+			numPages = pages.length;
 		}
 
 		public function NewPageAt(index:uint):void
@@ -196,6 +201,7 @@ package Collage.Document
 			currentPageIndex = index;
 
 			Logger.LogDebug("Page Removed", this);
+			numPages = pages.length;
 		}
 
 		public function CopyPageAt(index:uint):void
@@ -211,6 +217,7 @@ package Collage.Document
 			pages.addItemAt(newObject.SaveToObject(), index);
 			currentPageIndex = index;
 			Logger.LogDebug("Page Copied", this);
+			numPages = pages.length;
 		}
 
 		public function SwapPages(firstIndex:uint, secondIndex:uint):void
@@ -223,6 +230,7 @@ package Collage.Document
 			
 			pages.setItemAt(secondObject, firstIndex);
 			pages.setItemAt(firstObject, secondIndex);
+			numPages = pages.length;
 		}
 	} 
 }

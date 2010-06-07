@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
 	    xmlns:mx="library://ns.adobe.com/flex/mx"
-		width.hidden="24" width.extended="200"
+		width.hidden="18" width.extended="200"
 		currentState="hidden" >
     <s:states>
         <s:State name="normal" />
@@ -16,10 +16,9 @@
 
         protected function ButtonClickHandler(event:MouseEvent):void
         {
-            if (showBtn.selected)
-                currentState = "extended";
-            else currentState = "hidden";
-			Logger.Log("CurrentState: "+ currentState, this);
+            if (currentState == "extended")
+                currentState = "hidden";
+            else currentState = "extended";
         }
 
         protected function addPageHandler(event:MouseEvent):void
@@ -63,7 +62,7 @@
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-	<s:Rect width="24" left="0" height="100%" >
+	<s:Rect width="18" left="0" height="100%" >
 		<s:fill>
 			<s:LinearGradient rotation="0">
 				<s:GradientEntry alpha="1.0" color="#E2E2E2" ratio="0"/>
@@ -71,16 +70,16 @@
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	<s:Group width="24" left="0" height="100%">
-		<s:ToggleButton right="-20" rotation="-90" id="showBtn" label="Pages and Datasets" click="ButtonClickHandler(event)"/>
+	<s:Group width="18" left="0" height="100%" click="ButtonClickHandler(event)">
+		<s:Label text="Pages and Datasets" rotation="-90" color="0x555555" fontWeight="normal" />
 		<s:layout><s:VerticalLayout horizontalAlign="right" paddingTop="5"/></s:layout>
 	</s:Group>
-	<s:Line height="100%" left="23">
+	<s:Line height="100%" left="17">
 		<s:stroke>
 			<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
 		</s:stroke>
 	</s:Line>
-	<s:Group right="0" left="24" height="100%" visible.hidden="false" visible.extended="true">
+	<s:Group right="0" left="18" height="100%" visible.hidden="false" visible.extended="true">
 	    <s:Rect width="100%" height="100%" >
 	        <s:fill>
 				<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
@@ -132,10 +131,35 @@
 				</fx:Component>
 			</s:itemRenderer>
 		</s:List>
-			<s:HGroup horizontalCenter="0" verticalAlign="middle" height="30" bottom="0" >
+		<s:Group height="30" bottom="0" width="100%" >
+			<s:Rect width="100%" height="100%" >
+				<s:fill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry alpha="1.0" color="#E2E2E2" ratio="0"/>
+						<s:GradientEntry alpha="1.0" color="#C7C7C7" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<s:Line width="100%" top="0">
+				<s:stroke>
+					<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+				</s:stroke>
+			</s:Line>
+			<s:Line width="100%" top="1">
+				<s:stroke>
+					<s:SolidColorStroke caps="none" color="#AAAAAA" joints="miter" miterLimit="4" weight="1"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup horizontalCenter="0" verticalAlign="middle" height="100%" >
 				<s:Button width="50" id="addButton" label="+" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="addPageHandler(event)" fontWeight="bold"/>
 				<s:Button width="50" id="removeButton" label="-" enabled="{false}" click="removePageHandler(event)" fontWeight="bold"/>
 				<s:Button width="50" id="copyButton" label="Copy" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="copyPageHandler(event)" fontWeight="bold"/>
 			</s:HGroup>
+		</s:Group>
 	</s:Group>
+	<s:Line width="100%" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#737373" weight="1"/>
+		</s:stroke>
+	</s:Line>
 </s:Skin>

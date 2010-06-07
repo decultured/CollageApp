@@ -4,6 +4,7 @@
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 		xmlns:clgapp="Collage.Application.*"
 		xmlns:clgdoc="Collage.Document.*"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:ep="com.endlesspaths.components.*" >
     <fx:Metadata>
         <![CDATA[ 
@@ -49,7 +50,7 @@
 		
 		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
 			editPage.AddClipByType(event.item.componentType);
-			btnAddComponent.close();
+			backgroundEditorPopup.popUpOpen = false;
 		}
 
 	]]></fx:Script>
@@ -99,7 +100,10 @@
 					<s:VerticalLayout paddingLeft="25" paddingRight="25" paddingTop="25" paddingBottom="25"/>
 				</s:layout>
 				<s:BorderContainer borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="0xffffff" width="{editPage.width}" height="{editPage.height}" >
-					<clgapp:Grid height="100%" width="100%" />
+					<s:layout>
+						<s:BasicLayout />
+					</s:layout>
+					<clgapp:Grid left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
 					<clgdoc:EditPage id="editPage"
 						click="ClickHandler(event);"
 						creationComplete="editPage.InitializeForEdit();"
@@ -156,17 +160,23 @@
 	</s:BorderContainer>
 
 	<clgapp:CollageSideBar id="collageSideBar" appClass="{hostComponent}" right="0" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" skinClass="Collage.Application.Skins.CollageSideBarSkin" />
+
+	<s:Group bottom="{appStatusBar.height + 20}" left="16">
+		<mx:Image click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" source="@Embed('../../../../Assets/icons/addstuff.png')" />
+		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="above" enabled="true" bottom="32">
+			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="bottom" title="Background">
+				<s:List id="componentList" initialize="componentList_Init()" dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.components.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
+					<s:layout>
+						<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />
+					</s:layout>
+				</s:List>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
 	
-	<ep:ButtonCalloutPanel id="btnAddComponent" label="Insert" bottom="{appStatusBar.height + 20}" left="30" skinClass="com.endlesspaths.skins.ButtonCalloutPanelBlackHUDSkin" arrowPosition="bottom">
-		<s:List id="componentList" initialize="componentList_Init()"  dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.components.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
-			<s:layout>
-				<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />
-			</s:layout>
-		</s:List>
-	</ep:ButtonCalloutPanel>
-	<s:HGroup bottom="{appStatusBar.height + 20}" right="{collageSideBar.width + 20}" >
-		<s:Button width="50" label="prev" click="hostComponent.pageManager.PrevPage()" fontWeight="bold"/>
-		<s:Button width="50" label="next" click="hostComponent.pageManager.NextPage()" fontWeight="bold"/>
+	<s:HGroup visible="{hostComponent.pageManager.numPages > 1}" bottom="{appStatusBar.height + 20}" right="{collageSideBar.width + 20}" >
+		<mx:Image click="hostComponent.pageManager.PrevPage()" source="@Embed('../../../../Assets/icons/go-previous.png')" />
+		<mx:Image click="hostComponent.pageManager.NextPage()" source="@Embed('../../../../Assets/icons/go-next.png')" />
 	</s:HGroup>
-	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="25" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
+	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="{(hostComponent.statusBarVisible)?18:0}" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
 </s:Skin>

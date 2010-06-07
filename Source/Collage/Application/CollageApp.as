@@ -32,6 +32,8 @@ package Collage.Application
 
 		[Bindable]public var pageManager:PageManager = new PageManager();
 
+		[Bindable]public var statusBarVisible:Boolean = false;
+
 		public var clgClipboard:CollageClipboard;
 
 		public function CollageApp():void

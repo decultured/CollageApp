@@ -25,11 +25,6 @@
 			<s:SolidColor alpha="{hostComponent.model.backgroundAlpha}" color="{hostComponent.model.backgroundColor}" />
 		</s:fill>
 	</s:Rect>
-	<s:Rect height="100%" width="100%" includeIn="normal" horizontalCenter="0" verticalCenter="0">
-		<s:fill>
-			<s:SolidColor alpha="1" color="0xff0000" />
-		</s:fill>
-	</s:Rect>
 	<s:Label id="displayLabel" includeIn="normal" lineBreak="explicit"
 		text="{hostComponent.model.displayText}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}" alpha="{hostComponent.model.alpha}"
 		textAlign="center"
