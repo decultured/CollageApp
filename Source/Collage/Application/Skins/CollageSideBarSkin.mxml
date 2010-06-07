@@ -4,6 +4,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
 	    xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:ep="com.endlesspaths.components.*"
 		width.hidden="18" width.extended="200"
 		currentState="hidden" >
     <s:states>
@@ -69,9 +70,8 @@
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	<s:Group width="18" left="0" height="100%" click="ButtonClickHandler(event)">
-		<s:Label text="Pages and Datasets" rotation="-90" color="0x555555" fontWeight="normal" />
-		<s:layout><s:VerticalLayout horizontalAlign="right" paddingTop="5"/></s:layout>
+	<s:Group width="20" left="0" height="100%" click="ButtonClickHandler(event)">
+		<s:Label text="PAGES &amp; DATASETS" rotation="-90" color="0x555555" fontWeight="normal" horizontalCenter="0" top="5" />
 	</s:Group>
 	<s:Line height="100%" left="17">
 		<s:stroke>
@@ -150,9 +150,9 @@
 				</s:stroke>
 			</s:Line>
 			<s:HGroup horizontalCenter="0" verticalAlign="middle" height="100%" >
-				<s:Button width="50" id="addButton" label="+" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="addPageHandler(event)" fontWeight="bold"/>
-				<s:Button width="50" id="removeButton" label="-" enabled="{false}" click="removePageHandler(event)" fontWeight="bold"/>
-				<s:Button width="50" id="copyButton" label="Copy" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="copyPageHandler(event)" fontWeight="bold"/>
+				<ep:ImageButton width="50" toolTip="Add a new Page" id="addButton" image="@Embed('/Assets/sidebar/document-new.png')" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="addPageHandler(event)" />
+				<ep:ImageButton width="50" toolTip="Remove the Selected Page" id="removeButton" image="@Embed('/Assets/sidebar/document-close.png')" enabled="{false}" click="removePageHandler(event)" />
+				<ep:ImageButton width="50" toolTip="Duplicate the Selected Page" id="copyButton" image="@Embed('/Assets/sidebar/document-swap.png')" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="copyPageHandler(event)" />
 			</s:HGroup>
 		</s:Group>
 	</s:Group>
