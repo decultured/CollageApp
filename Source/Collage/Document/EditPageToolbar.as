@@ -1,17 +1,16 @@
 package Collage.Document
 {
 	import spark.components.SkinnableContainer;
-	import Collage.Document.Skins.*;
 	
 	public class EditPageToolbar extends SkinnableContainer
 	{
 		[Bindable]public var model:Object;
 		
-		public function EditPageToolbar(_model:EditPage)
+		public function EditPageToolbar(_model:EditPage, _editPageToolbarSkin:Class)
 		{
 			super();
 			model = _model;
-			setStyle("skinClass", EditPageToolbarSkin);
+			setStyle("skinClass", _editPageToolbarSkin);
 		}
 	}
 }

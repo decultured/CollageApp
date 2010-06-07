@@ -6,6 +6,8 @@ package Collage.Document
 	import flash.geom.*;
 	import spark.components.Group;
 	import spark.components.SkinnableContainer;
+	import Collage.Document.Skins.*;
+	import Collage.Application.*;
 	import com.roguedevelopment.objecthandles.*;
 	import com.roguedevelopment.objecthandles.constraints.*;
 	import com.roguedevelopment.objecthandles.decorators.AlignmentDecorator;
@@ -17,9 +19,12 @@ package Collage.Document
 	{
 		public var objectHandles:ObjectHandles;
 		protected var decoratorManager:DecoratorManager;
+		[Bindable]public var appClass:CollageApp;
 		
 		public var toolbar:Group;
-		public var optionsBox:Group;
+		public var smallToolbar:Group;
+		
+		[Bindable]public var clipOptionsEnabled:Boolean = false;
 		
 		public function EditPage():void
 		{
@@ -57,6 +62,8 @@ package Collage.Document
 			sizeConstraint.minHeight = 20;
 			
 			objectHandles.addDefaultConstraint(sizeConstraint);							
+
+			SetToolbar();
 
 			Logger.LogDebug("ObjectHandles Initialized", this);
 
@@ -97,51 +104,31 @@ package Collage.Document
 			super.ViewResized();
 		}
 		
-		protected function PositionOptionsBox():void
+		public function SetToolbar():void
 		{
-			if (!optionsBox) {
-				return;
-			}
-			
-			if (!objectHandles.selectionManager.currentlySelected.length) {
-				optionsBox.visible = false;
-				return;
-			}
-			
-			var geom:DragGeometry = objectHandles.selectionManager.getGeometry();
-
-			if (!geom) {
-				optionsBox.visible = false;
-				return;
-			}
-
-			optionsBox.visible = true;
-
-			optionsBox.y = geom.y;
-			optionsBox.x = geom.x;
-			optionsBox.width = geom.width;
-			optionsBox.height = geom.height;
-			optionsBox.rotation = geom.rotation;
-
-			if (geom.y < 30) {
-			} else {
-			}
-		}
-				
-		private function SetToolbar():void
-		{
-			if (!toolbar)
+			if (!toolbar || !smallToolbar)
 				return;
 				
 			toolbar.removeAllElements();
+			smallToolbar.removeAllElements();
 
 		 	if (objectHandles.selectionManager.currentlySelected.length == 1) {
 				var selectedClip:Clip = objectHandles.selectionManager.currentlySelected[0] as Clip;
 				toolbar.addElement(selectedClip.CreateEditor());
+				var newSmallEditor:ClipEditor = selectedClip.CreateSmallEditor();
+				if (newSmallEditor) {
+					smallToolbar.addElement(newSmallEditor);
+					Logger.Log("Small Clip Editor Found!");
+				} else {
+					Logger.Log("OH NO! Small Clip Editor Not Found!");
+				}
+				clipOptionsEnabled = true;
 			} else if (objectHandles.selectionManager.currentlySelected.length > 1) {
-				
+				clipOptionsEnabled = true;
 			} else {
-				toolbar.addElement(new EditPageToolbar(this));
+				toolbar.addElement(new EditPageToolbar(this, EditPageToolbarSkin));
+				smallToolbar.addElement(new EditPageToolbar(this, EditPageSmallToolbarSkin));
+				clipOptionsEnabled = false;
 			}
 		}
 
@@ -157,7 +144,6 @@ package Collage.Document
 				else if (event.type == ObjectChangedEvent.OBJECT_ROTATED) {
 					clip.Rotated();
 				}
-				PositionOptionsBox();
 			}
 		}
 
@@ -200,7 +186,6 @@ package Collage.Document
 				clip.selected = true;
 			}
 			SetToolbar();
-			PositionOptionsBox();
 		}
 
 		protected function ObjectDeselected(event:SelectionEvent):void {
@@ -211,7 +196,6 @@ package Collage.Document
 				clip.selected = false;
 			}
 			SetToolbar();
-			PositionOptionsBox();
 		}
 
 		public function DeleteSelected():void

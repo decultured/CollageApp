@@ -33,7 +33,7 @@ package Desktop.Application
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 		}
 		
-		public function SaveFile():void
+		public override function SaveFile():void
 		{
 			var file:File = File.desktopDirectory.resolvePath("file.clg");
 			file.addEventListener(Event.SELECT, SaveFileEvent);
@@ -77,13 +77,9 @@ package Desktop.Application
 			}
 		}
 		
-		public function OpenFile(file:File = null):void
+		public override function OpenFile():void
 		{
-			if (file) {
-				OpenFileObject(file);
-				return;
-			}
-			file = File.desktopDirectory;
+			var file:File = File.desktopDirectory;
 			file.addEventListener(Event.SELECT, OpenFileEvent);
 			file.browseForOpen("Open");
 		}

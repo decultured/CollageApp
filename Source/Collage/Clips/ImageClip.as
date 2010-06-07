@@ -9,11 +9,11 @@ package Collage.Clips
 	
 	public class ImageClip extends Clip
 	{             
-		[Bindable][Savable]public var URL:String = "file://Users/jgraves/Desktop/test.jpg";
+		[Bindable][Savable]public var URL:String = "http://www.google.com/intl/en_ALL/images/srpr/logo1w.png";
 		
 		public function ImageClip()
 		{
-			super(ImageClipSkin, ImageClipEditor);
+			super(ImageClipSkin, ImageClipEditor, ImageClipEditorSmall);
 			type="image";
 		}
 	}

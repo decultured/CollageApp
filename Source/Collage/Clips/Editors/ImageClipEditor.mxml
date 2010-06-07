@@ -8,12 +8,6 @@
         <s:State name="disabled" />
         <s:State name="editing" />
     </s:states>
-    <fx:Script><![CDATA[
-	    protected function buttonClickHandler(event:Event):void
-	    {
-	        hostComponent.model['URL'] = URLInput.text;
-	    }
-    ]]></fx:Script>
     <fx:Metadata>
         <![CDATA[ 
         	[HostComponent("Collage.Clip.ClipEditor")]
@@ -22,6 +16,12 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<s:TextInput id="URLInput" text="{hostComponent.model.URL}" />
-	<s:Button id="applyBtn" label="Apply" click="buttonClickHandler(event)"/>
+	<s:Group>
+		<ep:ImageButton text="Background" image="@Embed('../../../../Assets/icons/fill-color.png')" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Background">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.backgroundColor}" selectedAlpha="@{hostComponent.model.backgroundAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
 </s:Skin>

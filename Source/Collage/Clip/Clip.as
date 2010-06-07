@@ -34,6 +34,7 @@ package Collage.Clip
 		[Bindable][Savable]public var borderRadius:Number = 0;
 		
 		private var _ClipEditorSkin:Class = null;
+		private var _SmallClipEditorSkin:Class = null;
 		
 		public var verticalSizable:Boolean = true;
 		public var horizontalSizable:Boolean = true;
@@ -41,12 +42,14 @@ package Collage.Clip
 		
 		public var view:ClipView;
 		
-		public function Clip(_clipViewSkin:Class, _clipEditorSkin:Class):void
+		public function Clip(_clipViewSkin:Class, _clipEditorSkin:Class, _smallClipEditorSkin:Class = null):void
 		{
-			view = new ClipView(this, _clipViewSkin);
+			if (_clipViewSkin)
+				view = new ClipView(this, _clipViewSkin);
 			UID = UIDUtil.createUID();
 			_ClipEditorSkin = _clipEditorSkin;
-			addEventListener( PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+			_SmallClipEditorSkin = _smallClipEditorSkin;
+			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
 			view.addEventListener(MouseEvent.DOUBLE_CLICK, OnDoubleClick, false, 0, true);
 			view.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown, false, 0, true);
 		}
@@ -54,6 +57,14 @@ package Collage.Clip
 		public function CreateEditor():ClipEditor
 		{
 			return new ClipEditor(this, _ClipEditorSkin);
+		}
+		
+		public function CreateSmallEditor():ClipEditor
+		{
+			if (_SmallClipEditorSkin)
+				return new ClipEditor(this, _SmallClipEditorSkin);
+			else
+				return null;
 		}
 		
 		protected function ModelChanged(event:PropertyChangeEvent):void

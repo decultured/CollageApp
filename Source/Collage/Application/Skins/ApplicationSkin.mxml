@@ -55,7 +55,7 @@
 
 	]]></fx:Script>
 
-	<s:SkinnableContainer id="toolbarContainer" right="0" left="0" top="0" height="71">
+	<s:SkinnableContainer id="toolbarContainer" right="0" left="0" top="0" height="{topHalf.height + bottomHalf.height}">
 		<s:Rect width="100%" top="0" bottom="1">
 			<s:fill>
 				<s:LinearGradient rotation="90">
@@ -64,7 +64,7 @@
 				</s:LinearGradient>
 			</s:fill>
 		</s:Rect>
-		<s:Line width="100%" top="45">
+		<s:Line width="100%" top="{topHalf.height-1}">
 			<s:stroke>
 				<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
 			</s:stroke>
@@ -74,20 +74,49 @@
 				<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
 			</s:stroke>
 		</s:Line>
-		<s:Line width="100%" top="46">
+		<s:Line width="100%" top="{topHalf.height}">
 			<s:stroke>
 				<s:SolidColorStroke caps="none" color="#E2E2E2" joints="miter" miterLimit="4" weight="1"/>
 			</s:stroke>
 		</s:Line>
-		<s:Group id="toolbar" height="45" width="100%" >
+		<s:Group id="topHalf" top="0" height="56" width="100%" >
 			<s:layout>
-				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" verticalAlign="middle"/>
+				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" gap="15" verticalAlign="middle"/>
 			</s:layout>
+			<s:Group>
+				<ep:ImageButton text="Open" image="@Embed('../../../../Assets/icons/document-open.png')" click="hostComponent.OpenFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			</s:Group>
+			<s:Group>
+				<ep:ImageButton text="Save" image="@Embed('../../../../Assets/icons/document-save.png')" click="hostComponent.SaveFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			</s:Group>
+	        <s:Line x="0" xTo="0" y="0" yTo="20" horizontalCenter="0" verticalCenter="0">
+	            <s:stroke>
+	                <s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#575757"/>
+	            </s:stroke>
+	        </s:Line>
+			<s:Group id="toolbar" height="100%" width="100%" >
+				<s:layout>
+					<s:HorizontalLayout verticalAlign="middle"/>
+				</s:layout>
+			</s:Group>
 		</s:Group>
-		<s:Group id="smallToolbar" height="26" width="100%" >
+		<s:Group id="bottomHalf" bottom="0" height="30" width="100%">
 			<s:layout>
 				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" verticalAlign="middle"/>
 			</s:layout>
+			<s:Group includeInLayout="{editPage.clipOptionsEnabled}" visible="{editPage.clipOptionsEnabled}">
+				<s:layout>
+					<s:HorizontalLayout />
+				</s:layout>
+				<mx:Image click="editPage.RefreshSelected()" source="@Embed('../../../../Assets/icons/refresh-clip.png')" />
+				<mx:Image click="editPage.ToggleEditSelected()" source="@Embed('../../../../Assets/icons/edit.png')" />
+				<mx:Image click="editPage.DeleteSelected()" source="@Embed('../../../../Assets/icons/delete.png')" />
+			</s:Group>
+			<s:Group id="smallToolbar" >
+				<s:layout>
+					<s:HorizontalLayout/>
+				</s:layout>
+			</s:Group>
 		</s:Group>
 	</s:SkinnableContainer>
 	
@@ -95,18 +124,20 @@
 		borderWeight="0" borderColor="0xffffff" dropShadowVisible="false"
 		left="0" right="{collageSideBar.width}" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" borderVisible="false">
 		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0xbbbbbb">
-			<s:Group>
+			<s:Group >
+			<s:Group width="{editPage.width + 50}" height="{editPage.height + 50}" >
 				<s:layout>
-					<s:VerticalLayout paddingLeft="25" paddingRight="25" paddingTop="25" paddingBottom="25"/>
+					<s:BasicLayout />
 				</s:layout>
-				<s:BorderContainer borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="0xffffff" width="{editPage.width}" height="{editPage.height}" >
-					<clgapp:Grid left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
+				<s:BorderContainer top="25" left="25" borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="0xffffff" width="{editPage.width}" height="{editPage.height}" >
+					<clgapp:Grid id="appGrid" visible="false" left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
 					<clgdoc:EditPage id="editPage"
 						click="ClickHandler(event);"
 						creationComplete="editPage.InitializeForEdit();"
 						clipAndEnableScrolling="true"
+						appClass="{hostComponent}"
 						toolbar="{toolbar}"
-						optionsBox="{optionsBox}">
+						smallToolbar="{smallToolbar}">
 						<clgdoc:layout>
 							<s:BasicLayout />
 						</clgdoc:layout>
@@ -129,30 +160,9 @@
 						</s:Path>
 					</s:Group>
 					-->
-
-					<s:Group id="optionsBox" visible="false">
-						<s:Rect width="100%" height="100%">
-							<s:stroke>
-								<s:SolidColorStroke weight="1" alpha="0.4" color="0xff9900"/>
-							</s:stroke>
-						</s:Rect>
-						<s:Group id="buttons" top="-24" horizontalCenter="0">
-							<s:layout>
-								<s:HorizontalLayout />
-							</s:layout>
-							<s:Group click="editPage.RefreshSelected()" >
-								<s:BitmapImage id="refreshButton" source="@Embed('../../../../Assets/icons/refresh-clip.png')" smooth="true" />
-							</s:Group>
-							<s:Group click="editPage.ToggleEditSelected()" >
-								<s:BitmapImage id="editButton" source="@Embed('../../../../Assets/icons/edit.png')" smooth="true" />
-							</s:Group>
-							<s:Group click="editPage.DeleteSelected()" >
-								<s:BitmapImage id="deleteButton" source="@Embed('../../../../Assets/icons/delete.png')" smooth="true" />
-							</s:Group>
-						</s:Group>
-					</s:Group>
 				</s:BorderContainer>
 			</s:Group>
+		</s:Group>
 		</s:Scroller>
 	</s:BorderContainer>
 
@@ -162,7 +172,7 @@
 		<mx:Image click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" source="@Embed('../../../../Assets/icons/addstuff.png')" />
 		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="above" enabled="true" bottom="32">
 			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="bottom" title="Background">
-				<s:List id="componentList" initialize="componentList_Init()" dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.components.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
+				<s:List id="componentList" initialize="componentList_Init()" dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.skins.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
 					<s:layout>
 						<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />
 					</s:layout>

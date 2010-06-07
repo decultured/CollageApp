@@ -16,6 +16,5 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	
 	<ep:TextFlowEditor editor="{hostComponent.model.view.editorLabel}" skinClass="com.endlesspaths.skins.TextFlowEditorSkin" />
 </s:Skin>

@@ -22,7 +22,7 @@ package Collage.Application
 		public var toolbar:Group;
 
 		[SkinPart(required="true")]
-		public var optionsBox:Group;
+		[Bindable]public var appGrid:Grid;
 
 		[SkinPart(required="true")]
 		public var appStatusBar:CollageStatusBar;
@@ -43,7 +43,7 @@ package Collage.Application
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);
 			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
 		}
-
+		
 		protected function PropertyChangeHandler(event:PropertyChangeEvent):void
 		{
 			switch( event.property )
@@ -144,6 +144,14 @@ package Collage.Application
 			editPage.LoadFromObject(pageManager.currentPage);
 			
 			return true;
+		}
+
+		public function OpenFile():void
+		{
+		}
+		
+		public function SaveFile():void
+		{
 		}
 	}	
 }

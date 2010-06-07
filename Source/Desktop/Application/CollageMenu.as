@@ -69,7 +69,8 @@ package Desktop.Application
 	            </menuitem>
 	            <menuitem label="View">
 	                <menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
-	                <menuitem label="Status Bar" type="check" command="statusbar" toggled="false"/>
+	                <menuitem label="Status Bar" type="check" command="statusbar" toggled="false" key="/"/>
+	                <menuitem label="Grid" type="check" command="showgrid" toggled="false"/>
 	                <menuitem type="separator" />
 					<menuitem label="Debug Log Window" command="debugger" />
 	            </menuitem>
@@ -152,6 +153,10 @@ package Desktop.Application
 				case "statusbar":
 					collageApp.statusBarVisible = !collageApp.statusBarVisible;
 					menuEvent.item.@toggled = collageApp.statusBarVisible;
+					break;
+				case "showgrid":
+					collageApp.appGrid.visible = !collageApp.appGrid.visible;
+					menuEvent.item.@toggled = collageApp.appGrid.visible;
 					break;
 				case "fullscreen":
 					collageApp.Fullscreen();

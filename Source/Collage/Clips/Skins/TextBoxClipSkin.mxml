@@ -16,7 +16,7 @@
 
 		protected function EnterNormalState(event:FlexEvent):void
 		{
-			displayLabel.drawFocus(false);
+			editorLabel.drawFocus(false);
 		}
 
 		protected function EnterEditState(event:FlexEvent):void
@@ -25,20 +25,10 @@
 			editorLabel.drawFocus(true);
 		}
 	]]></fx:Script>
-		<s:RichEditableText id="displayLabel" lineBreak="toFit" includeIn="normal"
-			clipAndEnableScrolling="true"
-			backgroundColor="0xffffff"
-			backgroundAlpha="0"
-			editable="false" selectable="false"
-			fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
+		<s:TextArea id="editorLabel" lineBreak="toFit"
+			borderVisible="false"
+			editable.normal="false" selectable.normal="false"
+			editable.editing="true" selectable.editing="true"
 			width="100%" height="100%"
-			text="{hostComponent.model.displayText}" />
-		<s:RichEditableText id="editorLabel" lineBreak="toFit" includeIn="editing"
-			clipAndEnableScrolling="true"
-			backgroundColor="0xffffff"
-			backgroundAlpha="0"
-			editable="true" selectable="true"
-			fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
-			width="100%" height="100%"
-			text="@{hostComponent.model.text}" />
+			text="@{hostComponent.model.displayText}" />
 </s:Skin>

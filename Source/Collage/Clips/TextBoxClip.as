@@ -21,7 +21,8 @@ package Collage.Clips
 
 		public function TextBoxClip()
 		{
-			super(TextBoxClipSkin, TextBoxClipEditor);
+			view = new TextBoxClipView(this, TextBoxClipSkin);
+			super(null, TextBoxClipEditor, TextBoxClipEditorSmall);
 			type = "textbox";
 			height=50;
 		}
