@@ -20,8 +20,8 @@
 	<s:TextInput id="displayLabelInput" text="@{hostComponent.model.text}" />
 	<s:Group>
 		<s:Button label="Background" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true">
-			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" top="10" title="Background">
+		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="10">
+			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Background">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.backgroundColor}" selectedAlpha="@{hostComponent.model.backgroundAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>

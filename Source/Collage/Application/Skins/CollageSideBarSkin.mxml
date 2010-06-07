@@ -63,23 +63,33 @@
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-    <s:Rect width="24" left="0" height="100%" >
-        <s:fill><s:SolidColor color="0x777777" alpha="1.0"/></s:fill>
-    </s:Rect>
+	<s:Rect width="24" left="0" height="100%" >
+		<s:fill>
+			<s:LinearGradient rotation="0">
+				<s:GradientEntry alpha="1.0" color="#E2E2E2" ratio="0"/>
+				<s:GradientEntry alpha="1.0" color="#C7C7C7" ratio="1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
 	<s:Group width="24" left="0" height="100%">
 		<s:ToggleButton right="-20" rotation="-90" id="showBtn" label="Pages and Datasets" click="ButtonClickHandler(event)"/>
-		<s:layout><s:VerticalLayout horizontalAlign="right" /></s:layout>
+		<s:layout><s:VerticalLayout horizontalAlign="right" paddingTop="5"/></s:layout>
 	</s:Group>
+	<s:Line height="100%" left="23">
+		<s:stroke>
+			<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+		</s:stroke>
+	</s:Line>
 	<s:Group right="0" left="24" height="100%" visible.hidden="false" visible.extended="true">
 	    <s:Rect width="100%" height="100%" >
 	        <s:fill>
 				<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
 	        </s:fill>
 	    </s:Rect>
-		<s:List requireSelection="true" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
+		<s:List requireSelection="true" contentBackgroundColor="#E2E2E2" borderVisible="false" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
 			<s:itemRenderer>
 				<fx:Component>
-					<s:ItemRenderer width="100%" height="20" doubleClick="{currentState = 'editing'}" doubleClickEnabled="true">
+					<s:ItemRenderer focusRect="false" width="100%" height="40" doubleClick="{currentState = 'editing'}" doubleClickEnabled="true">
 						<s:states>
 					        <s:State name="normal"/>
 					        <s:State name="hovered"/>
@@ -94,16 +104,29 @@
 								txtStart.text = data['displayName'];
 							}
 						]]></fx:Script>
-						<s:Rect top="1" right="1" left="1" bottom="0" radiusX="3" radiusY="3">
+						<s:Rect width="100%" height="100%" >
 							<s:fill>
-								<s:SolidColor color.normal="#65A3CE" color.hovered="#1d5780" color.selected="#ff9600" color.editing="#ff0000" />
+								<s:LinearGradient rotation="90">
+									<s:GradientEntry alpha="1.0" color="#E2E2E2" color.normal="#E2E2E2" color.hovered="#C7C7C7" color.selected="#E2E2F2" ratio="0"/>
+									<s:GradientEntry alpha="1.0" color="#C7C7C7" color.normal="#C7C7C7" color.hovered="#E2E2E2" color.selected="#A7A7C7" ratio="1"/>
+								</s:LinearGradient>
 							</s:fill>
 						</s:Rect>
+						<s:Line width="100%" bottom="1">
+							<s:stroke>
+								<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+							</s:stroke>
+						</s:Line>
+						<s:Line width="100%" bottom="0">
+							<s:stroke>
+								<s:SolidColorStroke caps="none" color="#AAAAAA" joints="miter" miterLimit="4" weight="1"/>
+							</s:stroke>
+						</s:Line>
 						<s:Group width="100%" height="100%" visible="true" visible.editing="false">
-							<s:Label id="txtStart" color="#FFFFFF" fontWeight="bold" width="100%" verticalCenter="2" left="20"/>
+							<s:Label id="txtStart" color="#555555" fontWeight="bold" fontSize="14" width="100%" verticalCenter="2" left="20"/>
 						</s:Group>
 						<s:Group width="100%" height="100%" visible="false" visible.editing="true">
-							<s:TextInput id="displayLabelInput" text="@{data.displayName}" />
+							<s:TextInput fontSize="14" id="displayLabelInput" text="@{data.displayName}" width="100%"/>
 						</s:Group>
 					</s:ItemRenderer>
 				</fx:Component>

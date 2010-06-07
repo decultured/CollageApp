@@ -54,8 +54,8 @@
 
 	]]></fx:Script>
 
-	<s:SkinnableContainer id="toolbarContainer" right="0" left="0" top="0" height="45">
-		<s:Rect width="100%" top="0" bottom="2">
+	<s:SkinnableContainer id="toolbarContainer" right="0" left="0" top="0" height="71">
+		<s:Rect width="100%" top="0" bottom="1">
 			<s:fill>
 				<s:LinearGradient rotation="90">
 					<s:GradientEntry alpha="1.0" color="#E2E2E2" ratio="0"/>
@@ -63,17 +63,27 @@
 				</s:LinearGradient>
 			</s:fill>
 		</s:Rect>
-		<s:Line width="100%" bottom="1">
+		<s:Line width="100%" top="45">
 			<s:stroke>
 				<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
 			</s:stroke>
 		</s:Line>
 		<s:Line width="100%" bottom="0">
 			<s:stroke>
+				<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line width="100%" top="46">
+			<s:stroke>
 				<s:SolidColorStroke caps="none" color="#E2E2E2" joints="miter" miterLimit="4" weight="1"/>
 			</s:stroke>
 		</s:Line>
-		<s:Group id="toolbar" height="100%" width="100%" >
+		<s:Group id="toolbar" height="45" width="100%" >
+			<s:layout>
+				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" verticalAlign="middle"/>
+			</s:layout>
+		</s:Group>
+		<s:Group id="smallToolbar" height="26" width="100%" >
 			<s:layout>
 				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" verticalAlign="middle"/>
 			</s:layout>
@@ -83,7 +93,7 @@
 	<s:BorderContainer id="docContainer" backgroundColor="0x555555"
 		borderWeight="0" borderColor="0xffffff" dropShadowVisible="false"
 		left="0" right="{collageSideBar.width}" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" borderVisible="false">
-		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0x555555">
+		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0xbbbbbb">
 			<s:Group>
 				<s:layout>
 					<s:VerticalLayout paddingLeft="25" paddingRight="25" paddingTop="25" paddingBottom="25"/>
