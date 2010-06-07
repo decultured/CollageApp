@@ -153,7 +153,10 @@ package Collage.Document
 		public function AddPageAt(dataObject:Object, index:uint):void
 		{
 			if (!dataObject)
-				return NewPageAt(index);
+				dataObject = (new Page()).SaveToObject();
+				
+			Logger.LogDebug("PageAdding : " + dataObject['UID'], this);
+			
 			if (index >= pages.length) {
 				pages.addItem(dataObject);
 				currentPageIndex = pages.length - 1;
@@ -168,10 +171,9 @@ package Collage.Document
 		{
 			var newObject:Object = (new Page()).SaveToObject();
 
-			while (GetPageIndexByUID(newObject["UID"]) > -1) {
-				newObject = (new Page()).SaveToObject();
-			}
-			
+			newObject["displayName"] = GetUniqueName();
+			AddPageAt(newObject, index);
+			/*
 			pagesAdded++;
 			newObject["displayName"] = GetUniqueName();
 			if (index >= pages.length) {
@@ -182,6 +184,7 @@ package Collage.Document
 				currentPageIndex = index;
 			}
 			Logger.LogDebug("Page Added", this);
+			*/
 		}
 
 		public function RemovePageAt(index:uint):void

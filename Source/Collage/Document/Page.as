@@ -14,15 +14,16 @@ package Collage.Document
 		public static var DEFAULT_WIDTH:Number = 1024;
 		public static var DEFAULT_HEIGHT:Number = 768;
 		
-		[Bindable][Savable]public var displayName:String = "Untitled";
+		[Bindable][Savable]public var displayName:String = "UNNAMED";
 		[Bindable][Savable]public var backgroundURL:String = null;
 		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
+		
+		private var _Loading:Boolean = false;
 		
 		private var _Clips:Object = new Object();
 		
 		public function Page():void
 		{
-			setStyle("dropShadowVisible", true);
 			New();
 		}
 
@@ -76,7 +77,7 @@ package Collage.Document
 		
 		public function DeleteAllClips():void
 		{
-			for (var i:int = 0; i < numElements; i++) {
+			for (var i:int = numElements - 1; i > -1; i--) {
 				if (getElementAt(i) is ClipView) {
 					var clipView:ClipView = getElementAt(i) as ClipView;
 					DeleteClip(clipView.model as Clip);
@@ -86,6 +87,8 @@ package Collage.Document
 		
 		public function SaveToObject():Object
 		{
+			Logger.LogDebug("PageSaving : " + UID, this);
+			
 			var typeDef:XML = describeType(this);
 			var newObject:Object = new Object();
 			for each (var metadata:XML in typeDef..metadata) {
@@ -111,7 +114,7 @@ package Collage.Document
 		{
 			New();
 
-			Logger.LogDebug("PageLoading", this);
+			Logger.LogDebug("PageLoading : " + UID, this);
 			
 			if (!dataObject) {
 				Logger.LogWarning("PageLoading - dataObject was NULL", this);

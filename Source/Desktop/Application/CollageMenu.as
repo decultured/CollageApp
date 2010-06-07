@@ -52,9 +52,9 @@ package Desktop.Application
 					<menuitem label="Move Selected To Back" command="moveToBack"/>
 	            </menuitem>
 	            <menuitem label="Insert">
-	                <menuitem label="Image" command="insertImage"/>
-	                <menuitem label="Label" command="insertLabel"/>
-	                <menuitem label="Text Box" command="insertTextBox"/>
+	                <menuitem label="Label" command="insertLabel" key="1"/>
+	                <menuitem label="Text Box" command="insertTextBox" key="2"/>
+	                <menuitem label="Image" command="insertImage" key="3"/>
 	                <menuitem type="separator" />
 	                <menuitem label="Data Label" command="insertDataLabel"/>
 	                <menuitem label="Table" command="insertTable"/>

@@ -8,6 +8,12 @@
         <s:State name="disabled" />
         <s:State name="editing" />
     </s:states>
+    <fx:Script><![CDATA[
+	    protected function buttonClickHandler(event:Event):void
+	    {
+	        hostComponent.model['URL'] = URLInput.text;
+	    }
+    ]]></fx:Script>
     <fx:Metadata>
         <![CDATA[ 
         	[HostComponent("Collage.Clip.ClipEditor")]
@@ -16,5 +22,6 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<s:Label text="IT'S A IMAGE" />
+	<s:TextInput id="URLInput" text="{hostComponent.model.URL}" />
+	<s:Button id="applyBtn" label="Apply" click="buttonClickHandler(event)"/>
 </s:Skin>
