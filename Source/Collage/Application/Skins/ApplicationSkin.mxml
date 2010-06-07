@@ -17,9 +17,9 @@
     </s:states>
 
 	<fx:Declarations>
-		<s:BitmapImage id="textPage" source="@Embed('/Assets/toolbar/textPage.png')" />
-		<s:BitmapImage id="richText" source="@Embed('/Assets/toolbar/richText.png')" />
-		<s:BitmapImage id="imageClip" source="@Embed('/Assets/toolbar/photo.png')" />
+		<s:BitmapImage id="textPage" source="@Embed('/Assets/components/draw-text.png')" />
+		<s:BitmapImage id="richText" source="@Embed('/Assets/components/text-field.png')" />
+		<s:BitmapImage id="imageClip" source="@Embed('/Assets/components/photo.png')" />
 		
 		<s:ArrayList id="arrComponentList">
 			<fx:Object label="Label" image="{textPage}" componentType="label" />
@@ -168,10 +168,35 @@
 
 	<clgapp:CollageSideBar id="collageSideBar" appClass="{hostComponent}" right="0" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" skinClass="Collage.Application.Skins.CollageSideBarSkin" />
 
-	<s:Group bottom="{appStatusBar.height + 20}" left="16">
-		<mx:Image click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" source="@Embed('../../../../Assets/icons/addstuff.png')" />
+	<s:Group bottom="{appStatusBar.height + 20}" left="10">
+		<s:Graphic click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" toolTip="Select a Component">
+			<s:Ellipse height="30" width="30" x="0" y="0">
+				<s:fill>
+					<s:SolidColor alpha="0.5"/>
+				</s:fill>
+				<s:stroke>
+					<s:SolidColorStroke caps="none" alpha="0.75" color="#FFFFFF" joints="miter" miterLimit="4" weight="1"/>
+				</s:stroke>
+				<s:filters>
+					<s:DropShadowFilter alpha="0.5" quality="3"/>
+				</s:filters>
+			</s:Ellipse>
+			
+			<s:Group alpha="0.75" x="6" y="6">
+				<s:Line x="9.5" y="1.5" yTo="16">
+					<s:stroke>
+						<s:SolidColorStroke color="#FFFFFF" joints="miter" miterLimit="4" weight="3"/>
+					</s:stroke>
+				</s:Line>
+				<s:Line x="1.5" xFrom="16" y="9.5">
+					<s:stroke>
+						<s:SolidColorStroke color="#FFFFFF" joints="miter" miterLimit="4" weight="3"/>
+					</s:stroke>
+				</s:Line>
+			</s:Group>
+		</s:Graphic>
 		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="above" enabled="true" bottom="32">
-			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="bottom" title="Background">
+			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="bottom" title="Components">
 				<s:List id="componentList" initialize="componentList_Init()" dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.skins.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
 					<s:layout>
 						<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />
@@ -182,8 +207,8 @@
 	</s:Group>
 	
 	<s:HGroup visible="{hostComponent.pageManager.numPages > 1}" bottom="{appStatusBar.height + 20}" right="{collageSideBar.width + 20}" >
-		<mx:Image click="hostComponent.pageManager.PrevPage()" source="@Embed('../../../../Assets/icons/go-previous.png')" />
-		<mx:Image click="hostComponent.pageManager.NextPage()" source="@Embed('../../../../Assets/icons/go-next.png')" />
+		<mx:Image click="hostComponent.pageManager.PrevPage()" toolTip="Previous Page" source="@Embed('../../../../Assets/icons/go-previous.png')" />
+		<mx:Image click="hostComponent.pageManager.NextPage()" toolTip="Next Page" source="@Embed('../../../../Assets/icons/go-next.png')" />
 	</s:HGroup>
 	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="{(hostComponent.statusBarVisible)?18:0}" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
 </s:Skin>
