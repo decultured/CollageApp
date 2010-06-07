@@ -69,6 +69,7 @@ package Desktop.Application
 	            </menuitem>
 	            <menuitem label="View">
 	                <menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
+	                <menuitem label="Status Bar" type="check" command="statusbar" toggled="false"/>
 	                <menuitem type="separator" />
 					<menuitem label="Debug Log Window" command="debugger" />
 	            </menuitem>
@@ -148,6 +149,10 @@ package Desktop.Application
 					break;
 				case "logout": Session.Logout(); break;
 */
+				case "statusbar":
+					collageApp.statusBarVisible = !collageApp.statusBarVisible;
+					menuEvent.item.@toggled = collageApp.statusBarVisible;
+					break;
 				case "fullscreen":
 					collageApp.Fullscreen();
 					menuEvent.item.@toggled = !menuEvent.item.@toggled;

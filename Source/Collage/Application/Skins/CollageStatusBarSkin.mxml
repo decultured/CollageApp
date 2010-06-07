@@ -7,22 +7,25 @@
         <s:State name="disabled" />
     </s:states>
     <fx:Metadata>
-        <![CDATA[ 
+        <![CDATA[
         	[HostComponent("Collage.Application.CollageStatusBar")]
         ]]>
-    </fx:Metadata> 
+    </fx:Metadata>
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-    <s:Rect width="100%" height="100%" >
-        <s:fill>
-			<s:SolidColor color="0x333333" alpha="1.0"/>
-        </s:fill>
-    </s:Rect>
+	<s:Rect width="100%" height="100%">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry alpha="1.0" color="#C7C7C7" ratio="0"/>
+				<s:GradientEntry alpha="1.0" color="#A2A2A2" ratio="1"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
 	<s:Group width="100%" height="100%">
 		<s:layout>
 			<s:HorizontalLayout verticalAlign="middle" paddingLeft="10" />
 		</s:layout>
-		<s:Label text="{hostComponent.message}" color="{hostComponent.messageColor}" fontWeight="bold" />
+		<s:Label text="{hostComponent.message}" color="{hostComponent.messageColor}" fontSize="10" />
 	</s:Group>
 </s:Skin>
