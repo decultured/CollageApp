@@ -36,7 +36,12 @@ package Collage.Utilities.Logger
 				case CRITICAL: levelString = 	"CRITICAL"; break;
 			}		
 			
-			return userID + ":" + time.toLocaleString() + " # " + levelString + " # " + text + " at: " + className;
+			var outString:String = userID + ":" + time.toLocaleString() + " # " + levelString + " # " + text;
+			
+			if (className == "null")
+				outString += " at: " + className;
+				
+			return outString;
 			
 		}
 	}

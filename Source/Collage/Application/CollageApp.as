@@ -28,7 +28,16 @@ package Collage.Application
 		public var appStatusBar:CollageStatusBar;
 
 		[SkinPart(required="true")]
+		public var popupOverlay:SkinnableContainer;
+
+		[SkinPart(required="true")]
+		public var welcomeScreen:SkinnableContainer;
+
+		[SkinPart(required="true")]
 		[Bindable]public var editPage:EditPage;
+		
+		[Bindable]public var zoom:Number = 1.0;
+		[Bindable]public var fitToScreen:Boolean = false;
 
 		[Bindable]public var pageManager:PageManager = new PageManager();
 
@@ -81,6 +90,35 @@ package Collage.Application
 		public function Quit():void { }
 
 		public function Fullscreen():void
+		{
+		}
+
+		public function Copy():void
+		{
+		}
+
+		public function Paste():void
+		{
+		}
+
+		public function ZoomOut():void
+		{
+			if (zoom > 0.1)
+				zoom = zoom / 2.0;
+		}
+
+		public function ZoomIn():void
+		{
+			if (zoom < 4.0)
+				zoom = zoom * 2.0;
+		}
+
+		public function Zoom(amount:Number):void
+		{
+			zoom = amount;
+		}
+
+		public function ResetZoom():void
 		{
 		}
 

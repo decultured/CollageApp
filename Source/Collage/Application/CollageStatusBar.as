@@ -29,22 +29,22 @@ package Collage.Application
 			switch (lastLog.level)
 			{
 				case LogEntry.DEBUG:
-					messageColor = 0x777777;
+					messageColor = 0x606060;
 					break;
 				case LogEntry.INFO:
 					messageColor = 0x999999;
 					break;
 				case LogEntry.WARNING:
-					messageColor = 0xffff00;
+					messageColor = 0xa14e16;
 					break;
 				case LogEntry.ERROR:
-					messageColor = 0xff9900;
+					messageColor = 0x8a0000;
 					break;
 				case LogEntry.CRITICAL:
-					messageColor = 0xff0000;
+					messageColor = 0xe10000;
 					break;
 				default:
-					messageColor = 0x999999;
+					messageColor = 0x404040;
 			}
 		}
 	}

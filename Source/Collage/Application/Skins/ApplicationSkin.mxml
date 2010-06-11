@@ -5,7 +5,8 @@
 		xmlns:clgapp="Collage.Application.*"
 		xmlns:clgdoc="Collage.Document.*"
 	    xmlns:mx="library://ns.adobe.com/flex/mx"
-		xmlns:ep="com.endlesspaths.components.*" >
+		xmlns:ep="com.endlesspaths.components.*"
+		xmlns:DataEngine="Collage.DataEngine.*" >
     <fx:Metadata>
         <![CDATA[ 
         [HostComponent("Collage.Application.CollageApp")]
@@ -83,12 +84,10 @@
 			<s:layout>
 				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" gap="15" verticalAlign="middle"/>
 			</s:layout>
-			<s:Group>
-				<ep:ImageButton text="Open" image="@Embed('../../../../Assets/icons/document-open.png')" click="hostComponent.OpenFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-			</s:Group>
-			<s:Group>
-				<ep:ImageButton text="Save" image="@Embed('../../../../Assets/icons/document-save.png')" click="hostComponent.SaveFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-			</s:Group>
+			<ep:ImageButton text="Open" image="@Embed('../../../../Assets/icons/document-open.png')" click="hostComponent.OpenFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			<ep:ImageButton text="Save" image="@Embed('../../../../Assets/icons/document-save.png')" click="hostComponent.SaveFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			<ep:ImageButton text="Copy" image="@Embed('../../../../Assets/icons/edit-copy.png')" click="hostComponent.Copy()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			<ep:ImageButton text="Paste" image="@Embed('../../../../Assets/icons/edit-paste.png')" click="hostComponent.Paste()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 	        <s:Line x="0" xTo="0" y="0" yTo="20" horizontalCenter="0" verticalCenter="0">
 	            <s:stroke>
 	                <s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#575757"/>
@@ -129,7 +128,7 @@
 				<s:layout>
 					<s:BasicLayout />
 				</s:layout>
-				<s:BorderContainer top="25" left="25" borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="0xffffff" width="{editPage.width}" height="{editPage.height}" >
+				<s:BorderContainer scaleX="{hostComponent.zoom}" scaleY="{hostComponent.zoom}" top="25" left="25" borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="{editPage.backgroundColor}" width="{editPage.width}" height="{editPage.height}" >
 					<clgapp:Grid id="appGrid" visible="false" left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
 					<clgdoc:EditPage id="editPage"
 						click="ClickHandler(event);"
@@ -211,4 +210,9 @@
 		<mx:Image click="hostComponent.pageManager.NextPage()" toolTip="Next Page" source="@Embed('../../../../Assets/icons/go-next.png')" />
 	</s:HGroup>
 	<clgapp:CollageStatusBar id="appStatusBar" width="100%" bottom="0" height="{(hostComponent.statusBarVisible)?18:0}" skinClass="Collage.Application.Skins.CollageStatusBarSkin"/>
+	<s:SkinnableContainer id="popupOverlay" height="100%" width="100%" visible="false" skinClass="Collage.Application.Skins.PopUpOverlay">
+	</s:SkinnableContainer>
+	<s:SkinnableContainer id="welcomeScreen" height="100%" width="100%" visible="true" skinClass="Collage.Application.Skins.PopUpOverlay">
+		<DataEngine:Login id="loginForm" horizontalCenter="0" verticalCenter="0" width="300" height="150"/>
+	</s:SkinnableContainer>
 </s:Skin>

@@ -6,6 +6,7 @@ package Desktop.Application
 	import mx.controls.Alert;
 	import mx.controls.FlexNativeMenu;
 	import Collage.Utilities.Logger.*;
+	import Collage.DataEngine.*;
 	
 	public class CollageMenu extends FlexNativeMenu
 	{
@@ -71,6 +72,19 @@ package Desktop.Application
 	                <menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
 	                <menuitem label="Status Bar" type="check" command="statusbar" toggled="false" key="/"/>
 	                <menuitem label="Grid" type="check" command="showgrid" toggled="false"/>
+	                <menuitem type="separator" />
+	                <menuitem label="Zoom In" command="zoomin" key="=" />
+	                <menuitem label="Zoom Out" command="zoomout" key="-" />
+	                <menuitem label="Fit To Screen" type="check" command="fittoscreen" toggled="false"/>
+		            <menuitem label="Zoom">
+	            		<menuitem label="25%"  amount="0.25" command="zoom" />
+	            		<menuitem label="50%"  amount="0.50" command="zoom" />
+	            		<menuitem label="75%"  amount="0.75" command="zoom" />
+	            		<menuitem label="100%" amount="1.0" command="zoom" />
+	            		<menuitem label="150%" amount="1.5" command="zoom" />
+	            		<menuitem label="200%" amount="2.0" command="zoom" />
+	            		<menuitem label="400%" amount="4.0" command="zoom" />
+		            </menuitem>
 	                <menuitem type="separator" />
 					<menuitem label="Debug Log Window" command="debugger" />
 	            </menuitem>
@@ -148,8 +162,12 @@ package Desktop.Application
 				case "insertGoogleMaps":_EditDocumentView.AddClipByType('googlemaps', new Rectangle(150, 150, 300, 300)); break;
 				case "refreshDatasets":	DataEngine.LoadAllDataSets();
 					break;
-				case "logout": Session.Logout(); break;
-*/
+*/				case "logout": Session.Logout(); break;
+
+				case "zoomin": 	collageApp.ZoomIn(); break;
+				case "zoomout": collageApp.ZoomOut(); break;
+				case "fittoscreen": collageApp.editPage.AddClipByType('textbox'); break;
+				case "zoom": collageApp.Zoom(menuEvent.item.@amount); break;
 				case "statusbar":
 					collageApp.statusBarVisible = !collageApp.statusBarVisible;
 					menuEvent.item.@toggled = collageApp.statusBarVisible;

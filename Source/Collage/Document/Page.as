@@ -38,7 +38,7 @@ package Collage.Document
 			width = DEFAULT_WIDTH;
 			height = DEFAULT_HEIGHT;
 			backgroundURL = null;
-			backgroundColor = 0x555555;
+			backgroundColor = 0xffffff;
 			DeleteAllClips();
 			_Clips = new Object();
 			Logger.LogDebug("Page Reset", this);

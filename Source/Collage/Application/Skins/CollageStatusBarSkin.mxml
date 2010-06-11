@@ -26,6 +26,6 @@
 		<s:layout>
 			<s:HorizontalLayout verticalAlign="middle" paddingLeft="10" />
 		</s:layout>
-		<s:Label text="{hostComponent.message}" color="{hostComponent.messageColor}" fontSize="10" />
+		<s:Label text="{hostComponent.message}" color="{hostComponent.messageColor}" fontSize="10" fontWeight="bold" maxWidth="800" lineBreak="explicit"/>
 	</s:Group>
 </s:Skin>

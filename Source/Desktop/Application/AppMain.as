@@ -12,14 +12,47 @@ package Desktop.Application
 	import flash.events.*;
 	import flash.desktop.*;
 	import flash.utils.*;
+	import Collage.DataEngine.*;
 	
 	public class AppMain extends CollageApp
 	{
 		public function AppMain():void
 		{
 			super();
+
+			// load the auth token
+			Session.AuthToken = AIRSecureStorage.getItem('apiAuthToken');
+//			welcomeScreen.loginForm.email_address.text = AIRSecureStorage.getItem('stored_email');
+
+			Session.events.addEventListener(Session.LOGIN_SUCCESS, HandleLoginSuccess);
+			Session.events.addEventListener(Session.TOKEN_EXPIRED, HandleTokenExpired);
+			Session.CheckToken();
 		}
 		
+		public function HandleLoginSuccess(event:Event):void {
+			AIRSecureStorage.setItem('apiAuthToken', Session.AuthToken);
+			DataEngine.LoadAllDataSets();
+			
+			if (welcomeScreen)
+				welcomeScreen.visible = false;
+		}
+
+		public function HandleLoginFailure(event:Event):void {
+			Session.AuthToken = null;
+			AIRSecureStorage.removeItem('apiAuthToken');
+			
+			if (welcomeScreen)
+				welcomeScreen.visible = true;
+		}
+
+		public function HandleTokenExpired(event:Event):void {
+			Session.AuthToken = null;
+			AIRSecureStorage.removeItem('apiAuthToken');
+			
+			if (welcomeScreen)
+				welcomeScreen.visible = true;
+		}
+
 		public override function Quit():void
 		{
 			NativeApplication.nativeApplication.exit();	
