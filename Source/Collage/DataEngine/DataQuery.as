@@ -2,9 +2,8 @@ package Collage.DataEngine
 {
 	import flash.net.*;
 	import flash.events.*;
-	import mx.controls.Alert;
 	import com.adobe.serialization.json.JSON;
-	import Collage.Logger.*;
+	import Collage.Utilities.Logger.*;
 	
 	public class DataQuery extends EventDispatcher
 	{

@@ -4,7 +4,6 @@ package Collage.DataEngine
 	import flash.events.*;
 //	import flash.data.*;
 	import flash.utils.ByteArray;
-	import mx.controls.Alert;
 	import Collage.Utilities.Logger.*;
 	import com.adobe.serialization.json.JSON;
 	import com.adobe.crypto.*;
@@ -50,7 +49,7 @@ package Collage.DataEngine
 			
 				loader.load(request);
 			} catch(error:Error) {
-				Alert.show(""+ error);
+				Logger.LogError("Session Token Exception: "+ error);
 			}
 		}
 		
@@ -91,7 +90,7 @@ package Collage.DataEngine
 			
 				loader.load(request);
 			} catch(error:Error) {
-				Alert.show(""+ error);
+				Logger.LogError("Login Exception: " + error);
 			}
 		}
 		

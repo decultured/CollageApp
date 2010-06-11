@@ -2,7 +2,7 @@ package Collage.DataEngine
 {
 	import flash.net.*;
 	import flash.events.*;
-	import mx.controls.Alert;
+	import Collage.Utilities.Logger.*;
 	import com.adobe.serialization.json.JSON;
 
 	public class DataSet extends EventDispatcher
@@ -123,13 +123,13 @@ package Collage.DataEngine
 		private function IOErrorHandler(event:IOErrorEvent):void
 		{
             event.target.removeEventListener(IOErrorEvent.IO_ERROR, IOErrorHandler);
-			Alert.show("ioErrorHandler: " + event);
+			Logger.LogError("ioErrorHandler: " + event);
 		}
 		
         private function SecurityErrorHandler(event:SecurityErrorEvent):void
 		{
             event.target.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, SecurityErrorHandler);
-            Alert.show("securityErrorHandler: " + event);
+            Logger.LogError("securityErrorHandler: " + event);
         }
 
 		private function CompleteHandler(event:Event):void
