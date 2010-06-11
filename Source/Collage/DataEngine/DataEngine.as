@@ -3,6 +3,7 @@ package Collage.DataEngine
 	import flash.net.*;
 	import flash.events.*;
 	import com.adobe.serialization.json.JSON;
+	import mx.collections.*;
 	import Collage.Utilities.Logger.*;
 	
 	public class DataEngine extends EventDispatcher
@@ -12,7 +13,7 @@ package Collage.DataEngine
 
 		public static var COMPLETE:String = "complete";
 		
-		public static var datasets:Object = new Object();
+		[Bindable]public static var datasets:ArrayList = new ArrayList();
 		public static var numDataSets:Number = 0;
 		
 		public static var events:EventDispatcher = new EventDispatcher();
@@ -33,35 +34,28 @@ package Collage.DataEngine
 			return baseUrl + urlStr;
 		}
 		
+		public static function GetDataSetIndexByID(id:String):int
+		{
+			var foundDataSetIndex:int = -1;
+			for (var dataSetIndex:uint = 0; dataSetIndex < datasets.length; dataSetIndex++) {
+				var dataSet:DataSet = datasets.getItemAt(dataSetIndex) as DataSet;
+				if (dataSet.id == id) {
+					foundDataSetIndex = dataSetIndex;
+					break;
+				}
+			}
+			return foundDataSetIndex;
+		}
+
 		public static function GetDataSetByID(id:String):DataSet
 		{
-			if (datasets[id])
-				return datasets[id];
-			return null;
-		}
-		
-		public static function GetDataSetsComboBox(allowedTypes:Array = null, minAllowedColumns:uint = 0, minAllowedRows:uint = 0):Array
-		{
-			var dataSetSelections:Array = new Array();
-
-			for (var key:String in datasets) {
-				if (datasets[key].GetNumColumnsOfType(allowedTypes) < minAllowedColumns)
-					continue;
-				
-				var newObject:Object = new Object;
-				newObject["label"] = datasets[key].title;
-				newObject["data"] = datasets[key].id;
-				dataSetSelections.push(newObject);
+			var dataSetIndex:int = GetDataSetIndexByID(id);
+			if (dataSetIndex > -1) {
+				return datasets.getItemAt(dataSetIndex) as DataSet
 			}
-
-			dataSetSelections.sortOn("label", Array.CASEINSENSITIVE);
-
-			var firstObject:Object = new Object;
-			firstObject["label"] = "Please Select a Dataset...";
-			firstObject["data"] = "";
-			dataSetSelections.unshift(firstObject);
 			
-			return dataSetSelections;
+			Logger.LogWarning("Data Set ID Not Found: " + id);
+			return null;
 		}
 		
 		public static function get DataSetsLoaded():Boolean
@@ -122,11 +116,16 @@ package Collage.DataEngine
 				if (!results[key]["id"])
 					continue;
 				
-				if (!datasets[results[key]["id"]]) {
-					datasets[results[key]["id"]] = new DataSet();
+				var dataSetIndex:int = GetDataSetIndexByID(results[key]["id"]);
+				var newDataSet:DataSet;
+				
+				if (dataSetIndex < 0) {
+					newDataSet = new DataSet();
+					datasets.addItem(newDataSet);
 					numDataSets++;
+				} else {
+					newDataSet = datasets.getItemAt(dataSetIndex) as DataSet;
 				}
-				var newDataSet:DataSet = datasets[results[key]["id"]];
 
 				for (var dataSetKey:String in results[key]) {
 					if (dataSetKey == "uploaded" || dataSetKey == "processed") {
@@ -138,7 +137,9 @@ package Collage.DataEngine
 				
 				newDataSet.addEventListener(DataSet.COMPLETE, DataSetFinishedLoading);
 				newDataSet.LoadColumns();
+				Logger.LogDebug("Data Set Loading: " + results[key]["id"]);
 			}
+			Logger.LogDebug("Data Engine Load Complete");
 		}
 		
 		public static function DataSetFinishedLoading(event:Event):void
@@ -147,7 +148,6 @@ package Collage.DataEngine
 				events.dispatchEvent(new Event(COMPLETE));
 				loading = false;
 				loaded = true;
-				Logger.Log("Data Load Complete");
 			}
 		}
 	}

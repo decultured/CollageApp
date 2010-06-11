@@ -38,7 +38,7 @@ package Collage.Utilities.Logger
 			
 			var outString:String = userID + ":" + time.toLocaleString() + " # " + levelString + " # " + text;
 			
-			if (className == "null")
+			if (className != "null")
 				outString += " at: " + className;
 				
 			return outString;

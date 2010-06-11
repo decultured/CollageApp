@@ -172,6 +172,20 @@ package Collage.Document
 			SetToolbar();
 			super.DeleteClip(_clip);
 		}
+
+		public function SelectAll():void
+		{
+			if (!objectHandles)
+				return;
+				
+			objectHandles.selectionManager.clearSelection();
+			for (var i:int = numElements - 1; i > -1; i--) {
+				if (getElementAt(i) is ClipView) {
+					var clipView:ClipView = getElementAt(i) as ClipView;
+					objectHandles.selectionManager.addToSelected(clipView.model);
+				}
+			}
+		}
 		
 		public function DeselectAll():void
 		{

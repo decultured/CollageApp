@@ -47,6 +47,9 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 					<menuitem label="Refresh datasets" command="refreshDatasets" key="r"/>
 	                <menuitem type="separator"/>
+					<menuitem label="Select All" command="selectAll" key="a"/>
+					<menuitem label="Deselect All" command="deselectAll"/>
+	                <menuitem type="separator"/>
 					<menuitem label="Move Selected Forward" command="moveForward"/>
 					<menuitem label="Move Selected Backward" command="moveBackward"/>
 					<menuitem label="Move Selected To Front" command="moveToFront"/>
@@ -151,6 +154,8 @@ package Desktop.Application
 				case "insertImage":		collageApp.editPage.AddClipByType('image');	break;
 				case "insertLabel":		collageApp.editPage.AddClipByType('label'); break;
 				case "insertTextBox": 	collageApp.editPage.AddClipByType('textbox'); break;
+				case "selectAll": 		collageApp.editPage.SelectAll(); break;
+				case "deselectAll": 	collageApp.editPage.DeselectAll(); break;
 /*				case "insertDataLabel":	_EditDocumentView.AddClipByType('datalabel', new Rectangle(150, 150, 300, 300)); break;
 				case "insertTable":		_EditDocumentView.AddClipByType('table', new Rectangle(150, 150, 300, 300)); break;
 				case "insertLineChart":	_EditDocumentView.AddClipByType('linechart', new Rectangle(150, 150, 300, 300)); break;

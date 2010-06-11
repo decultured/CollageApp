@@ -136,11 +136,12 @@ package Collage.DataEngine
 		{
 			event.target.removeEventListener(Event.COMPLETE, CompleteHandler);
 			var results:Object = JSON.decode(event.target.data);
-
+			
 			for (var key:String in results)
 			{
+				Logger.Log("Key:" + key + " value:" + results[key], this);
 				if (key == "total_rows") {
-					totalRows == parseInt(results[key]);
+					totalRows = parseInt(results[key]);
 				} else if (key == "columns") {
 					for (var columnKey:String in results[key]) {
 						if (!results[key][columnKey]["internal"])
@@ -166,6 +167,7 @@ package Collage.DataEngine
 			
 			loading = false;
 			loaded = true;
+			Logger.LogDebug("Data Set Loaded: " + id + " Rows: " + totalRows + " " + title, this);
 			dispatchEvent(new Event(COMPLETE));
 		}
 
