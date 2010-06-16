@@ -171,7 +171,10 @@ package Desktop.Application
 
 				case "zoomin": 	collageApp.ZoomIn(); break;
 				case "zoomout": collageApp.ZoomOut(); break;
-				case "fittoscreen": collageApp.editPage.AddClipByType('textbox'); break;
+				case "fittoscreen":
+					collageApp.fitToScreen = !collageApp.fitToScreen;
+					menuEvent.item.@toggled = collageApp.fitToScreen;
+					break;
 				case "zoom": collageApp.Zoom(menuEvent.item.@amount); break;
 				case "statusbar":
 					collageApp.statusBarVisible = !collageApp.statusBarVisible;

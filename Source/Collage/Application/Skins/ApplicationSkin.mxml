@@ -21,11 +21,25 @@
 		<s:BitmapImage id="textPage" source="@Embed('/Assets/components/draw-text.png')" />
 		<s:BitmapImage id="richText" source="@Embed('/Assets/components/text-field.png')" />
 		<s:BitmapImage id="imageClip" source="@Embed('/Assets/components/photo.png')" />
+
+		<s:BitmapImage id="columnChart" 	source="@Embed('/Assets/components/office-chart-bar.png')" />
+		<s:BitmapImage id="lineChart" 		source="@Embed('/Assets/components/office-chart-line.png')" />
+		<s:BitmapImage id="scatterPlot" 	source="@Embed('/Assets/components/office-chart-scatter.png')" />
+		<s:BitmapImage id="pieChart" 		source="@Embed('/Assets/components/office-chart-pie.png')" />
+		<s:BitmapImage id="dataLabel" 		source="@Embed('/Assets/components/list-add-font.png')" />
+		<s:BitmapImage id="table" 			source="@Embed('/Assets/components/insert-table.png')" />
 		
 		<s:ArrayList id="arrComponentList">
 			<fx:Object label="Label" image="{textPage}" componentType="label" />
 			<fx:Object label="Rich Text" image="{richText}" componentType="textbox" />
 			<fx:Object label="Image" image="{imageClip}" componentType="image" />
+
+			<fx:Object label="Column Chart" image="{columnChart}" componentType="columnchart" />
+			<fx:Object label="Line Chart" image="{lineChart}" componentType="linechart" />
+			<fx:Object label="Scatter Plot" image="{scatterPlot}" componentType="scatterplot" />
+			<fx:Object label="Pie Chart" image="{pieChart}" componentType="piechart" />
+			<fx:Object label="Data Label" image="{dataLabel}" componentType="datalabel" />
+			<fx:Object label="Table" image="{table}" componentType="table" />
 		</s:ArrayList>
 	</fx:Declarations>
 
@@ -124,11 +138,11 @@
 		left="0" right="{collageSideBar.width}" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" borderVisible="false">
 		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0xbbbbbb">
 			<s:Group >
-			<s:Group width="{editPage.width + 50}" height="{editPage.height + 50}" >
+			<s:Group width="{(hostComponent.fitToScreen)?editPage.width:editPage.width + 50}" height="{(hostComponent.fitToScreen)?editPage.height:editPage.height + 50}" >
 				<s:layout>
 					<s:BasicLayout />
 				</s:layout>
-				<s:BorderContainer scaleX="{hostComponent.zoom}" scaleY="{hostComponent.zoom}" top="25" left="25" borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="{editPage.backgroundColor}" width="{editPage.width}" height="{editPage.height}" >
+				<s:BorderContainer scaleX="{hostComponent.zoom}" scaleY="{hostComponent.zoom}" top="{(hostComponent.fitToScreen)?0:25}" left="{(hostComponent.fitToScreen)?0:25}" borderColor="0xffffff" borderWeight="0" dropShadowVisible="true" backgroundColor="{editPage.backgroundColor}" width="{editPage.width}" height="{editPage.height}" >
 					<clgapp:Grid id="appGrid" visible="false" left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
 					<clgdoc:EditPage id="editPage"
 						click="ClickHandler(event);"

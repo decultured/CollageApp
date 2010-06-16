@@ -96,6 +96,8 @@
 							<s:State name="selected"/>
 						</s:states>
 						<fx:Script><![CDATA[
+							import Collage.Application.*;
+							
 							override public function set data(value:Object):void {
 								super.data = value;
 								if (data == null) // a renderer's data is set to null when it goes out of view
@@ -122,7 +124,15 @@
 							</s:stroke>
 						</s:Line>
 						<s:Group width="100%" height="100%" visible="true" visible.editing="false">
-							<s:Label id="txtStart" color="#555555" fontWeight="bold" fontSize="14" width="100%" verticalCenter="2" left="20"/>
+							<s:Rect x="4" y="4" width="32" height="32" >
+								<s:fill>
+									<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
+								</s:fill>
+							</s:Rect>
+							<s:Graphic x="4" y="4">
+								<s:BitmapImage id="bg2" source="{CollageApp.instance.tempPageImage}" width="32" height="32" smooth="{true}"/>
+							</s:Graphic>
+							<s:Label id="txtStart" color="#555555" fontWeight="bold" fontSize="14" width="100%" verticalCenter="2" left="40"/>
 						</s:Group>
 						<s:Group width="100%" height="100%" visible="false" visible.editing="true">
 							<s:TextInput fontSize="14" id="displayLabelInput" text="@{data.displayName}" width="100%"/>
@@ -175,6 +185,7 @@
 						</s:states>
 						<fx:Script><![CDATA[
 							import Collage.Utilities.Logger.*;
+							import Collage.Application.*;
 						
 							override public function set data(value:Object):void {
 								super.data = value;
@@ -185,7 +196,7 @@
 								//infoText.text = data['totalRows'] + " rows";
 							}
 							public function OpenDataSetWindow():void {
-								Logger.Log(data['title'] + " selected", this); 
+								CollageApp.instance.OpenPopup(null, "dataset", false);
 							}
 						]]></fx:Script>
 						<s:Rect width="100%" height="100%" >

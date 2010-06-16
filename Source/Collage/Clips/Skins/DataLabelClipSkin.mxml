@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
- 	    xmlns:clg="Collage.Clip.*"
+		xmlns:clg="Collage.Clip.*"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5">
     <fx:Metadata>
         <![CDATA[ 
@@ -12,8 +12,6 @@
 
 		protected function EnterEditState(event:FlexEvent):void
 		{
-			displayLabelInput.setFocus();
-			displayLabelInput.drawFocus(true);
 		}
 	]]></fx:Script>
     <s:states>
@@ -22,15 +20,5 @@
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
 	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
-		<s:Label id="displayLabel" includeIn="normal" lineBreak="explicit"
-			text="{hostComponent.model.displayText}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}" alpha="{hostComponent.model.alpha}"
-			textAlign="center"
-			horizontalCenter="0" verticalCenter="0" />
-		<s:TextInput id="displayLabelInput" includeIn="editing" width="100%"
-			text="@{hostComponent.model.text}" fontSize="{hostComponent.model.fontSize}" color="{hostComponent.model.color}"
-			textAlign="center"
-			paddingTop="0" paddingBottom="0" paddingLeft="0" paddingRight="0"
-			borderVisible="false"
-			horizontalCenter="0" verticalCenter="0" />
 	</clg:ClipBackground>
 </s:Skin>

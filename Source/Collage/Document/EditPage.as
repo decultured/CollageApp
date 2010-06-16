@@ -120,7 +120,7 @@ package Collage.Document
 					smallToolbar.addElement(newSmallEditor);
 					Logger.Log("Small Clip Editor Found!");
 				} else {
-					Logger.Log("OH NO! Small Clip Editor Not Found!");
+					Logger.LogDebug("No Small Clip Editor available for this clip: " + selectedClip.type);
 				}
 				clipOptionsEnabled = true;
 			} else if (objectHandles.selectionManager.currentlySelected.length > 1) {

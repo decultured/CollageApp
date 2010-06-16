@@ -26,12 +26,13 @@ package Collage.Clip
 		[Bindable][Savable] public var width:Number = 200;
 		[Bindable][Savable] public var rotation:Number = 0;
 
-		[Bindable][Savable]public var backgroundAlpha:Number = 1.0;
-		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
-		[Bindable][Savable]public var borderColor:Number = 0xFFFFFF;
-		[Bindable][Savable]public var borderAlpha:Number = 0xFFFFFF;
+		[Bindable][Savable]public var backgroundAlpha:Number = 0.0;
+		[Bindable][Savable]public var backgroundColor:Number = 0xffffff;
+		[Bindable][Savable]public var borderColor:Number = 0x000000;
+		[Bindable][Savable]public var borderAlpha:Number = 1.0;
 		[Bindable][Savable]public var borderWeight:Number = 0;
 		[Bindable][Savable]public var borderRadius:Number = 0;
+		[Bindable][Savable]public var dropShadowVisible:Boolean = true;
 		
 		private var _ClipEditorSkin:Class = null;
 		private var _SmallClipEditorSkin:Class = null;

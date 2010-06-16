@@ -2,6 +2,7 @@ package Desktop.Application
 {
 	import flash.display.StageDisplayState;
 	import flash.filesystem.*;
+	import flash.display.*;
 	import Collage.Utilities.json.*;
 	import Collage.Application.*;
 	import Collage.Document.*;
@@ -16,6 +17,8 @@ package Desktop.Application
 	
 	public class AppMain extends CollageApp
 	{
+		private var _NativeWindows:Object = new Object();
+		
 		public function AppMain():void
 		{
 			super();
@@ -45,6 +48,34 @@ package Desktop.Application
 				welcomeScreen.visible = true;
 		}
 
+        public override function OpenPopup(contents:Class, name:String, modal:Boolean = true):void {
+            //if (newWindow != null) newWindow.close();
+			if (_PopupWindows['name']) {
+				
+			} else {
+				
+			}
+
+ 			if (_NativeWindows['name'] && _NativeWindows['name'] is NativeWindow) {
+				
+			} else {
+				var windowOptions:NativeWindowInitOptions = new NativeWindowInitOptions();
+				windowOptions.systemChrome = NativeWindowSystemChrome.STANDARD;
+				windowOptions.type = NativeWindowType.NORMAL;
+
+				var newWindow:NativeWindow = new NativeWindow(windowOptions);
+	            newWindow.width = 200;
+	            newWindow.height = 200;
+
+	            try {
+	                newWindow.activate();
+	            } catch (err:Error) {
+	                Logger.LogError("Problem Opening Popup Window: " + err, this);
+	            }
+			}
+
+        }
+		
 		public function HandleTokenExpired(event:Event):void {
 			Session.AuthToken = null;
 			AIRSecureStorage.removeItem('apiAuthToken');

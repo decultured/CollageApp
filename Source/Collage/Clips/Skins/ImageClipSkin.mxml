@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+	 xmlns:clg="Collage.Clip.*"
 	 xmlns:s="library://ns.adobe.com/flex/spark" 
 	 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 	 xmlns:mx="library://ns.adobe.com/flex/mx"
@@ -22,8 +23,7 @@
         <s:State name="disabled" />
         <s:State name="editing" />
     </s:states>
-    <s:Rect width="100%" height="100%" >
-        <s:fill><s:SolidColor color="0xffffff" alpha="0.0"/></s:fill>
-    </s:Rect>
-	<mx:Image id="loadedImage" source="{hostComponent.model.URL}" complete="smoothImage(event);" width="100%" height="100%"/>
+	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
+		<mx:Image id="loadedImage" source="{hostComponent.model.URL}" complete="smoothImage(event);" width="100%" height="100%"/>
+	</clg:ClipBackground>
 </s:Skin>
