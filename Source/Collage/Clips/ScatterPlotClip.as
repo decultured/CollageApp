@@ -5,7 +5,7 @@ package Collage.Clips
 	import Collage.Clips.Editors.*;
 	import mx.events.PropertyChangeEvent;
 	
-	public class ScatterPlotClip extends Clip
+	public class ScatterPlotClip extends DataClip
 	{
 		public function ScatterPlotClip()
 		{

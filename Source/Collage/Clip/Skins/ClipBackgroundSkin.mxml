@@ -13,9 +13,12 @@
         <s:State name="normal" />
         <s:State name="disabled" />
     </s:states>
-	<s:Rect width="100%" height="100%" radiusX="{hostComponent.model.borderRadius}" radiusY="{hostComponent.model.borderRadius}">
+    <s:layout>
+        <s:BasicLayout/>
+    </s:layout>
+	<s:Rect x="{hostComponent.model.borderWeight*0.5}" y="{hostComponent.model.borderWeight*0.5}" width="100%" height="100%" radiusX="{hostComponent.model.borderRadius}" radiusY="{hostComponent.model.borderRadius}">
 		<s:stroke>
-			<s:SolidColorStroke color="{hostComponent.model.borderColor}" weight="{hostComponent.model.borderWeight}" alpha="{hostComponent.model.borderAlpha}"/>
+			<s:SolidColorStroke color="{hostComponent.model.borderColor}" weight="{hostComponent.model.borderWeight}" alpha="{(hostComponent.model.borderWeight)?hostComponent.model.borderAlpha:0}"/>
 		</s:stroke>
 		<s:fill>
 			<s:LinearGradient>
@@ -26,10 +29,10 @@
 		</s:fill>
 	</s:Rect>
 	<s:Group id="contentGroup"
-			left=	"{hostComponent.model.borderWeight + hostComponent.model.borderRadius * 0.293}"
-			right=	"{hostComponent.model.borderWeight + hostComponent.model.borderRadius * 0.293}"
-			top=	"{hostComponent.model.borderWeight + hostComponent.model.borderRadius * 0.293}"
-			bottom=	"{hostComponent.model.borderWeight + hostComponent.model.borderRadius * 0.293}"
+			left=	"{hostComponent.model.borderWeight + (hostComponent.model.borderRadius * 0.293)}"
+			right=	"{hostComponent.model.borderWeight + (hostComponent.model.borderRadius * 0.293)}"
+			top=	"{hostComponent.model.borderWeight + (hostComponent.model.borderRadius * 0.293)}"
+			bottom=	"{hostComponent.model.borderWeight + (hostComponent.model.borderRadius * 0.293)}"
 			minWidth="0" minHeight="0">
         <s:layout>
             <s:BasicLayout/>

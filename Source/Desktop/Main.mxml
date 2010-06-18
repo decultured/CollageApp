@@ -11,6 +11,7 @@
 	height="700" width="1000"
 	title="Collage"
 	applicationComplete="Initialize()"
+	close="clgApp.Quit();"
 	>
 	<fx:Script><![CDATA[
 		import Collage.Document.*;

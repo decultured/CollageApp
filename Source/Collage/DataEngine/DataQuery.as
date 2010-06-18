@@ -1,9 +1,11 @@
 package Collage.DataEngine
 {
+	import mx.collections.ArrayList;
 	import flash.net.*;
 	import flash.events.*;
 	import com.adobe.serialization.json.JSON;
 	import Collage.Utilities.Logger.*;
+	import flash.utils.*;
 	
 	public class DataQuery extends EventDispatcher
 	{
@@ -12,12 +14,23 @@ package Collage.DataEngine
 		public var loaded:Boolean = false;
 		public var loading:Boolean = false;
 	
-		public var limit:Number = 10;
-		public var dataset:String = "";
-		public var fields:Array = new Array();
-
 		public var queryString:String = "";
-		public var result:DataQueryResult = null;
+
+		[Savable][Bindable]public var limit:Number = 10;
+		[Savable][Bindable]public var dataset:String = "";
+		[Savable][Bindable]public var fields:ArrayList = new ArrayList();
+		
+		[Savable][Bindable]public var updatable:Boolean = true;
+		[Savable][Bindable]public var updateTime:Number = 360; // In Seconds for now?
+		[Savable][Bindable]public var lastUpdate:Number = 0;
+		
+		[Savable][Bindable]public var resultRows:ArrayList = new ArrayList();
+		[Savable][Bindable]public var resultColumns:ArrayList = new ArrayList();
+
+		[Savable][Bindable]public var parseTime:Number = 0;
+		[Savable][Bindable]public var executeTime:Number = 0;
+		[Savable][Bindable]public var total:Number = 0;
+		[Savable][Bindable]public var parsedTime:Number = 0;
 		
 		public function DataQuery():void
 		{
@@ -26,13 +39,13 @@ package Collage.DataEngine
 		
 		public function ResetFields():void
 		{
-			fields = new Array();
+			fields.removeAll();
 		}
 		
 		public function AddField(name:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
 		{
 			var newDataQueryField:DataQueryField = new DataQueryField(name, sort,  modifier, group, alias);
-			fields.push(newDataQueryField);
+			fields.addItem(newDataQueryField);
 		}
 		
 		public function BuildQueryString():String
@@ -85,26 +98,26 @@ package Collage.DataEngine
             loader.addEventListener(IOErrorEvent.IO_ERROR, IOErrorHandler);
             loader.addEventListener(HTTPStatusEvent.HTTP_STATUS, HttpStatusHandler);
 
-			Logger.Log("New query: " + params['q'], LogEntry.DEBUG, this);
+			Logger.LogDebug("New query: " + params['q'], this);
 			
 			loader.load(request);
 		}
 		
         private function HttpStatusHandler(event:HTTPStatusEvent):void {
 			event.target.removeEventListener(HTTPStatusEvent.HTTP_STATUS, HttpStatusHandler);
-			Logger.Log("Query Status: " + event, LogEntry.DEBUG, this);
+			Logger.LogDebug("Query Status: " + event, this);
         }
 
 		private function IOErrorHandler(event:IOErrorEvent):void
 		{
             event.target.removeEventListener(IOErrorEvent.IO_ERROR, IOErrorHandler);
-			Logger.Log("Query IO Error: " + event, LogEntry.ERROR, this);
+			Logger.LogError("Query IO Error: " + event, this);
 		}
 		
         private function SecurityErrorHandler(event:SecurityErrorEvent):void
 		{
             event.target.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, SecurityErrorHandler);
-			Logger.Log("Query Security Error: " + event, LogEntry.ERROR, this);
+			Logger.LogError("Query Security Error: " + event, this);
         }
 
 		private function CompleteHandler(event:Event):void
@@ -112,45 +125,94 @@ package Collage.DataEngine
 			event.target.removeEventListener(Event.COMPLETE, CompleteHandler);
 
 			var results:Object = JSON.decode(event.target.data);
-			result = new DataQueryResult();
 
 			for (var key:String in results)
 			{
 				if (key == "parse_time") {
-					result.parseTime == parseInt(results[key]);
+					parseTime == parseInt(results[key]);
 				} else if (key == "execute_time") {
-					result.executeTime == parseInt(results[key]);
+					executeTime == parseInt(results[key]);
 				} else if (key == "total") {
-					result.total == parseInt(results[key]);
+					total == parseInt(results[key]);
 				} else if (key == "total_rows") {
-					result.parsedTime == parseInt(results[key]);
+					parsedTime == parseInt(results[key]);
 				} else if (key == "rows") {
-					result.rows = new Array();
+					resultRows.removeAll();
 					for (var rowKey:String in results[key]) {
 						var newRow:Object = new Object();
 						for (var fieldKey:String in results[key][rowKey]){
 							newRow[fieldKey] = results[key][rowKey][fieldKey];
 						}
-						result.rows.push(newRow);
+						resultRows.addItem(newRow);
 					}
 				} else if (key == "columns") {
-					result.columns = new Array();
+					resultColumns.removeAll();
 					for (var columnKey:String in results[key]) {
 						var newColumn:Object = new Object();
 						for (var columnFieldKey:String in results[key][columnKey]){
 							newColumn[columnFieldKey] = results[key][columnKey][columnFieldKey];
 						}
-						result.columns.push(newColumn);
+						resultColumns.addItem(newColumn);
 					}
 				}
 			}
 
-			Logger.Log("Data Query Loaded Successfully", LogEntry.INFO, this);
-
-			result.AdjustRowFieldTypes();
+			AdjustRowValueTypes();
+			Logger.Log("Data Query Loaded Successfully", this);
 			dispatchEvent(new Event(COMPLETE));
 			loading = false;
 			loaded = true;
+		}
+
+		// TODO: cleanup this nastiness???
+		public function AdjustRowValueTypes():void
+		{
+			for (var rowKey:String in resultRows) {
+				for (var rowFieldKey:String in resultRows[rowKey]) {
+					for (var columnKey:String in resultColumns) {
+						if (!resultColumns[columnKey]["datatype"] || resultColumns[columnKey]["label"] != rowFieldKey)
+							continue;
+						// The "type" paramter can be: string, numeric, datetime, boolean, or url
+						if (resultColumns[columnKey]["datatype"] == "numeric") {
+							resultRows[rowKey][rowFieldKey] = parseFloat(resultRows[rowKey][rowFieldKey]);
+						} else if (resultColumns[columnKey]["datatype"] == "datetime" && resultRows[rowKey][rowFieldKey] is String) {
+							resultRows[rowKey][rowFieldKey] = Date.parse(resultRows[rowKey][rowFieldKey]) * 0.001;
+						} else if (resultColumns[columnKey]["datatype"] == "boolean") {
+							if (resultRows[rowKey][rowFieldKey] == "true")
+								resultRows[rowKey][rowFieldKey] = true;
+							else
+								resultRows[rowKey][rowFieldKey] = false;
+						}
+					} 
+				}
+			} 
+		}
+
+		public function SaveToObject():Object
+		{
+			var typeDef:XML = describeType(this);
+			var newObject:Object = new Object();
+			for each (var metadata:XML in typeDef..metadata) {
+				if (metadata["@name"] != "Savable")
+					continue;
+				if (this.hasOwnProperty(metadata.parent()["@name"])) {
+					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
+				}
+			}
+
+			return newObject;
+		}
+
+		public function LoadFromObject(dataObject:Object):Boolean
+		{
+			if (!dataObject) return false;
+			for(var obj_k:String in dataObject) {
+				try {
+					if(this.hasOwnProperty(obj_k))
+						this[obj_k] = dataObject[obj_k];
+				} catch(e:Error) { }
+			}
+			return true;
 		}
 	}
 }

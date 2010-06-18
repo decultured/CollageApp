@@ -14,11 +14,10 @@ package Desktop.Application
 	import flash.desktop.*;
 	import flash.utils.*;
 	import Collage.DataEngine.*;
+	import spark.components.TitleWindow;
 	
 	public class AppMain extends CollageApp
 	{
-		private var _NativeWindows:Object = new Object();
-		
 		public function AppMain():void
 		{
 			super();
@@ -48,32 +47,59 @@ package Desktop.Application
 				welcomeScreen.visible = true;
 		}
 
-        public override function OpenPopup(contents:Class, name:String, modal:Boolean = true):void {
-            //if (newWindow != null) newWindow.close();
-			if (_PopupWindows['name']) {
-				
+        public override function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true):void {
+ 			var newWindow:CollagePopupWindow = null;
+			if (_PopupWindows[name] && _PopupWindows[name] is CollagePopupWindow) {
+				newWindow = _PopupWindows[name] as CollagePopupWindow;
+				newWindow.removeAllElements();
+				newWindow.addElement(contents);
+			} 
+			else if (_PopupWindows[name] && _PopupWindows[name] is TitleWindow) {
+				super.OpenPopup(contents, name, modal);
+				return;
 			} else {
-				
+				newWindow = new CollagePopupWindow();
+				newWindow.systemChrome = "none";
+				newWindow.type = NativeWindowType.NORMAL;
+				newWindow.resizable = false;
+				newWindow.width = 500;
+	            newWindow.height = 350;
+				newWindow.alwaysInFront=true;
+				newWindow.transparent = true;
+				newWindow.removeAllElements();
+				newWindow.setStyle("skinClass", CollagePopupWindowSkin);
+				newWindow.addElement(contents);
+				newWindow.addEventListener(Event.CLOSE, HandlePopUpClose);
+				_PopupWindows[name] = newWindow;
+				Logger.LogDebug("Added Popup Window: " + name, this);
 			}
 
- 			if (_NativeWindows['name'] && _NativeWindows['name'] is NativeWindow) {
-				
-			} else {
-				var windowOptions:NativeWindowInitOptions = new NativeWindowInitOptions();
-				windowOptions.systemChrome = NativeWindowSystemChrome.STANDARD;
-				windowOptions.type = NativeWindowType.NORMAL;
-
-				var newWindow:NativeWindow = new NativeWindow(windowOptions);
-	            newWindow.width = 200;
-	            newWindow.height = 200;
-
-	            try {
-	                newWindow.activate();
-	            } catch (err:Error) {
-	                Logger.LogError("Problem Opening Popup Window: " + err, this);
-	            }
+            try {
+                newWindow.open(true);
+            } catch (err:Error) {
+                Logger.LogError("Problem Opening Popup Window: " + err, this);
+            }
+        }
+		
+		public function HandlePopUpClose(event:Event):void
+		{
+			for (var key:String in _PopupWindows) {
+				if (_PopupWindows[key] == event.target)
+					_PopupWindows[key] = null;
 			}
-
+		}
+		
+        public override function ClosePopup(name:String):void {
+ 			var newWindow:NativeWindow = null;
+			if (_PopupWindows[name] && _PopupWindows[name] is NativeWindow) {
+				newWindow = _PopupWindows[name] as NativeWindow;
+				newWindow.close();
+				Logger.LogDebug("Closed Popup Window: " + name, this);
+			} 
+			else if (_PopupWindows[name] && _PopupWindows[name] is TitleWindow) {
+				super.ClosePopup(name);
+				return;
+			}
         }
 		
 		public function HandleTokenExpired(event:Event):void {

@@ -56,6 +56,7 @@ package Collage.Application
 		[Bindable]public var tempPageImage:BitmapData = new BitmapData(32, 32, false, 0xffffff);;
 
 		protected var _PopupWindows:Object = new Object();
+		protected var _PopupWindowContents:Object = new Object();
 
 		public var clgClipboard:CollageClipboard;
 
@@ -144,13 +145,17 @@ package Collage.Application
 		{
 		}
 
-		public function OpenPopup(contents:Class, name:String, modal:Boolean = true):void
+		public function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true):void
 		{
 			if (_PopupWindows['name']) {
 				
 			} else {
 				
 			}
+		}
+
+        public function ClosePopup(name:String):void {
+	
 		}
 
 		public function ZoomOut():void

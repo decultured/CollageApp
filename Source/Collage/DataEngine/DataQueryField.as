@@ -1,5 +1,7 @@
 package Collage.DataEngine
 {
+	import mx.collections.ArrayList;
+
 	public class DataQueryField
 	{
 		public var sort:String = null;

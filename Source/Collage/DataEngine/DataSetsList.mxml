@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
+		requireSelection="false"
+		contentBackgroundColor="#E2E2E2"
+		borderVisible="false"
+		dragEnabled="true"
+		dragMoveEnabled="true"
+		dropEnabled="true"
+		dataProvider="{DataEngine.datasets}">
+	<s:itemRenderer>
+		<fx:Component>
+			<s:ItemRenderer focusRect="false" width="100%" height="35" doubleClick="OpenDataSetWindow()" doubleClickEnabled="true">
+				<s:states>
+					<s:State name="normal"/>
+					<s:State name="hovered"/>
+					<s:State name="editing"/>
+					<s:State name="selected"/>
+				</s:states>
+				<fx:Script><![CDATA[
+					import Collage.Utilities.Logger.*;
+					import Collage.Application.*;
+				
+					override public function set data(value:Object):void {
+						super.data = value;
+						if (data == null) // a renderer's data is set to null when it goes out of view
+							return;
+							
+						titleText.text = data['title'];
+						//infoText.text = data['totalRows'] + " rows";
+					}
+					public function OpenDataSetWindow():void {
+						CollageApp.instance.OpenPopup(null, "dataset", false);
+					}
+				]]></fx:Script>
+				<s:Rect width="100%" height="100%" >
+					<s:fill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry alpha="1.0" color="#E2E2E2" color.normal="#E2E2E2" color.hovered="#C7C7C7" color.selected="#E2E2F2" ratio="0"/>
+							<s:GradientEntry alpha="1.0" color="#C7C7C7" color.normal="#C7C7C7" color.hovered="#E2E2E2" color.selected="#A7A7C7" ratio="1"/>
+						</s:LinearGradient>
+					</s:fill>
+				</s:Rect>
+				<s:Line width="100%" bottom="0">
+					<s:stroke>
+						<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+					</s:stroke>
+				</s:Line>
+				<s:Group width="100%" height="100%">
+					<s:Label id="titleText" color="#555555" maxDisplayedLines="1" fontWeight="bold" fontSize="12" top="5" right="10" left="10"/>
+					<s:Label id="infoText" text="{data.totalRows} rows" color="#555555" maxDisplayedLines="1" fontSize="10" bottom="5" right="10" left="10"/>
+				</s:Group>
+			</s:ItemRenderer>
+		</fx:Component>
+	</s:itemRenderer>
+</s:List>

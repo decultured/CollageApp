@@ -26,13 +26,13 @@ package Collage.Clip
 		[Bindable][Savable] public var width:Number = 200;
 		[Bindable][Savable] public var rotation:Number = 0;
 
-		[Bindable][Savable]public var backgroundAlpha:Number = 0.0;
-		[Bindable][Savable]public var backgroundColor:Number = 0xffffff;
-		[Bindable][Savable]public var borderColor:Number = 0x000000;
-		[Bindable][Savable]public var borderAlpha:Number = 1.0;
-		[Bindable][Savable]public var borderWeight:Number = 0;
-		[Bindable][Savable]public var borderRadius:Number = 0;
-		[Bindable][Savable]public var dropShadowVisible:Boolean = true;
+		[Bindable][Savable(theme="true")]public var backgroundAlpha:Number = 0;
+		[Bindable][Savable(theme="true")]public var backgroundColor:Number = 0xffffff;
+		[Bindable][Savable(theme="true")]public var borderColor:Number = 0x000000;
+		[Bindable][Savable(theme="true")]public var borderAlpha:Number = 1.0;
+		[Bindable][Savable(theme="true")]public var borderWeight:Number = 0;
+		[Bindable][Savable(theme="true")]public var borderRadius:Number = 0;
+		[Bindable][Savable(theme="true")]public var dropShadowVisible:Boolean = true;
 		
 		private var _ClipEditorSkin:Class = null;
 		private var _SmallClipEditorSkin:Class = null;
@@ -143,12 +143,24 @@ package Collage.Clip
 		public function Moved():void { }
  		public function Rotated():void { }
 		
-		public function SaveToObject():Object
+		public function SaveToObject(onlyTheme:Boolean = true):Object
 		{
 			var typeDef:XML = describeType(this);
 			var newObject:Object = new Object();
 			for each (var metadata:XML in typeDef..metadata) {
-				if (metadata["@name"] != "Savable") continue;
+				if (metadata["@name"] != "Savable")
+					continue;
+				if (onlyTheme) {
+					var isTheme:Boolean = false;
+					for each (var args:XML in metadata..arg) {
+						if (args["@key"] == "theme" && args["@value"] == "true") {
+							isTheme = true;
+							break;
+						}
+					}
+					if (!isTheme)
+						continue;
+				}
 				if (this.hasOwnProperty(metadata.parent()["@name"])) {
 					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
 				}
@@ -174,11 +186,5 @@ package Collage.Clip
 		{
 			return false;
 		}
-		
-		public function LoadFromXML():Boolean
-		{
-			return false;
-		}
-
 	}
 }

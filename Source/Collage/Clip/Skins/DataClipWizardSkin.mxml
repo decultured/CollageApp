@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:clgdata="Collage.DataEngine.*"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
+		width="100%" height="100%">
+    <fx:Metadata>
+        <![CDATA[ 
+        [HostComponent("Collage.Clip.DataClipWizard")]
+        ]]>
+    </fx:Metadata> 
+	<fx:Script><![CDATA[
+		import Collage.DataEngine.*;
+		
+		private function DataSetSelected():void
+		{
+			currentState = "page2";
+		}
+		
+	]]></fx:Script>
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="page2" />
+        <s:State name="disabled" />
+    </s:states>
+    <s:layout>
+        <s:BasicLayout/>
+    </s:layout>
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="normal">
+		<s:Label text="Step 1: Choose a dataset" top="0" left="0" fontSize="18" color="#eeeeee" />
+		<clgdata:DataSetsList id="dataSetsList" width="100%" top="25" bottom="40" />
+		<s:HGroup bottom="0" right="0">
+			<s:Button id="Page1NextButton" right="0" click="DataSetSelected()" label="Next" enabled="{(dataSetsList.selectedItem)?true:false}" />
+		</s:HGroup>
+	</s:Group>
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="page2">
+		<s:Label text="Step 2: Choose Columns" fontSize="18" color="#eeeeee" top="0" left="0" />
+
+		<s:DataGroup width="100%" top="25" bottom="40" clipAndEnableScrolling="true" dataProvider="{hostComponent.queryDefinition.fieldDefinitions}">
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ItemRenderer focusRect="false" width="100%" autoDrawBackground="false">
+						<s:states>
+							<s:State name="normal"/>
+							<s:State name="editing"/>
+							<s:State name="selected"/>
+						</s:states>
+						<fx:Script><![CDATA[
+							import Collage.Utilities.Logger.*;
+							import Collage.Application.*;
+
+							override public function set data(value:Object):void {
+								super.data = value;
+								if (data == null) // a renderer's data is set to null when it goes out of view
+									return;
+
+								titleText.text = data['title'];
+								infoText.text = data['description'];
+							}
+						]]></fx:Script>
+						<s:VGroup width="100%">
+							<s:Label id="titleText" color="#eeeeee" maxDisplayedLines="1" fontSize="14" top="5" right="10" left="10"/>
+							<s:Label id="infoText"  color="#eeeeee" maxDisplayedLines="1" fontSize="12" bottom="5" right="10" left="10"/>
+							<s:Label id=""  color="#eeeeee" maxDisplayedLines="1" fontSize="12" bottom="5" right="10" left="10"/>
+						</s:VGroup>
+					</s:ItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:DataGroup>
+
+
+		<s:HGroup bottom="0" right="0">
+			<s:Button id="Page2PrevButton" right="0" click="currentState = 'normal'" label="Back to Datasets" />
+			<s:Button id="SubmitButton" right="0" click="DataSetSelected()" label="Submit" />
+		</s:HGroup>
+	</s:Group>
+</s:Skin>

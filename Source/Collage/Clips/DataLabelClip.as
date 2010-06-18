@@ -5,7 +5,7 @@ package Collage.Clips
 	import Collage.Clips.Editors.*;
 	import mx.events.PropertyChangeEvent;
 	
-	public class DataLabelClip extends Clip
+	public class DataLabelClip extends DataClip
 	{
 		public function DataLabelClip()
 		{

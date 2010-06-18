@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:clg="Collage.Clip.*"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5">
     <fx:Metadata>
         <![CDATA[ 
@@ -20,5 +21,31 @@
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
 	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
+	     <mx:PieChart id="chart" height="100%" width="100%" innerRadius="{hostComponent.model.innerRadius}"
+	        showDataTips="true" dataProvider="{hostComponent.model.Data}" >
+	        <mx:series>
+	            <mx:PieSeries
+					field="value"
+					nameField="label"
+					fontAntiAliasType="advanced"
+					fontSharpness="-400"
+					explodeRadius="{hostComponent.model.explodeRadius}"
+					labelPosition="{hostComponent.model.labelPosition}"
+					fontSize="{hostComponent.model.labelSize}"
+					color="{hostComponent.model.labelColor}" >
+	                <mx:radialStroke>
+					    <mx:SolidColorStroke id="radial" weight="{hostComponent.model.radialWeight}" color="{hostComponent.model.radialColor}" alpha="{hostComponent.model.radialAlpha}"/>
+		            </mx:radialStroke>
+			        <mx:stroke>
+					    <mx:SolidColorStroke id="pieborder" color="{hostComponent.model.borderColor}" weight="{hostComponent.model.borderWeight}" alpha="{hostComponent.model.borderAlpha}"/>
+				    </mx:stroke>
+                	<mx:calloutStroke>
+						<mx:SolidColorStroke id="callouts" weight="{hostComponent.model.calloutWeight}" color="{hostComponent.model.calloutColor}" alpha="{hostComponent.model.calloutAlpha}" caps="none"/>
+					</mx:calloutStroke>
+					<mx:filters>
+					</mx:filters>
+	            </mx:PieSeries>
+	        </mx:series>
+	    </mx:PieChart>
 	</clg:ClipBackground>
 </s:Skin>
