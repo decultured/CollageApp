@@ -1,5 +1,6 @@
 package Collage.DataEngine
 {
+	import mx.collections.ArrayList;
 	import flash.net.*;
 	import flash.events.*;
 	import Collage.Utilities.Logger.*;
@@ -68,11 +69,11 @@ package Collage.DataEngine
 			return columnsFound;
 		}
 		
-		public function GetColumnsComboBox(allowedTypes:Array = null):Array
+		public function GetColumnsComboBox(allowedTypes:Array = null):ArrayList
 		{
-			var columnSelections:Array = new Array();
+			var columnSelections:ArrayList = new ArrayList();
 			for (var key:String in columns) {
-				if (allowedTypes) {
+				if (allowedTypes && allowedTypes.length > 0) {
 					var typeFound:Boolean = false;
 					for each (var type:String in allowedTypes) {
 						if (type == columns[key].datatype) {
@@ -84,19 +85,15 @@ package Collage.DataEngine
 						continue;
 				}
 				
-				var newObject:Object = new Object;
+				/*var newObject:Object = new Object;
 				newObject["label"] = columns[key].label;
 				newObject["data"] = columns[key].internalLabel;
-				columnSelections.push(newObject);
+				columnSelections.addItem(newObject);
+				*/
+				var newString:String = columns[key].label;
+				columnSelections.addItem(newString);
 			}
 			
-			columnSelections.sortOn("label", Array.CASEINSENSITIVE);
-
-			var firstObject:Object = new Object;
-			firstObject["label"] = "Please Select a Data Column...";
-			firstObject["data"] = "";
-			columnSelections.unshift(firstObject);
-
 			return columnSelections;
 		}
 

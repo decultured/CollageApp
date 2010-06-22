@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:DataGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
+		clipAndEnableScrolling="false" >
+	<s:layout>
+		<s:VerticalLayout gap="10"/>
+	</s:layout>
+	<s:itemRenderer>
+		<fx:Component>
+			<s:ItemRenderer width="100%" autoDrawBackground="false" clipAndEnableScrolling="false" >
+				<s:states>
+					<s:State name="normal"/>
+					<s:State name="editing"/>
+					<s:State name="selected"/>
+				</s:states>
+				<fx:Script><![CDATA[
+					import Collage.Utilities.Logger.*;
+					import Collage.Application.*;
+					import Collage.DataEngine.*;
+					import spark.events.IndexChangeEvent;
+					
+					override public function set data(value:Object):void {
+						super.data = value;
+						if (data == null || !(data is QueryFieldDefinition)) // a renderer's data is set to null when it goes out of view
+							return;
+							
+						var queryFieldDef:QueryFieldDefinition = data as QueryFieldDefinition;
+
+						titleText.text = queryFieldDef.title;
+						infoText.text = queryFieldDef.description;
+						columnsList.dataProvider = DataEngine.GetDataSetByID(queryFieldDef.owner.selectedDataSetID).GetColumnsComboBox(queryFieldDef.allowedTypes);
+
+						if (queryFieldDef.allowModifiers) {
+							modifierList.dataProvider = DataEngine.modifierSelections;
+							modifierList.visible=true;
+							modifierList.includeInLayout=true;
+						}
+
+						if (queryFieldDef.sortable) {
+							sortingList.dataProvider = DataEngine.sortingSelections;
+							sortingList.visible=true;
+							sortingList.includeInLayout=true;
+						}
+					}
+					
+					private function HandleColumnSelection(event:IndexChangeEvent):void
+					{
+						if (data == null || !(data is QueryFieldDefinition)) // a renderer's data is set to null when it goes out of view
+							return;
+						var queryFieldDef:QueryFieldDefinition = data as QueryFieldDefinition;
+						queryFieldDef.selectedColumn = columnsList.selectedItem;
+
+					}
+					
+					private function HandleModifierSelection(event:IndexChangeEvent):void
+					{
+						if (data == null || !(data is QueryFieldDefinition)) // a renderer's data is set to null when it goes out of view
+							return;
+						var queryFieldDef:QueryFieldDefinition = data as QueryFieldDefinition;
+						queryFieldDef.selectedModifier = modifierList.selectedItem['data'];
+					}
+					
+					private function HandleSortSelection(event:IndexChangeEvent):void
+					{
+						if (data == null || !(data is QueryFieldDefinition)) // a renderer's data is set to null when it goes out of view
+							return;
+						var queryFieldDef:QueryFieldDefinition = data as QueryFieldDefinition;
+						queryFieldDef.sortDirection = sortingList.selectedItem['data'];
+					}
+					
+				]]></fx:Script>
+				<s:VGroup width="100%">
+					<s:Label id="titleText" color="#eeeeee" maxDisplayedLines="1" fontSize="14" top="5" right="10" left="10"/>
+					<s:Label id="infoText"  color="#eeeeee" maxDisplayedLines="1" fontSize="12" bottom="5" right="10" left="10"/>
+					<s:DropDownList id="columnsList" alternatingItemColors="[#EEEEEE,#ffffff]" width="350" prompt="Select a column" change="HandleColumnSelection(event)" />
+					<s:DropDownList id="modifierList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="350" prompt="Select a modifier" change="HandleModifierSelection(event)" />
+					<s:DropDownList id="sortingList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="350" prompt="Select a Sort Method" change="HandleSortSelection(event)" />
+				</s:VGroup>
+			</s:ItemRenderer>
+		</fx:Component>
+	</s:itemRenderer>
+</s:DataGroup>

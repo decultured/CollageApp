@@ -5,17 +5,55 @@ package Collage.Clip
 	import Collage.Application.*;
 	import flash.utils.*;
 	import Collage.Clip.Skins.*;
+	import Collage.Utilities.Logger.*;
 	
 	public class DataClip extends Clip
 	{
-		protected var _QueryDefinition:QueryDefinition = new QueryDefinition();
+		protected var _QueryDefinition:QueryDefinition;
 		[Bindable]public var query:DataQuery = new DataQuery();
+
+        [Bindable]public var datasetID:String = null;
+		[Bindable]public var datasetFields:Object = new Object();
 
 		public function DataClip(_clipViewSkin:Class, _clipEditorSkin:Class, _smallClipEditorSkin:Class = null):void
 		{
 			super(_clipViewSkin, _clipEditorSkin, _smallClipEditorSkin);
+			_QueryDefinition = new QueryDefinition(this);
+			query.addEventListener(DataQuery.FIELDS_CHANGED, QueryFieldsChangedHandler);
+		}
+
+		public function ClearFields():void
+		{
+			datasetFields = new Object;
 		}
 		
+		public function SetField(internalName:String, fieldName:String):void
+		{
+			datasetFields[internalName] = fieldName;
+		}
+		
+		protected function QueryFieldsChangedHandler(event:Event):void
+		{
+			for (var key:String in query.fields)
+			{
+				if (!this.hasOwnProperty(key))
+					continue;
+
+				var field:DataQueryField = query.fields[key] as DataQueryField;
+				
+				var oldVal:String = null;
+				if (field.alias)
+					this[key] = field.alias;
+				else
+					this[key] = field.name;
+				Logger.LogDebug("dataClip Key: " + key + " val: " + this[key]);
+				
+//				var evt:PropertyChangeEvent = new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
+//				evt.property = key;
+				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, key, oldVal, this[key]));
+			}
+		}
+
 		protected override function ModelChanged(event:PropertyChangeEvent):void
 		{
 			switch( event.property )

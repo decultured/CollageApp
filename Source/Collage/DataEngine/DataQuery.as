@@ -10,15 +10,16 @@ package Collage.DataEngine
 	public class DataQuery extends EventDispatcher
 	{
 		public static var COMPLETE:String = "complete";
+		public static var FIELDS_CHANGED:String = "fields_changed";
 
 		public var loaded:Boolean = false;
 		public var loading:Boolean = false;
 	
 		public var queryString:String = "";
 
-		[Savable][Bindable]public var limit:Number = 10;
+		[Savable][Bindable]public var limit:Number = 100;
 		[Savable][Bindable]public var dataset:String = "";
-		[Savable][Bindable]public var fields:ArrayList = new ArrayList();
+		[Savable][Bindable]public var fields:Object = new Object();
 		
 		[Savable][Bindable]public var updatable:Boolean = true;
 		[Savable][Bindable]public var updateTime:Number = 360; // In Seconds for now?
@@ -39,13 +40,16 @@ package Collage.DataEngine
 		
 		public function ResetFields():void
 		{
-			fields.removeAll();
+			fields = new Object();
+			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
-		public function AddField(name:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
+		public function AddField(lookupName:String, name:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
 		{
 			var newDataQueryField:DataQueryField = new DataQueryField(name, sort,  modifier, group, alias);
-			fields.addItem(newDataQueryField);
+			
+			fields[lookupName] = newDataQueryField;
+			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
 		public function BuildQueryString():String
@@ -56,8 +60,10 @@ package Collage.DataEngine
 			query["dataset"] = dataset;
 			query["fields"] = new Array();
 			
-			for each (var field:DataQueryField in fields)
+			for (var key:String in fields)
 			{
+				var field:DataQueryField = fields[key] as DataQueryField;
+				
 				var fieldQuery:Object = new Object();
 
 				if (field.sort)
@@ -69,6 +75,8 @@ package Collage.DataEngine
 				if (field.alias)
 					fieldQuery["alias"] = field.alias;
 				fieldQuery["name"] = field.name;
+				
+				Logger.Log("Query Flielded : " + field.name);
 				
 				query["fields"].push(fieldQuery);
 			}
@@ -137,7 +145,7 @@ package Collage.DataEngine
 				} else if (key == "total_rows") {
 					parsedTime == parseInt(results[key]);
 				} else if (key == "rows") {
-					resultRows.removeAll();
+					resultRows = new ArrayList();
 					for (var rowKey:String in results[key]) {
 						var newRow:Object = new Object();
 						for (var fieldKey:String in results[key][rowKey]){
@@ -158,7 +166,7 @@ package Collage.DataEngine
 			}
 
 			AdjustRowValueTypes();
-			Logger.Log("Data Query Loaded Successfully", this);
+			Logger.Log("Data Query Loaded Successfully. #Rows: " + resultRows.length + " #Columns: " +  resultColumns.length, this);
 			dispatchEvent(new Event(COMPLETE));
 			loading = false;
 			loaded = true;
@@ -176,7 +184,7 @@ package Collage.DataEngine
 						if (resultColumns[columnKey]["datatype"] == "numeric") {
 							resultRows[rowKey][rowFieldKey] = parseFloat(resultRows[rowKey][rowFieldKey]);
 						} else if (resultColumns[columnKey]["datatype"] == "datetime" && resultRows[rowKey][rowFieldKey] is String) {
-							resultRows[rowKey][rowFieldKey] = Date.parse(resultRows[rowKey][rowFieldKey]) * 0.001;
+							resultRows[rowKey][rowFieldKey] = Math.random();//new Date(resultRows[rowKey][rowFieldKey]);
 						} else if (resultColumns[columnKey]["datatype"] == "boolean") {
 							if (resultRows[rowKey][rowFieldKey] == "true")
 								resultRows[rowKey][rowFieldKey] = true;

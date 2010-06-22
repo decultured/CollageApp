@@ -11,6 +11,21 @@ package Collage.DataEngine
 		//public static var baseUrl:String = "http://dataengine.local/";
 		public static var baseUrl:String = "http://dataengine.endlesspaths.com/";
 
+		[Bindable]public static var modifierSelections:ArrayList = new ArrayList(
+				[ {label:"Min", data:"min"},
+				{label:"Max", data:"max"},
+				{label:"Average", data:"avg"},
+				{label:"Sum", data:"sum"},
+				{label:"Count", data:"count"},
+				{label:"Mode", data:"mode"}
+				]);
+
+		[Bindable]public static var sortingSelections:ArrayList = new ArrayList(
+				[ {label:"None", data:null},
+				{label:"Descending", data:"desc"},
+				{label:"Ascending", data:"asc"},
+				]);
+
 		public static var COMPLETE:String = "complete";
 		
 		[Bindable]public static var datasets:ArrayList = new ArrayList();

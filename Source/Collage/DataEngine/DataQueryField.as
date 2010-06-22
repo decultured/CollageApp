@@ -1,5 +1,6 @@
 package Collage.DataEngine
 {
+	import Collage.Utilities.Logger.*;
 	import mx.collections.ArrayList;
 
 	public class DataQueryField
@@ -17,6 +18,8 @@ package Collage.DataEngine
 			this.modifier = modifier;
 			this.group = group;
 			this.alias = alias;
+			
+			Logger.LogDebug("Query Field Added: " + name + " sort: " + sort + " modifier: " + modifier + " group: " + group + " alias: " + alias); 
 		}
 	}
 }

@@ -82,10 +82,10 @@
 	<s:Group right="0" left="18" height="50%" visible.hidden="false" visible.extended="true">
 	    <s:Rect width="100%" height="100%" >
 	        <s:fill>
-				<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
+				<s:SolidColor color="0x555555" alpha="1.0"/>
 	        </s:fill>
 	    </s:Rect>
-		<s:List requireSelection="true" contentBackgroundColor="#E2E2E2" borderVisible="false" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
+		<s:List requireSelection="true" alternatingItemColors="[#EEEEEE,#dddddd]" contentBackgroundColor="0xcccccc" borderVisible="false" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
 			<s:itemRenderer>
 				<fx:Component>
 					<s:ItemRenderer focusRect="false" width="100%" height="40" doubleClick="{currentState = 'editing'}" doubleClickEnabled="true">
@@ -105,30 +105,7 @@
 								txtStart.text = data['displayName'];
 							}
 						]]></fx:Script>
-						<s:Rect width="100%" height="100%" >
-							<s:fill>
-								<s:LinearGradient rotation="90">
-									<s:GradientEntry alpha="1.0" color="#E2E2E2" color.normal="#E2E2E2" color.hovered="#C7C7C7" color.selected="#E2E2F2" ratio="0"/>
-									<s:GradientEntry alpha="1.0" color="#C7C7C7" color.normal="#C7C7C7" color.hovered="#E2E2E2" color.selected="#A7A7C7" ratio="1"/>
-								</s:LinearGradient>
-							</s:fill>
-						</s:Rect>
-						<s:Line width="100%" bottom="1">
-							<s:stroke>
-								<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
-							</s:stroke>
-						</s:Line>
-						<s:Line width="100%" bottom="0">
-							<s:stroke>
-								<s:SolidColorStroke caps="none" color="#AAAAAA" joints="miter" miterLimit="4" weight="1"/>
-							</s:stroke>
-						</s:Line>
 						<s:Group width="100%" height="100%" visible="true" visible.editing="false">
-							<s:Rect x="4" y="4" width="32" height="32" >
-								<s:fill>
-									<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
-								</s:fill>
-							</s:Rect>
 							<s:Graphic x="4" y="4">
 								<s:BitmapImage id="bg2" source="{CollageApp.instance.tempPageImage}" width="32" height="32" smooth="{true}"/>
 							</s:Graphic>
@@ -155,11 +132,6 @@
 					<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
 				</s:stroke>
 			</s:Line>
-			<s:Line width="100%" top="1">
-				<s:stroke>
-					<s:SolidColorStroke caps="none" color="#AAAAAA" joints="miter" miterLimit="4" weight="1"/>
-				</s:stroke>
-			</s:Line>
 			<s:HGroup horizontalCenter="0" verticalAlign="middle" height="100%" >
 				<ep:ImageButton width="50" toolTip="Add a new Page" id="addButton" image="@Embed('/Assets/sidebar/document-new.png')" enabled="{(!hostComponent.appClass || !hostComponent.appClass.pageManager) ? false : true}" click="addPageHandler(event)" />
 				<ep:ImageButton width="50" toolTip="Remove the Selected Page" id="removeButton" image="@Embed('/Assets/sidebar/document-close.png')" enabled="{false}" click="removePageHandler(event)" />
@@ -168,12 +140,7 @@
 		</s:Group>
 	</s:Group>
 	<s:Group bottom="0" left="18" right="0" height="50%" visible.hidden="false" visible.extended="true">
-	    <s:Rect width="100%" height="100%" >
-	        <s:fill>
-				<s:SolidColor color="0xFFFFFF" alpha="1.0"/>
-	        </s:fill>
-	    </s:Rect>
-		<s:List id="dataSetsList" requireSelection="false" contentBackgroundColor="#E2E2E2" borderVisible="false" changing="event.preventDefault()" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="0" dataProvider="{DataEngine.datasets}">
+		<s:List id="dataSetsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]"  borderVisible="false" changing="event.preventDefault()" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="0" dataProvider="{DataEngine.datasets}">
 			<s:itemRenderer>
 				<fx:Component>
 					<s:ItemRenderer focusRect="false" width="100%" height="35" doubleClick="OpenDataSetWindow()" doubleClickEnabled="true">
@@ -199,24 +166,6 @@
 								CollageApp.instance.OpenPopup(null, "dataset", false);
 							}
 						]]></fx:Script>
-						<s:Rect width="100%" height="100%" >
-							<s:fill>
-								<s:LinearGradient rotation="90">
-									<s:GradientEntry alpha="1.0" color="#E2E2E2" color.normal="#E2E2E2" color.hovered="#C7C7C7" color.selected="#E2E2F2" ratio="0"/>
-									<s:GradientEntry alpha="1.0" color="#C7C7C7" color.normal="#C7C7C7" color.hovered="#E2E2E2" color.selected="#A7A7C7" ratio="1"/>
-								</s:LinearGradient>
-							</s:fill>
-						</s:Rect>
-						<s:Line width="100%" bottom="1">
-							<s:stroke>
-								<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
-							</s:stroke>
-						</s:Line>
-						<s:Line width="100%" bottom="0">
-							<s:stroke>
-								<s:SolidColorStroke caps="none" color="#AAAAAA" joints="miter" miterLimit="4" weight="1"/>
-							</s:stroke>
-						</s:Line>
 						<s:Group width="100%" height="100%">
 							<s:Label id="titleText" color="#555555" maxDisplayedLines="1" fontWeight="bold" fontSize="12" top="5" right="10" left="10"/>
 							<s:Label id="infoText" text="{data.totalRows} rows" color="#555555" maxDisplayedLines="1" fontSize="10" bottom="5" right="10" left="10"/>
@@ -225,6 +174,11 @@
 				</fx:Component>
 			</s:itemRenderer>
 		</s:List>
+		<s:Line width="100%" top="0">
+			<s:stroke>
+				<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+			</s:stroke>
+		</s:Line>
 	</s:Group>
 	<s:Line width="100%" bottom="0">
 		<s:stroke>

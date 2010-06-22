@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+    	xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:clg="Collage.Clip.*"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5">
     <fx:Metadata>
@@ -20,5 +21,74 @@
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
 	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
+		<mx:LineChart id="linechart" height="100%" width="100%"
+			showDataTips="true" dataProvider="{hostComponent.model.query.resultRows}" seriesFilters="[]" >
+			<mx:verticalAxis>
+				<mx:LinearAxis id="vaxis" baseAtZero="false"/>
+			</mx:verticalAxis>			
+		    <mx:verticalAxisRenderers>
+		        <mx:AxisRenderer
+		            axis="{vaxis}"
+					minorTickPlacement="none"
+		            tickPlacement="none"
+		            showLine="{hostComponent.model.vAxisVisible}"
+					fontSize="{hostComponent.model.vAxisLabelSize}"
+					color="{hostComponent.model.vAxisLabelColor}"
+		            labelGap="{hostComponent.model.vAxisLabelGap}" >
+		            <mx:axisStroke>
+					    <s:SolidColorStroke id="vAxisStroke" color="{hostComponent.model.vAxisColor}" weight="{hostComponent.model.vAxisWeight}" alpha="{hostComponent.model.vAxisAlpha}" caps="none"/>
+					</mx:axisStroke>
+				</mx:AxisRenderer>
+		    </mx:verticalAxisRenderers>
+		    <mx:horizontalAxis>
+		        <mx:LinearAxis id="haxis" baseAtZero="false"/>
+		    </mx:horizontalAxis>
+		    <mx:horizontalAxisRenderers>
+		        <mx:AxisRenderer
+		            axis="{haxis}"
+		            showLine="{hostComponent.model.hAxisVisible}"
+					minorTickPlacement="none"
+		            tickPlacement="none"
+					fontSize="{hostComponent.model.hAxisLabelSize}"
+					color="{hostComponent.model.hAxisLabelColor}"
+		            labelGap="{hostComponent.model.hAxisLabelGap}">
+					<mx:axisStroke>
+						<s:SolidColorStroke id="hAxisStroke" color="{hostComponent.model.hAxisColor}" weight="{hostComponent.model.hAxisWeight}" alpha="{hostComponent.model.hAxisAlpha}" caps="none"/>
+					</mx:axisStroke>
+				</mx:AxisRenderer>
+		    </mx:horizontalAxisRenderers>
+		    <mx:backgroundElements>
+		        <mx:GridLines
+					id="gridLines"
+					verticalShowOrigin="{hostComponent.model.gridHOriginVisible}"
+		            horizontalShowOrigin="{hostComponent.model.gridHOriginVisible}"
+					visible="{hostComponent.model.gridVisible}" >
+		            <mx:horizontalStroke>
+					    <s:SolidColorStroke color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
+					</mx:horizontalStroke>
+		            <mx:verticalStroke>
+					    <s:SolidColorStroke color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
+					</mx:verticalStroke>
+					<mx:verticalOriginStroke>
+					    <s:SolidColorStroke id="gridVOriginStroke" color="{hostComponent.model.gridVOriginColor}" weight="{hostComponent.model.gridVOriginWeight}" alpha="{hostComponent.model.gridVOriginAlpha}" caps="none"/>
+					</mx:verticalOriginStroke>
+					<mx:horizontalOriginStroke>
+					    <s:SolidColorStroke id="gridHOriginStroke" color="{hostComponent.model.gridHOriginColor}" weight="{hostComponent.model.gridHOriginWeight}" alpha="{hostComponent.model.gridHOriginAlpha}" caps="none"/>
+					</mx:horizontalOriginStroke>
+				</mx:GridLines>
+		    </mx:backgroundElements>
+			<mx:series>
+			    <mx:LineSeries
+					yField="{hostComponent.model.yAxis}"
+					xField="{hostComponent.model.xAxis}"
+					form="{hostComponent.model.form}"
+					filters="[]"
+					displayName="Values:" >
+					<mx:lineStroke>
+						<mx:SolidColorStroke id="linestroke" color="{hostComponent.model.lineColor}" weight="{hostComponent.model.lineWeight}" alpha="{hostComponent.model.lineAlpha}" caps="none"/>
+					</mx:lineStroke>
+				</mx:LineSeries>
+			</mx:series>
+		</mx:LineChart>
 	</clg:ClipBackground>
 </s:Skin>

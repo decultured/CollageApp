@@ -90,9 +90,9 @@ package Desktop.Application
 		}
 		
         public override function ClosePopup(name:String):void {
- 			var newWindow:NativeWindow = null;
-			if (_PopupWindows[name] && _PopupWindows[name] is NativeWindow) {
-				newWindow = _PopupWindows[name] as NativeWindow;
+ 			var newWindow:CollagePopupWindow = null;
+			if (_PopupWindows[name] && _PopupWindows[name] is CollagePopupWindow) {
+				newWindow = _PopupWindows[name] as CollagePopupWindow;
 				newWindow.close();
 				Logger.LogDebug("Closed Popup Window: " + name, this);
 			} 
