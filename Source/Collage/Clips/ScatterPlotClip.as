@@ -50,8 +50,8 @@ package Collage.Clips
 		[Bindable][Savable] public var hAxisLabelColor:Number = 0x333333;
         [Bindable][Savable] public var hAxisLabelGap:Number = 10;
 
-		[Bindable]public var xAxis:String = "";
-		[Bindable]public var yAxis:String = "";
+		[Bindable][Savable] public var xAxis:String = "";
+		[Bindable][Savable] public var yAxis:String = "";
 
 		public function ScatterPlotClip()
 		{

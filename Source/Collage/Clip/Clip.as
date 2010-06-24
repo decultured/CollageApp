@@ -143,7 +143,7 @@ package Collage.Clip
 		public function Moved():void { }
  		public function Rotated():void { }
 		
-		public function SaveToObject(onlyTheme:Boolean = true):Object
+		public function SaveToObject(onlyTheme:Boolean = false):Object
 		{
 			var typeDef:XML = describeType(this);
 			var newObject:Object = new Object();

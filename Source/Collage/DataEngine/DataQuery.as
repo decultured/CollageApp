@@ -204,7 +204,10 @@ package Collage.DataEngine
 				if (metadata["@name"] != "Savable")
 					continue;
 				if (this.hasOwnProperty(metadata.parent()["@name"])) {
-					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
+					if (this[metadata.parent()["@name"]] is ArrayList)
+						newObject[metadata.parent()["@name"]] = (this[metadata.parent()["@name"]] as ArrayList).toArray();
+					else
+						newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
 				}
 			}
 
@@ -216,8 +219,12 @@ package Collage.DataEngine
 			if (!dataObject) return false;
 			for(var obj_k:String in dataObject) {
 				try {
-					if(this.hasOwnProperty(obj_k))
-						this[obj_k] = dataObject[obj_k];
+					if(this.hasOwnProperty(obj_k)) {
+						if (this[obj_k] is ArrayList && dataObject[obj_k] is Array)
+							this[obj_k] = new ArrayList(dataObject[obj_k] as Array);
+						else
+							this[obj_k] = dataObject[obj_k];
+					}
 				} catch(e:Error) { }
 			}
 			return true;

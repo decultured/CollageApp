@@ -14,10 +14,10 @@ package Collage.Clips
 		[Bindable][Savable(theme="true")]public var fontSize:Number = 18;
 		[Bindable][Savable]public var precision:int = 2;
 		
-		[Bindable] public var textColumn:String = null;
+		[Bindable][Savable] public var textColumn:String = null;
 		
 		private static var DEFAULT_LABEL_TEXT:String = "Double-click to edit";
-		[Bindable]public var displayText:String = DEFAULT_LABEL_TEXT;
+		[Bindable][Savable] public var displayText:String = DEFAULT_LABEL_TEXT;
 		
 		public function DataLabelClip()
 		{

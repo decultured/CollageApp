@@ -46,8 +46,8 @@ package Collage.Clips
 		[Bindable][Savable] public var hAxisLabelColor:Number = 0x333333;
         [Bindable][Savable] public var hAxisLabelGap:Number = 10;
 
-		[Bindable]public var group:String = "";
-		[Bindable]public var data:String = "";
+		[Bindable][Savable] public var group:String = "";
+		[Bindable][Savable] public var data:String = "";
 
 		public function ColumnChartClip()
 		{

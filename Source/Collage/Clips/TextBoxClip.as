@@ -16,7 +16,7 @@ package Collage.Clips
 		[Bindable][Savable(theme="true")]public var fontSize:Number = 18;
 		
 		private static var DEFAULT_LABEL_TEXT:String = "Double-click to edit";
-		[Bindable]public var displayText:String = DEFAULT_LABEL_TEXT;
+		[Bindable][Savable] public var displayText:String = DEFAULT_LABEL_TEXT;
 
 		public function TextBoxClip()
 		{

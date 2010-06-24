@@ -12,8 +12,8 @@ package Collage.Clip
 		protected var _QueryDefinition:QueryDefinition;
 		[Bindable]public var query:DataQuery = new DataQuery();
 
-        [Bindable]public var datasetID:String = null;
-		[Bindable]public var datasetFields:Object = new Object();
+        [Bindable][Savable]public var datasetID:String = null;
+		[Bindable][Savable]public var datasetFields:Object = new Object();
 
 		public function DataClip(_clipViewSkin:Class, _clipEditorSkin:Class, _smallClipEditorSkin:Class = null):void
 		{
@@ -79,7 +79,7 @@ package Collage.Clip
 			CollageApp.instance.OpenPopup(dataWizard, "datawizard");
 		}
 		
-		public override function SaveToObject(onlyTheme:Boolean = true):Object
+		public override function SaveToObject(onlyTheme:Boolean = false):Object
 		{
 			var typeDef:XML = describeType(this);
 			var newObject:Object = new Object();
@@ -101,7 +101,7 @@ package Collage.Clip
 					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
 				}
 			}
-
+			newObject["query"] = query.SaveToObject();
 			return newObject;
 		}
 
@@ -111,10 +111,14 @@ package Collage.Clip
 
 			for(var obj_k:String in dataObject) {
 				try {
-					if(this.hasOwnProperty(obj_k))
+					if (obj_k == "query")
+						query.LoadFromObject(dataObject[obj_k]);
+					else if(this.hasOwnProperty(obj_k))
 						this[obj_k] = dataObject[obj_k];
 				} catch(e:Error) { }
 			}
+			
+			
 			return true;
 		}
 	}
