@@ -111,7 +111,7 @@ package Collage.Application
 		public function SaveCurrentPage():void
 		{
 			//var tempBitmapData:Bitmapdata = ImageSnapshot.captureBitmapData(editPage);
-
+/*
 			tempPageImage.fillRect(new Rectangle(0, 0, 32, 32), 0xffffff);
 			
 			var mat:Matrix = new Matrix();
@@ -121,7 +121,7 @@ package Collage.Application
 				mat.scale(32.0/editPage.height, 32.0/editPage.height);
 
 			tempPageImage.draw(editPage, mat);
-
+*/
 			pageManager.SetPageByUID(editPage.SaveToObject(), editPage.UID);
 		}
 
@@ -145,8 +145,11 @@ package Collage.Application
 		{
 		}
 
-		public function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true):void
+		public function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true, size:Point = null):void
 		{
+			if (!size)
+				size = new Point(500, 350);
+
 			if (_PopupWindows['name']) {
 				
 			} else {

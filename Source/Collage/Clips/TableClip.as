@@ -10,6 +10,7 @@ package Collage.Clips
 		public function TableClip()
 		{
 			super(TableClipSkin, TableClipEditor);
+			rotatable = false;
 			type = "table";
 		}
 		

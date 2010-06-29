@@ -88,11 +88,10 @@
 		<s:List requireSelection="true" alternatingItemColors="[#EEEEEE,#dddddd]" contentBackgroundColor="0xcccccc" borderVisible="false" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
 			<s:itemRenderer>
 				<fx:Component>
-					<s:ItemRenderer focusRect="false" width="100%" height="40" doubleClick="{currentState = 'editing'}" doubleClickEnabled="true">
+					<s:ItemRenderer focusRect="false" width="100%" height="40" doubleClick="OpenPageWizard()" doubleClickEnabled="true">
 						<s:states>
 							<s:State name="normal"/>
 							<s:State name="hovered"/>
-							<s:State name="editing"/>
 							<s:State name="selected"/>
 						</s:states>
 						<fx:Script><![CDATA[
@@ -104,15 +103,23 @@
 									return;
 								txtStart.text = data['displayName'];
 							}
+							
+							public function OpenPageWizard():void
+							{
+								CollageApp.instance.editPage.OpenPageWizard();
+							}
+							
 						]]></fx:Script>
-						<s:Group width="100%" height="100%" visible="true" visible.editing="false">
+						<s:Line width="100%" bottom="0">
+							<s:stroke>
+								<s:SolidColorStroke caps="none" color="#c2c2c2" joints="miter" miterLimit="4" weight="1"/>
+							</s:stroke>
+						</s:Line>
+						<s:Group width="100%" height="100%" >
 							<s:Graphic x="4" y="4">
 								<s:BitmapImage id="bg2" source="{CollageApp.instance.tempPageImage}" width="32" height="32" smooth="{true}"/>
 							</s:Graphic>
 							<s:Label id="txtStart" color="#555555" fontWeight="bold" fontSize="14" width="100%" verticalCenter="2" left="40"/>
-						</s:Group>
-						<s:Group width="100%" height="100%" visible="false" visible.editing="true">
-							<s:TextInput fontSize="14" id="displayLabelInput" text="@{data.displayName}" width="100%"/>
 						</s:Group>
 					</s:ItemRenderer>
 				</fx:Component>
@@ -152,6 +159,7 @@
 						</s:states>
 						<fx:Script><![CDATA[
 							import Collage.Utilities.Logger.*;
+							import Collage.DataEngine.*;
 							import Collage.Application.*;
 						
 							override public function set data(value:Object):void {
@@ -163,9 +171,21 @@
 								//infoText.text = data['totalRows'] + " rows";
 							}
 							public function OpenDataSetWindow():void {
-								CollageApp.instance.OpenPopup(null, "dataset", false);
+								var datasetPopup:DataSetWizard = new DataSetWizard();
+								datasetPopup.dataSet = data as DataSet;
+								datasetPopup.setStyle("top", "0");
+								datasetPopup.setStyle("bottom", "0");
+								datasetPopup.setStyle("left", "0");
+								datasetPopup.setStyle("right", "0");
+
+								CollageApp.instance.OpenPopup(datasetPopup, "dataset", false, new Point(400, 350));
 							}
 						]]></fx:Script>
+						<s:Line width="100%" bottom="0">
+							<s:stroke>
+								<s:SolidColorStroke caps="none" color="#c2c2c2" joints="miter" miterLimit="4" weight="1"/>
+							</s:stroke>
+						</s:Line>
 						<s:Group width="100%" height="100%">
 							<s:Label id="titleText" color="#555555" maxDisplayedLines="1" fontWeight="bold" fontSize="12" top="5" right="10" left="10"/>
 							<s:Label id="infoText" text="{data.totalRows} rows" color="#555555" maxDisplayedLines="1" fontSize="10" bottom="5" right="10" left="10"/>

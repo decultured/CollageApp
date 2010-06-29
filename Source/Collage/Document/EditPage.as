@@ -43,6 +43,17 @@ package Collage.Document
 			super.New();
 		}
 
+		public function OpenPageWizard():void {
+			var pageWizard:EditPageWizard = new EditPageWizard();
+			pageWizard.appClass = appClass;
+			pageWizard.setStyle("top", "0");
+			pageWizard.setStyle("bottom", "0");
+			pageWizard.setStyle("left", "0");
+			pageWizard.setStyle("right", "0");
+
+			CollageApp.instance.OpenPopup(pageWizard, "pagewizard", false, new Point(300, 200));
+		}
+
 		public function InitObjectHandles():void
 		{
 			objectHandles = new ObjectHandles(this, null, new Flex4HandleFactory(), new Flex4ChildManager());

@@ -57,6 +57,7 @@ package Collage.Clips
 		{
 			super(LineChartClipSkin, LineChartClipEditor);
 			type = "linechart";
+			rotatable = false;
 			
 			_QueryDefinition.queryTitle = "Line Chart";
 			_QueryDefinition.queryDescription = "Data setup for the Line Chart";

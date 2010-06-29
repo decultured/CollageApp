@@ -19,12 +19,12 @@ package Collage.DataEngine
 
 		[Savable][Bindable]public var limit:Number = 100;
 		[Savable][Bindable]public var dataset:String = "";
-		[Savable][Bindable]public var fields:Object = new Object();
-		
+		[Savable][Bindable]public var fields:ArrayList = new ArrayList();
+
 		[Savable][Bindable]public var updatable:Boolean = true;
 		[Savable][Bindable]public var updateTime:Number = 360; // In Seconds for now?
 		[Savable][Bindable]public var lastUpdate:Number = 0;
-		
+
 		[Savable][Bindable]public var resultRows:ArrayList = new ArrayList();
 		[Savable][Bindable]public var resultColumns:ArrayList = new ArrayList();
 
@@ -40,18 +40,94 @@ package Collage.DataEngine
 		
 		public function ResetFields():void
 		{
-			fields = new Object();
+			fields.removeAll();
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
-		public function AddField(lookupName:String, name:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
+		public function AddField(internalName:String, columnName:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
 		{
-			var newDataQueryField:DataQueryField = new DataQueryField(name, sort,  modifier, group, alias);
-			
-			fields[lookupName] = newDataQueryField;
+			var newDataQueryField:DataQueryField = null;
+
+			newDataQueryField = FindFieldByInternalName(internalName);
+			if (newDataQueryField)
+				fields.removeItem(newDataQueryField);
+
+			newDataQueryField = FindFieldByColumnName(columnName);
+			if (newDataQueryField)
+				fields.removeItem(newDataQueryField);
+
+			newDataQueryField = new DataQueryField(internalName, columnName, sort,  modifier, group, alias);
+			fields.addItem(newDataQueryField);
+
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
+		public function GetColumnSelectionsArrayList(allowedTypes:Array = null):ArrayList
+		{
+			var columnSelections:ArrayList = new ArrayList();
+			var currentDataSet:DataSet = DataEngine.GetDataSetByID(dataset);
+			if (!currentDataSet)
+				return columnSelections;
+
+			for (var key:String in currentDataSet.columns) {
+				var typeFound:Boolean = true;
+				if (allowedTypes && allowedTypes.length > 0) {
+					typeFound = false;
+					for each (var type:String in allowedTypes) {
+						if (type == currentDataSet.columns[key].datatype) {
+							typeFound = true;
+							break;
+						}
+					}
+				}
+				
+				var newObject:Object = new Object;
+				newObject["columnName"] = currentDataSet.columns[key].label;
+				newObject["dataType"] = currentDataSet.columns[key].datatype;
+				newObject["dataTypeAllowed"] = typeFound;
+				if (FindFieldByColumnName(currentDataSet.columns[key].label))
+					newObject["used"] = true;
+				else
+					newObject["used"] = false;
+				
+				columnSelections.addItem(newObject);
+			}
+			return columnSelections;
+		}
+
+		public function FindFieldByInternalName(internalName:String):DataQueryField
+		{
+			for (var i:int = 0; i < fields.length; i++)
+			{
+				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
+				if (field.internalName == internalName)
+					return field;
+			} 
+			return null;
+		}
+
+		public function FindFieldByColumnName(columnName:String):DataQueryField
+		{
+			for (var i:int = 0; i < fields.length; i++)
+			{
+				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
+				if (field.columnName == columnName)
+					return field;
+			} 
+			return null;
+		}
+
+		public function FindFieldByResultName(resultName:String):DataQueryField
+		{
+			for (var i:int = 0; i < fields.length; i++)
+			{
+				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
+				if (field.resultName == resultName)
+					return field;
+			} 
+			return null;
+		}
+
 		public function BuildQueryString():String
 		{
 			var query:Object = new Object();
@@ -74,9 +150,9 @@ package Collage.DataEngine
 					fieldQuery["group"] = field.group;
 				if (field.alias)
 					fieldQuery["alias"] = field.alias;
-				fieldQuery["name"] = field.name;
+				fieldQuery["name"] = field.columnName;
 				
-				Logger.Log("Query Flielded : " + field.name);
+				Logger.Log("Query Flielded : " + field.columnName);
 				
 				query["fields"].push(fieldQuery);
 			}

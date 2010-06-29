@@ -30,7 +30,7 @@
 
 						titleText.text = queryFieldDef.title;
 						infoText.text = queryFieldDef.description;
-						columnsList.dataProvider = DataEngine.GetDataSetByID(queryFieldDef.owner.selectedDataSetID).GetColumnsComboBox(queryFieldDef.allowedTypes);
+//						columnsList.dataProvider = DataEngine.GetDataSetByID(queryFieldDef.owner.selectedDataSetID).GetColumnsComboBox(queryFieldDef.allowedTypes);
 
 						if (queryFieldDef.allowModifiers) {
 							modifierList.dataProvider = DataEngine.modifierSelections;

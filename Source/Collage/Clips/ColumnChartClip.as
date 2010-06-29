@@ -53,7 +53,7 @@ package Collage.Clips
 		{
 			super(ColumnChartClipSkin, ColumnChartClipEditor);
 			type = "columnchart";
-
+			rotatable = false;
 			_QueryDefinition.queryTitle = "Column Chart";
 			_QueryDefinition.queryDescription = "Data setup for the Column Chart";
 			_QueryDefinition.minRowsReturned = 2;

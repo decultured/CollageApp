@@ -34,23 +34,17 @@ package Collage.Clip
 		
 		protected function QueryFieldsChangedHandler(event:Event):void
 		{
-			for (var key:String in query.fields)
+			for (var i:int = 0; i < query.fields.length; i++)
 			{
-				if (!this.hasOwnProperty(key))
+				var field:DataQueryField = query.fields.getItemAt(i) as DataQueryField;
+								
+				if (!field.internalName || !this.hasOwnProperty(field.internalName))
 					continue;
 
-				var field:DataQueryField = query.fields[key] as DataQueryField;
-				
-				var oldVal:String = null;
-				if (field.alias)
-					this[key] = field.alias;
-				else
-					this[key] = field.name;
-				Logger.LogDebug("dataClip Key: " + key + " val: " + this[key]);
-				
-//				var evt:PropertyChangeEvent = new PropertyChangeEvent(PropertyChangeEvent.PROPERTY_CHANGE);
-//				evt.property = key;
-				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, key, oldVal, this[key]));
+				var oldVal:String = this[field.internalName];
+				this[field.internalName] = field.resultName;
+				Logger.LogDebug("dataClip Key: " + field.internalName + " val: " + this[field.internalName]);
+				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, field.internalName, oldVal, this[field.internalName]));
 			}
 		}
 

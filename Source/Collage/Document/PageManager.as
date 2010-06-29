@@ -101,8 +101,10 @@ package Collage.Document
 		{
 			var pageIndex:int = GetPageIndexByUID(uid);
 			if (pageIndex > -1) {
-				if (preserveName)
-					pageObject["displayName"] = GetPageAt(pageIndex)["displayName"];
+//				if (preserveName)
+//					pageObject["displayName"] = GetPageAt(pageIndex)["displayName"];
+//				else
+					pageObject["displayName"] = GetUniqueName(pageObject["displayName"], uid);
 				pages.setItemAt(pageObject, pageIndex);
 				Logger.Log("UID FOUND!: " + uid, this);
 			} else
@@ -130,7 +132,7 @@ package Collage.Document
 			CopyPageAt(currentPageIndex);
 		}
 		
-		public function GetUniqueName(currentName:String = null):String
+		public function GetUniqueName(currentName:String = null, uid:String = null):String
 		{
 			if (!currentName)
 				currentName = "Untitled";
@@ -143,6 +145,9 @@ package Collage.Document
 				for (var pageIndex:uint = 0; pageIndex < pages.length; pageIndex++) {
 					var pageObject:Object = pages.getItemAt(pageIndex) as Object;
 					if (pageObject["displayName"] == testName) {
+						if (uid && pageObject["UID"] == uid)
+							continue;
+							
 						found = true;
 						break;
 					}

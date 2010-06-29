@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
+		clipAndEnableScrolling="false" >
+	<fx:Script><![CDATA[
+		import Collage.Utilities.Logger.*;
+		import Collage.Application.*;
+		import Collage.DataEngine.*;
+		import spark.events.IndexChangeEvent;
+		import mx.collections.ArrayList;
+		
+		[Bindable]public var fieldDef:QueryFieldDefinition;
+		[Bindable]public var query:DataQuery;
+		
+		[Bindable]public var queryFields:ArrayList;
+		[Bindable]public var complete:Boolean = false;
+
+		private function handleCreationComplete():void {
+		}
+		
+		public function Reset():void
+		{
+			complete = false;
+			
+			if (!query || !fieldDef) {
+				queryFields = null;
+				return;
+			}
+			
+			queryFields = query.GetColumnSelectionsArrayList(fieldDef.allowedTypes);
+		}
+		
+		private function SelectionChanged():void
+		{
+			if (columnsList.selectedIndex < 0) {
+				complete = false;
+				return;
+			}
+			
+			var selectedObject:Object = queryFields.getItemAt(columnsList.selectedIndex) as Object;
+			
+			if (selectedObject["dataTypeAllowed"] && !selectedObject["data.used"])
+				complete = true;
+			else {
+				complete = false;
+				columnsList.selectedItem = null;
+			}
+		}
+	]]></fx:Script>
+	<s:Label text="{fieldDef.title} Data Selection" left="0" fontSize="18" color="#eeeeee" />
+	<s:Group height="100%" width="100%">
+	<s:List id="columnsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]" borderVisible="false" height="100%" top="20" left="20" right="20" dataProvider="{queryFields}" change="SelectionChanged()">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer focusRect="false" width="100%" height="25" doubleClickEnabled="true">
+					<s:states>
+						<s:State name="normal"/>
+						<s:State name="hovered"/>
+						<s:State name="editing"/>
+						<s:State name="selected"/>
+					</s:states>
+					<fx:Script><![CDATA[
+						import Collage.Utilities.Logger.*;
+						import Collage.Application.*;
+					
+						override public function set data(value:Object):void {
+							super.data = value;
+							if (data == null) // a renderer's data is set to null when it goes out of view
+								return;
+								
+							autoDrawBackground = (data.dataTypeAllowed&&!data.used);
+						}
+					]]></fx:Script>
+					<s:Line width="100%" bottom="0">
+						<s:stroke>
+							<s:SolidColorStroke caps="none" color="#b2b2b2" joints="miter" miterLimit="4" weight="1"/>
+						</s:stroke>
+					</s:Line>
+					<s:Group left="10" right="10" height="100%">
+						<s:layout>
+							<s:HorizontalLayout verticalAlign="middle"/>
+						</s:layout>
+						<s:Label id="titleText" text="{data.columnName}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontWeight="bold" fontSize="12"/>
+						<s:Label visible="- {(!data.dataTypeAllowed)}" includeInLayout="{(!data.dataTypeAllowed)}" text="Datatype not allowed" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
+						<s:Label visible="- {(data.dataTypeAllowed&amp;&amp;data.used)}" includeInLayout="{(data.dataTypeAllowed&amp;&amp;data.used)}" text="Column already used for this chart" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
+						<s:Label id="typeText" text="{data.dataType}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontSize="10" width="100%" textAlign="end"/>
+					</s:Group>
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+	</s:Group>
+</s:VGroup>

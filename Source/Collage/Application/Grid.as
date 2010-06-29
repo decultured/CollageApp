@@ -13,6 +13,11 @@ package Collage.Application
 		[Bindable]public var gridColor:Number = 0x000000;
 		[Bindable]public var gridAlpha:Number = 0.1;
 		[Bindable]public var gridWeight:uint = 1;
+		[Bindable]public var snap:Boolean = false;
+		
+		[Bindable]
+		public function set density(_density:uint):void {xDensity = yDensity = _density;}
+		public function get density():uint {return xDensity;}
 		
 		public function Grid():void
 		{

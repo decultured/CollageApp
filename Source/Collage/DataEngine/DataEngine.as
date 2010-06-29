@@ -89,6 +89,8 @@ package Collage.DataEngine
 			
 			loading = true;
 			
+			Logger.Log("Loading All Available Datasets");
+
 			var request:URLRequest = new URLRequest(DataEngine.getUrl("/api/v1/dataset/list"));
 			var loader:URLLoader = new URLLoader();
 			var params:URLVariables = new URLVariables();

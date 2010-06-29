@@ -16,31 +16,65 @@
 		import Collage.DataEngine.*;
 		import Collage.Utilities.Logger.*;
 		
+		private var currentColumn:int = 0;
+		[Bindable]private var complete:Boolean = false;
+		
 		private function DataSetSelected():void
 		{
-			currentState = "page2";
+			currentState = "columns";
 			if (dataSetsList.selectedItem) {
 				if (hostComponent.query.dataset != (dataSetsList.selectedItem as DataSet).id) {
 					hostComponent.query.dataset = (dataSetsList.selectedItem as DataSet).id;
-					
+
 					for (var i:int = 0; i < hostComponent.queryDefinition.fieldDefinitions.length; i++)	{
 						hostComponent.queryDefinition.fieldDefinitions.getItemAt(i)['selectedColumn'] = null;
 					}
 				}
 			}
-			
-			columnsDataGroup.dataProvider = null;
-			columnsDataGroup.dataProvider = hostComponent.queryDefinition.fieldDefinitions;
-			hostComponent.queryDefinition.selectedDataSetID = hostComponent.query.dataset;
-			
+
+			currentColumn = 0;
+			columnsPage.query = hostComponent.query;
+			columnsPage.fieldDef = hostComponent.queryDefinition.fieldDefinitions.getItemAt(currentColumn) as QueryFieldDefinition;
+			columnsPage.Reset();
+
 			Logger.LogDebug("Selected Dataset: " + hostComponent.query.dataset, hostComponent)
 		}
+
+		public function NextPage():void
+		{
+			if (currentState == "normal" && hostComponent.query.dataset)
+				currentState = "columns";
+//			else if (currentState = "columns") {
+				
+//			} else if (current
+			
+		}
 		
+		private function PrevPage():void
+		{
+			
+		}
+
+		private function ColumnSelected():void
+		{
+			// TODO : GRAB COLUMN DATA
+			currentColumn++;
+			if (currentColumn < hostComponent.queryDefinition.fieldDefinitions.length) {
+				columnsPage.query = hostComponent.query;
+				columnsPage.fieldDef = hostComponent.queryDefinition.fieldDefinitions.getItemAt(currentColumn) as QueryFieldDefinition;
+				columnsPage.Reset();
+			} else {
+				Submit();
+			}
+
+			Logger.LogDebug("Selected Dataset: " + hostComponent.query.dataset, hostComponent)
+		}
+
 		private function Submit():void
 		{
 			Logger.LogDebug("Submit Selected Dataset: " + hostComponent.query.dataset, hostComponent)
 			hostComponent.query.ResetFields();
-			
+/*			
 			for (var i:int = 0; i < hostComponent.queryDefinition.fieldDefinitions.length; i++)	{
 				var queryFieldDef:QueryFieldDefinition = hostComponent.queryDefinition.fieldDefinitions.getItemAt(i) as QueryFieldDefinition;
 				if (!queryFieldDef || !queryFieldDef.selectedColumn) {
@@ -66,13 +100,17 @@
 
 			columnSelectionError.visible = false;
 			hostComponent.query.LoadQueryResults();
+			*/
 			CollageApp.instance.ClosePopup("datawizard");
 		}
 		
 	]]></fx:Script>
     <s:states>
         <s:State name="normal" />
-        <s:State name="page2" />
+        <s:State name="columns" />
+        <s:State name="summary" />
+        <s:State name="summary" />
+        <s:State name="page3" />
         <s:State name="disabled" />
     </s:states>
     <s:layout>
@@ -80,12 +118,31 @@
     </s:layout>
 	<s:Group left="15" right="15" top="15" bottom="15" includeIn="normal">
 		<s:Label text="Step 1: Choose a dataset" top="0" left="0" fontSize="18" color="#eeeeee" />
-		<clgdata:DataSetsList id="dataSetsList" width="100%" top="35" bottom="40" left="10"/>
+		<clgdata:DataSetsList id="dataSetsList" top="45" bottom="80" left="20" right="30"/>
+		<s:HGroup bottom="40" right="0" includeInLayout="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}" visible="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}">
+			<s:Label text="How many rows?" color="#eeeeee" fontSize="12" />
+			<s:NumericStepper value="@{hostComponent.query.limit}" stepSize="1" maximum="{hostComponent.queryDefinition.maxRowsReturned}" minimum="{hostComponent.queryDefinition.minRowsReturned}" />
+		</s:HGroup>
 		<s:HGroup bottom="0" right="0">
-			<s:Button id="Page1NextButton" right="0" click="DataSetSelected()" label="Next" enabled="{(dataSetsList.selectedItem)?true:false}" />
+			<s:Button id="Page1NextButton" right="0" click="DataSetSelected()" label="Next" enabled="{(dataSetsList.selectedItem != null)}" />
 		</s:HGroup>
 	</s:Group>
-	<s:Group left="15" right="15" top="15" bottom="15" includeIn="page2">
+
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="columns">
+		<clgclip:DataClipWizardColumnsPage id="columnsPage" width="100%" height="100%" bottom="45" />
+		<s:HGroup bottom="0" right="0">
+			<s:Button id="Page2PrevButton" right="0" click="currentState = 'normal'" label="Back to Datasets" />
+			<s:Button id="Page2NextButton" right="0" click="ColumnSelected()" label="Next" enabled="{(columnsPage.complete)}" />
+		</s:HGroup>
+	</s:Group>
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="summary">
+		<s:HGroup bottom="0" right="0">
+			<s:Button right="0" click="currentState = 'normal'" label="Back to Datasets" />
+			<s:Button right="0" click="Submit()" label="Submit" />
+		</s:HGroup>
+	</s:Group>
+	<!--
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="page3">
 		<s:Label text="Step 2: Choose Columns" fontSize="18" color="#eeeeee" top="0" left="0" />
 		<clgclip:DataClipWizardColumnsList id="columnsDataGroup" width="100%" left="10" top="35" bottom="80" />
 		<s:HGroup bottom="40" right="0" includeInLayout="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}" visible="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}">
@@ -94,8 +151,9 @@
 		</s:HGroup>
 		<s:HGroup bottom="0" right="0">
 			<s:Label id="columnSelectionError" visible="false" text="Please select all data columns" color="#ff0000" fontSize="14" />
-			<s:Button id="Page2PrevButton" right="0" click="currentState = 'normal'" label="Back to Datasets" />
+			<s:Button id="Page3PrevButton" right="0" click="currentState = 'normal'" label="Back to Datasets" />
 			<s:Button id="SubmitButton" right="0" click="Submit()" label="Submit" />
 		</s:HGroup>
 	</s:Group>
+	-->
 </s:Skin>

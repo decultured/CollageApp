@@ -1,20 +1,21 @@
 package Desktop.Application
 {
-	import flash.display.StageDisplayState;
-	import flash.filesystem.*;
-	import flash.display.*;
+	import Collage.Utilities.Logger.*;
 	import Collage.Utilities.json.*;
 	import Collage.Application.*;
-	import Collage.Document.*;
-	import Collage.Clip.*;
-	import Collage.Clips.*;
-	import Collage.Utilities.Logger.*;
-	import mx.core.*;
-	import flash.events.*;
-	import flash.desktop.*;
-	import flash.utils.*;
 	import Collage.DataEngine.*;
+	import Collage.Document.*;
+	import Collage.Clips.*;
+	import Collage.Clip.*;
 	import spark.components.TitleWindow;
+	import flash.display.StageDisplayState;
+	import flash.filesystem.*;
+	import flash.desktop.*;
+	import flash.display.*;
+	import flash.events.*;
+	import flash.utils.*;
+	import flash.geom.*;
+	import mx.core.*;
 	
 	public class AppMain extends CollageApp
 	{
@@ -47,8 +48,12 @@ package Desktop.Application
 				welcomeScreen.visible = true;
 		}
 
-        public override function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true):void {
+        public override function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true, size:Point = null):void {
  			var newWindow:CollagePopupWindow = null;
+
+			if (!size)
+				size = new Point(500, 350);
+				
 			if (_PopupWindows[name] && _PopupWindows[name] is CollagePopupWindow) {
 				newWindow = _PopupWindows[name] as CollagePopupWindow;
 				newWindow.removeAllElements();
@@ -62,9 +67,8 @@ package Desktop.Application
 				newWindow.systemChrome = "none";
 				newWindow.type = NativeWindowType.NORMAL;
 				newWindow.resizable = false;
-				newWindow.width = 500;
-	            newWindow.height = 350;
-				newWindow.alwaysInFront=true;
+				newWindow.width = size.x;
+	            newWindow.height = size.y;
 				newWindow.transparent = true;
 				newWindow.removeAllElements();
 				newWindow.setStyle("skinClass", CollagePopupWindowSkin);

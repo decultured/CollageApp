@@ -33,6 +33,7 @@ package Collage.Clips
 		{
 			super(PieChartClipSkin, PieChartClipEditor);
 			type = "piechart";
+			rotatable = false;
 			
 			_QueryDefinition.queryTitle = "PieChart";
 			_QueryDefinition.queryDescription = "Data setup for the Pie Chart";

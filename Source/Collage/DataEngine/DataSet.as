@@ -25,7 +25,7 @@ package Collage.DataEngine
 		[Bindable] public var changed:String = "";
 		[Bindable] public var accessed:String = "";
 		
-		public var columns:Object = new Object();
+		[Bindable] public var columns:ArrayList = new ArrayList();
 
 		public function DataSet():void
 		{
@@ -34,17 +34,20 @@ package Collage.DataEngine
 
 		public function GetColumnByID(id:String):DataSetColumn
 		{
-			if (columns[id])
-				return columns[id];
+			for (var i:int = 0; i < columns.length; i++)
+			{
+				if (columns.getItemAt(i) && columns.getItemAt(i).internalLabel == id)
+					return columns.getItemAt(i) as DataSetColumn;
+			}
 			return null;
 		}
 
 		public function GetColumnByLabel(label:String):DataSetColumn
 		{
-			for (var key:String in columns)
+			for (var i:int = 0; i < columns.length; i++)
 			{
-				if (columns[key] && columns[key].label == label)
-					return columns[key];
+				if (columns.getItemAt(i) && columns.getItemAt(i).label == label)
+					return columns.getItemAt(i) as DataSetColumn;
 			}
 			return null;
 		}
@@ -52,11 +55,11 @@ package Collage.DataEngine
 		public function GetNumColumnsOfType(allowedTypes:Array = null):uint
 		{
 			var columnsFound:uint = 0;
-			for (var key:String in columns) {
+			for (var i:int = 0; i < columns.length; i++) {
 				if (allowedTypes) {
 					var typeFound:Boolean = false;
 					for each (var type:String in allowedTypes) {
-						if (type == columns[key].datatype) {
+						if (type == columns.getItemAt(i).datatype) {
 							typeFound = true;
 							break;
 						}
@@ -67,34 +70,6 @@ package Collage.DataEngine
 				columnsFound++;
 			}
 			return columnsFound;
-		}
-		
-		public function GetColumnsComboBox(allowedTypes:Array = null):ArrayList
-		{
-			var columnSelections:ArrayList = new ArrayList();
-			for (var key:String in columns) {
-				if (allowedTypes && allowedTypes.length > 0) {
-					var typeFound:Boolean = false;
-					for each (var type:String in allowedTypes) {
-						if (type == columns[key].datatype) {
-							typeFound = true;
-							break;
-						}
-					}
-					if (!typeFound)
-						continue;
-				}
-				
-				/*var newObject:Object = new Object;
-				newObject["label"] = columns[key].label;
-				newObject["data"] = columns[key].internalLabel;
-				columnSelections.addItem(newObject);
-				*/
-				var newString:String = columns[key].label;
-				columnSelections.addItem(newString);
-			}
-			
-			return columnSelections;
 		}
 
 		public function LoadColumns():void
@@ -143,10 +118,12 @@ package Collage.DataEngine
 					for (var columnKey:String in results[key]) {
 						if (!results[key][columnKey]["internal"])
 							continue;
-						if (!columns[results[key][columnKey]["internal"]])
-							columns[results[key][columnKey]["internal"]] = new DataSetColumn();
+						var newColumn:DataSetColumn = GetColumnByID(results[key][columnKey]["internal"]);
+						if (!newColumn) {
+							newColumn = new DataSetColumn();
+							columns.addItem(newColumn);
+						}
 
-						var newColumn:DataSetColumn = columns[results[key][columnKey]["internal"]];
 						for (var columnDataKey:String in results[key][columnKey])
 						{
 							if (columnDataKey == "internal")

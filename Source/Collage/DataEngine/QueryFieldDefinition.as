@@ -3,12 +3,13 @@ package Collage.DataEngine
 	public class QueryFieldDefinition
 	{
 		public var owner:QueryDefinition;
-		public var internalName:String = "";
-		public var title:String = "";
-		public var description:String = "";
-		public var grouped:Boolean = false;
-		public var sortable:Boolean = false;
-		public var allowModifiers:Boolean = false;
+		[Bindable]public var internalName:String = "";
+		[Bindable]public var title:String = "";
+		[Bindable]public var description:String = "";
+		[Bindable]public var grouped:Boolean = false;
+		[Bindable]public var groupable:Boolean = false;
+		[Bindable]public var sortable:Boolean = false;
+		[Bindable]public var allowModifiers:Boolean = false;
                
 		public var allowedTypes:Array = new Array();
 

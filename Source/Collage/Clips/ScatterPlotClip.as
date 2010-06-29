@@ -57,6 +57,7 @@ package Collage.Clips
 		{
 			super(ScatterPlotClipSkin, ScatterPlotClipEditor);
 			type = "scatterplot";
+			rotatable = false;
 
 			_QueryDefinition.queryTitle = "Scatter Chart";
 			_QueryDefinition.queryDescription = "Data setup for the Scatter Chart";

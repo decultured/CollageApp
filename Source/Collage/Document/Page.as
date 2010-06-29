@@ -1,11 +1,12 @@
 package Collage.Document
 {
-	import Collage.Utilities.Logger.*;
-	import mx.core.*;  
 	import spark.components.Group;
+	import Collage.Utilities.Logger.*;
 	import Collage.Clip.*;
 	import flash.utils.*;
+	import mx.events.PropertyChangeEvent;
 	import mx.utils.*;
+	import mx.core.*;  
 	
 	public class Page extends Group
 	{
@@ -17,6 +18,8 @@ package Collage.Document
 		[Bindable][Savable]public var displayName:String = "UNNAMED";
 		[Bindable][Savable]public var backgroundURL:String = null;
 		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
+		[Bindable][Savable]public var pageHeight:Number = 1024;
+		[Bindable][Savable]public var pageWidth:Number = 768;
 		
 		private var _Loading:Boolean = false;
 		
@@ -35,8 +38,8 @@ package Collage.Document
 		public function New():void
 		{
 			NewUID();
-			width = DEFAULT_WIDTH;
-			height = DEFAULT_HEIGHT;
+			pageWidth = DEFAULT_WIDTH;
+			pageHeight = DEFAULT_HEIGHT;
 			backgroundURL = null;
 			backgroundColor = 0xffffff;
 			DeleteAllClips();
@@ -117,7 +120,7 @@ package Collage.Document
 			Logger.LogDebug("PageLoading : " + UID, this);
 			
 			if (!dataObject) {
-				Logger.LogWarning("PageLoading - dataObject was NULL", this);
+				Logger.LogError("PageLoading - dataObject was NULL", this);
 				return false;
 			}
 
@@ -137,11 +140,18 @@ package Collage.Document
 					}
 				} else {
 					try {
-						if(this.hasOwnProperty(key))
+						if(this.hasOwnProperty(key)) {
 							this[key] = dataObject[key];
-					} catch(e:Error) { }
+							dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, key, null, this[key]));
+							Logger.Log("Page Property: " + key + " Value: " + dataObject[key], this);
+						}
+					} catch(e:Error) {
+						Logger.LogWarning("Key: " + key + " Not found for object: " + this, this); 
+					}
 				}
 			}
+			
+			Logger.Log("Page Loaded: " + displayName + " Width: " + pageWidth + " Height: " + pageHeight, this);
 			return true;
 		}
 	} 

@@ -167,8 +167,11 @@ package Desktop.Application
 				case "insertGoogleMaps":_EditDocumentView.AddClipByType('googlemaps', new Rectangle(150, 150, 300, 300)); break;
 				case "refreshDatasets":	DataEngine.LoadAllDataSets();
 					break;
-*/				case "logout": Session.Logout(); break;
-
+*/
+				case "refreshDatasets":
+					DataEngine.LoadAllDataSets();
+					break;
+				case "logout": Session.Logout(); break;
 				case "zoomin": 	collageApp.ZoomIn(); break;
 				case "zoomout": collageApp.ZoomOut(); break;
 				case "fittoscreen":
