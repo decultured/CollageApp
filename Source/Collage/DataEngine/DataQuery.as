@@ -19,7 +19,7 @@ package Collage.DataEngine
 
 		[Savable][Bindable]public var limit:Number = 100;
 		[Savable][Bindable]public var dataset:String = "";
-		[Savable][Bindable]public var fields:ArrayList = new ArrayList();
+		[Bindable]public var fields:ArrayList = new ArrayList();
 
 		[Savable][Bindable]public var updatable:Boolean = true;
 		[Savable][Bindable]public var updateTime:Number = 360; // In Seconds for now?
@@ -82,7 +82,7 @@ package Collage.DataEngine
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
-		public function GetColumnSelectionsArrayList(allowedTypes:Array = null):ArrayList
+		public function GetColumnSelectionsArrayList(allowedTypes:Array = null, internalName:String = null):ArrayList
 		{
 			var columnSelections:ArrayList = new ArrayList();
 			var currentDataSet:DataSet = DataEngine.GetDataSetByID(dataset);
@@ -108,9 +108,14 @@ package Collage.DataEngine
 				newObject["columnName"] = currentColumn.label;
 				newObject["dataType"] = currentColumn.datatype;
 				newObject["dataTypeAllowed"] = typeFound;
-				if (FindFieldByColumnName(currentColumn.label))
-					newObject["used"] = true;
-				else
+				
+				var newDataQueryField:DataQueryField = FindFieldByColumnName(currentColumn.label);
+				if (newDataQueryField) {
+					if (newDataQueryField.internalName && internalName && newDataQueryField.internalName == internalName)
+						newObject["used"] = false;
+					else
+						newObject["used"] = true;
+				} else
 					newObject["used"] = false;
 				
 				columnSelections.addItem(newObject);
@@ -324,6 +329,11 @@ package Collage.DataEngine
 				}
 			}
 
+			newObject["fields"] = new Array();
+			for (var i:int = 0; i < fields.length; i++) {
+				newObject["fields"].push((fields.getItemAt(i) as DataQueryField).SaveToObject);
+			}
+
 			return newObject;
 		}
 
@@ -331,14 +341,25 @@ package Collage.DataEngine
 		{
 			if (!dataObject) return false;
 			for(var obj_k:String in dataObject) {
-				try {
-					if(this.hasOwnProperty(obj_k)) {
-						if (this[obj_k] is ArrayList && dataObject[obj_k] is Array)
-							this[obj_k] = new ArrayList(dataObject[obj_k] as Array);
-						else
-							this[obj_k] = dataObject[obj_k];
+				if (obj_k == "fields") {
+					if (!dataObject[obj_k] is Array)
+						continue;
+					var fieldsArray:Array = dataObject[obj_k] as Array;
+					for (var i:uint = 0; i < fieldsArray.length; i++) {
+						var fieldDataObject:Object = fieldsArray[i] as Object;
+						var newField:DataQueryField = new DataQueryField();
+						newField.LoadFromObject(fieldDataObject);
 					}
-				} catch(e:Error) { }
+				} else {
+					try {
+						if(this.hasOwnProperty(obj_k)) {
+							if (this[obj_k] is ArrayList && dataObject[obj_k] is Array)
+								this[obj_k] = new ArrayList(dataObject[obj_k] as Array);
+							else
+								this[obj_k] = dataObject[obj_k];
+						}
+					} catch(e:Error) { }
+				}
 			}
 			return true;
 		}

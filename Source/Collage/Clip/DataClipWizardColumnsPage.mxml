@@ -4,6 +4,9 @@
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 	    xmlns:mx="library://ns.adobe.com/flex/mx"
 		clipAndEnableScrolling="false" >
+		<fx:Metadata>
+			[Event(name="itemDoubleClicked", type="flash.events.Event")]
+		</fx:Metadata>
 	<fx:Script><![CDATA[
 		import Collage.Utilities.Logger.*;
 		import Collage.Application.*;
@@ -61,7 +64,7 @@
 				query.AddField(dataQueryField);
 			}
 
-			queryFields = query.GetColumnSelectionsArrayList(fieldDef.allowedTypes);
+			queryFields = query.GetColumnSelectionsArrayList(fieldDef.allowedTypes, fieldDef.internalName);
 
 			groupCheckbox.selected = dataQueryField.isGrouped;
 			groupCheckbox.visible = fieldDef.groupable;
@@ -70,8 +73,9 @@
 			if (dataQueryField.columnName) {
 				for (var i:int = 0; i < queryFields.length; i++)
 				{
-					if (queryFields.getItemAt(0)["columnName"] == dataQueryField.columnName) {
+					if (queryFields.getItemAt(i)["columnName"] == dataQueryField.columnName) {
 						columnsList.selectedIndex = i;
+						complete = true;
 						break;
 					}
 				}
@@ -84,7 +88,7 @@
 			if (dataQueryField.modifier) {
 				for (i = 0; i < DataEngine.modifierSelections.length; i++)
 				{
-					if (DataEngine.modifierSelections.getItemAt(0)["data"] == dataQueryField.modifier) {
+					if (DataEngine.modifierSelections.getItemAt(i)["data"] == dataQueryField.modifier) {
 						modifierList.selectedIndex = i;
 						break;
 					}
@@ -98,7 +102,7 @@
 			if (dataQueryField.sort) {
 				for (i = 0; i < DataEngine.sortingSelections.length; i++)
 				{
-					if (DataEngine.sortingSelections.getItemAt(0)["data"] == dataQueryField.sort) {
+					if (DataEngine.sortingSelections.getItemAt(i)["data"] == dataQueryField.sort) {
 						sortingList.selectedIndex = i;
 						break;
 					}
@@ -123,16 +127,21 @@
 			}
 		}
 		
+		public function ItemDoubleClicked():void {
+			if (columnsList.selectedItem)
+				dispatchEvent(new flash.events.Event("itemDoubleClicked"));
+			Logger.Log("Item Double Clicked!");
+		}
 	]]></fx:Script>
 	<s:Label text="{fieldDef.title} Data Selection" left="0" top="0" fontSize="18" color="#eeeeee" />
 	<s:VGroup height="100%" top="40" left="20" right="20">
 	 	<s:CheckBox id="groupCheckbox" label="Group this item " color="0xeeeeee" />
 		<s:DropDownList id="modifierList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="150" prompt="Select a modifier" />
 		<s:DropDownList id="sortingList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="150" prompt="Select a Sort Method" />
-		<s:List id="columnsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]" borderVisible="false" height="100%" width="100%" dataProvider="{queryFields}" change="SelectionChanged()">
+		<s:List id="columnsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]" borderVisible="false" height="100%" width="100%" dataProvider="{queryFields}" change="SelectionChanged()" doubleClick="ItemDoubleClicked()" doubleClickEnabled="true">
 			<s:itemRenderer>
 				<fx:Component>
-					<s:ItemRenderer focusRect="false" width="100%" height="25" doubleClickEnabled="true">
+					<s:ItemRenderer focusRect="false" width="100%" height="25" >
 						<s:states>
 							<s:State name="normal"/>
 							<s:State name="hovered"/>
@@ -149,6 +158,12 @@
 									return;
 								
 								autoDrawBackground = (data.dataTypeAllowed&&!data.used);
+								
+								var columnUsed:Boolean = (data.dataTypeAllowed && data.used);
+								var columnNotAllowed:Boolean = (!data.dataTypeAllowed);
+								
+								typeNotAllowedLabel.visible = typeNotAllowedLabel.includeInLayout = columnNotAllowed;
+								typeUsedLabel.visible = typeUsedLabel.includeInLayout = columnUsed;
 							}
 						]]></fx:Script>
 						<s:Line width="100%" bottom="0">
@@ -161,8 +176,8 @@
 								<s:HorizontalLayout verticalAlign="middle"/>
 							</s:layout>
 							<s:Label id="titleText" text="{data.columnName}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontWeight="bold" fontSize="12"/>
-							<s:Label visible="- {(!data.dataTypeAllowed)}" includeInLayout="{(!data.dataTypeAllowed)}" text="Datatype not allowed" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
-							<s:Label visible="- {(data.dataTypeAllowed&amp;&amp;data.used)}" includeInLayout="{(data.dataTypeAllowed&amp;&amp;data.used)}" text="Column already used for this chart" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
+							<s:Label id="typeNotAllowedLabel" visible="false" includeInLayout="false" text="Datatype not allowed" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
+							<s:Label id="typeUsedLabel" visible="false" includeInLayout="false" text="Column already used for this chart" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
 							<s:Label id="typeText" text="{data.dataType}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontSize="10" width="100%" textAlign="end"/>
 						</s:Group>
 					</s:ItemRenderer>

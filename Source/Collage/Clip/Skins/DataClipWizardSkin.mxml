@@ -39,8 +39,7 @@
 
 		public function NextPage():void
 		{
-			if (currentState == "normal" && hostComponent.query.dataset) {
-				currentState = "columns";
+			if (currentState == "normal") {
 				DataSetSelected();
 			} else if (currentState == "columns") {
 				ColumnSelected();
@@ -84,32 +83,7 @@
 		private function Submit():void
 		{
 			Logger.LogDebug("Submit Selected Dataset: " + hostComponent.query.dataset, hostComponent)
-/*			
-			for (var i:int = 0; i < hostComponent.queryDefinition.fieldDefinitions.length; i++)	{
-				var queryFieldDef:QueryFieldDefinition = hostComponent.queryDefinition.fieldDefinitions.getItemAt(i) as QueryFieldDefinition;
-				if (!queryFieldDef || !queryFieldDef.selectedColumn) {
-					columnSelectionError.visible = true;
-					return;
-				}
-				
-				var groupType:String = null;
-				if (queryFieldDef.grouped)
-					groupType = "val";
-				
-				var sortType:String = null;
-				if (queryFieldDef.sortDirection)
-					sortType = queryFieldDef.sortDirection;
-				
-				var modifierType:String = null;
-				if (queryFieldDef.selectedModifier)
-					modifierType = queryFieldDef.selectedModifier;
-				
-				Logger.LogDebug("Submit Selected Column: " + queryFieldDef.title + " : " + queryFieldDef.selectedColumn, hostComponent)
-				hostComponent.query.AddField(queryFieldDef.internalName, queryFieldDef.selectedColumn, sortType, modifierType, groupType);
-			}
 
-			columnSelectionError.visible = false;
-*/
 			hostComponent.query.LoadQueryResults();
 			
 			CollageApp.instance.ClosePopup("datawizard");
@@ -129,7 +103,7 @@
     </s:layout>
 	<s:Group left="15" right="15" top="15" bottom="15" includeIn="normal">
 		<s:Label text="Step 1: Choose a dataset" top="0" left="0" fontSize="18" color="#eeeeee" />
-		<clgdata:DataSetsList id="dataSetsList" top="45" bottom="80" left="20" right="30"/>
+		<clgdata:DataSetsList id="dataSetsList" dataQuery="{hostComponent.query}" itemDoubleClicked="DataSetSelected()" top="45" bottom="80" left="20" right="30"/>
 		<s:HGroup bottom="40" right="20" includeInLayout="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}" visible="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}">
 			<s:Label text="How many rows?" color="#eeeeee" fontSize="12" />
 			<s:NumericStepper value="@{hostComponent.query.limit}" stepSize="1" maximum="{hostComponent.queryDefinition.maxRowsReturned}" minimum="{hostComponent.queryDefinition.minRowsReturned}" />
@@ -140,7 +114,7 @@
 	</s:Group>
 
 	<s:Group left="15" right="15" top="15" bottom="15" includeIn="columns">
-		<clgclip:DataClipWizardColumnsPage id="columnsPage" width="100%" height="100%" bottom="45" />
+		<clgclip:DataClipWizardColumnsPage id="columnsPage" itemDoubleClicked="NextPage()" width="100%" height="100%" bottom="45" />
 		<s:HGroup bottom="0" right="0">
 			<s:Button id="Page2PrevButton" right="0" click="PrevPage()" label="Back" />
 			<s:Button id="Page2NextButton" right="0" click="ColumnSelected()" label="Next" enabled="{(columnsPage.complete)}" />

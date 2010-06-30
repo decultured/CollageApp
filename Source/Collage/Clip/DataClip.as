@@ -38,7 +38,7 @@ package Collage.Clip
 			{
 				var field:DataQueryField = query.fields.getItemAt(i) as DataQueryField;
 								
-				if (!field.internalName || !this.hasOwnProperty(field.internalName))
+				if (!field || !field.internalName || !this.hasOwnProperty(field.internalName))
 					continue;
 
 				var oldVal:String = this[field.internalName];
