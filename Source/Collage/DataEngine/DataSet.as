@@ -111,7 +111,6 @@ package Collage.DataEngine
 			
 			for (var key:String in results)
 			{
-				Logger.Log("Key:" + key + " value:" + results[key], this);
 				if (key == "total_rows") {
 					totalRows = parseInt(results[key]);
 				} else if (key == "columns") {

@@ -9,13 +9,11 @@ package Collage.DataEngine
 		[Bindable]public var grouped:Boolean = false;
 		[Bindable]public var groupable:Boolean = false;
 		[Bindable]public var sortable:Boolean = false;
+		[Bindable]public var sortDirection:String = null;
 		[Bindable]public var allowModifiers:Boolean = false;
+		[Bindable]public var modifier:String = null;
                
 		public var allowedTypes:Array = new Array();
-
-		public var sortDirection:String;
-		public var selectedColumn:String;
-		public var selectedModifier:String;
 		
 		public function QueryFieldDefinition(_owner:QueryDefinition):void
 		{

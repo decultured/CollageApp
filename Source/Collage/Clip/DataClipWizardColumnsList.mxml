@@ -75,8 +75,6 @@
 					<s:Label id="titleText" color="#eeeeee" maxDisplayedLines="1" fontSize="14" top="5" right="10" left="10"/>
 					<s:Label id="infoText"  color="#eeeeee" maxDisplayedLines="1" fontSize="12" bottom="5" right="10" left="10"/>
 					<s:DropDownList id="columnsList" alternatingItemColors="[#EEEEEE,#ffffff]" width="350" prompt="Select a column" change="HandleColumnSelection(event)" />
-					<s:DropDownList id="modifierList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="350" prompt="Select a modifier" change="HandleModifierSelection(event)" />
-					<s:DropDownList id="sortingList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="350" prompt="Select a Sort Method" change="HandleSortSelection(event)" />
 				</s:VGroup>
 			</s:ItemRenderer>
 		</fx:Component>

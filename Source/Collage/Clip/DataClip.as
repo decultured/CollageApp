@@ -18,7 +18,7 @@ package Collage.Clip
 		public function DataClip(_clipViewSkin:Class, _clipEditorSkin:Class, _smallClipEditorSkin:Class = null):void
 		{
 			super(_clipViewSkin, _clipEditorSkin, _smallClipEditorSkin);
-			_QueryDefinition = new QueryDefinition(this);
+			_QueryDefinition = new QueryDefinition();
 			query.addEventListener(DataQuery.FIELDS_CHANGED, QueryFieldsChangedHandler);
 		}
 
@@ -43,7 +43,7 @@ package Collage.Clip
 
 				var oldVal:String = this[field.internalName];
 				this[field.internalName] = field.resultName;
-				Logger.LogDebug("dataClip Key: " + field.internalName + " val: " + this[field.internalName]);
+				Logger.LogDebug("dataClip Key: " + field.internalName + " val: " + this[field.internalName], this);
 				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, field.internalName, oldVal, this[field.internalName]));
 			}
 		}

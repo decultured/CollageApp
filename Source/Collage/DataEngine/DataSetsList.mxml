@@ -10,7 +10,25 @@
 		dragMoveEnabled="true"
 		dropEnabled="true"
 		alternatingItemColors="[#EEEEEE,#ffffff]" 
-		dataProvider="{DataEngine.datasets}">
+		dataProvider="{DataEngine.datasets}"
+		creationComplete="Reset()">
+	<fx:Script><![CDATA[
+		public var dataQuery:DataQuery = null;
+		
+		public function Reset():void {
+			if (!dataQuery || !dataQuery.dataset)
+				return;
+			
+			for (var i:int = 0; i < DataEngine.datasets.length; i++)
+			{
+				if (DataEngine.datasets.getItemAt(0)["id"] == dataQuery.dataset) {
+					selectedItem = DataEngine.datasets.getItemAt(0);
+					break;
+				}
+			}
+		}
+		 
+	]]></fx:Script>
 	<s:itemRenderer>
 		<fx:Component>
 			<s:ItemRenderer focusRect="false" width="100%" height="35" doubleClick="OpenDataSetWindow()" doubleClickEnabled="true">

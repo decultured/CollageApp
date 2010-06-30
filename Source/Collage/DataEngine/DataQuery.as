@@ -44,7 +44,7 @@ package Collage.DataEngine
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
-		public function AddField(internalName:String, columnName:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
+		public function AddNewField(internalName:String, columnName:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
 		{
 			var newDataQueryField:DataQueryField = null;
 
@@ -59,6 +59,26 @@ package Collage.DataEngine
 			newDataQueryField = new DataQueryField(internalName, columnName, sort,  modifier, group, alias);
 			fields.addItem(newDataQueryField);
 
+			Logger.LogDebug("Field Added: " + internalName + " ColumnName: " + columnName, this);
+
+			dispatchEvent(new Event(FIELDS_CHANGED));
+		}
+		
+		public function AddField(_qField:DataQueryField):void
+		{
+			var newDataQueryField:DataQueryField = null;
+			newDataQueryField = FindFieldByInternalName(_qField.internalName);
+			if (newDataQueryField)
+				fields.removeItem(newDataQueryField);
+
+			newDataQueryField = FindFieldByColumnName(_qField.columnName);
+			if (newDataQueryField)
+				fields.removeItem(newDataQueryField);
+
+			fields.addItem(_qField);
+
+			Logger.LogDebug("Field Class Added: " + _qField.internalName + " ColumnName: " + _qField.columnName, this);
+
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
@@ -66,15 +86,18 @@ package Collage.DataEngine
 		{
 			var columnSelections:ArrayList = new ArrayList();
 			var currentDataSet:DataSet = DataEngine.GetDataSetByID(dataset);
-			if (!currentDataSet)
+			if (!currentDataSet) {
+				Logger.LogWarning("No Dataset - Column Selections", this);
 				return columnSelections;
-
-			for (var key:String in currentDataSet.columns) {
+			}
+			
+			for (var i:int = 0; i < currentDataSet.columns.length; i++) {
 				var typeFound:Boolean = true;
+				var currentColumn:DataSetColumn = currentDataSet.columns.getItemAt(i) as DataSetColumn;
 				if (allowedTypes && allowedTypes.length > 0) {
 					typeFound = false;
 					for each (var type:String in allowedTypes) {
-						if (type == currentDataSet.columns[key].datatype) {
+						if (type == currentColumn.datatype) {
 							typeFound = true;
 							break;
 						}
@@ -82,10 +105,10 @@ package Collage.DataEngine
 				}
 				
 				var newObject:Object = new Object;
-				newObject["columnName"] = currentDataSet.columns[key].label;
-				newObject["dataType"] = currentDataSet.columns[key].datatype;
+				newObject["columnName"] = currentColumn.label;
+				newObject["dataType"] = currentColumn.datatype;
 				newObject["dataTypeAllowed"] = typeFound;
-				if (FindFieldByColumnName(currentDataSet.columns[key].label))
+				if (FindFieldByColumnName(currentColumn.label))
 					newObject["used"] = true;
 				else
 					newObject["used"] = false;
@@ -97,6 +120,9 @@ package Collage.DataEngine
 
 		public function FindFieldByInternalName(internalName:String):DataQueryField
 		{
+			if (internalName == null)
+				return null;
+
 			for (var i:int = 0; i < fields.length; i++)
 			{
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
@@ -108,6 +134,9 @@ package Collage.DataEngine
 
 		public function FindFieldByColumnName(columnName:String):DataQueryField
 		{
+			if (columnName == null)
+				return null;
+			
 			for (var i:int = 0; i < fields.length; i++)
 			{
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
@@ -119,6 +148,9 @@ package Collage.DataEngine
 
 		public function FindFieldByResultName(resultName:String):DataQueryField
 		{
+			if (resultName == null)
+				return null;
+
 			for (var i:int = 0; i < fields.length; i++)
 			{
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
@@ -136,10 +168,13 @@ package Collage.DataEngine
 			query["dataset"] = dataset;
 			query["fields"] = new Array();
 			
-			for (var key:String in fields)
+			for (var i:int = 0; i < fields.length; i++)
 			{
-				var field:DataQueryField = fields[key] as DataQueryField;
-				
+				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
+
+				if (!field.columnName)
+					continue;
+
 				var fieldQuery:Object = new Object();
 
 				if (field.sort)
@@ -152,10 +187,12 @@ package Collage.DataEngine
 					fieldQuery["alias"] = field.alias;
 				fieldQuery["name"] = field.columnName;
 				
-				Logger.Log("Query Flielded : " + field.columnName);
-				
+				Logger.Log("Column Set: " + field.columnName + " internalName: " + field.internalName + " Modifier: " + field.modifier + " Sort: " + field.sort + " Grouped: " + field.group, this);
+
 				query["fields"].push(fieldQuery);
 			}
+
+			dispatchEvent(new Event(FIELDS_CHANGED));
 			
 			queryString = JSON.encode(query);
 			return queryString;

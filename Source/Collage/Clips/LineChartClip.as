@@ -66,6 +66,7 @@ package Collage.Clips
 			var newQFD:QueryFieldDefinition = new QueryFieldDefinition(_QueryDefinition);
 			newQFD.internalName = "xAxis";
 			newQFD.title = "X Axis";
+			newQFD.groupable = true;
 			newQFD.description = "This field defines the x axis of the chart.";
 			newQFD.AddAllowedType("numeric");
 			newQFD.AddAllowedType("datetime");

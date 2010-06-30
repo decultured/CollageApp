@@ -61,6 +61,7 @@ package Collage.Clips
 			var newQFD:QueryFieldDefinition = new QueryFieldDefinition(_QueryDefinition);
 			newQFD.internalName = "group";
 			newQFD.title = "Group";
+			newQFD.groupable = true;
 			newQFD.description = "This field defines the bar segments";
 			newQFD.grouped = true;
 			_QueryDefinition.AddFieldDefinition(newQFD);

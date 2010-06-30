@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 	    xmlns:mx="library://ns.adobe.com/flex/mx"
@@ -22,16 +22,88 @@
 		private function handleCreationComplete():void {
 		}
 		
+		public function Save():void
+		{
+			if (!columnsList.selectedItem || !dataQueryField) {
+				complete = false;
+				return;
+			}
+			
+			if (modifierList.selectedItem)
+				dataQueryField.modifier = modifierList.selectedItem.data;
+			
+			if (sortingList.selectedItem)
+				dataQueryField.sort = sortingList.selectedItem.data;
+			
+			dataQueryField.isGrouped = groupCheckbox.selected;
+			dataQueryField.columnName = columnsList.selectedItem["columnName"]
+			
+			Logger.Log("Column Set: " + dataQueryField.columnName + " internalName: " + dataQueryField.internalName + " Modifier: " + dataQueryField.modifier + " Sort: " + dataQueryField.sort + " Grouped: " + dataQueryField.isGrouped, this);	
+		}
+		
 		public function Reset():void
 		{
 			complete = false;
-			
+
 			if (!query || !fieldDef) {
 				queryFields = null;
 				return;
 			}
 			
+			dataQueryField = query.FindFieldByInternalName(fieldDef.internalName);
+			if (!dataQueryField) {
+				dataQueryField = new DataQueryField()
+				dataQueryField.internalName = fieldDef.internalName;
+				dataQueryField.columnName = null;
+				dataQueryField.sort = fieldDef.sortDirection;
+				dataQueryField.modifier = fieldDef.modifier;
+				dataQueryField.isGrouped = fieldDef.grouped;
+				query.AddField(dataQueryField);
+			}
+
 			queryFields = query.GetColumnSelectionsArrayList(fieldDef.allowedTypes);
+
+			groupCheckbox.selected = dataQueryField.isGrouped;
+			groupCheckbox.visible = fieldDef.groupable;
+			groupCheckbox.includeInLayout = fieldDef.groupable;
+
+			if (dataQueryField.columnName) {
+				for (var i:int = 0; i < queryFields.length; i++)
+				{
+					if (queryFields.getItemAt(0)["columnName"] == dataQueryField.columnName) {
+						columnsList.selectedIndex = i;
+						break;
+					}
+				}
+			}
+			
+			modifierList.dataProvider = DataEngine.modifierSelections;
+			modifierList.visible=fieldDef.allowModifiers;
+			modifierList.includeInLayout=fieldDef.allowModifiers;
+
+			if (dataQueryField.modifier) {
+				for (i = 0; i < DataEngine.modifierSelections.length; i++)
+				{
+					if (DataEngine.modifierSelections.getItemAt(0)["data"] == dataQueryField.modifier) {
+						modifierList.selectedIndex = i;
+						break;
+					}
+				}
+			}
+
+			sortingList.dataProvider = DataEngine.sortingSelections;
+			sortingList.visible=fieldDef.sortable;
+			sortingList.includeInLayout=fieldDef.sortable;
+			
+			if (dataQueryField.sort) {
+				for (i = 0; i < DataEngine.sortingSelections.length; i++)
+				{
+					if (DataEngine.sortingSelections.getItemAt(0)["data"] == dataQueryField.sort) {
+						sortingList.selectedIndex = i;
+						break;
+					}
+				}
+			}
 		}
 		
 		private function SelectionChanged():void
@@ -50,48 +122,52 @@
 				columnsList.selectedItem = null;
 			}
 		}
+		
 	]]></fx:Script>
-	<s:Label text="{fieldDef.title} Data Selection" left="0" fontSize="18" color="#eeeeee" />
-	<s:Group height="100%" width="100%">
-	<s:List id="columnsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]" borderVisible="false" height="100%" top="20" left="20" right="20" dataProvider="{queryFields}" change="SelectionChanged()">
-		<s:itemRenderer>
-			<fx:Component>
-				<s:ItemRenderer focusRect="false" width="100%" height="25" doubleClickEnabled="true">
-					<s:states>
-						<s:State name="normal"/>
-						<s:State name="hovered"/>
-						<s:State name="editing"/>
-						<s:State name="selected"/>
-					</s:states>
-					<fx:Script><![CDATA[
-						import Collage.Utilities.Logger.*;
-						import Collage.Application.*;
+	<s:Label text="{fieldDef.title} Data Selection" left="0" top="0" fontSize="18" color="#eeeeee" />
+	<s:VGroup height="100%" top="40" left="20" right="20">
+	 	<s:CheckBox id="groupCheckbox" label="Group this item " color="0xeeeeee" />
+		<s:DropDownList id="modifierList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="150" prompt="Select a modifier" />
+		<s:DropDownList id="sortingList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="150" prompt="Select a Sort Method" />
+		<s:List id="columnsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]" borderVisible="false" height="100%" width="100%" dataProvider="{queryFields}" change="SelectionChanged()">
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ItemRenderer focusRect="false" width="100%" height="25" doubleClickEnabled="true">
+						<s:states>
+							<s:State name="normal"/>
+							<s:State name="hovered"/>
+							<s:State name="editing"/>
+							<s:State name="selected"/>
+						</s:states>
+						<fx:Script><![CDATA[
+							import Collage.Utilities.Logger.*;
+							import Collage.Application.*;
 					
-						override public function set data(value:Object):void {
-							super.data = value;
-							if (data == null) // a renderer's data is set to null when it goes out of view
-								return;
+							override public function set data(value:Object):void {
+								super.data = value;
+								if (data == null) // a renderer's data is set to null when it goes out of view
+									return;
 								
-							autoDrawBackground = (data.dataTypeAllowed&&!data.used);
-						}
-					]]></fx:Script>
-					<s:Line width="100%" bottom="0">
-						<s:stroke>
-							<s:SolidColorStroke caps="none" color="#b2b2b2" joints="miter" miterLimit="4" weight="1"/>
-						</s:stroke>
-					</s:Line>
-					<s:Group left="10" right="10" height="100%">
-						<s:layout>
-							<s:HorizontalLayout verticalAlign="middle"/>
-						</s:layout>
-						<s:Label id="titleText" text="{data.columnName}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontWeight="bold" fontSize="12"/>
-						<s:Label visible="- {(!data.dataTypeAllowed)}" includeInLayout="{(!data.dataTypeAllowed)}" text="Datatype not allowed" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
-						<s:Label visible="- {(data.dataTypeAllowed&amp;&amp;data.used)}" includeInLayout="{(data.dataTypeAllowed&amp;&amp;data.used)}" text="Column already used for this chart" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
-						<s:Label id="typeText" text="{data.dataType}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontSize="10" width="100%" textAlign="end"/>
-					</s:Group>
-				</s:ItemRenderer>
-			</fx:Component>
-		</s:itemRenderer>
-	</s:List>
-	</s:Group>
-</s:VGroup>
+								autoDrawBackground = (data.dataTypeAllowed&&!data.used);
+							}
+						]]></fx:Script>
+						<s:Line width="100%" bottom="0">
+							<s:stroke>
+								<s:SolidColorStroke caps="none" color="#b2b2b2" joints="miter" miterLimit="4" weight="1"/>
+							</s:stroke>
+						</s:Line>
+						<s:Group left="10" right="10" height="100%">
+							<s:layout>
+								<s:HorizontalLayout verticalAlign="middle"/>
+							</s:layout>
+							<s:Label id="titleText" text="{data.columnName}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontWeight="bold" fontSize="12"/>
+							<s:Label visible="- {(!data.dataTypeAllowed)}" includeInLayout="{(!data.dataTypeAllowed)}" text="Datatype not allowed" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
+							<s:Label visible="- {(data.dataTypeAllowed&amp;&amp;data.used)}" includeInLayout="{(data.dataTypeAllowed&amp;&amp;data.used)}" text="Column already used for this chart" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
+							<s:Label id="typeText" text="{data.dataType}" color="{(!data.dataTypeAllowed||data.used)?0xb2b2b2:0x555555}" maxDisplayedLines="1" fontSize="10" width="100%" textAlign="end"/>
+						</s:Group>
+					</s:ItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:List>
+	</s:VGroup>
+</s:Group>
