@@ -22,8 +22,9 @@ package Collage.DataEngine
 		[Bindable]public var fields:ArrayList = new ArrayList();
 
 		[Savable][Bindable]public var updatable:Boolean = true;
-		[Savable][Bindable]public var updateTime:Number = 360; // In Seconds for now?
-		[Savable][Bindable]public var lastUpdate:Number = 0;
+		[Savable][Bindable]private var _UpdateInterval:Number = 5000; // In Microseconds, -1 = no updates
+		[Savable][Bindable]public var lastUpdate:Date = new Date();
+		private var _UpdateTimer:Timer;
 
 		[Savable][Bindable]public var resultRows:ArrayList = new ArrayList();
 		[Savable][Bindable]public var resultColumns:ArrayList = new ArrayList();
@@ -33,11 +34,42 @@ package Collage.DataEngine
 		[Savable][Bindable]public var total:Number = 0;
 		[Savable][Bindable]public var parsedTime:Number = 0;
 		
-		public function DataQuery():void
+		public function get updateInterval():Number {return _UpdateInterval;}
+		public function set updateInterval(newInterval:Number):void
 		{
-			
+			_UpdateInterval = newInterval;
+			Logger.Log("Timer changed, refreshes every: " + _UpdateInterval / 1000 + " seconds.", this);
+			StartTimer();
 		}
 		
+		public function DataQuery():void
+		{
+			StartTimer();
+		}
+		
+		public function StartTimer():void
+		{
+			if (_UpdateTimer) {
+				_UpdateTimer.stop();
+				_UpdateTimer.removeEventListener("timer", TimerUpdateQuery);
+			}
+			if (_UpdateInterval < 1)
+				return;
+			if (_UpdateInterval < 5000)
+				_UpdateInterval = 5000;
+			_UpdateTimer = new Timer(_UpdateInterval, 0);
+			_UpdateTimer.addEventListener("timer", TimerUpdateQuery, false, 0, true);
+			_UpdateTimer.start();
+			
+			Logger.Log("Timer started, refreshes every: " + _UpdateInterval / 1000 + " seconds.", this);
+		}
+
+		public function TimerUpdateQuery(event:TimerEvent):void
+		{
+			Logger.Log("Timer (" + _UpdateInterval / 1000 + " seconds) updated, last update was at: " + lastUpdate.toString(), this);
+			LoadQueryResults();
+		}
+
 		public function ResetFields():void
 		{
 			fields.removeAll();
@@ -207,8 +239,10 @@ package Collage.DataEngine
 		{
 			loading = true;
 
-			if (!fields || fields.length < 1 || !dataset || dataset.length < 5 || !limit)
+			if (!fields || fields.length < 1 || !dataset || dataset.length < 5 || limit < 1)
 				return;
+
+ 			lastUpdate = new Date();
 
 			var request:URLRequest = new URLRequest(DataEngine.getUrl("/api/v1/dataset/" + dataset + "/query?rand=" + (Math.random() * 100000).toString()));
 			var loader:URLLoader = new URLLoader();
@@ -298,11 +332,13 @@ package Collage.DataEngine
 					for (var columnKey:String in resultColumns) {
 						if (!resultColumns[columnKey]["datatype"] || resultColumns[columnKey]["label"] != rowFieldKey)
 							continue;
+						Logger.Log("Type: " + resultColumns[columnKey]["datatype"] + " Field: " + resultRows[rowKey][rowFieldKey], this);
 						// The "type" paramter can be: string, numeric, datetime, boolean, or url
 						if (resultColumns[columnKey]["datatype"] == "numeric") {
 							resultRows[rowKey][rowFieldKey] = parseFloat(resultRows[rowKey][rowFieldKey]);
 						} else if (resultColumns[columnKey]["datatype"] == "datetime" && resultRows[rowKey][rowFieldKey] is String) {
-							resultRows[rowKey][rowFieldKey] = Math.random();//new Date(resultRows[rowKey][rowFieldKey]);
+							resultRows[rowKey][rowFieldKey] = new Date(resultRows[rowKey][rowFieldKey]);
+							Logger.Log("DateField: " + resultRows[rowKey][rowFieldKey].toString(), this);
 						} else if (resultColumns[columnKey]["datatype"] == "boolean") {
 							if (resultRows[rowKey][rowFieldKey] == "true")
 								resultRows[rowKey][rowFieldKey] = true;

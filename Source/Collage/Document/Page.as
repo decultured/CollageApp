@@ -143,7 +143,6 @@ package Collage.Document
 						if(this.hasOwnProperty(key)) {
 							this[key] = dataObject[key];
 							dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, key, null, this[key]));
-							Logger.Log("Page Property: " + key + " Value: " + dataObject[key], this);
 						}
 					} catch(e:Error) {
 						Logger.LogWarning("Key: " + key + " Not found for object: " + this, this); 

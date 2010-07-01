@@ -146,7 +146,7 @@
 					<clgapp:Grid id="appGrid" visible="false" left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
 					<clgdoc:EditPage id="editPage"
 						width="{editPage.pageWidth}"
-						height="{editPage.pageWidth}"
+						height="{editPage.pageHeight}"
 						click="ClickHandler(event);"
 						creationComplete="editPage.InitializeForEdit();"
 						clipAndEnableScrolling="true"

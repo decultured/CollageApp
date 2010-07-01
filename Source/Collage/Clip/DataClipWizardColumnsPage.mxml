@@ -130,7 +130,6 @@
 		public function ItemDoubleClicked():void {
 			if (columnsList.selectedItem)
 				dispatchEvent(new flash.events.Event("itemDoubleClicked"));
-			Logger.Log("Item Double Clicked!");
 		}
 	]]></fx:Script>
 	<s:Label text="{fieldDef.title} Data Selection" left="0" top="0" fontSize="18" color="#eeeeee" />

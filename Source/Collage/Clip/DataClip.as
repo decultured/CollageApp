@@ -43,7 +43,6 @@ package Collage.Clip
 
 				var oldVal:String = this[field.internalName];
 				this[field.internalName] = field.resultName;
-				Logger.LogDebug("dataClip Key: " + field.internalName + " val: " + this[field.internalName], this);
 				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, field.internalName, oldVal, this[field.internalName]));
 			}
 		}
