@@ -100,8 +100,8 @@
 			</s:layout>
 			<ep:ImageButton text="Open" image="@Embed('../../../../Assets/icons/document-open.png')" click="hostComponent.OpenFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 			<ep:ImageButton text="Save" image="@Embed('../../../../Assets/icons/document-save.png')" click="hostComponent.SaveFile()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-			<ep:ImageButton text="Copy" image="@Embed('../../../../Assets/icons/edit-copy.png')" click="hostComponent.Copy()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-			<ep:ImageButton text="Paste" image="@Embed('../../../../Assets/icons/edit-paste.png')" click="hostComponent.Paste()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			<ep:ImageButton text="Copy" image="@Embed('../../../../Assets/icons/edit-copy.png')" click="hostComponent.Copy(null)" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			<ep:ImageButton text="Paste" image="@Embed('../../../../Assets/icons/edit-paste.png')" click="hostComponent.Paste(null)" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 	        <s:Line x="0" xTo="0" y="0" yTo="20" horizontalCenter="0" verticalCenter="0">
 	            <s:stroke>
 	                <s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#575757"/>

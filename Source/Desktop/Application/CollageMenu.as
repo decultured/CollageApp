@@ -129,9 +129,9 @@ package Desktop.Application
 
 			var command:String = menuEvent.item.@command;
 			switch(command){
-				case "cut":			collageApp.clgClipboard.HandleCut(null); break;
-				case "copy": 		collageApp.clgClipboard.HandleCopy(null); break;
-				case "paste":		collageApp.clgClipboard.HandlePaste(null); break;
+				case "cut":			collageApp.Cut(null); break;
+				case "copy": 		collageApp.Copy(null); break;
+				case "paste":		collageApp.Paste(null); break;
 				case "delete":		collageApp.document.DeleteSelected();	break;
 				case "quit":		collageApp.Quit(); break;
 				case "about":		break;

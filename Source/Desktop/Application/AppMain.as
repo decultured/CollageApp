@@ -1,5 +1,6 @@
 package Desktop.Application
 {
+	import mx.graphics.ImageSnapshot;
 	import Collage.Utilities.Logger.*;
 	import Collage.Utilities.json.*;
 	import Collage.Application.*;
@@ -189,14 +190,78 @@ package Desktop.Application
 				return;
 
 			var stream:FileStream = new FileStream();
-//			try{
+			try{
 			    stream.open(file, FileMode.READ);
 				Logger.Log("File Opened: " + file.url, this);
 			    var fileData:Object = JSON.decode(stream.readUTFBytes(stream.bytesAvailable));
 			    LoadFromObject(fileData);
-//			} catch(e:Error){
-//				Logger.LogError("File Open Error: " + file.url, this);
-//			}
+			} catch(e:Error){
+				Logger.LogError("File Open Error: " + file.url, this);
+			}
+		}
+		
+		public override function Copy(event:Event):void
+		{
+			var copyClip:Clip = editPage.GetSelectedClip();
+			if (!copyClip)
+				return;
+				
+			var copyObject:Object = copyClip.SaveToObject();
+			Clipboard.generalClipboard.clear();
+			Clipboard.generalClipboard.setData("epaths:clipObject", JSON.encode(copyObject));
+
+			if (copyClip is LabelClip)
+				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, (copyClip as LabelClip).text);
+			else if (copyClip is TextBoxClip)
+				Clipboard.generalClipboard.setData(ClipboardFormats.HTML_FORMAT, (copyClip as TextBoxClip).text);
+			editPage.DeselectAll();
+			var scaleMat:Matrix = new Matrix();
+			scaleMat.scale(3,3);
+			Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, ImageSnapshot.captureBitmapData(copyClip.view, scaleMat, null, null, null, true));
+			editPage.SelectClip(copyClip);
+		}
+
+		public override function Cut(event:Event):void
+		{
+			var copyClip:Clip = editPage.GetSelectedClip();
+			if (!copyClip)
+				return;
+
+			Copy(null);
+			editPage.DeleteClip(copyClip);
+		}
+
+		public override function Paste(event:Event):void
+		{
+			if (Clipboard.generalClipboard.hasFormat("epaths:clipObject")) {
+				var clipDataObject:Object = JSON.decode(Clipboard.generalClipboard.getData("epaths:clipObject") as String);
+				if (!clipDataObject || !clipDataObject["type"])
+					return;
+					
+				var newClip:Clip = editPage.AddClipByType(clipDataObject["type"]);
+				if (newClip) {
+					newClip.LoadFromObject(clipDataObject);
+					newClip.x = 17;
+					newClip.y = 17;
+				}
+			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
+				/*var clip:PictureClip = editPage.AddClipFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData) as PictureClip;*/
+/*				var clip:PictureClip = editPage.AddClipByType('image', new Rectangle(150, 150, 300, 300)) as PictureClip;
+				clip.addEventListener(PictureClip.IMAGE_LOADED, PictureClip_ImageLoaded);
+
+				clip.LoadFromData( Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData );
+
+				Logger.Log("Bitmap Pasted", LogEntry.INFO, this);
+*/			} 
+			else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
+				var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
+				Logger.Log("HTML Pasted " + newTextBoxClip.text, this);
+			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
+				newTextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
+				Logger.Log("Text Pasted " + newTextBoxClip.text, this);
+			}
 		}
 	}	
 }

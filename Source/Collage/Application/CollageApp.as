@@ -137,11 +137,15 @@ package Collage.Application
 		{
 		}
 
-		public function Copy():void
+		public function Copy(event:Event):void
 		{
 		}
 
-		public function Paste():void
+		public function Cut(event:Event):void
+		{
+		}
+
+		public function Paste(event:Event):void
 		{
 		}
 

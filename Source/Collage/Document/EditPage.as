@@ -115,6 +115,16 @@ package Collage.Document
 			super.ViewResized();
 		}
 		
+		public function GetSelectedClip():Clip
+		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1 &&
+				objectHandles.selectionManager.currentlySelected[0] != null &&
+				objectHandles.selectionManager.currentlySelected[0] is Clip) {
+					return objectHandles.selectionManager.currentlySelected[0] as Clip;
+			}
+			return null;
+		}
+		
 		public function SetToolbar():void
 		{
 			if (!toolbar || !smallToolbar)
@@ -196,6 +206,15 @@ package Collage.Document
 					objectHandles.selectionManager.addToSelected(clipView.model);
 				}
 			}
+		}
+		
+		public function SelectClip(_clip:Clip):void
+		{
+			if (!objectHandles || !_clip)
+				return;
+				
+			objectHandles.selectionManager.clearSelection();
+			objectHandles.selectionManager.addToSelected(_clip);
 		}
 		
 		public function DeselectAll():void
