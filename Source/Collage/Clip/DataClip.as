@@ -46,6 +46,11 @@ package Collage.Clip
 				dispatchEvent(PropertyChangeEvent.createUpdateEvent(this, field.internalName, oldVal, this[field.internalName]));
 			}
 		}
+		
+		public override function Refresh():void {
+			query.LoadQueryResults();
+			Logger.LogDebug("Refresh, it works!", this);
+		}
 
 		protected override function ModelChanged(event:PropertyChangeEvent):void
 		{

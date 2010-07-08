@@ -102,7 +102,7 @@ package Collage.Clip
 		
 		public function Refresh():void
 		{
-			Logger.LogCritical("Refresh, it works!", this);
+			Logger.LogWarning("Clip Cannot Refresh", this);
 		}
 
 		public function SetEditMode(isEditing:Boolean):void
