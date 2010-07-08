@@ -4,9 +4,8 @@ package Collage.DataEngine.Storage
 	import flash.net.*;
 	import flash.events.*;
 	import com.adobe.serialization.json.JSON;
-	import Collage.Clips.Picture.*;
 	import Collage.DataEngine.*;
-	import Collage.Logger.*;
+	import Collage.Utilities.Logger.*;
 
 	public class DashboardImage extends CloudFile
 	{
@@ -14,8 +13,6 @@ package Collage.DataEngine.Storage
 		public var ID:String;
 		public var URL:String;
 		
-		public var clip:PictureClip;
-
 		public function DashboardImage():void {
 			this.addEventListener(OPEN_SUCCESS, Open_Success);
 			this.addEventListener(SAVE_SUCCESS, Save_Success);
@@ -62,7 +59,7 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Open_Success(event:Event):void {
-			Logger.Log("DashboardFile::Open_Success: " + event, LogEntry.INFO);
+			Logger.Log("DashboardFile::Open_Success: " + event, this);
 
 			if(lastResult != null) {
 				if(lastResult.hasOwnProperty('id')) {
@@ -72,24 +69,18 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Save_Success(event:Event):void {
-			Logger.Log("DashboardFile::Save_Success: " + event, LogEntry.INFO);
+			Logger.Log("DashboardFile::Save_Success: " + event, this);
 
 			if(lastResult != null) {
 				if(lastResult.hasOwnProperty('id')) {
 					this.ID = lastResult['id'];
-					
 					this.URL = DataEngine.getUrl("/api/v1/storage/attachment/"+ this.ID +".png");
-					
-					if(this.clip != null) {
-						this.clip.fileId = this.ID;
-						this.clip.url = this.URL;
-					}
 				}
 			}
 		}
 
 		public function Save_Failure(event:Event):void {
-			Logger.Log("DashboardFile::Save_Failure: " + event, LogEntry.ERROR);
+			Logger.LogError("DashboardFile::Save_Failure: " + event, this);
 		}
 	}
 }

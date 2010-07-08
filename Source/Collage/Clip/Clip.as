@@ -24,6 +24,7 @@ package Collage.Clip
 		[Bindable][Savable] public var y:Number  = 10;
 		[Bindable][Savable] public var height:Number = 200;
 		[Bindable][Savable] public var width:Number = 200;
+		[Bindable][Savable] public var aspectRatio:Number = 1;
 		[Bindable][Savable] public var rotation:Number = 0;
 
 		[Bindable][Savable(theme="true")]public var backgroundAlpha:Number = 0;
@@ -37,9 +38,11 @@ package Collage.Clip
 		private var _ClipEditorSkin:Class = null;
 		private var _SmallClipEditorSkin:Class = null;
 		
-		public var verticalSizable:Boolean = true;
-		public var horizontalSizable:Boolean = true;
-		public var rotatable:Boolean = true;
+		[Bindable]public var verticalSizable:Boolean = true;
+		[Bindable]public var horizontalSizable:Boolean = true;
+		[Bindable]public var rotatable:Boolean = true;
+		[Bindable]public var aspectLocked:Boolean = false;
+		[Bindable]public var editable:Boolean = false;
 		
 		public var view:ClipView;
 		
@@ -71,12 +74,17 @@ package Collage.Clip
 		protected function ModelChanged(event:PropertyChangeEvent):void
 		{
 			// Possible performance increase, check bound item, only change that
-			switch( event.property )
-			{
-				case "selected":
-					if (!selected)
-						SetEditMode(false);
-					return;
+			if (event.property == "selected") {
+				if (!selected)
+					SetEditMode(false);
+				return;
+			} else if (event.property == "verticalSizable" || 
+						event.property == "horizontalSizable" || 
+						event.property == "rotatable" || 
+						event.property == "aspectLocked") {
+				// TODO : Reset Object Handles
+			} else if (event.property == "aspectRatio") {
+				Resized();
 			}
 			
 			Reposition();
@@ -139,7 +147,16 @@ package Collage.Clip
 			view.rotation = rotation;
 		}
 
-		public function Resized():void { }
+		public function Resized():void
+		{
+			if (aspectLocked && height && aspectRatio) {
+				if (width / height > aspectRatio) {
+					width = height * aspectRatio;
+				} else {
+					height = width / aspectRatio;
+				}
+			}
+		}
 		public function Moved():void { }
  		public function Rotated():void { }
 		

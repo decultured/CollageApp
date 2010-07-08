@@ -22,7 +22,7 @@ package Collage.DataEngine
 		[Bindable]public var fields:ArrayList = new ArrayList();
 
 		[Savable][Bindable]public var updatable:Boolean = true;
-		[Savable][Bindable]private var _UpdateInterval:Number = 5000; // In Microseconds, -1 = no updates
+		[Savable][Bindable]private var _UpdateInterval:Number = 2000; // In Microseconds, -1 = no updates
 		[Savable][Bindable]public var lastUpdate:Date = new Date();
 		private var _UpdateTimer:Timer;
 

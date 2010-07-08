@@ -2,17 +2,42 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
     	xmlns:mx="library://ns.adobe.com/flex/mx"
 		xmlns:clg="Collage.Clip.*"
-        xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5">
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		alpha.disabled="0.5"
+		creationComplete="CreationCompleteHandler(event)">
     <fx:Metadata>
         <![CDATA[ 
         	[HostComponent("Collage.Clip.ClipView")]
         ]]>
     </fx:Metadata> 
 	<fx:Script><![CDATA[
+		import mx.events.PropertyChangeEvent;
 		import mx.events.FlexEvent;
+		import mx.charts.chartClasses.*;
+		import Collage.Clips.*;
+
+		[Bindable]public var hAxis:IAxis = numeric_haxis;
 
 		protected function EnterEditState(event:FlexEvent):void
 		{
+		}
+
+		protected function CreationCompleteHandler(event:FlexEvent):void
+		{
+			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+		}
+
+		protected function ModelChanged(event:PropertyChangeEvent):void
+		{
+			if (event.property == "xAxisType") {
+				if (hostComponent.model.xAxisType == "numeric") {
+					horizontalAxisRenderer.axis = numeric_haxis;
+					scatterchart.horizontalAxis = numeric_haxis;
+				} else if (hostComponent.model.xAxisType == "datetime") {
+					horizontalAxisRenderer.axis = datetime_haxis;
+					scatterchart.horizontalAxis = datetime_haxis;
+				}
+			}
 		}
 	]]></fx:Script>
     <s:states>
@@ -20,9 +45,14 @@
         <s:State name="disabled" />
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
+	<fx:Declarations>
+		<mx:DateTimeAxis id="datetime_haxis" />
+		<mx:LinearAxis id="numeric_haxis" baseAtZero="false"/>
+	</fx:Declarations>
 	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
 		<mx:PlotChart id="scatterchart" height="100%" width="100%"
-			showDataTips="true" dataProvider="{hostComponent.model.query.resultRows}" seriesFilters="[]" >
+			showDataTips="true" dataProvider="{hostComponent.model.query.resultRows}" seriesFilters="[]"
+			horizontalAxis="{numeric_haxis}">
 			<mx:verticalAxis>
 				<mx:LinearAxis id="vaxis" baseAtZero="false"/>
 			</mx:verticalAxis>			
@@ -40,12 +70,10 @@
 					</mx:axisStroke>
 				</mx:AxisRenderer>
 		    </mx:verticalAxisRenderers>
-		    <mx:horizontalAxis>
-		        <mx:LinearAxis id="haxis" baseAtZero="false"/>
-		    </mx:horizontalAxis>
 		    <mx:horizontalAxisRenderers>
 		        <mx:AxisRenderer
-		            axis="{haxis}"
+					id="horizontalAxisRenderer"
+					axis="{numeric_haxis}"
 		            showLine="{hostComponent.model.hAxisVisible}"
 					minorTickPlacement="none"
 		            tickPlacement="none"

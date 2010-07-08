@@ -50,6 +50,7 @@ package Collage.Clips
 		[Bindable][Savable] public var hAxisLabelColor:Number = 0x333333;
         [Bindable][Savable] public var hAxisLabelGap:Number = 10;
 
+		[Bindable][Savavle] public var xAxisType:String = "numeric";
 		[Bindable][Savable] public var xAxis:String = "";
 		[Bindable][Savable] public var yAxis:String = "";
 		
@@ -76,8 +77,19 @@ package Collage.Clips
 			newQFD.title = "Y Axis";
 			newQFD.description = "This field defines the y axis of the chart.";
 			newQFD.AddAllowedType("numeric");
-			newQFD.AddAllowedType("datetime");
 			_QueryDefinition.AddFieldDefinition(newQFD);
+		}
+		
+		protected override function QueryFieldsChangedHandler(event:Event):void
+		{
+			super.QueryFieldsChangedHandler(event);
+			
+			var dataSet:DataSet = DataEngine.GetDataSetByID(query.dataset);
+			if (dataSet && xAxis) {
+				var dataColumn:DataSetColumn = dataSet.GetColumnByLabel(xAxis);
+				if (dataColumn)
+					xAxisType = dataColumn.datatype;
+			}
 		}
 	}
 }

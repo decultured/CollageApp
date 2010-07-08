@@ -23,6 +23,7 @@ package Collage.Clips
 			view = new TextBoxClipView(this, TextBoxClipSkin);
 			super(null, TextBoxClipEditor, TextBoxClipEditorSmall);
 			type = "textbox";
+			editable = true;
 			height=50;
 		}
 

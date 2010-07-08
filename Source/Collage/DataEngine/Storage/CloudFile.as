@@ -6,14 +6,12 @@ package Collage.DataEngine.Storage
 	import com.dynamicflash.util.Base64;
 	import com.adobe.serialization.json.JSON;
 	import Collage.DataEngine.*;
-	import Collage.Logger.*;
+	import Collage.Utilities.Logger.*;
 
 	public class CloudFile extends EventDispatcher
 	{
 		protected var _Content:String;
 		protected var _ByteData:ByteArray;
-
-
 
 		public function get Filedata():ByteArray {
 			return this._ByteData;
@@ -61,7 +59,7 @@ package Collage.DataEngine.Storage
 
 				loader.load( CreateRequest( URLRequestMethod.GET, OPERATION_OPEN ) );
 			} catch(error:Error) {
-				Logger.Log("CloudFile Open: " + error, LogEntry.DEBUG);
+				Logger.LogDebug("CloudFile Open: " + error, this);
 			}
 		}
 
@@ -73,9 +71,11 @@ package Collage.DataEngine.Storage
 				loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, Save_ErrorHandler);
 				loader.addEventListener(IOErrorEvent.IO_ERROR, Save_ErrorHandler);
 
+				Logger.LogDebug("CloudFile SaveFile() ", this);
+
 				loader.load( CreateRequest( URLRequestMethod.POST, OPERATION_SAVE ) );
 			} catch(error:Error) {
-				Logger.Log("CloudFile Save: " + error, LogEntry.DEBUG);
+				Logger.LogDebug("CloudFile Save: " + error, this);
 			}
 		}
 
@@ -110,6 +110,8 @@ package Collage.DataEngine.Storage
             request.requestHeaders.push(new URLRequestHeader("X-Requested-With", "XMLHttpRequest"));
 			request.method = method;
 
+			Logger.LogDebug("CloudFile Save Request: " + requestUrl, this);
+
 			return request;
 		}
 
@@ -138,9 +140,12 @@ package Collage.DataEngine.Storage
 		private function Save_CompleteHandler(event:Event):void
 		{
 			event.target.removeEventListener(Event.COMPLETE, Save_CompleteHandler);
+			
+			Logger.LogDebug("CloudFile Save Complete: " + event.target.data, this);
+
 			var results:Object = JSON.decode(event.target.data);
 			lastResult = results;
-			if(results.hasOwnProperty('success') && results['success'] == true) {
+			if(results.hasOwnProperty('success') && (results['success'] == true || results['success'] == "true")) {
 				this.dispatchEvent(new Event(SAVE_SUCCESS));
 			} else {
 				this.dispatchEvent(new Event(SAVE_FAILURE));
@@ -150,6 +155,8 @@ package Collage.DataEngine.Storage
 		private function Save_ErrorHandler(event:Event):void {
 			event.target.removeEventListener(IOErrorEvent.IO_ERROR, Save_ErrorHandler);
 			event.target.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, Save_ErrorHandler);
+
+			Logger.LogDebug("CloudFile Save Error: " + event, this);
 
 			this.dispatchEvent(new Event(SAVE_FAILURE));
 		}

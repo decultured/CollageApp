@@ -24,6 +24,8 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 	                <menuitem label="Save..." command="save" key="s" />
 					<menuitem label="Save to Cloud..." command="cloudstorage_savedashboard" />
+					<menuitem label="Save Image..." command="saveImage" />
+					<menuitem label="Save PDF..." command="savePDF" />
 	                <menuitem type="separator"/>
 	                <menuitem label="Save Debug Log File..." command="savelog" key="l" />
 					<menuitem type="separator"/>
@@ -42,7 +44,7 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 					<menuitem label="Cut" command="cut" key="x"/>
 					<menuitem label="Copy" command="copy" key="c"/>
-					<menuitem label="Paste" command="paste" key="v"/>
+					<menuitem label="Paste" command="paste" />
 					<menuitem label="Delete" command="delete" />
 	                <menuitem type="separator"/>
 					<menuitem label="Refresh datasets" command="refreshDatasets" key="r"/>

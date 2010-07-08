@@ -245,14 +245,12 @@ package Desktop.Application
 					newClip.y = 17;
 				}
 			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
-				/*var clip:PictureClip = editPage.AddClipFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData) as PictureClip;*/
-/*				var clip:PictureClip = editPage.AddClipByType('image', new Rectangle(150, 150, 300, 300)) as PictureClip;
-				clip.addEventListener(PictureClip.IMAGE_LOADED, PictureClip_ImageLoaded);
-
-				clip.LoadFromData( Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData );
-
-				Logger.Log("Bitmap Pasted", LogEntry.INFO, this);
-*/			} 
+				newClip = editPage.AddClipByType("image");
+				newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
+//				var clip:PictureClip = editPage.AddClipFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData) as PictureClip;*/
+//				var clip:PictureClip = editPage.AddClipByType('image', new Rectangle(150, 150, 300, 300)) as PictureClip;
+				Logger.Log("Bitmap Pasted", this);
+			} 
 			else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
 				var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
 				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
@@ -263,5 +261,79 @@ package Desktop.Application
 				Logger.Log("Text Pasted " + newTextBoxClip.text, this);
 			}
 		}
+		
+		public override function SaveImage():void
+		{
+			var file:File = File.desktopDirectory.resolvePath("snapshot.png");
+			file.addEventListener(Event.SELECT, SaveImageEvent);
+			editPage.DeselectAll();
+			file.browseForSave("Save As");
+		}
+
+		protected function SaveImageEvent(event:Event):void
+		{
+			var gridOn:Boolean = appGrid.visible;
+			appGrid.visible = false;
+			appGrid.validateNow();
+			var snapshot:ImageSnapshot = ImageSnapshot.captureImage(editPageContainer, 300);
+			if (gridOn)
+				appGrid.visible = true;
+			var newFile:File = event.target as File;
+			var fs:FileStream = new FileStream();
+			try{
+				fs.open(newFile,FileMode.WRITE);
+				fs.writeBytes(snapshot.data, 0, snapshot.data.length);
+				fs.close();
+				Logger.Log("Image Saved: " + newFile.url, this);
+			} catch(e:Error){
+				trace(e.message);
+			}
+		}
+/*
+		public override function SavePDF():void
+		{
+			var file:File = File.desktopDirectory.resolvePath("report.pdf");
+			file.addEventListener(Event.SELECT, SavePDFEvent);
+			_EditDocumentView.ClearSelection();
+			file.browseForSave("Save As");
+		}
+
+		protected function SavePDFEvent(event:Event):void
+		{
+			var snapshot:ImageSnapshot = ImageSnapshot.captureImage(_EditDocumentView, 0, new JPEGEncoder());
+			var snapshotBitmap:BitmapData = ImageSnapshot.captureBitmapData(_EditDocumentView);
+
+			var newPDF:PDF = new PDF(Orientation.LANDSCAPE, Unit.MM, Size.LETTER);
+			newPDF.setDisplayMode(Display.FULL_WIDTH);
+
+			newPDF.addPage();
+//			newPDF.addImageStream(snapshot.data, ColorSpace.DEVICE_RGB, new Resize ( Mode.FIT_TO_PAGE, Position.CENTERED ));
+			newPDF.addImage(new Bitmap(snapshotBitmap), new Resize ( Mode.FIT_TO_PAGE, Position.CENTERED ));
+/*
+			newPDF.setFont(FontFamily.ARIAL , Style.NORMAL, 12);
+			newPDF.addText("Claimant Name: " + this.firstName.text + " " + lastName.text,10,40);
+			newPDF.addText("Date: " + this.date.text,10,50);
+			newPDF.addTextNote(48,45,100,2,"Claim Filed on: " + this.date.text + " today's date: " + new Date());
+			newPDF.addText("Policy #: " + this.policyNum.text,10,60);
+			newPDF.addText("Contact #: " + this.contact.text,10,70);
+			newPDF.addText(this.claimNum.text,10,80);
+			newPDF.addText("Claim Description:",10,90);
+			newPDF.setXY(10,95);
+			newPDF.addMultiCell(200,5,desc.text);
+*/
+/*
+			var newFile:File = event.target as File;
+			var fs:FileStream = new FileStream();
+			try{
+				fs.open(newFile,FileMode.WRITE);
+				var pdfBytes:ByteArray = newPDF.save(Method.LOCAL);
+				fs.writeBytes(pdfBytes);
+				fs.close();
+				Logger.Log("PDF Saved: " + newFile.url, LogEntry.INFO, this);
+			} catch(e:Error){
+				trace(e.message);
+			}
+		}
+*/		
 	}	
 }

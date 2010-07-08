@@ -24,6 +24,9 @@ package Collage.Document
 		public var toolbar:Group;
 		public var smallToolbar:Group;
 		
+		[Bindable]public var selectedRefreshable:Boolean = false;
+		[Bindable]public var selectedEditable:Boolean = false;
+		
 		[Bindable]public var clipOptionsEnabled:Boolean = false;
 		
 		public function EditPage():void
@@ -62,11 +65,11 @@ package Collage.Document
 			objectHandles.selectionManager.addEventListener(SelectionEvent.SELECTION_CLEARED, ObjectDeselected);
 
 			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_MOVED, ObjectChanged);
-			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_MOVING, ObjectChanged);
+//			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_MOVING, ObjectChanged);
 			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_RESIZED, ObjectChanged);
-			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_RESIZING, ObjectChanged);
+//			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_RESIZING, ObjectChanged);
 			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_ROTATED, ObjectChanged);
-			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_ROTATING, ObjectChanged);
+//			objectHandles.addEventListener(ObjectChangedEvent.OBJECT_ROTATING, ObjectChanged);
 
 			var sizeConstraint:SizeConstraint = new SizeConstraint();
 			sizeConstraint.minWidth = 20;
@@ -103,7 +106,10 @@ package Collage.Document
 				}
 				if (newClip.rotatable)
 					handles.push( new HandleDescription( HandleRoles.ROTATE, new Point(100,50), new Point(20,0))); 
-				
+				if (newClip.aspectLocked) {
+					// TODO : MaintainProportionConstraint???
+				}
+					
 				objectHandles.registerComponent(newClip, newClip.view, handles);
 				DeselectAll();
 				objectHandles.selectionManager.addToSelected(newClip);
@@ -144,22 +150,71 @@ package Collage.Document
 					Logger.LogDebug("No Small Clip Editor available for this clip: " + selectedClip.type);
 				}
 				clipOptionsEnabled = true;
+				selectedRefreshable = (selectedClip is DataClip);
+				selectedEditable = selectedClip.editable;
 			} else if (objectHandles.selectionManager.currentlySelected.length > 1) {
 				clipOptionsEnabled = true;
+				selectedRefreshable = false;
+				selectedEditable = false;
 			} else {
 				toolbar.addElement(new EditPageToolbar(this, EditPageToolbarSkin));
 				smallToolbar.addElement(new EditPageToolbar(this, EditPageSmallToolbarSkin));
 				clipOptionsEnabled = false;
+				selectedRefreshable = false;
+				selectedEditable = false;
+			}
+		}
+		
+		private function SnapPosition(clip:Clip):void {
+			if (clip && appClass.appGrid.snap && appClass.appGrid.xDensity) {
+				var num:Number = 0;
+				var gridSize:Number = appClass.appGrid.xDensity;
+			
+				// X Positioning
+				num = (clip.x % gridSize) - (gridSize * 0.5);
+				if (num)
+					clip.x = clip.x - (clip.x % gridSize);
+				else
+					clip.x = clip.x - (clip.x % gridSize) + gridSize;
+			
+				// Y Positioning
+				num = (clip.y % gridSize) - (gridSize * 0.5);
+				if (num)
+					clip.y = clip.y - (clip.y % gridSize);
+				else
+					clip.y = clip.y - (clip.y % gridSize) + gridSize;
+			}
+		}
+
+		private function SnapSize(clip:Clip):void {
+			if (clip && appClass.appGrid.snap && appClass.appGrid.xDensity) {
+				var num:Number = 0;
+				var gridSize:Number = appClass.appGrid.xDensity;
+			
+				// Width adjustment
+				num = (clip.width % gridSize) - (gridSize * 0.5);
+				if (num)
+					clip.width = clip.width - (clip.width % gridSize);
+				else
+					clip.width = clip.width - (clip.width % gridSize) + gridSize;
+			
+				// Height adjustment
+				num = (clip.height % gridSize) - (gridSize * 0.5);
+				if (num)
+					clip.height = clip.height - (clip.height % gridSize);
+				else
+					clip.height = clip.height - (clip.height % gridSize) + gridSize;
 			}
 		}
 
 		private function ObjectChanged(event:ObjectChangedEvent):void{
-			var num:Number = 0;
 			for each (var clip:Clip in event.relatedObjects) {
 				if (event.type == ObjectChangedEvent.OBJECT_MOVED) {
+					SnapPosition(clip);
 					clip.Moved();
 				}
 				else if (event.type == ObjectChangedEvent.OBJECT_RESIZED) {
+					SnapSize(clip);
 					clip.Resized();
 				}
 				else if (event.type == ObjectChangedEvent.OBJECT_ROTATED) {

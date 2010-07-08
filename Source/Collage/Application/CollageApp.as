@@ -45,6 +45,9 @@ package Collage.Application
 
 		[SkinPart(required="true")]
 		[Bindable]public var editPage:EditPage;
+
+		[SkinPart(required="true")]
+		[Bindable]public var editPageContainer:BorderContainer;
 		
 		[Bindable]public var zoom:Number = 1.0;
 		[Bindable]public var fitToScreen:Boolean = false;

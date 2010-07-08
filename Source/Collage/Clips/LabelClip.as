@@ -23,6 +23,7 @@ package Collage.Clips
 			type = "label";
 			height = fontSize;
 			verticalSizable = false;
+			editable = true;
 		}
 		
 		public override function Reposition():void
