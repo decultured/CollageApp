@@ -16,8 +16,22 @@
 		import Collage.DataEngine.*;
 		import Collage.Utilities.Logger.*;
 		
-		private var currentColumn:int = 0;
+		[Bindable]private var currentColumn:int = 0;
 		[Bindable]private var complete:Boolean = false;
+
+		private var _CurrentPage:uint = 0;
+		[Bindable]
+		public function get currentPage():uint {return _CurrentPage;}
+		public function set currentPage(page:uint):void
+		{
+			if (page < hostComponent.queryDefinition.fieldDefinitions.length + 3)
+				_CurrentPage = page;
+			else
+				_CurrentPage = hostComponent.queryDefinition.fieldDefinitions.length + 3;
+				
+			
+			
+		}
 		
 		private function DataSetSelected():void
 		{
@@ -36,7 +50,7 @@
 
 			Logger.LogDebug("Selected Dataset: " + hostComponent.query.dataset, hostComponent)
 		}
-
+		
 		public function NextPage():void
 		{
 			if (currentState == "normal") {
@@ -74,6 +88,7 @@
 				columnsPage.fieldDef = hostComponent.queryDefinition.fieldDefinitions.getItemAt(currentColumn) as QueryFieldDefinition;
 				columnsPage.Reset();
 			} else {
+				//NextPage();
 				Submit();
 			}
 
@@ -93,9 +108,9 @@
     <s:states>
         <s:State name="normal" />
         <s:State name="columns" />
+        <s:State name="filters" />
+        <s:State name="updates" />
         <s:State name="summary" />
-        <s:State name="summary" />
-        <s:State name="page3" />
         <s:State name="disabled" />
     </s:states>
     <s:layout>
@@ -103,27 +118,41 @@
     </s:layout>
 	<s:Group left="15" right="15" top="15" bottom="15" includeIn="normal">
 		<s:Label text="Step 1: Choose a dataset" top="0" left="0" fontSize="18" color="#eeeeee" />
-		<clgdata:DataSetsList id="dataSetsList" dataQuery="{hostComponent.query}" itemDoubleClicked="DataSetSelected()" top="45" bottom="80" left="20" right="30"/>
+		<clgdata:DataSetsList id="dataSetsList" dataQuery="{hostComponent.query}" itemDoubleClicked="DataSetSelected()" top="45" bottom="40" left="20" right="30"/>
+		<s:HGroup bottom="0" right="0">
+			<s:Button click="DataSetSelected()" label="Next" enabled="{(dataSetsList.selectedItem != null)}" />
+		</s:HGroup>
+	</s:Group>
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="columns">
+		<clgclip:DataClipWizardColumnsPage id="columnsPage" itemDoubleClicked="NextPage()" width="100%" height="100%" bottom="45" />
+		<s:HGroup bottom="0" right="0">
+			<s:Button click="PrevPage()" label="Back" />
+			<s:Button click="Submit()" label="Submit" enabled="{(columnsPage.complete)}" />
+			<s:Button click="ColumnSelected()" label="Next" enabled="{(columnsPage.complete)}" />
+		</s:HGroup>
+	</s:Group>
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="filters">
 		<s:HGroup bottom="40" right="20" includeInLayout="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}" visible="{hostComponent.queryDefinition.maxRowsReturned!=hostComponent.queryDefinition.minRowsReturned}">
 			<s:Label text="How many rows?" color="#eeeeee" fontSize="12" />
 			<s:NumericStepper value="@{hostComponent.query.limit}" stepSize="1" maximum="{hostComponent.queryDefinition.maxRowsReturned}" minimum="{hostComponent.queryDefinition.minRowsReturned}" />
 		</s:HGroup>
 		<s:HGroup bottom="0" right="0">
-			<s:Button id="Page1NextButton" right="0" click="DataSetSelected()" label="Next" enabled="{(dataSetsList.selectedItem != null)}" />
+			<s:Button click="PrevPage()" label="Back" />
+			<s:Button click="Submit()" label="Submit" />
+			<s:Button click="NextPage()" label="Next" />
 		</s:HGroup>
 	</s:Group>
-
-	<s:Group left="15" right="15" top="15" bottom="15" includeIn="columns">
-		<clgclip:DataClipWizardColumnsPage id="columnsPage" itemDoubleClicked="NextPage()" width="100%" height="100%" bottom="45" />
+	<s:Group left="15" right="15" top="15" bottom="15" includeIn="updates">
 		<s:HGroup bottom="0" right="0">
-			<s:Button id="Page2PrevButton" right="0" click="PrevPage()" label="Back" />
-			<s:Button id="Page2NextButton" right="0" click="ColumnSelected()" label="Next" enabled="{(columnsPage.complete)}" />
+			<s:Button click="PrevPage()" label="Back" />
+			<s:Button click="Submit()" label="Submit" />
+			<s:Button click="NextPage()" label="Next" />
 		</s:HGroup>
 	</s:Group>
 	<s:Group left="15" right="15" top="15" bottom="15" includeIn="summary">
 		<s:HGroup bottom="0" right="0">
-			<s:Button right="0" click="currentState = 'normal'" label="Back to Datasets" />
-			<s:Button right="0" click="Submit()" label="Submit" />
+			<s:Button click="PrevPage()" label="Back" />
+			<s:Button click="Submit()" label="Submit" />
 		</s:HGroup>
 	</s:Group>
 	<!--

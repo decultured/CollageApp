@@ -19,7 +19,11 @@ package Collage.DataEngine
 
 		[Savable][Bindable]public var limit:Number = 100;
 		[Savable][Bindable]public var dataset:String = "";
-		[Bindable]public var fields:ArrayList = new ArrayList();
+		[Savable][Bindable]public var fields:ArrayList = new ArrayList();
+
+		[Savable][Bindable]public var postSortInternalName:String = null;
+		private var _PostSortColumnID:String = null;
+		private var _PostSortColumnType:String = null;
 
 		[Savable][Bindable]public var updatable:Boolean = true;
 		[Savable][Bindable]private var _UpdateInterval:Number = -1; // In Microseconds, -1 = no updates
@@ -76,7 +80,7 @@ package Collage.DataEngine
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
 		
-		public function AddNewField(internalName:String, columnName:String, sort:String = null,  modifier:String = null, group:String = null, alias:String = null):void
+		public function AddNewField(internalName:String, columnID:String, modifier:String = null, group:String = null, alias:String = null):void
 		{
 			var newDataQueryField:DataQueryField = null;
 
@@ -84,14 +88,14 @@ package Collage.DataEngine
 			if (newDataQueryField)
 				fields.removeItem(newDataQueryField);
 
-			newDataQueryField = FindFieldByColumnName(columnName);
+			newDataQueryField = FindFieldByColumnID(columnID);
 			if (newDataQueryField)
 				fields.removeItem(newDataQueryField);
 
-			newDataQueryField = new DataQueryField(internalName, columnName, sort,  modifier, group, alias);
+			newDataQueryField = new DataQueryField(internalName, columnID,  modifier, group, alias);
 			fields.addItem(newDataQueryField);
 
-			Logger.LogDebug("Field Added: " + internalName + " ColumnName: " + columnName, this);
+			Logger.LogDebug("Field Added: " + internalName + " ColumnName: " + columnID, this);
 
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
@@ -103,13 +107,13 @@ package Collage.DataEngine
 			if (newDataQueryField)
 				fields.removeItem(newDataQueryField);
 
-			newDataQueryField = FindFieldByColumnName(_qField.columnName);
+			newDataQueryField = FindFieldByColumnID(_qField.columnID);
 			if (newDataQueryField)
 				fields.removeItem(newDataQueryField);
 
 			fields.addItem(_qField);
 
-			Logger.LogDebug("Field Class Added: " + _qField.internalName + " ColumnName: " + _qField.columnName, this);
+			Logger.LogDebug("Field Class Added: " + _qField.internalName + " ColumnName: " + _qField.columnID, this);
 
 			dispatchEvent(new Event(FIELDS_CHANGED));
 		}
@@ -138,10 +142,11 @@ package Collage.DataEngine
 				
 				var newObject:Object = new Object;
 				newObject["columnName"] = currentColumn.label;
+				newObject["columnID"] = currentColumn.internalLabel;
 				newObject["dataType"] = currentColumn.datatype;
 				newObject["dataTypeAllowed"] = typeFound;
 				
-				var newDataQueryField:DataQueryField = FindFieldByColumnName(currentColumn.label);
+				var newDataQueryField:DataQueryField = FindFieldByColumnID(currentColumn.internalLabel);
 				if (newDataQueryField) {
 					if (newDataQueryField.internalName && internalName && newDataQueryField.internalName == internalName)
 						newObject["used"] = false;
@@ -169,15 +174,15 @@ package Collage.DataEngine
 			return null;
 		}
 
-		public function FindFieldByColumnName(columnName:String):DataQueryField
+		public function FindFieldByColumnID(columnID:String):DataQueryField
 		{
-			if (columnName == null)
+			if (columnID == null)
 				return null;
 			
 			for (var i:int = 0; i < fields.length; i++)
 			{
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
-				if (field.columnName == columnName)
+				if (field.columnID == columnID)
 					return field;
 			} 
 			return null;
@@ -209,22 +214,20 @@ package Collage.DataEngine
 			{
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
 
-				if (!field.columnName)
+				if (!field.columnID)
 					continue;
 
 				var fieldQuery:Object = new Object();
 
-				if (field.sort)
-					fieldQuery["sort"] = field.sort;
 				if (field.modifier)
 					fieldQuery["modifier"] = field.modifier;
 				if (field.group)
 					fieldQuery["group"] = field.group;
 				if (field.alias)
 					fieldQuery["alias"] = field.alias;
-				fieldQuery["name"] = field.columnName;
+				fieldQuery["name"] = field.columnID;
 				
-				Logger.Log("Column Set: " + field.columnName + " internalName: " + field.internalName + " Modifier: " + field.modifier + " Sort: " + field.sort + " Grouped: " + field.group, this);
+				Logger.Log("Column Set: " + field.columnID + " internalName: " + field.internalName + " Modifier: " + field.modifier + " Grouped: " + field.group, this);
 
 				query["fields"].push(fieldQuery);
 			}
@@ -297,7 +300,7 @@ package Collage.DataEngine
 				} else if (key == "total_rows") {
 					parsedTime == parseInt(results[key]);
 				} else if (key == "rows") {
-					resultRows = new ArrayList();
+					resultRows.removeAll();
 					for (var rowKey:String in results[key]) {
 						var newRow:Object = new Object();
 						for (var fieldKey:String in results[key][rowKey]){
@@ -318,32 +321,54 @@ package Collage.DataEngine
 			}
 
 			AdjustRowValueTypes();
+
+			if (postSortInternalName) {
+				_PostSortColumnID = FindFieldByInternalName(postSortInternalName).columnID;
+//				_PostSortColumnType = FindFieldByInternalName(postSortInternalName).datatype;
+				var resultRowsTemp:Array = resultRows.toArray();
+				resultRowsTemp.sort(SortResultRows);
+				resultRows = new ArrayList(resultRowsTemp);
+				Logger.LogDebug("Sorting on: " + _PostSortColumnID + " Internal Name: " + postSortInternalName);
+			}
+
 			Logger.Log("Data Query Loaded Successfully. #Rows: " + resultRows.length + " #Columns: " +  resultColumns.length, this);
 			dispatchEvent(new Event(COMPLETE));
 			loading = false;
 			loaded = true;
 		}
 
+		private function SortResultRows(a:Object, b:Object):Number {
+		    if (a[_PostSortColumnID] > b[_PostSortColumnID]) {
+		        return -1;
+		    } else if(a[_PostSortColumnID] < b[_PostSortColumnID]) {
+		        return 1;
+		    } else {
+		        return 0;
+		    }
+		}
+
 		// TODO: cleanup this nastiness???
 		public function AdjustRowValueTypes():void
 		{
-			for (var rowKey:String in resultRows) {
-				for (var rowFieldKey:String in resultRows[rowKey]) {
-					for (var columnKey:String in resultColumns) {
-						if (!resultColumns[columnKey]["datatype"] || resultColumns[columnKey]["label"] != rowFieldKey)
+			for (var rowIdx:int = 0; rowIdx < resultRows.length; rowIdx++) {
+				var rowObj:Object = resultRows.getItemAt(rowIdx);
+				for (var rowFieldKey:String in rowObj) {
+					for (var columnIdx:int = 0; columnIdx < resultColumns.length; columnIdx++) {
+						var colObj:Object = resultColumns.getItemAt(columnIdx);
+						if (!colObj["datatype"] || colObj["internal"] != rowFieldKey)
 							continue;
-						Logger.Log("Type: " + resultColumns[columnKey]["datatype"] + " Field: " + resultRows[rowKey][rowFieldKey], this);
+						// Logger.Log("Type: " + colObj["datatype"] + " Field: " + rowObj[rowFieldKey], this);
 						// The "type" paramter can be: string, numeric, datetime, boolean, or url
-						if (resultColumns[columnKey]["datatype"] == "numeric") {
-							resultRows[rowKey][rowFieldKey] = parseFloat(resultRows[rowKey][rowFieldKey]);
-						} else if (resultColumns[columnKey]["datatype"] == "datetime" && resultRows[rowKey][rowFieldKey] is String) {
-							resultRows[rowKey][rowFieldKey] = new Date(resultRows[rowKey][rowFieldKey]);
-							Logger.Log("DateField: " + resultRows[rowKey][rowFieldKey].toString(), this);
-						} else if (resultColumns[columnKey]["datatype"] == "boolean") {
-							if (resultRows[rowKey][rowFieldKey] == "true")
-								resultRows[rowKey][rowFieldKey] = true;
+						if (colObj["datatype"] == "numeric") {
+							rowObj[rowFieldKey] = parseFloat(rowObj[rowFieldKey]);
+						} else if (colObj["datatype"] == "datetime" && rowObj[rowFieldKey] is String) {
+							rowObj[rowFieldKey] = new Date(rowObj[rowFieldKey]);
+							//Logger.Log("DateField: " + rowObj[rowFieldKey].toString(), this);
+						} else if (colObj["datatype"] == "boolean") {
+							if (rowObj[rowFieldKey] == "true")
+								rowObj[rowFieldKey] = true;
 							else
-								resultRows[rowKey][rowFieldKey] = false;
+								rowObj[rowFieldKey] = false;
 						}
 					} 
 				}
@@ -364,12 +389,12 @@ package Collage.DataEngine
 						newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
 				}
 			}
-
+/*
 			newObject["fields"] = new Array();
 			for (var i:int = 0; i < fields.length; i++) {
 				newObject["fields"].push((fields.getItemAt(i) as DataQueryField).SaveToObject);
 			}
-
+*/
 			return newObject;
 		}
 

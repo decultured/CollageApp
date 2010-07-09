@@ -47,8 +47,8 @@
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
 	<fx:Declarations>
-		<mx:DateTimeAxis id="datetime_haxis" />
-		<mx:LinearAxis id="numeric_haxis" baseAtZero="false"/>
+		<mx:DateTimeAxis id="datetime_haxis" direction="normal" disabledDays="[]" />
+		<mx:LinearAxis id="numeric_haxis" baseAtZero="false" />
 	</fx:Declarations>
 	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
 		<mx:LineChart id="linechart" height="100%" width="100%"

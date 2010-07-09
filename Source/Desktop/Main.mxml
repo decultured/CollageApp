@@ -12,6 +12,8 @@
 	title="Collage"
 	applicationComplete="Initialize()"
 	close="clgApp.Quit();"
+	nativeDragEnter="clgApp.onDragIn(event)"
+	nativeDragDrop="clgApp.onDrop(event)"
 	>
 	<fx:Script><![CDATA[
 		import Collage.Document.*;

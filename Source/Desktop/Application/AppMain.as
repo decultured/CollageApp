@@ -234,6 +234,13 @@ package Desktop.Application
 
 		public override function Paste(event:Event):void
 		{
+			var formatsString:String = "Formats: ";
+			for each (var format:String in Clipboard.generalClipboard.formats) {
+				formatsString += format + ", ";
+			}
+			Logger.Log("Formats Pasted: " + formatsString, this);
+			
+			
 			if (Clipboard.generalClipboard.hasFormat("epaths:clipObject")) {
 				var clipDataObject:Object = JSON.decode(Clipboard.generalClipboard.getData("epaths:clipObject") as String);
 				if (!clipDataObject || !clipDataObject["type"])
@@ -248,8 +255,6 @@ package Desktop.Application
 			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
 				newClip = editPage.AddClipByType("image");
 				newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
-//				var clip:PictureClip = editPage.AddClipFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData) as PictureClip;*/
-//				var clip:PictureClip = editPage.AddClipByType('image', new Rectangle(150, 150, 300, 300)) as PictureClip;
 				Logger.Log("Bitmap Pasted", this);
 			} 
 			else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
@@ -350,6 +355,61 @@ package Desktop.Application
 			Logger.Log("File Upload Complete!", LogEntry.INFO);
 		}
 
+		public function onDragIn(event:NativeDragEvent):void{
+			if (event.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT) || 
+				event.clipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT) || 
+				event.clipboard.hasFormat(ClipboardFormats.HTML_FORMAT) ||
+				event.clipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
+				NativeDragManager.acceptDragDrop(this);
+			}
+		}
+
+		public function onDrop(event:NativeDragEvent):void{
+			var newClip:Clip = null;
+			var formatsString:String = "Formats: ";
+			
+			for each (var format:String in event.clipboard.formats) {
+				formatsString += format + ", ";
+			}
+			if (event.clipboard.hasFormat(ClipboardFormats.FILE_LIST_FORMAT)) {
+				var dropfiles:Array = event.clipboard.getData(ClipboardFormats.FILE_LIST_FORMAT) as Array;
+				for each (var file:File in dropfiles){
+					var ext:String = file.extension.toLowerCase();
+					if (ext == "png" || ext == "jpg" || ext == "jpeg" || ext == "gif") {
+						newClip = editPage.AddClipByType("image");
+						if (newClip is ImageClip)
+							(newClip as ImageClip).URL = file.url;
+						Logger.Log("Image Dropped: " + file.url, this);
+					} else if (ext == "clg") {
+						OpenFileObject(file);
+					} else if (ext == "csv" || ext == "tsv") {
+						Logger.Log("Uploading Dropped CSV: " + file.url, this);
+						UploadCSV(file);
+					}
+					else {
+						Logger.LogError("File Dropped with Unmapped Extention: " + file.url, this);
+					}
+				}
+				Logger.Log("Filelist Dropped", this);
+			} else if (event.clipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
+				newClip = editPage.AddClipByType("image");
+				newClip.LoadFromData(event.clipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
+				Logger.Log("Bitmap Dropped", this);
+			} else if (event.clipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
+				var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+				newTextBoxClip.text = event.clipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
+				Logger.Log("HTML Dropped " + newTextBoxClip.text, this);
+			} else if (event.clipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
+				newTextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+				newTextBoxClip.text = event.clipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
+				Logger.Log("Text Dropped " + newTextBoxClip.text, this);
+			} else if (event.clipboard.hasFormat(ClipboardFormats.URL_FORMAT)) {
+				Logger.Log("URL Dropped : " + event.clipboard.getData(ClipboardFormats.URL_FORMAT) as String, this);
+			} else {
+				Logger.LogWarning("Unknown Format Dropped", this);
+			}
+			Logger.Log("Formats Dropped: " + formatsString, this);
+		}
 /*
 		public override function SavePDF():void
 		{

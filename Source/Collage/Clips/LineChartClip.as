@@ -78,6 +78,7 @@ package Collage.Clips
 			newQFD.description = "This field defines the y axis of the chart.";
 			newQFD.AddAllowedType("numeric");
 			_QueryDefinition.AddFieldDefinition(newQFD);
+			query.postSortInternalName = "xAxis";
 		}
 		
 		protected override function QueryFieldsChangedHandler(event:Event):void
@@ -86,7 +87,7 @@ package Collage.Clips
 			
 			var dataSet:DataSet = DataEngine.GetDataSetByID(query.dataset);
 			if (dataSet && xAxis) {
-				var dataColumn:DataSetColumn = dataSet.GetColumnByLabel(xAxis);
+				var dataColumn:DataSetColumn = dataSet.GetColumnByID(xAxis);
 				if (dataColumn)
 					xAxisType = dataColumn.datatype;
 			}

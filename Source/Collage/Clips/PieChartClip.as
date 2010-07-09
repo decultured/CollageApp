@@ -49,9 +49,7 @@ package Collage.Clips
 			newQFD = new QueryFieldDefinition(_QueryDefinition);
 			newQFD.internalName = "data";
 			newQFD.title = "Data";
-			newQFD.sortDirection = "desc";
 			newQFD.description = "This field defines the size of the segments of the pie based on their value and a modifier.";
-			newQFD.allowModifiers = true;
 			newQFD.AddAllowedType("numeric");
 			_QueryDefinition.AddFieldDefinition(newQFD);
 		}
