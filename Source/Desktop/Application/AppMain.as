@@ -16,6 +16,7 @@ package Desktop.Application
 	import flash.events.*;
 	import flash.utils.*;
 	import flash.geom.*;
+	import flash.net.*;
 	import mx.core.*;
 	
 	public class AppMain extends CollageApp
@@ -289,6 +290,66 @@ package Desktop.Application
 				trace(e.message);
 			}
 		}
+		
+		public override function UploadDataFile():void
+		{
+			var file:File = File.desktopDirectory;
+			file.addEventListener(Event.SELECT, UploadDataFileEvent);
+			file.browseForOpen("Open");
+		}
+
+		private function UploadDataFileEvent(event:Event):void
+		{
+			if (!event.target || !event.target is File)
+				return;
+
+			var file:File = event.target as File;
+			Logger.Log("Uploading CSV: " + file.url, this);
+			UploadCSV(file);
+		}
+
+		public static function UploadCSV(file:File):void {
+			var request:URLRequest = new URLRequest(DataEngine.getUrl("/api/v1/dataset/upload"));
+			var loader:URLLoader = new URLLoader();
+			var header:URLRequestHeader = new URLRequestHeader("X-Requested-With", "XMLHttpRequest");
+			request.method = URLRequestMethod.POST;
+            request.requestHeaders.push(header);
+			
+			var params:URLVariables = new URLVariables();
+			params.aT = Session.AuthToken;
+			request.data = params;
+
+			file.addEventListener(Event.COMPLETE, FileUploadCompleteHandler);
+            file.addEventListener(SecurityErrorEvent.SECURITY_ERROR, FileUploadSecurityErrorHandler);
+            file.addEventListener(IOErrorEvent.IO_ERROR, FileUploadIOErrorHandler);
+            file.addEventListener(HTTPStatusEvent.HTTP_STATUS, FileUploadHttpStatusHandler);
+			file.upload(request,"datafile");
+		}
+		
+        private static function FileUploadHttpStatusHandler(event:HTTPStatusEvent):void {
+            event.target.removeEventListener(IOErrorEvent.IO_ERROR, FileUploadHttpStatusHandler);
+			Logger.Log("Data Engine File Upload HTTP Status: " + event, LogEntry.DEBUG);
+        }
+
+		private static function FileUploadIOErrorHandler(event:IOErrorEvent):void
+		{
+            event.target.removeEventListener(IOErrorEvent.IO_ERROR, FileUploadIOErrorHandler);
+			Logger.Log("Data Engine File Upload IO Error: " + event, LogEntry.ERROR);
+		}
+
+        private static function FileUploadSecurityErrorHandler(event:SecurityErrorEvent):void
+		{
+            event.target.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, FileUploadSecurityErrorHandler);
+			Logger.Log("Data Engine File Upload Security Error: " + event, LogEntry.ERROR);
+        }
+
+		private static function FileUploadCompleteHandler(event:Event):void
+		{
+			event.target.removeEventListener(Event.COMPLETE, FileUploadCompleteHandler);
+            DataEngine.LoadAllDataSets();
+			Logger.Log("File Upload Complete!", LogEntry.INFO);
+		}
+
 /*
 		public override function SavePDF():void
 		{

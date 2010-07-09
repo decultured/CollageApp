@@ -217,10 +217,6 @@ package Collage.Application
 		{
 		}
 
-		public function UploadDataFile():void
-		{
-		}
-
 		public function SaveToObject():Object
 		{
 			// Load App Stuff
@@ -276,6 +272,10 @@ package Collage.Application
 		}
 		
 		public function SaveFile():void
+		{
+		}
+		
+		public function UploadDataFile():void
 		{
 		}
 	}	

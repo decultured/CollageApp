@@ -351,7 +351,6 @@ package Collage.Document
 							break;
 						}
 					}
-//					setElementIndex(clipView, idx + 1);
 				}
 			}
 		}
@@ -369,7 +368,6 @@ package Collage.Document
 							break;
 						}
 					}
-//					setElementIndex(clipView, idx - 1);
 				}
 			}
 		}

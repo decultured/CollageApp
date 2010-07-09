@@ -147,7 +147,7 @@
 		</s:Group>
 	</s:Group>
 	<s:Group bottom="0" left="18" right="0" height="50%" visible.hidden="false" visible.extended="true">
-		<s:List id="dataSetsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]"  borderVisible="false" changing="event.preventDefault()" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="0" dataProvider="{DataEngine.datasets}">
+		<s:List id="dataSetsList" requireSelection="false" alternatingItemColors="[#EEEEEE,#ffffff]"  borderVisible="false" changing="event.preventDefault()" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="29" dataProvider="{DataEngine.datasets}">
 			<s:itemRenderer>
 				<fx:Component>
 					<s:ItemRenderer focusRect="false" width="100%" height="35" doubleClick="OpenDataSetWindow()" doubleClickEnabled="true">
@@ -194,6 +194,24 @@
 				</fx:Component>
 			</s:itemRenderer>
 		</s:List>
+		<s:Group height="30" bottom="0" width="100%" >
+			<s:Rect width="100%" height="100%" >
+				<s:fill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry alpha="1.0" color="#E2E2E2" ratio="0"/>
+						<s:GradientEntry alpha="1.0" color="#C7C7C7" ratio="1"/>
+					</s:LinearGradient>
+				</s:fill>
+			</s:Rect>
+			<s:Line width="100%" top="0">
+				<s:stroke>
+					<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
+				</s:stroke>
+			</s:Line>
+			<s:HGroup horizontalCenter="0" verticalAlign="middle" height="100%" >
+				<ep:ImageButton width="50" toolTip="Upload a new Dataset" id="uploadDatasetButton" image="@Embed('/Assets/sidebar/upload-dataset.png')" enabled="{(!hostComponent.appClass) ? false : true}" click="hostComponent.appClass.UploadDataFile()" />
+			</s:HGroup>
+		</s:Group>
 		<s:Line width="100%" top="0">
 			<s:stroke>
 				<s:SolidColorStroke caps="none" color="#737373" joints="miter" miterLimit="4" weight="1"/>
