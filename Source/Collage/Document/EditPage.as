@@ -26,6 +26,7 @@ package Collage.Document
 		
 		[Bindable]public var selectedRefreshable:Boolean = false;
 		[Bindable]public var selectedEditable:Boolean = false;
+		[Bindable]public var singleClipSelected:Boolean = false;
 		
 		[Bindable]public var clipOptionsEnabled:Boolean = false;
 		
@@ -152,16 +153,19 @@ package Collage.Document
 				clipOptionsEnabled = true;
 				selectedRefreshable = (selectedClip is DataClip);
 				selectedEditable = selectedClip.editable;
+				singleClipSelected = true;
 			} else if (objectHandles.selectionManager.currentlySelected.length > 1) {
 				clipOptionsEnabled = true;
 				selectedRefreshable = false;
 				selectedEditable = false;
+				singleClipSelected = false;
 			} else {
 				toolbar.addElement(new EditPageToolbar(this, EditPageToolbarSkin));
 				smallToolbar.addElement(new EditPageToolbar(this, EditPageSmallToolbarSkin));
 				clipOptionsEnabled = false;
 				selectedRefreshable = false;
 				selectedEditable = false;
+				singleClipSelected = false;
 			}
 		}
 		
@@ -336,18 +340,66 @@ package Collage.Document
 
 		public function MoveSelectedForward():void
 		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				var clipView:ClipView = (objectHandles.selectionManager.currentlySelected[0] as Clip).view;
+				var idx:Number = getElementIndex(clipView);
+				
+				if (idx < numElements - 1) {
+					for (var i:int = idx + 1; i < numElements; i++) {
+						if (getElementAt(i) is ClipView) {
+							setElementIndex(clipView, i);
+							break;
+						}
+					}
+//					setElementIndex(clipView, idx + 1);
+				}
+			}
 		}
 		
 		public function MoveSelectedBackward():void
 		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				var clipView:ClipView = (objectHandles.selectionManager.currentlySelected[0] as Clip).view;
+				var idx:Number = getElementIndex(clipView);
+				
+				if (idx > 0) {
+					for (var i:int = idx - 1; i >= 0; i--) {
+						if (getElementAt(i) is ClipView) {
+							setElementIndex(clipView, i);
+							break;
+						}
+					}
+//					setElementIndex(clipView, idx - 1);
+				}
+			}
 		}
 		
 		public function MoveSelectedToFront():void
 		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				var clipView:ClipView = (objectHandles.selectionManager.currentlySelected[0] as Clip).view;
+				var idx:Number = getElementIndex(clipView);
+				
+				if (idx < numElements - 1) {
+					for (var i:int = numElements - 1; i >= 0; i--) {
+						if (getElementAt(i) is ClipView) {
+							setElementIndex(clipView, i);
+							break;
+						}
+					}
+				}
+			}
 		}
 		
 		public function MoveSelectedToBack():void
 		{
+			if (objectHandles.selectionManager.currentlySelected.length == 1) {
+				var clipView:ClipView = (objectHandles.selectionManager.currentlySelected[0] as Clip).view;
+				var idx:Number = getElementIndex(clipView);
+				
+				if (idx > 0)
+					setElementIndex(clipView, 0);
+			}
 		}
 	} 
 }

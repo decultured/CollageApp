@@ -121,9 +121,23 @@
 				<s:layout>
 					<s:HorizontalLayout />
 				</s:layout>
+				<mx:Image visible="{editPage.singleClipSelected}" includeInLayout="{editPage.singleClipSelected}" click="editPage.MoveSelectedBackward()" source="@Embed('../../../../Assets/icons/object-order-lower.png')" />
+				<mx:Image visible="{editPage.singleClipSelected}" includeInLayout="{editPage.singleClipSelected}" click="editPage.MoveSelectedForward()" source="@Embed('../../../../Assets/icons/object-order-raise.png')" />
+				<mx:Image visible="{editPage.singleClipSelected}" includeInLayout="{editPage.singleClipSelected}" click="editPage.MoveSelectedToBack()" source="@Embed('../../../../Assets/icons/object-order-back.png')" />
+				<mx:Image visible="{editPage.singleClipSelected}" includeInLayout="{editPage.singleClipSelected}" click="editPage.MoveSelectedToFront()" source="@Embed('../../../../Assets/icons/object-order-front.png')" />
+		        <s:Line x="0" xTo="0" y="9" yTo="15" horizontalCenter="0" verticalCenter="0">
+		            <s:stroke>
+		                <s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#575757"/>
+		            </s:stroke>
+		        </s:Line>
 				<mx:Image visible="{editPage.selectedRefreshable}" includeInLayout="{editPage.selectedRefreshable}" click="editPage.RefreshSelected()" source="@Embed('../../../../Assets/icons/refresh-clip.png')" />
 				<mx:Image visible="{editPage.selectedEditable}" includeInLayout="{editPage.selectedEditable}" click="editPage.ToggleEditSelected()" source="@Embed('../../../../Assets/icons/edit.png')" />
 				<mx:Image click="editPage.DeleteSelected()" source="@Embed('../../../../Assets/icons/delete.png')" />
+		        <s:Line x="0" xTo="0" y="9" yTo="15" horizontalCenter="0" verticalCenter="0">
+		            <s:stroke>
+		                <s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#575757"/>
+		            </s:stroke>
+		        </s:Line>
 			</s:Group>
 			<s:Group id="smallToolbar" >
 				<s:layout>
