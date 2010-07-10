@@ -6,43 +6,27 @@
 		requireSelection="false"
 		contentBackgroundColor="#dee4ea"
 		borderVisible="false"
+		dataProvider="{dataQuery.filters}"
+		changing="event.preventDefault()"
 		dragEnabled="true"
 		dragMoveEnabled="true"
 		dropEnabled="true"
-		dataProvider="{DataEngine.datasets}"
 		creationComplete="Reset()">
-	<fx:Metadata>
-		[Event(name="itemDoubleClicked", type="flash.events.Event")]
-	</fx:Metadata>
 	<fx:Script><![CDATA[
 		import Collage.Utilities.Logger.*;
+		import Collage.DataEngine.*;
 		import flash.events.Event;
 	
-		public var dataQuery:DataQuery = null;
-		
-		public static var DOUBLE_CLICKED_ITEM:String = "itemDoubleClicked";
+		[Bindable]public var dataQuery:DataQuery = null;
 		
 		public function Reset():void {
-			if (!dataQuery || !dataQuery.dataset)
-				return;
-			
-			for (var i:int = 0; i < DataEngine.datasets.length; i++)
-			{
-				if (DataEngine.datasets.getItemAt(i)["id"] == dataQuery.dataset) {
-					selectedItem = DataEngine.datasets.getItemAt(i);
-					break;
-				}
-			}
-		}
-		
-		public function ItemDoubleClicked():void {
-			dispatchEvent(new flash.events.Event("itemDoubleClicked"));
+
 		}
 		
 	]]></fx:Script>
 	<s:itemRenderer>
 		<fx:Component>
-			<s:ItemRenderer focusRect="false" width="100%" height="35" doubleClick="(owner as DataSetsList).ItemDoubleClicked()" doubleClickEnabled="true">
+			<s:ItemRenderer focusRect="false" width="100%" height="35">
 				<s:states>
 					<s:State name="normal"/>
 					<s:State name="hovered"/>
@@ -51,14 +35,14 @@
 				</s:states>
 				<fx:Script><![CDATA[
 					import Collage.Utilities.Logger.*;
-					import Collage.Application.*;
+					import Collage.DataEngine.*;
 				
 					override public function set data(value:Object):void {
 						super.data = value;
 						if (data == null) // a renderer's data is set to null when it goes out of view
 							return;
 							
-						titleText.text = data['title'];
+						//titleText.text = data['title'];
 						//infoText.text = data['totalRows'] + " rows";
 					}
 				]]></fx:Script>
@@ -76,12 +60,8 @@
 					</s:stroke>
 				</s:Line>
 				<s:Group width="100%" height="100%">
-					<s:Label id="titleText" color="#222222" color.selected="#ffffff" maxDisplayedLines="1" fontWeight="bold" fontSize="12" top="5" right="10" left="10" >
-						<s:filters>
-							<s:DropShadowFilter distance="1" color="#555555" blurX="1" blurY="1" includeIn="selected"/>
-						</s:filters>
-					</s:Label>
-					<s:Label id="infoText" text="{data.totalRows} rows" color="#777777" color.selected="#ffffff" maxDisplayedLines="1" fontSize="10" bottom="5" right="10" left="10"/>
+					<s:Label id="titleText" color="#555555" color.selected="#ffffff" maxDisplayedLines="1" fontWeight="bold" fontSize="12" top="5" right="10" left="10"/>
+					<s:Label id="infoText" text="{data.totalRows} rows" color="#555555" color.selected="#ffffff" maxDisplayedLines="1" fontSize="10" bottom="5" right="10" left="10"/>
 				</s:Group>
 			</s:ItemRenderer>
 		</fx:Component>

@@ -23,7 +23,7 @@
 		topLeftRadiusX="7" topLeftRadiusY="7"
 		topRightRadiusX="7" topRightRadiusY="7">
         <s:fill>
-            <s:SolidColor color="#aaaaaa" alpha="0.95"/>
+            <s:SolidColor color="#888888" alpha="0.95"/>
         </s:fill>
     </s:Rect>
     <s:Rect id="bottomBackgroundRect" 

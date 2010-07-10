@@ -98,9 +98,7 @@
 		private function Submit():void
 		{
 			Logger.LogDebug("Submit Selected Dataset: " + hostComponent.query.dataset, hostComponent)
-
 			hostComponent.query.LoadQueryResults();
-			
 			CollageApp.instance.ClosePopup("datawizard");
 		}
 		

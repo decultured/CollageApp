@@ -20,6 +20,7 @@ package Collage.DataEngine
 		[Savable][Bindable]public var limit:Number = 100;
 		[Savable][Bindable]public var dataset:String = "";
 		[Savable][Bindable]public var fields:ArrayList = new ArrayList();
+		[Savable][Bindable]public var filters:ArrayList = new ArrayList();
 
 		[Savable][Bindable]public var postSortInternalName:String = null;
 		private var _PostSortColumnID:String = null;

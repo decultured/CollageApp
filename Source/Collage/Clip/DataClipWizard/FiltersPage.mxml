@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clgwiz:DataClipWizardPage xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:clgdata="Collage.DataEngine.*"
+		xmlns:clgwiz="Collage.Clip.DataClipWizard.*" >
+	<fx:Script><![CDATA[
+		import Collage.Utilities.Logger.*;
+		import Collage.Application.*;
+		import Collage.DataEngine.*;
+		import spark.events.IndexChangeEvent;
+		import mx.collections.ArrayList;
+
+		public override function Reset():void
+		{
+			super.Reset();
+			complete = true;
+			canSubmit = true;
+			title = "Choose filters";
+			
+			if (!query || !queryDefinition)
+				return;
+				
+		}
+
+		public override function Save():void
+		{
+		}
+
+		public function AddFilter():void
+		{
+			var newFilter:DataQueryFilter = new DataQueryFilter();
+			query.filters.addItem(newFilter);
+			filtersList.dataQuery = null;
+			filtersList.dataQuery = query;
+			
+		}
+	]]></fx:Script>
+	<s:VGroup width="100%" height="100%" gap="10">
+		<s:HGroup verticalAlign="middle" >
+			<s:Label text="Filter where: " color="#feffaf" fontSize="14" width="100%"/>
+			<s:Button click="AddFilter()" label="Add Filter" enabled="{query.filters.length &lt; 10}"/>
+		</s:HGroup>
+		<clgwiz:FiltersList id="filtersList" dataQuery="{query}" width="100%" height="100%"/>
+		<s:HGroup verticalAlign="middle" >
+			<s:Label text="Sort by: " color="#feffaf" fontSize="14" />
+			<s:NumericStepper value="@{query.limit}" stepSize="1" maximum="{queryDefinition.maxRowsReturned}" minimum="{queryDefinition.minRowsReturned}" />
+			<s:Label text="then by: " color="#feffaf" fontSize="14" />
+			<s:NumericStepper value="@{query.limit}" stepSize="1" maximum="{queryDefinition.maxRowsReturned}" minimum="{queryDefinition.minRowsReturned}" />
+		</s:HGroup>
+	</s:VGroup>
+</clgwiz:DataClipWizardPage>

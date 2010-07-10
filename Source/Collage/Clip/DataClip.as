@@ -5,6 +5,7 @@ package Collage.Clip
 	import Collage.Application.*;
 	import flash.utils.*;
 	import Collage.Clip.Skins.*;
+	import Collage.Clip.DataClipWizard.*;
 	import Collage.Utilities.Logger.*;
 	
 	public class DataClip extends Clip
@@ -19,7 +20,7 @@ package Collage.Clip
 		{
 			super(_clipViewSkin, _clipEditorSkin, _smallClipEditorSkin);
 			_QueryDefinition = new QueryDefinition();
-			query.addEventListener(DataQuery.FIELDS_CHANGED, QueryFieldsChangedHandler);
+			query.addEventListener(DataQuery.FIELDS_CHANGED, QueryFieldsChangedHandler, false, 0, true);
 		}
 
 		public function ClearFields():void
@@ -67,8 +68,8 @@ package Collage.Clip
 			var dataWizard:DataClipWizard = new DataClipWizard();
 			dataWizard.clip = this;
 			dataWizard.query = query;
-			dataWizard.queryDefinition = _QueryDefinition; 
-			dataWizard.setStyle("skinClass", DataClipWizardSkin);
+			dataWizard.queryDefinition = _QueryDefinition;
+			dataWizard.Reset();
 			dataWizard.setStyle("top", "0");
 			dataWizard.setStyle("bottom", "0");
 			dataWizard.setStyle("left", "0");
