@@ -14,9 +14,10 @@ package Collage.Clips
 		[Bindable][Savable(theme="true")]public var fontSize:Number = 18;
 		[Bindable][Savable]public var precision:int = 2;
 		
+		[Bindable][Savable] public var textColumnType:String = "string";
 		[Bindable][Savable] public var textColumn:String = null;
 		
-		private static var DEFAULT_LABEL_TEXT:String = "Double-click to edit";
+		private static var DEFAULT_LABEL_TEXT:String = "No Data Loaded.";
 		[Bindable][Savable] public var displayText:String = DEFAULT_LABEL_TEXT;
 		
 		public function DataLabelClip()
@@ -46,20 +47,40 @@ package Collage.Clips
 			super.Reposition();
 		}
 		
+
+		protected override function QueryFieldsChangedHandler(event:Event):void
+		{
+			super.QueryFieldsChangedHandler(event);
+			
+			var dataSet:DataSet = DataEngine.GetDataSetByID(query.dataset);
+			if (dataSet && textColumn && dataSet.GetColumnByID(textColumn)) {
+				var dataColumn:DataSetColumn = dataSet.GetColumnByID(textColumn);
+				textColumnType = dataColumn.datatype;
+			} else {
+				textColumnType = "string"
+			}
+		}
+
 		private function QueryFinished(event:Event):void
 		{
 			if (!query || !query.resultRows is Array || query.resultRows.length < 1)
 				return;
-
-			text = query.resultRows.getItemAt(0)[textColumn];
-		}
-
-		protected override function ModelChanged(event:PropertyChangeEvent):void
-		{
-			switch( event.property )
-			{ 
+			
+			if (query.resultRows.getItemAt(0)[textColumn] is Number) {
+				textColumnType = "number";
+				text = query.resultRows.getItemAt(0)[textColumn];
+			} else if (query.resultRows.getItemAt(0)[textColumn] is String) {
+				textColumnType = "datetime";
+				text = query.resultRows.getItemAt(0)[textColumn];
+			} else if (query.resultRows.getItemAt(0)[textColumn] is Date) {
+				textColumnType = "string";
+				text = (query.resultRows.getItemAt(0)[textColumn] as Date).toString();
 			}
-			super.ModelChanged(event);
+			
+			if (!text || text.length < 1) {
+				textColumnType = "string";
+				text = "No Data Loaded.";
+			}
 		}
 	}
 }

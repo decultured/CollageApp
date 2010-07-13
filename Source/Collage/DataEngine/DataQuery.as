@@ -21,6 +21,10 @@ package Collage.DataEngine
 		[Savable][Bindable]public var dataset:String = "";
 		[Savable][Bindable]public var fields:ArrayList = new ArrayList();
 		[Savable][Bindable]public var filters:ArrayList = new ArrayList();
+		[Savable][Bindable]public var firstSort:String;
+		[Savable][Bindable]public var firstSortAsc:Boolean = true;
+		[Savable][Bindable]public var secondSort:String;
+		[Savable][Bindable]public var secondSortAsc:Boolean = true;
 
 		[Savable][Bindable]public var postSortInternalName:String = null;
 		private var _PostSortColumnID:String = null;
@@ -166,8 +170,7 @@ package Collage.DataEngine
 			if (internalName == null)
 				return null;
 
-			for (var i:int = 0; i < fields.length; i++)
-			{
+			for (var i:int = 0; i < fields.length; i++) {
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
 				if (field.internalName == internalName)
 					return field;
@@ -180,8 +183,7 @@ package Collage.DataEngine
 			if (columnID == null)
 				return null;
 			
-			for (var i:int = 0; i < fields.length; i++)
-			{
+			for (var i:int = 0; i < fields.length; i++)	{
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
 				if (field.columnID == columnID)
 					return field;
@@ -194,8 +196,7 @@ package Collage.DataEngine
 			if (resultName == null)
 				return null;
 
-			for (var i:int = 0; i < fields.length; i++)
-			{
+			for (var i:int = 0; i < fields.length; i++) {
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
 				if (field.resultName == resultName)
 					return field;
@@ -222,6 +223,10 @@ package Collage.DataEngine
 
 				if (field.modifier)
 					fieldQuery["modifier"] = field.modifier;
+//				if (field.modifier)
+//					fieldQuery["filters"] = field.modifier;
+//				if (field.modifier)
+//					fieldQuery["sort"] = field.modifier;
 				if (field.group)
 					fieldQuery["group"] = field.group;
 				if (field.alias)

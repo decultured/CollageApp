@@ -3,7 +3,8 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 	    xmlns:mx="library://ns.adobe.com/flex/mx"
-		creationComplete="CreationComplete()">
+		creationComplete="CreationComplete()"
+		clipAndEnableScrolling="true" >
 	<fx:Metadata>
 		[Event(name="complete", type="flash.events.Event")]
 	</fx:Metadata>
@@ -143,6 +144,6 @@
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	<s:BitmapImage id="errorImg" visible="{showErrors &amp;&amp; !_BitData}" source="@Embed('../../../Assets/icons/unknown.png')" horizontalCenter="0" verticalCenter="0" />
-	<s:BitmapImage id="bmpImg" source="{_BitData}" fillMode="{fillMode}" horizontalCenter="0" verticalCenter="0" width="100%" height="100%" smooth="true"/>
+	<s:BitmapImage id="errorImg" visible="{showErrors &amp;&amp; !_BitData}" source="@Embed('../../../Assets/icons/unknown.png')" horizontalCenter="0" verticalCenter="0" minWidth="5" minHeight="5" />
+	<s:BitmapImage id="bmpImg" source="{_BitData}" fillMode="{fillMode}" horizontalCenter="0" verticalCenter="0" width="100%" height="100%" smooth="true" minWidth="5" minHeight="5" />
 </s:Group>

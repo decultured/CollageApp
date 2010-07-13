@@ -2,7 +2,9 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:clg="Collage.Clip.*"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-        xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5" >
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		alpha.disabled="0.5"
+		creationComplete="CreationCompleteHandler(event)">
     <fx:Metadata>
         <![CDATA[ 
         	[HostComponent("Collage.Clip.ClipView")]
@@ -15,24 +17,72 @@
     </s:states>
 	<fx:Script><![CDATA[
 		import mx.events.FlexEvent;
-
+		import spark.utils.TextFlowUtil;
+        import flashx.textLayout.elements.*;
+        import flashx.textLayout.conversion.*;
+		import mx.events.PropertyChangeEvent;
+		import Collage.Clips.*;
+		import spark.components.TextArea;
+		
+		private var _Loaded:Boolean = false;
+		
 		protected function EnterNormalState(event:FlexEvent):void
 		{
-			editorLabel.drawFocus(false);
+			if (_Loaded)
+				SaveText();
+			SetText();
 		}
 
 		protected function EnterEditState(event:FlexEvent):void
 		{
-			editorLabel.setFocus();
-			editorLabel.drawFocus(true);
+			SetText();
 		}
+		
+		protected function CreationCompleteHandler(event:FlexEvent):void
+		{
+			SetText();
+			_Loaded = true;
+			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+		}
+
+		protected function ModelChanged(event:PropertyChangeEvent):void
+		{
+			if (event.property == "text" && currentState == "normal") {
+				SetText();
+			}
+		}
+
+		protected function SetText():void
+		{
+			var currentTextArea:TextArea;
+			if (currentState == "editing")
+				currentTextArea = editorLabel;
+			else 
+				currentTextArea = viewerLabel;
+			
+			if (!hostComponent.model.text || hostComponent.model.text.length < 1)
+				currentTextArea.textFlow = TextConverter.importToFlow(TextBoxClip.DEFAULT_LABEL_TEXT, TextConverter.TEXT_FIELD_HTML_FORMAT);
+			else
+				currentTextArea.textFlow = TextConverter.importToFlow(hostComponent.model.text, TextConverter.TEXT_FIELD_HTML_FORMAT);
+		}
+		
+		protected function SaveText():void
+		{
+			hostComponent.model.text = TextConverter.export(editorLabel.textFlow, TextConverter.TEXT_FIELD_HTML_FORMAT, ConversionType.STRING_TYPE );
+		}
+		
 	]]></fx:Script>
 		<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
-		<s:TextArea id="editorLabel" lineBreak="toFit"
-			borderVisible="false" contentBackgroundAlpha="0"
-			editable.normal="false" selectable.normal="false"
-			editable.editing="true" selectable.editing="true"
-			width="100%" height="100%"
-			text="@{hostComponent.model.displayText}" />
+			<s:TextArea id="viewerLabel" lineBreak="toFit" includeIn="normal"
+				borderVisible="false" contentBackgroundAlpha="0"
+				editable="false" selectable="false"
+				width="100%" height="100%"
+				minWidth="5" minHeight="5" />
+			<s:TextArea id="editorLabel" lineBreak="toFit" includeIn="editing"
+				borderVisible="true" contentBackgroundAlpha="0"
+				editable="true" selectable="true"
+				width="100%" height="100%"
+				minWidth="5" minHeight="5" 
+				change="SaveText()"/>
 		</clg:ClipBackground>
 </s:Skin>

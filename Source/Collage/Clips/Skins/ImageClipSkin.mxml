@@ -18,6 +18,6 @@
         <s:State name="editing" />
     </s:states>
 	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
-		<clg:Picture id="viewBitmap" bitData="@{hostComponent.model.bitData}" fileID="@{hostComponent.model.fileID}" fillMode="{hostComponent.model.fillMode}" source="@{hostComponent.model.URL}" showUnloadedBG="true" showErrors="true" aspectRatio="@{hostComponent.model.aspectRatio}" width="100%" height="100%" />
+		<clg:Picture id="viewBitmap" bitData="@{hostComponent.model.bitData}" fileID="@{hostComponent.model.fileID}" fillMode="{hostComponent.model.fillMode}" source="@{hostComponent.model.URL}" showUnloadedBG="true" showErrors="true" aspectRatio="@{hostComponent.model.aspectRatio}" width="100%" height="100%" minWidth="5" minHeight="5"/>
 	</clg:ClipBackground>
 </s:Skin>

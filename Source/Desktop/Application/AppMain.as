@@ -177,7 +177,10 @@ package Desktop.Application
 		{
 			var file:File = File.desktopDirectory;
 			file.addEventListener(Event.SELECT, OpenFileEvent);
-			file.browseForOpen("Open");
+			
+			var filters:Array = new Array();
+			filters.push( new FileFilter( "Collage Files", "*.clg" ) );
+			file.browseForOpen("Open", filters);
 		}
 
 		protected function OpenFileEvent(event:Event):void
@@ -300,7 +303,10 @@ package Desktop.Application
 		{
 			var file:File = File.desktopDirectory;
 			file.addEventListener(Event.SELECT, UploadDataFileEvent);
-			file.browseForOpen("Open");
+
+			var filters:Array = new Array();
+			filters.push( new FileFilter( "Allowed Data Files", "*.csv;*.tsv,*.txt" ));
+			file.browseForOpen("Open", filters);
 		}
 
 		private function UploadDataFileEvent(event:Event):void

@@ -20,6 +20,15 @@ package Collage.DataEngine
 				{label:"Mode", data:"mode"}
 				]);
 
+		[Bindable]public static var filterTypeSelections:ArrayList = new ArrayList(
+				[ {label:"Equal To", data:"="},
+				{label:"Not Equal To", data:"!="},
+				{label:"Greater Than", data:">"},
+				{label:"Greater or Equal To", data:">="},
+				{label:"Less Than", data:"<"},
+				{label:"Less or Equal To", data:"<="}
+				]);
+
 		[Bindable]public static var sortingSelections:ArrayList = new ArrayList(
 				[ {label:"None", data:null},
 				{label:"Descending", data:"desc"},

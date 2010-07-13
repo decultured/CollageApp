@@ -22,6 +22,7 @@
 		<s:BitmapImage id="richText" source="@Embed('/Assets/components/text-field.png')" />
 		<s:BitmapImage id="imageClip" source="@Embed('/Assets/components/photo.png')" />
 
+		<s:BitmapImage id="guage" 			source="@Embed('/Assets/components/guage.png')" />
 		<s:BitmapImage id="columnChart" 	source="@Embed('/Assets/components/office-chart-bar.png')" />
 		<s:BitmapImage id="lineChart" 		source="@Embed('/Assets/components/office-chart-line.png')" />
 		<s:BitmapImage id="scatterPlot" 	source="@Embed('/Assets/components/office-chart-scatter.png')" />
@@ -34,6 +35,7 @@
 			<fx:Object label="Rich Text" image="{richText}" componentType="textbox" />
 			<fx:Object label="Image" image="{imageClip}" componentType="image" />
 
+			<fx:Object label="Guage" image="{guage}" componentType="guage" />
 			<fx:Object label="Column Chart" image="{columnChart}" componentType="columnchart" />
 			<fx:Object label="Line Chart" image="{lineChart}" componentType="linechart" />
 			<fx:Object label="Scatter Plot" image="{scatterPlot}" componentType="scatterplot" />

@@ -6,11 +6,11 @@ package Collage.DataEngine
 
 	public class DataQueryField
 	{
-		[Savable] public var internalName:String = null;
-		[Savable] public var modifier:String = null;
-		[Savable] public var group:String = null;
-		[Savable] public var columnID:String = null;
-		[Savable] public var alias:String = null;
+		[Savable][Bindable] public var internalName:String = null;
+		[Savable][Bindable] public var modifier:String = null;
+		[Savable][Bindable] public var group:String = null;
+		[Savable][Bindable] public var columnID:String = null;
+		[Savable][Bindable] public var alias:String = null;
 		
 		public function get isGrouped():Boolean {return (group != null)};
 		public function set isGrouped(_group:Boolean):void

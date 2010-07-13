@@ -16,6 +16,8 @@
 
 		[Bindable]public var queryFields:ArrayList;
 
+		[Bindable]public var allowModifiers:Boolean = false;
+
 		private function handleCreationComplete():void {
 		}
 		
