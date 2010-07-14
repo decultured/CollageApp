@@ -12,7 +12,7 @@ package Collage.Clips
         // Plot Options
 		[Bindable][Savable] public var plotShape:String = "circle";
 		[Bindable][Savable] public var plotRadius:Number = 2;
-		[Bindable][Savable] public var plotAlpha:Number = 1;
+		[Bindable][Savable] public var plotAlpha:Number = 0.6;
 		[Bindable][Savable] public var plotColor:Number = 0xff0000;
 
 		// Grid Options

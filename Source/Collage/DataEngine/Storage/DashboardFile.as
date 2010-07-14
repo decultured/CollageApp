@@ -5,7 +5,7 @@ package Collage.DataEngine.Storage
 	import flash.events.*;
 	import com.adobe.serialization.json.JSON;
 	import Collage.DataEngine.*;
-	import Collage.Logger.*;
+	import Collage.Utilities.Logger.*;
 
 	public class DashboardFile extends CloudFile
 	{
@@ -71,7 +71,7 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Open_Success(event:Event):void {
-			Logger.Log("DashboardFile::Open_Success: " + event, LogEntry.INFO);
+			Logger.Log("DashboardFile::Open_Success: " + event, this);
 
 			if(lastResult != null) {
 				if(lastResult.hasOwnProperty('id')) {
@@ -85,7 +85,7 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Save_Success(event:Event):void {
-			Logger.Log("DashboardFile::Save_Success: " + event, LogEntry.INFO);
+			Logger.Log("DashboardFile::Save_Success: " + event, this);
 
 			if(lastResult != null) {
 				if(lastResult.hasOwnProperty('id')) {
@@ -95,7 +95,7 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Save_Failure(event:Event):void {
-			Logger.Log("DashboardFile::Save_Failure: " + event, LogEntry.ERROR);
+			Logger.LogError("DashboardFile::Save_Failure: " + event, this);
 		}
 	}
 }

@@ -38,6 +38,11 @@
 					linechart.horizontalAxis = datetime_haxis;
 				}
 			}
+			if (event && event.property != "x" && event.property != "y" && event.property != "width" && event.property != "height")
+			{
+				linechart.invalidateDisplayList();
+				gridLines.invalidateDisplayList();
+			}
 		}
 
 	]]></fx:Script>

@@ -1,6 +1,8 @@
 package Desktop.Application
 {
 	import mx.graphics.ImageSnapshot;
+	import mx.events.AIREvent;
+	import mx.core.*;
 	import Collage.Utilities.Logger.*;
 	import Collage.Utilities.json.*;
 	import Collage.Application.*;
@@ -17,10 +19,11 @@ package Desktop.Application
 	import flash.utils.*;
 	import flash.geom.*;
 	import flash.net.*;
-	import mx.core.*;
 	
 	public class AppMain extends CollageApp
 	{
+ 		private var _ViewerWindow:CollageViewerWindow;
+
 		public function AppMain():void
 		{
 			super();
@@ -48,6 +51,25 @@ package Desktop.Application
 			
 			if (welcomeScreen)
 				welcomeScreen.visible = true;
+		}
+
+		public override function OpenViewer():void {
+			_ViewerWindow = new CollageViewerWindow();
+			_ViewerWindow.width = 800;
+            _ViewerWindow.height = 600;
+			_ViewerWindow.addEventListener(AIREvent.WINDOW_COMPLETE, HandleViewerComplete);
+			Logger.LogDebug("Opened Viewer Window: " + name, this);
+
+            try {
+                _ViewerWindow.open(true);
+            } catch (err:Error) {
+                Logger.LogError("Problem Opening Viewer Window: " + err, this);
+            }
+			
+		}
+		public function HandleViewerComplete(event:AIREvent):void
+		{
+			_ViewerWindow.clgViewer.LoadFromObject(SaveToObject());
 		}
 
         public override function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true, size:Point = null):void {

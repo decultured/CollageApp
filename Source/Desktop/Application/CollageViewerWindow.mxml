@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Window
+    xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:clgdoc="Collage.Document.*"
+	xmlns:clgapp="Collage.Application.*"
+	minHeight="650"	minWidth="900"
+	height="700" width="1000"
+	title="Collage Viewer"
+    showStatusBar="false"
+	resizable="true" >
+    <s:layout>
+        <s:BasicLayout/>
+    </s:layout>
+    <fx:Script><![CDATA[]]></fx:Script>
+	<clgapp:CollageViewer id="clgViewer" skinClass="Collage.Application.Skins.CollageViewerSkin" height="100%" width="100%" />
+</s:Window>

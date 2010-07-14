@@ -22,6 +22,7 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
+	<s:Label text="URL:" />
 	<s:TextInput width="250" id="URLInput" text="{hostComponent.model.URL}" />
 	<s:Button id="applyBtn" label="Apply" click="buttonClickHandler(event)"/>
 </s:Skin>

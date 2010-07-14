@@ -19,19 +19,16 @@ package Desktop.Application
 	            </menuitem>
 	            <menuitem label="File">
 	                <menuitem label="New" command="new" key="n"/>
-	                <menuitem label="Open..." command="open" key="o" />
-					<menuitem label="Open from Cloud..." command="cloudstorage_opendashboard" />
+					<menuitem label="Open from Cloud..." command="cloudstorage_opendashboard" key="o" />
+	                <menuitem label="Open Local File..." command="open" />
 	                <menuitem type="separator"/>
-	                <menuitem label="Save..." command="save" key="s" />
-					<menuitem label="Save to Cloud..." command="cloudstorage_savedashboard" />
-					<menuitem label="Save Image..." command="saveImage" />
-					<menuitem label="Save PDF..." command="savePDF" />
+					<menuitem label="Save to Cloud..." command="cloudstorage_savedashboard" key="s" />
+	                <menuitem label="Save Local File..." command="save" />
 	                <menuitem type="separator"/>
 	                <menuitem label="Save Debug Log File..." command="savelog" key="l" />
 					<menuitem type="separator"/>
 					<menuitem label="Export">
 		                <menuitem label="PNG Image" command="saveImage"/>
-		                <menuitem label="Adobe PDF" command="savePDF" />
 					</menuitem>
 	                <menuitem type="separator"/>
 	                <menuitem label="Upload Dataset..." command="uploadData"/>
@@ -74,7 +71,8 @@ package Desktop.Application
 	                <menuitem label="Google Maps" command="insertGoogleMaps"/>
 	            </menuitem>
 	            <menuitem label="View">
-	                <menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
+                	<menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
+                	<menuitem label="Viewer Window" type="check" command="viewer" key="0"/>
 	                <menuitem label="Status Bar" type="check" command="statusbar" toggled="false" key="/"/>
 	                <menuitem label="Grid" type="check" command="showgrid" toggled="false"/>
 	                <menuitem type="separator" />
@@ -140,8 +138,8 @@ package Desktop.Application
 				case "open":		collageApp.OpenFile();	break;
 				case "save":		collageApp.SaveFile();	break;
 				case "savelog":		collageApp.SaveLogFile();	break;
-//				case "cloudstorage_opendashboard": CloudFile_OpenDashboard(); break;
-//				case "cloudstorage_savedashboard": CloudFile_SaveDashboard(); break;
+				case "cloudstorage_opendashboard": collageApp.OpenFromCloud(); break;
+				case "cloudstorage_savedashboard": collageApp.SaveToCloud(); break;
 				case "saveImage": 	collageApp.SaveImage(); break;
 				case "savePDF":		collageApp.SavePDF(); break;
 				case "uploadData":	collageApp.UploadDataFile(); break;
@@ -176,6 +174,7 @@ package Desktop.Application
 				case "logout": Session.Logout(); break;
 				case "zoomin": 	collageApp.ZoomIn(); break;
 				case "zoomout": collageApp.ZoomOut(); break;
+				case "viewer": collageApp.OpenViewer(); break;
 				case "fittoscreen":
 					collageApp.fitToScreen = !collageApp.fitToScreen;
 					menuEvent.item.@toggled = collageApp.fitToScreen;

@@ -20,18 +20,8 @@ package Collage.Application
 	import Collage.Utilities.Logger.*;
 	import mx.events.ResizeEvent;
 	
-	public class CollageApp extends CollageBaseApp
+	public class CollageViewer extends CollageBaseApp
 	{
-		[Savable]public var FileFormatVersion:String="1.0";
-
-		[Bindable]public static var instance:CollageApp = null;
-
-		[SkinPart(required="true")]
-		public var toolbar:Group;
-
-		[SkinPart(required="true")]
-		[Bindable]public var appGrid:Grid;
-
 		[SkinPart(required="true")]
 		public var appStatusBar:CollageStatusBar;
 
@@ -45,10 +35,10 @@ package Collage.Application
 		[Bindable]public var docContainer:BorderContainer;
 
 		[SkinPart(required="true")]
-		[Bindable]public var editPage:EditPage;
+		[Bindable]public var viewerPage:Page;
 
 		[SkinPart(required="true")]
-		[Bindable]public var editPageContainer:BorderContainer;
+		[Bindable]public var viewerPageContainer:BorderContainer;
 		
 		[Bindable]public var zoom:Number = 1.0;
 		[Bindable]public var fitToScreen:Boolean = false;
@@ -57,20 +47,14 @@ package Collage.Application
 
 		[Bindable]public var statusBarVisible:Boolean = false;
 
-		[Bindable]public var tempPageImage:BitmapData = new BitmapData(32, 32, false, 0xffffff);;
-
 		private var _CloudDocument:CloudDocument;
 
 		protected var _PopupWindows:Object = new Object();
 		protected var _PopupWindowContents:Object = new Object();
 
-		public var clgClipboard:CollageClipboard;
-
-		public function CollageApp():void
+		public function CollageViewer():void
 		{
-			instance = this;
-			Logger.LogDebug("App Created", this);
-			clgClipboard = new CollageClipboard(this);
+			Logger.LogDebug("Viewer Created", this);
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);
 			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
 		}
@@ -79,9 +63,9 @@ package Collage.Application
 		{
 			switch( event.property )
 			{
-				case "editPage":
+				case "viewerPage":
 					Logger.Log("Edit Page Added");
-					editPage.LoadFromObject(pageManager.currentPage);
+					viewerPage.LoadFromObject(pageManager.currentPage);
 					return;
 				case "docContainer":
 					docContainer.removeEventListener(ResizeEvent.RESIZE, DocContainerResized);
@@ -100,8 +84,7 @@ package Collage.Application
 			{
 				case "currentPageIndex":
 					Logger.Log("Page Index Changed");
-					SaveCurrentPage();
-					editPage.LoadFromObject(pageManager.currentPage);
+					viewerPage.LoadFromObject(pageManager.currentPage);
 					return;
 			}
 		}
@@ -114,44 +97,15 @@ package Collage.Application
 			ZoomToSize(docContainer.width, docContainer.height);
 		}
 
-		public override function SaveCurrentPage():void
-		{
-			//var tempBitmapData:Bitmapdata = ImageSnapshot.captureBitmapData(editPage);
-/*
-			tempPageImage.fillRect(new Rectangle(0, 0, 32, 32), 0xffffff);
-			
-			var mat:Matrix = new Matrix();
-			if (editPage.width > editPage.height)
-				mat.scale(32.0/editPage.width, 32.0/editPage.width);
-			else
-				mat.scale(32.0/editPage.height, 32.0/editPage.height);
-
-			tempPageImage.draw(editPage, mat);
-*/
-			pageManager.SetPageByUID(editPage.SaveToObject(), editPage.UID);
-		}
-
 		public override function New():void
 		{
 			pageManager.New(true);
-			editPage.LoadFromObject(pageManager.currentPage);
+			viewerPage.LoadFromObject(pageManager.currentPage);
 		}
 		
 		public override function Quit():void { }
 
 		public override function Fullscreen():void
-		{
-		}
-
-		public function Copy(event:Event):void
-		{
-		}
-
-		public function Cut(event:Event):void
-		{
-		}
-
-		public function Paste(event:Event):void
 		{
 		}
 /*
@@ -176,11 +130,6 @@ package Collage.Application
 			return PopUpManager.removePopUp(popUp);
 		}
 */
-
-		public function OpenViewer():void {
-			
-		}
-
 		public override function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true, size:Point = null):void
 		{
 			if (!size)
@@ -213,18 +162,18 @@ package Collage.Application
 
 		public override function ZoomToSize(newWidth:Number, newHeight:Number):void
 		{
-			if (!editPage || !editPage.height || !newHeight)
+			if (!viewerPage || !viewerPage.height || !newHeight)
 				return;
 			
-			var docAspectRatio:Number = editPage.width/editPage.height;
+			var docAspectRatio:Number = viewerPage.width/viewerPage.height;
 			var containerAspectRatio:Number = newWidth/newHeight;
 			
 			if (containerAspectRatio >= docAspectRatio) {
 				// zoom by height
-				zoom = newHeight / editPage.height;
+				zoom = newHeight / viewerPage.height;
 			} else {
 				// zoom by width
-				zoom = newWidth / editPage.width;
+				zoom = newWidth / viewerPage.width;
 			}
 		}
 
@@ -246,13 +195,6 @@ package Collage.Application
 		{
 		}
 		
-		public override function SaveToCloud():void
-		{
-			if (!_CloudDocument)
-				_CloudDocument = new CloudDocument(this);
-			_CloudDocument.Save();
-		}
-		
 		public override function OpenFromCloud():void
 		{
 			if (!_CloudDocument)
@@ -271,7 +213,7 @@ package Collage.Application
 					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
 			}
 
-			pageManager.currentPage = editPage.SaveToObject();
+			pageManager.currentPage = viewerPage.SaveToObject();
 
 			// Load Pages
 			newObject["pages"] = pageManager.pages.toArray();
@@ -305,20 +247,12 @@ package Collage.Application
 				}
 			}
 			
-			editPage.LoadFromObject(pageManager.currentPage);
+			viewerPage.LoadFromObject(pageManager.currentPage);
 			
 			return true;
 		}
 
 		public override function OpenFile():void
-		{
-		}
-		
-		public override function SaveFile():void
-		{
-		}
-		
-		public override function UploadDataFile():void
 		{
 		}
 	}	
