@@ -28,10 +28,25 @@
 				return;
 
 			queryFields = filtersList.queryFields = query.GetColumnSelectionsArrayList();
+			
+			
+			if (query.firstSort) {
+				for (var i:int = 0; i < queryFields.length; i++)
+				{
+					if (queryFields.getItemAt(i)["columnID"] == query.firstSort) {
+						firstSort.selectedIndex = i;
+						break;
+					}
+				}
+			}
 		}
 
 		public override function Save():void
 		{
+			if (firstSort.selectedItem) {
+				query.firstSort = firstSort.selectedItem["columnID"];
+				query.firstSortAsc = firstSortDirection.text == "ascending";
+			}
 		}
 
 		public function AddFilter():void

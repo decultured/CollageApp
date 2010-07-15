@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
-    	xmlns:mx="library://ns.adobe.com/flex/mx"
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:clg="Collage.Clip.*"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 		alpha.disabled="0.5"
 		creationComplete="CreationCompleteHandler(event)">
@@ -14,7 +15,9 @@
 		import mx.events.PropertyChangeEvent;
 		import mx.events.FlexEvent;
 		import mx.charts.chartClasses.*;
+		import mx.charts.renderers.*;
 		import Collage.Clips.*;
+		import Collage.Utilities.Logger.*;
 
 		[Bindable]public var hAxis:IAxis = numeric_haxis;
 
@@ -24,12 +27,33 @@
 
 		protected function CreationCompleteHandler(event:FlexEvent):void
 		{
+			ModelChanged(null);
 			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
 		}
 
 		protected function ModelChanged(event:PropertyChangeEvent):void
 		{
-			if (event.property == "xAxisType") {
+			if (!event || event.property == "plotRadius")
+			{
+				plotSeries.setStyle("radius", hostComponent.model.plotRadius);
+				scatterchart.invalidateDisplayList();
+				gridLines.invalidateDisplayList();
+			}
+			if (!event || event.property == "plotShapeID")
+			{
+				Logger.Log("Plot Series Changed to: " + hostComponent.model.plotShapeID, this);
+				if (hostComponent.model.plotShapeID == 0) // Circle
+					plotSeries.setStyle("itemRenderer", new ClassFactory(CircleItemRenderer));
+				else if (hostComponent.model.plotShapeID == 1) // Diamond
+					plotSeries.setStyle("itemRenderer", new ClassFactory(DiamondItemRenderer));
+				else if (hostComponent.model.plotShapeID == 2) // Box
+					plotSeries.setStyle("itemRenderer", new ClassFactory(BoxItemRenderer));
+				else if (hostComponent.model.plotShapeID == 3) // Tri
+					plotSeries.setStyle("itemRenderer", new ClassFactory(TriangleItemRenderer));
+				else if (hostComponent.model.plotShapeID == 4) // Cross
+					plotSeries.setStyle("itemRenderer", new ClassFactory(CrossItemRenderer));
+			}
+			if (!event || event.property == "xAxisType") {
 				if (hostComponent.model.xAxisType == "numeric") {
 					horizontalAxisRenderer.axis = numeric_haxis;
 					scatterchart.horizontalAxis = numeric_haxis;
@@ -38,7 +62,7 @@
 					scatterchart.horizontalAxis = datetime_haxis;
 				}
 			}
-			if (event && event.property != "x" && event.property != "y" && event.property != "width" && event.property != "height")
+			if (!event || (event.property != "x" && event.property != "y" && event.property != "width" && event.property != "height"))
 			{
 				scatterchart.invalidateDisplayList();
 				gridLines.invalidateDisplayList();
@@ -70,6 +94,7 @@
 		            showLine="{hostComponent.model.vAxisVisible}"
 					fontSize="{hostComponent.model.vAxisLabelSize}"
 					color="{hostComponent.model.vAxisLabelColor}"
+					alpha="{hostComponent.model.vAxisLabelAlpha}"
 		            labelGap="{hostComponent.model.vAxisLabelGap}" >
 		            <mx:axisStroke>
 					    <s:SolidColorStroke id="vAxisStroke" color="{hostComponent.model.vAxisColor}" weight="{hostComponent.model.vAxisWeight}" alpha="{hostComponent.model.vAxisAlpha}" caps="none"/>
@@ -85,6 +110,7 @@
 		            tickPlacement="none"
 					fontSize="{hostComponent.model.hAxisLabelSize}"
 					color="{hostComponent.model.hAxisLabelColor}"
+					alpha="{hostComponent.model.hAxisLabelAlpha}"
 		            labelGap="{hostComponent.model.hAxisLabelGap}">
 					<mx:axisStroke>
 						<s:SolidColorStroke id="hAxisStroke" color="{hostComponent.model.hAxisColor}" weight="{hostComponent.model.hAxisWeight}" alpha="{hostComponent.model.hAxisAlpha}" caps="none"/>
@@ -94,6 +120,7 @@
 		    <mx:backgroundElements>
 		        <mx:GridLines
 					id="gridLines"
+					gridDirection="{hostComponent.model.gridDirection}"
 					verticalShowOrigin="{hostComponent.model.gridHOriginVisible}"
 		            horizontalShowOrigin="{hostComponent.model.gridHOriginVisible}"
 					visible="{hostComponent.model.gridVisible}" >

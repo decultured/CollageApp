@@ -35,6 +35,7 @@ package Collage.Clips
 		[Bindable][Savable] public var vAxisWeight:Number = 2;
 		[Bindable][Savable] public var vAxisLabelSize:Number = 10;
 		[Bindable][Savable] public var vAxisLabelColor:Number = 0x333333;
+		[Bindable][Savable] public var vAxisLabelAlpha:Number = 1;
         [Bindable][Savable] public var vAxisLabelGap:Number = 10;
 
 		// Horizontal Axis
@@ -44,6 +45,7 @@ package Collage.Clips
 		[Bindable][Savable] public var hAxisWeight:Number = 2;
 		[Bindable][Savable] public var hAxisLabelSize:Number = 10;
 		[Bindable][Savable] public var hAxisLabelColor:Number = 0x333333;
+		[Bindable][Savable] public var hAxisLabelAlpha:Number = 0x333333;
         [Bindable][Savable] public var hAxisLabelGap:Number = 10;
 
 		[Bindable][Savable] public var group:String = "";

@@ -26,6 +26,7 @@
 		private function Initialize():void
 		{
 			nativeMenu.collageApp = clgApp;
+			clgApp.window = this;
 		}
 		
 		private function Fullscreen():void

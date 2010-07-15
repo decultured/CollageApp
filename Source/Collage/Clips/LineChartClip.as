@@ -10,7 +10,7 @@ package Collage.Clips
 	public class LineChartClip extends DataClip
 	{
         // Line Options
-		[Bindable][Savable] public var form:String = "line";
+		[Bindable][Savable] public var form:String = "segment";
 		[Bindable][Savable] public var lineWeight:Number = 2;
 		[Bindable][Savable] public var lineAlpha:Number = 1;
 		[Bindable][Savable] public var lineColor:Number = 0xff0000;
@@ -39,6 +39,7 @@ package Collage.Clips
 		[Bindable][Savable] public var vAxisWeight:Number = 2;
 		[Bindable][Savable] public var vAxisLabelSize:Number = 10;
 		[Bindable][Savable] public var vAxisLabelColor:Number = 0x333333;
+		[Bindable][Savable] public var vAxisLabelAlpha:Number = 1;
         [Bindable][Savable] public var vAxisLabelGap:Number = 10;
 
 		// Horizontal Axis
@@ -48,6 +49,7 @@ package Collage.Clips
 		[Bindable][Savable] public var hAxisWeight:Number = 2;
 		[Bindable][Savable] public var hAxisLabelSize:Number = 10;
 		[Bindable][Savable] public var hAxisLabelColor:Number = 0x333333;
+		[Bindable][Savable] public var hAxisLabelAlpha:Number = 1;
         [Bindable][Savable] public var hAxisLabelGap:Number = 10;
 
 		[Bindable][Savavle] public var xAxisType:String = "numeric";

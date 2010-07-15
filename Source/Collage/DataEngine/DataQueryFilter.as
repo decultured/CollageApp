@@ -13,7 +13,7 @@ package Collage.DataEngine
 
 		[Savable][Bindable]public var modifier:String = ">";
 
-		[Savable][Bindable]public var value:String = "";
+		[Savable][Bindable]public var value:String = null;
 
 		[Savable][Bindable]public var stringValue:String = "";
 		[Savable][Bindable]public var numericValue:Number = 0;

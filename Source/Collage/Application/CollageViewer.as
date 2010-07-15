@@ -107,6 +107,10 @@ package Collage.Application
 
 		public override function Fullscreen():void
 		{
+			if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE)
+				stage.displayState = StageDisplayState.NORMAL;
+			else
+				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 		}
 /*
 		private function PopUp_Create(parent:DisplayObject, className:Class, modal:Boolean = false):IFlexDisplayObject {

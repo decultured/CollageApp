@@ -73,6 +73,16 @@ package Collage.DataEngine
 			Logger.Log("Timer started, refreshes every: " + _UpdateInterval / 1000 + " seconds.", this);
 		}
 
+		public function GroupFieldExists(excludeInternalName:String = null):Boolean
+		{
+			for (var i:int = 0; i < fields.length; i++) {
+				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
+				if (field.isGrouped && !(excludeInternalName && excludeInternalName == field.internalName))
+					return true;
+			} 
+			return false;
+		}
+
 		public function TimerUpdateQuery(event:TimerEvent):void
 		{
 			Logger.Log("Timer (" + _UpdateInterval / 1000 + " seconds) updated, last update was at: " + lastUpdate.toString(), this);
@@ -204,14 +214,44 @@ package Collage.DataEngine
 			return null;
 		}
 
+		public function BuildFiltersString():String
+		{
+			var outputString:String = "";
+			for (var i:uint = 0; i < filters.length; i++) {
+				var nextFilter:DataQueryFilter = filters.getItemAt(i) as DataQueryFilter;
+				if (!nextFilter.columnID || nextFilter.value == null)
+					continue;
+				
+				if (i != 0 && nextFilter.isAnd) {
+					outputString += "and ";
+				} else if (i != 0 && !nextFilter.isAnd) {
+					outputString += "or ";
+				}
+				
+				outputString += nextFilter.columnID + " " + nextFilter.modifier + " " + nextFilter.value + " ";
+			}
+
+			Logger.LogDebug("Filter String: " + outputString, this);
+			return outputString;
+		}
+
 		public function BuildQueryString():String
 		{
 			var query:Object = new Object();
 			
 			query["limit"] = limit;
 			query["dataset"] = dataset;
+			if (filters.length)
+				query["filters"] = BuildFiltersString();
+			if (firstSort) {
+				query["sort"] = firstSort;
+				if (firstSortAsc)
+					query["sort"] += " asc";
+				else
+					query["sort"] += " desc";
+			}
+
 			query["fields"] = new Array();
-			
 			for (var i:int = 0; i < fields.length; i++)
 			{
 				var field:DataQueryField = fields.getItemAt(i) as DataQueryField;
@@ -223,10 +263,6 @@ package Collage.DataEngine
 
 				if (field.modifier)
 					fieldQuery["modifier"] = field.modifier;
-//				if (field.modifier)
-//					fieldQuery["filters"] = field.modifier;
-//				if (field.modifier)
-//					fieldQuery["sort"] = field.modifier;
 				if (field.group)
 					fieldQuery["group"] = field.group;
 				if (field.alias)
@@ -389,18 +425,24 @@ package Collage.DataEngine
 				if (metadata["@name"] != "Savable")
 					continue;
 				if (this.hasOwnProperty(metadata.parent()["@name"])) {
-					if (this[metadata.parent()["@name"]] is ArrayList)
+					if (this[metadata.parent()["@name"]] is ArrayList) {
 						newObject[metadata.parent()["@name"]] = (this[metadata.parent()["@name"]] as ArrayList).toArray();
-					else
+					} else
 						newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
 				}
 			}
-/*
+
+			var i:int = 0;
 			newObject["fields"] = new Array();
-			for (var i:int = 0; i < fields.length; i++) {
-				newObject["fields"].push((fields.getItemAt(i) as DataQueryField).SaveToObject);
+			for (i = 0; i < fields.length; i++) {
+				newObject["fields"].push((fields.getItemAt(i) as DataQueryField).SaveToObject());
 			}
-*/
+
+			newObject["filters"] = new Array();
+			for (i = 0; i < filters.length; i++) {
+				newObject["filters"].push((filters.getItemAt(i) as DataQueryFilter).SaveToObject());
+			}
+
 			return newObject;
 		}
 
@@ -412,10 +454,23 @@ package Collage.DataEngine
 					if (!dataObject[obj_k] is Array)
 						continue;
 					var fieldsArray:Array = dataObject[obj_k] as Array;
+					fields = new ArrayList();
 					for (var i:uint = 0; i < fieldsArray.length; i++) {
 						var fieldDataObject:Object = fieldsArray[i] as Object;
 						var newField:DataQueryField = new DataQueryField();
 						newField.LoadFromObject(fieldDataObject);
+						fields.addItem(newField);
+					}
+				} else if (obj_k == "filters") {
+					if (!dataObject[obj_k] is Array)
+						continue;
+					var filtersArray:Array = dataObject[obj_k] as Array;
+					filters = new ArrayList();
+					for (i = 0; i < filtersArray.length; i++) {
+						var filterDataObject:Object = filtersArray[i] as Object;
+						var newFilter:DataQueryFilter = new DataQueryFilter();
+						newFilter.LoadFromObject(filterDataObject);
+						filters.addItem(newFilter);
 					}
 				} else {
 					try {

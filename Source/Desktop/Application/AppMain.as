@@ -22,6 +22,7 @@ package Desktop.Application
 	
 	public class AppMain extends CollageApp
 	{
+		public var window:DisplayObject;
  		private var _ViewerWindow:CollageViewerWindow;
 
 		public function AppMain():void
@@ -54,21 +55,38 @@ package Desktop.Application
 		}
 
 		public override function OpenViewer():void {
+			if (_ViewerWindow) {
+				_ViewerWindow.close();
+				return;
+			}
+				
 			_ViewerWindow = new CollageViewerWindow();
 			_ViewerWindow.width = 800;
             _ViewerWindow.height = 600;
 			_ViewerWindow.addEventListener(AIREvent.WINDOW_COMPLETE, HandleViewerComplete);
+			_ViewerWindow.addEventListener(Event.CLOSE, HandleViewerClose);
+			
 			Logger.LogDebug("Opened Viewer Window: " + name, this);
 
             try {
                 _ViewerWindow.open(true);
+				window.visible = false;
             } catch (err:Error) {
                 Logger.LogError("Problem Opening Viewer Window: " + err, this);
             }
-			
 		}
+
+		public function HandleViewerClose(event:Event):void
+		{
+			_ViewerWindow.removeEventListener(Event.CLOSE, HandleViewerClose);
+			_ViewerWindow = null;
+			window.visible = true;
+			Logger.LogDebug("Viewer Window Closed", this);
+		}
+
 		public function HandleViewerComplete(event:AIREvent):void
 		{
+			_ViewerWindow.removeEventListener(AIREvent.WINDOW_COMPLETE, HandleViewerComplete);
 			_ViewerWindow.clgViewer.LoadFromObject(SaveToObject());
 		}
 

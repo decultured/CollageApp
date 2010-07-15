@@ -20,6 +20,15 @@ package Collage.DataEngine
 				{label:"Mode", data:"mode"}
 				]);
 
+		[Bindable]public static var datetimeGrouping:ArrayList = new ArrayList(
+				[ {label:"None", data:"val"},
+				{label:"Date", data:"date"},
+				{label:"Year", data:"year"},
+				{label:"Month", data:"month"},
+				{label:"Day of Month", data:"day"},
+				{label:"Hour", data:"hour"},
+				]);
+
 		[Bindable]public static var filterTypeSelections:ArrayList = new ArrayList(
 				[ {label:"Equal To", data:"="},
 				{label:"Not Equal To", data:"!="},

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
  		 xmlns:ep="com.endlesspaths.components.*">
@@ -38,6 +39,20 @@
 		<ep:AutoPopUpAnchor id="vAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="vAxisEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Axis Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisColor}" selectedAlpha="@{hostComponent.model.vAxisAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Axis Weight:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.vAxisWeight}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisLabelColor}" selectedAlpha="@{hostComponent.model.vAxisLabelAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Label Size:" color="0xffffff" />
+					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.vAxisLabelSize}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:HGroup width="100%">
+					<s:Label text="Label Gap:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.vAxisLabelGap}" liveDragging="true" width="100%"/>
+				</s:HGroup>
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>
 	</s:Group>
@@ -46,6 +61,20 @@
 		<ep:AutoPopUpAnchor id="hAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="hAxisEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Axis Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisColor}" selectedAlpha="@{hostComponent.model.hAxisAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Axis Weight:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.hAxisWeight}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisLabelColor}" selectedAlpha="@{hostComponent.model.hAxisLabelAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Label Size:" color="0xffffff" />
+					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.hAxisLabelSize}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:HGroup width="100%">
+					<s:Label text="Label Gap:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.hAxisLabelGap}" liveDragging="true" width="100%"/>
+				</s:HGroup>
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>
 	</s:Group>
@@ -54,6 +83,18 @@
 		<ep:AutoPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="gridEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.gridColor}" selectedAlpha="@{hostComponent.model.gridAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:ButtonBar id="gridDirectionBar" requireSelection="true" selectedItem="@{hostComponent.model.gridDirection}" width="250"> 
+					<mx:ArrayCollection> 
+						<fx:String>both</fx:String> 
+						<fx:String>horizontal</fx:String> 
+						<fx:String>vertical</fx:String> 
+						<fx:String>none</fx:String> 
+					</mx:ArrayCollection> 
+				</s:ButtonBar>
+				<s:HGroup width="100%">
+					<s:Label text="Grid Weight:" color="0xffffff" />
+					<s:HSlider id="gridWeight" minimum="0" maximum="15" snapInterval="1" value="@{hostComponent.model.gridWeight}" liveDragging="true" width="100%" />
+				</s:HGroup>
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>
 	</s:Group>

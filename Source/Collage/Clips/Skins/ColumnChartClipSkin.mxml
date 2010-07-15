@@ -55,6 +55,7 @@
 		            showLine="{hostComponent.model.vAxisVisible}"
 					fontSize="{hostComponent.model.vAxisLabelSize}"
 					color="{hostComponent.model.vAxisLabelColor}"
+					alpha="{hostComponent.model.vAxisLabelAlpha}"
 		            labelGap="{hostComponent.model.vAxisLabelGap}" >
 		            <mx:axisStroke>
 				    	<s:SolidColorStroke id="vAxisStroke" color="{hostComponent.model.vAxisColor}" weight="{hostComponent.model.vAxisWeight}" alpha="{hostComponent.model.vAxisAlpha}" caps="none"/>
@@ -72,6 +73,7 @@
 		            tickPlacement="none"
 					fontSize="{hostComponent.model.hAxisLabelSize}"
 					color="{hostComponent.model.hAxisLabelColor}"
+					alpha="{hostComponent.model.hAxisLabelAlpha}"
 		            labelGap="{hostComponent.model.hAxisLabelGap}" >
 		            <mx:axisStroke>
 				    	<s:SolidColorStroke id="hAxisStroke" color="{hostComponent.model.hAxisColor}" weight="{hostComponent.model.hAxisWeight}" alpha="{hostComponent.model.hAxisAlpha}" caps="none"/>
@@ -81,6 +83,7 @@
 		    <mx:backgroundElements>
 		        <mx:GridLines
 					id="gridLines"
+		 			gridDirection="{hostComponent.model.gridDirection}"
 		            verticalShowOrigin="{hostComponent.model.gridHOriginVisible}"
 		            horizontalShowOrigin="{hostComponent.model.gridHOriginVisible}"
 					visible="{hostComponent.model.gridVisible}" >

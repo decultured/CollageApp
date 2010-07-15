@@ -152,11 +152,19 @@
 		left="0" right="{collageSideBar.width}" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" borderVisible="false" click="ClickHandler(event);">
 		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0xbbbbbb">
 			<s:Group >
-			<s:Group width="{(hostComponent.fitToScreen)?editPage.width:editPage.width + 50}" height="{(hostComponent.fitToScreen)?editPage.height:editPage.height + 50}">
+			<s:Group width="{(hostComponent.fitToScreen)?editPage.width:editPage.width + 50}" height="{(hostComponent.fitToScreen)?editPage.height:editPage.height + 50}" >
 				<s:layout>
 					<s:BasicLayout />
 				</s:layout>
-				<s:BorderContainer id="editPageContainer" scaleX="{hostComponent.zoom}" scaleY="{hostComponent.zoom}" top="{(hostComponent.fitToScreen)?0:25}" left="{(hostComponent.fitToScreen)?0:25}" borderColor="0xffffff" borderWeight="0" borderAlpha="0" dropShadowVisible="true" backgroundColor="{editPage.backgroundColor}" width="{editPage.width}" height="{editPage.height}" >
+				<s:BorderContainer id="editPageContainer"
+					scaleX="{hostComponent.zoom}" scaleY="{hostComponent.zoom}"
+					top="{(hostComponent.fitToScreen)?0:25}" left="{(hostComponent.fitToScreen)?0:25}"
+					borderColor="0xffffff" borderWeight="0" borderAlpha="0"
+					dropShadowVisible="true" backgroundColor="{editPage.backgroundColor}"
+					width="{editPage.width}" height="{editPage.height}" >
+					<s:layout>
+						<s:BasicLayout />
+					</s:layout>
 					<clgapp:Grid id="appGrid" visible="false" left="0" right="0" top="0" bottom="0" maxWidth="{editPage.width}" maxHeight="{editPage.height}" />
 					<clgdoc:EditPage id="editPage"
 						width="{editPage.pageWidth}"

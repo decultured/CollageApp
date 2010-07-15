@@ -12,14 +12,14 @@ package Collage.Document
 	{
 		[Savable]public var UID:String;
 
-		public static var DEFAULT_WIDTH:Number = 1024;
-		public static var DEFAULT_HEIGHT:Number = 768;
+		public static var DEFAULT_WIDTH:Number = 1280;
+		public static var DEFAULT_HEIGHT:Number = 800;
 		
 		[Bindable][Savable]public var displayName:String = "UNNAMED";
 		[Bindable][Savable]public var backgroundURL:String = null;
 		[Bindable][Savable]public var backgroundColor:Number = 0xFFFFFF;
-		[Bindable][Savable]public var pageHeight:Number = 1024;
-		[Bindable][Savable]public var pageWidth:Number = 768;
+		[Bindable][Savable]public var pageHeight:Number = 1280;
+		[Bindable][Savable]public var pageWidth:Number = 800;
 		
 		private var _Loading:Boolean = false;
 		

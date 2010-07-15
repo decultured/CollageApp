@@ -17,7 +17,9 @@
 		[Bindable]public var queryFields:ArrayList;
 
 		[Bindable]public var allowModifiers:Boolean = false;
-
+		[Bindable]public var groupAllowed:Boolean = false;
+		[Bindable]public var allowDateTimeGrouping:Boolean = false;
+		
 		private function handleCreationComplete():void {
 		}
 		
@@ -32,7 +34,11 @@
 				dataQueryField.modifier = modifierList.selectedItem.data;
 			
 			dataQueryField.isGrouped = groupCheckbox.selected;
-			dataQueryField.columnID = columnsList.selectedItem["columnID"]
+			if (allowDateTimeGrouping && datetimeGroupingList.selectedIndex > -1) {
+				dataQueryField.group = datetimeGroupingList.selectedItem.data;
+			}
+
+			dataQueryField.columnID = columnsList.selectedItem["columnID"];
 			
 			Logger.Log("Column Set: " + dataQueryField.columnID + " internalName: " + dataQueryField.internalName + " Modifier: " + dataQueryField.modifier + " Grouped: " + dataQueryField.isGrouped, this);	
 		}
@@ -65,9 +71,10 @@
 
 			queryFields = query.GetColumnSelectionsArrayList(fieldDef.allowedTypes, fieldDef.internalName);
 
+			groupAllowed = (fieldDef.groupable && !query.GroupFieldExists(fieldDef.internalName));
 			groupCheckbox.selected = dataQueryField.isGrouped;
-			groupCheckbox.visible = fieldDef.groupable;
-			groupCheckbox.includeInLayout = fieldDef.groupable;
+			groupCheckbox.visible = groupAllowed;
+			groupCheckbox.includeInLayout = groupAllowed;
 
 			if (dataQueryField.columnID) {
 				for (var i:int = 0; i < queryFields.length; i++)
@@ -80,9 +87,10 @@
 				}
 			}
 			
+			allowModifiers = (fieldDef.allowModifiers || query.GroupFieldExists(fieldDef.internalName) || queryDefinition.fieldDefinitions.length == 1);
 			modifierList.dataProvider = DataEngine.modifierSelections;
-			modifierList.visible=fieldDef.allowModifiers;
-			modifierList.includeInLayout=fieldDef.allowModifiers;
+			modifierList.visible= allowModifiers;
+			modifierList.includeInLayout= allowModifiers;
 
 			if (dataQueryField.modifier) {
 				for (i = 0; i < DataEngine.modifierSelections.length; i++)
@@ -93,6 +101,8 @@
 					}
 				}
 			}
+			
+			AdjustDateTimeGrouping(dataQueryField.columnID);
 		}
 		
 		private function SelectionChanged():void
@@ -104,17 +114,52 @@
 			
 			var selectedObject:Object = queryFields.getItemAt(columnsList.selectedIndex) as Object;
 			
-			if (selectedObject["dataTypeAllowed"] && !selectedObject["data.used"])
+			if (selectedObject["dataTypeAllowed"] && !selectedObject["data.used"]) {
 				complete = true;
-			else {
+				dataQueryField.columnID = columnsList.selectedItem["columnID"];
+			} else {
 				complete = false;
 				columnsList.selectedItem = null;
+			}
+			
+			AdjustDateTimeGrouping(dataQueryField.columnID);
+		}
+		
+		private function AdjustDateTimeGrouping(columnID:String):void {
+			if (!columnID && columnsList.selectedItem)
+				columnID = dataQueryField.columnID;
+
+			if (query.dataset)
+				var dataSet:DataSet = DataEngine.GetDataSetByID(query.dataset);
+			if (dataSet && columnID)
+				var dataSetColumn:DataSetColumn = dataSet.GetColumnByID(columnID);
+			
+			allowDateTimeGrouping = (groupCheckbox.selected && dataSetColumn && dataSetColumn.datatype == "datetime");
+			datetimeGroupingList.visible= allowDateTimeGrouping;
+			datetimeGroupingList.includeInLayout= allowDateTimeGrouping;
+
+			if (allowDateTimeGrouping) {
+				datetimeGroupingList.dataProvider = DataEngine.datetimeGrouping;
+				if (dataQueryField.group) {
+					for (var i:uint = 0; i < DataEngine.datetimeGrouping.length; i++)
+					{
+						if (DataEngine.datetimeGrouping.getItemAt(i)["data"] == dataQueryField.group) {
+							datetimeGroupingList.selectedIndex = i;
+							break;
+						}
+					}
+				}
+			} else if (dataQueryField.isGrouped) {
+				dataQueryField.group = "val";
 			}
 		}
 	]]></fx:Script>
 	<s:VGroup height="100%" width="100%">
-	 	<s:CheckBox id="groupCheckbox" label="Group this item " color="#feffaf" />
-		<s:DropDownList id="modifierList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="150" prompt="Select a modifier" />
+		<s:HGroup gap="10">
+		 	<s:CheckBox id="groupCheckbox" label="Group this item " color="#feffaf" change="AdjustDateTimeGrouping(null)" />
+			<s:DropDownList id="modifierList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="150" prompt="Select a modifier" />
+			<s:DropDownList id="datetimeGroupingList" includeInLayout="false" visible="false" alternatingItemColors="[#EEEEEE,#ffffff]" width="150" prompt="Date Grouping Method" />
+		</s:HGroup>
 		<s:List id="columnsList" contentBackgroundColor="#dee4ea" requireSelection="false" borderVisible="false" height="100%" width="100%" dataProvider="{queryFields}" change="SelectionChanged()" doubleClick="FinishAndProceed()" doubleClickEnabled="true">
 			<s:itemRenderer>
 				<fx:Component>

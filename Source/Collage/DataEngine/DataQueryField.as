@@ -15,10 +15,12 @@ package Collage.DataEngine
 		public function get isGrouped():Boolean {return (group != null)};
 		public function set isGrouped(_group:Boolean):void
 		{
-			if (_group)
-				group = "val"
-			else
+			if (_group) {
+				if (!group)
+					group = "val"
+			} else {
 				group = null;
+			}
 		}
 
 		public function get resultName():String
