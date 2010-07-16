@@ -1,27 +1,28 @@
 <?xml version="1.0"?>
 <project name="Collage" default="air-build-debug-and-run">
-	<property name="src.dir" value="./Source/"/>
-	<property name="lib.dir" value="./Libraries/"/>
+	<property name="src.dir" value="${basedir}/Source/"/>
+	<property name="lib.dir" value="${basedir}/Libraries/"/>
 	
 	<target name="clean">
 		<delete file="Collage.air" />
-<!--
-		<delete dir="./Build/Debug/" />
-		<delete dir="./Build/Release/" />
-		<delete dir="./Build/Package/" />
-		<mkdir dir="./Build/Debug/" />
-		<mkdir dir="./Build/Release/" />
-		<mkdir dir="./Build/Package/" />
--->
+		<delete file="*.swf" />
 	</target>
 	
-	<target name="air-debug" depends="clean">
+	<target name="copy-ep-flex4">
+		<copy file="../CollageComponents/build/endlesspathsflex4com.swc" todir="${lib.dir}" overwrite="true" />
+	</target>
+	
+	<target name="air-debug" depends="clean,copy-ep-flex4">
 		<property name="deploy.dir" value="./Build/Debug/Desktop/"/>
 		<exec executable="./fcshctl-mxmlc" failonerror="true">
 			<arg line="+configname=air" />
 			<arg line="-source-path '${src.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
-			<arg value="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
+			<arg line="-library-path+=${lib.dir}as3corelib.swc"/>
+			<arg line="-library-path+=${lib.dir}as3base64.swc"/>
+			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
+			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
+			<arg line="-keep-as3-metadata+=Theme,Savable"/>
 			<arg line="${src.dir}/Desktop/Main.mxml"/>
 		</exec>
 	</target>
@@ -33,6 +34,11 @@
 			<arg line="-debug=false" />
 			<arg line="-source-path '${src.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
+			<arg line="-library-path+=${lib.dir}as3corelib.swc"/>
+			<arg line="-library-path+=${lib.dir}as3base64.swc"/>
+			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
+			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
+			<arg line="-keep-as3-metadata+=Theme,Savable"/>
 			<arg line="${src.dir}/Desktop/Main.mxml"/>
 		</exec>
 	</target>
@@ -49,9 +55,9 @@
 	<target name="air-build-debug-and-run" depends="air-debug,air-run" />
 	
 	<target name="air-package" depends="air-release">
-		<property name="assets.dir" value="./Assets/"/>
-		<property name="release.dir" value="./Build/Release/Desktop/"/>
-		<property name="package.dir" value="./Build/Package/Desktop/"/>
+		<property name="assets.dir" value="${basedir}/Source/Assets/"/>
+		<property name="release.dir" value="${basedir}/Build/Release/Desktop/"/>
+		<property name="package.dir" value="${basedir}/Build/Package/Desktop/"/>
 		
 		<copy file="${src.dir}/Desktop/Main-app.xml" tofile="${package.dir}/Main-app.xml" />
 		<copy file="${release.dir}/Main.swf" tofile="${package.dir}/Main.swf" />

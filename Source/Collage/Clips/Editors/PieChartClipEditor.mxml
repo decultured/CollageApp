@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+ 		 xmlns:ep="com.endlesspaths.components.*">
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" />
+    </s:states>
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipEditor")]
+        ]]>
+    </fx:Metadata> 
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+	</s:layout>
+	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	<s:Group>
+		<ep:ImageButton text="Background" image="@Embed('/Assets/icons/fill-color.png')" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Background">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.backgroundColor}" selectedAlpha="@{hostComponent.model.backgroundAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	<s:Group>
+		<ep:ImageButton text="Sections" image="@Embed('/Assets/toolbar/pieChartSections.png')" click="sectionsEditorPopup.popUpOpen = !sectionsEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="sectionsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="sectionsEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Sections">
+				<s:HGroup width="100%">
+					<s:Label text="Inside Radius:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="1" snapInterval="0" value="@{hostComponent.model.innerRadius}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:HGroup width="100%">
+					<s:Label text="Explode Radius:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="1" snapInterval="0" value="@{hostComponent.model.explodeRadius}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	<s:Group>
+		<ep:ImageButton text="Borders" image="@Embed('/Assets/toolbar/pieChartBorders.png')" click="bordersEditorPopup.popUpOpen = !bordersEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="bordersEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="bordersEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Radial Borders">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.radialColor}" selectedAlpha="@{hostComponent.model.radialAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Radial Weight:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.radialWeight}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:Label text="Outside Borders" color="0xffffff" textAlign="center" width="100%"/>
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.pieBorderColor}" selectedAlpha="@{hostComponent.model.pieBorderAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Border Weight:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.pieBorderWeight}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	<s:Group>
+		<ep:ImageButton text="Labels" image="@Embed('/Assets/toolbar/pieChartLabels.png')" click="labelsEditorPopup.popUpOpen = !labelsEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="labelsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="labelsEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Label Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.labelColor}" selectedAlpha="@{hostComponent.model.labelAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Label Size:" color="0xffffff" />
+					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.labelSize}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:DropDownList width="100%" requireSelection="true" selectedItem="@{hostComponent.model.labelPosition}">
+					<mx:ArrayCollection>
+						<fx:String>callout</fx:String>
+						<fx:String>inside</fx:String>
+						<fx:String>insideWithCallout</fx:String>
+						<fx:String>outside</fx:String>
+						<fx:String>none</fx:String>
+					</mx:ArrayCollection> 
+				</s:DropDownList>
+				<s:Label text="Callouts" color="0xffffff" textAlign="center" width="100%"/>
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.calloutColor}" selectedAlpha="@{hostComponent.model.calloutAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Border Weight:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.calloutWeight}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+</s:Skin>
