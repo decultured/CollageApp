@@ -5,6 +5,8 @@ package Desktop.Application
 	import mx.events.*;
 	import mx.controls.Alert;
 	import mx.controls.FlexNativeMenu;
+	import Collage.Utilities.Logger.*;
+	import Collage.DataEngine.*;
 	
 	public class CollageMenu extends FlexNativeMenu
 	{
@@ -17,15 +19,16 @@ package Desktop.Application
 	            </menuitem>
 	            <menuitem label="File">
 	                <menuitem label="New" command="new" key="n"/>
-	                <menuitem label="Open..." command="open" key="o" />
-					<menuitem label="Open from Cloud..." command="cloudstorage_opendashboard" />
+					<menuitem label="Open from Cloud..." command="cloudstorage_opendashboard" key="o" />
+	                <menuitem label="Open Local File..." command="open" />
 	                <menuitem type="separator"/>
-	                <menuitem label="Save..." command="save" key="s" />
-					<menuitem label="Save to Cloud..." command="cloudstorage_savedashboard" />
+					<menuitem label="Save to Cloud..." command="cloudstorage_savedashboard" key="s" />
+	                <menuitem label="Save Local File..." command="save" />
+	                <menuitem type="separator"/>
+	                <menuitem label="Save Debug Log File..." command="savelog" key="l" />
 					<menuitem type="separator"/>
 					<menuitem label="Export">
 		                <menuitem label="PNG Image" command="saveImage"/>
-		                <menuitem label="Adobe PDF" command="savePDF" />
 					</menuitem>
 	                <menuitem type="separator"/>
 	                <menuitem label="Upload Dataset..." command="uploadData"/>
@@ -38,10 +41,13 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 					<menuitem label="Cut" command="cut" key="x"/>
 					<menuitem label="Copy" command="copy" key="c"/>
-					<menuitem label="Paste" command="paste" key="v"/>
+					<menuitem label="Paste" command="paste" />
 					<menuitem label="Delete" command="delete" />
 	                <menuitem type="separator"/>
 					<menuitem label="Refresh datasets" command="refreshDatasets" key="r"/>
+	                <menuitem type="separator"/>
+					<menuitem label="Select All" command="selectAll" key="a"/>
+					<menuitem label="Deselect All" command="deselectAll"/>
 	                <menuitem type="separator"/>
 					<menuitem label="Move Selected Forward" command="moveForward"/>
 					<menuitem label="Move Selected Backward" command="moveBackward"/>
@@ -49,9 +55,9 @@ package Desktop.Application
 					<menuitem label="Move Selected To Back" command="moveToBack"/>
 	            </menuitem>
 	            <menuitem label="Insert">
-	                <menuitem label="Image" command="insertImage"/>
-	                <menuitem label="Label" command="insertLabel"/>
-	                <menuitem label="Text Box" command="insertTextBox"/>
+	                <menuitem label="Label" command="insertLabel" key="1"/>
+	                <menuitem label="Text Box" command="insertTextBox" key="2"/>
+	                <menuitem label="Image" command="insertImage" key="3"/>
 	                <menuitem type="separator" />
 	                <menuitem label="Data Label" command="insertDataLabel"/>
 	                <menuitem label="Table" command="insertTable"/>
@@ -65,7 +71,23 @@ package Desktop.Application
 	                <menuitem label="Google Maps" command="insertGoogleMaps"/>
 	            </menuitem>
 	            <menuitem label="View">
-	                <menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
+                	<menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
+                	<menuitem label="Viewer Window" type="check" command="viewer" key="0"/>
+	                <menuitem label="Status Bar" type="check" command="statusbar" toggled="false" key="/"/>
+	                <menuitem label="Grid" type="check" command="showgrid" toggled="false"/>
+	                <menuitem type="separator" />
+	                <menuitem label="Zoom In" command="zoomin" key="=" />
+	                <menuitem label="Zoom Out" command="zoomout" key="-" />
+	                <menuitem label="Fit To Screen" type="check" command="fittoscreen" toggled="false"/>
+		            <menuitem label="Zoom">
+	            		<menuitem label="25%"  amount="0.25" command="zoom" />
+	            		<menuitem label="50%"  amount="0.50" command="zoom" />
+	            		<menuitem label="75%"  amount="0.75" command="zoom" />
+	            		<menuitem label="100%" amount="1.0" command="zoom" />
+	            		<menuitem label="150%" amount="1.5" command="zoom" />
+	            		<menuitem label="200%" amount="2.0" command="zoom" />
+	            		<menuitem label="400%" amount="4.0" command="zoom" />
+		            </menuitem>
 	                <menuitem type="separator" />
 					<menuitem label="Debug Log Window" command="debugger" />
 	            </menuitem>
@@ -107,31 +129,34 @@ package Desktop.Application
 
 			var command:String = menuEvent.item.@command;
 			switch(command){
-				case "cut":			collageApp.clgClipboard.HandleCut(null); break;
-				case "copy": 		collageApp.clgClipboard.HandleCopy(null); break;
-				case "paste":		collageApp.clgClipboard.HandlePaste(null); break;
+				case "cut":			collageApp.Cut(null); break;
+				case "copy": 		collageApp.Copy(null); break;
+				case "paste":		collageApp.Paste(null); break;
 				case "delete":		collageApp.document.DeleteSelected();	break;
 				case "quit":		collageApp.Quit(); break;
 				case "about":		break;
 				case "open":		collageApp.OpenFile();	break;
 				case "save":		collageApp.SaveFile();	break;
-//				case "cloudstorage_opendashboard": CloudFile_OpenDashboard(); break;
-//				case "cloudstorage_savedashboard": CloudFile_SaveDashboard(); break;
+				case "savelog":		collageApp.SaveLogFile();	break;
+				case "cloudstorage_opendashboard": collageApp.OpenFromCloud(); break;
+				case "cloudstorage_savedashboard": collageApp.SaveToCloud(); break;
 				case "saveImage": 	collageApp.SaveImage(); break;
 				case "savePDF":		collageApp.SavePDF(); break;
 				case "uploadData":	collageApp.UploadDataFile(); break;
 				case "print":		break;
 				case "undo":		break;
 				case "redo":		break;
-				case "new": 		collageApp.document.NewDocument(); break;
-				case "moveForward":		collageApp.document.MoveSelectedForward(); break;
-				case "moveBackward": 	collageApp.document.MoveSelectedBackward(); break;
-				case "moveToFront":		collageApp.document.MoveSelectedToFront(); break;
-				case "moveToBack":		collageApp.document.MoveSelectedToBack();	break;
-/*				case "insertImage":		addImageClip();	break;
-				case "insertLabel":		_EditDocumentView.AddClipByType('label', new Rectangle(150, 150, 300, 300)); break;
-				case "insertTextBox": 	_EditDocumentView.AddClipByType('textbox', new Rectangle(150, 150, 300, 300)); break;
-				case "insertDataLabel":	_EditDocumentView.AddClipByType('datalabel', new Rectangle(150, 150, 300, 300)); break;
+				case "new": 		collageApp.New(); break;
+				case "moveForward":		collageApp.editPage.MoveSelectedForward(); break;
+				case "moveBackward": 	collageApp.editPage.MoveSelectedBackward(); break;
+				case "moveToFront":		collageApp.editPage.MoveSelectedToFront(); break;
+				case "moveToBack":		collageApp.editPage.MoveSelectedToBack();	break;
+				case "insertImage":		collageApp.editPage.AddClipByType('image');	break;
+				case "insertLabel":		collageApp.editPage.AddClipByType('label'); break;
+				case "insertTextBox": 	collageApp.editPage.AddClipByType('textbox'); break;
+				case "selectAll": 		collageApp.editPage.SelectAll(); break;
+				case "deselectAll": 	collageApp.editPage.DeselectAll(); break;
+/*				case "insertDataLabel":	_EditDocumentView.AddClipByType('datalabel', new Rectangle(150, 150, 300, 300)); break;
 				case "insertTable":		_EditDocumentView.AddClipByType('table', new Rectangle(150, 150, 300, 300)); break;
 				case "insertLineChart":	_EditDocumentView.AddClipByType('linechart', new Rectangle(150, 150, 300, 300)); break;
 				case "insertScatterChart":	_EditDocumentView.AddClipByType('scatterchart', new Rectangle(150, 150, 300, 300));	break;
@@ -142,8 +167,27 @@ package Desktop.Application
 				case "insertGoogleMaps":_EditDocumentView.AddClipByType('googlemaps', new Rectangle(150, 150, 300, 300)); break;
 				case "refreshDatasets":	DataEngine.LoadAllDataSets();
 					break;
-				case "logout": Session.Logout(); break;
 */
+				case "refreshDatasets":
+					DataEngine.LoadAllDataSets();
+					break;
+				case "logout": Session.Logout(); break;
+				case "zoomin": 	collageApp.ZoomIn(); break;
+				case "zoomout": collageApp.ZoomOut(); break;
+				case "viewer": collageApp.OpenViewer(); break;
+				case "fittoscreen":
+					collageApp.fitToScreen = !collageApp.fitToScreen;
+					menuEvent.item.@toggled = collageApp.fitToScreen;
+					break;
+				case "zoom": collageApp.Zoom(menuEvent.item.@amount); break;
+				case "statusbar":
+					collageApp.statusBarVisible = !collageApp.statusBarVisible;
+					menuEvent.item.@toggled = collageApp.statusBarVisible;
+					break;
+				case "showgrid":
+					collageApp.appGrid.visible = !collageApp.appGrid.visible;
+					menuEvent.item.@toggled = collageApp.appGrid.visible;
+					break;
 				case "fullscreen":
 					collageApp.Fullscreen();
 					menuEvent.item.@toggled = !menuEvent.item.@toggled;
@@ -153,8 +197,7 @@ package Desktop.Application
 //					newLoggerWindow.open();
 					break;
 				default:
-					Alert.show("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);
-
+					Logger.LogWarning("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);
 			}
 		}		
 	}

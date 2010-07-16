@@ -12,7 +12,11 @@ package Collage.Document
 			super();
 
 //			addChild(handleImage);
+<<<<<<< HEAD
 			handleImage.source="@Embed('/Assets/icons/delete.png')";
+=======
+			handleImage.source="@Embed('../../../Assets/icons/delete.png')";
+>>>>>>> 56161e92cc400a987c3d33bb67d084ffe9818de1
 		}
 	
 		override public function redraw():void

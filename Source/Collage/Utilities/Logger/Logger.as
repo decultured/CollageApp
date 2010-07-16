@@ -1,4 +1,4 @@
-package Collage.Logger
+package Collage.Utilities.Logger
 {
 	import mx.collections.ArrayCollection;
 	import flash.utils.*;
@@ -15,16 +15,36 @@ package Collage.Logger
 		public static var alerts:Boolean = false;
 		public static var alertLevel:Number = LogEntry.ERROR;
 		
-		public static function Log(text:String, level:int = 0, owner:Object = null):LogEntry
+		public static function Log(text:String, owner:Object = null, level:int = 100):LogEntry
 		{
 			var newLog:LogEntry = new LogEntry(text, level, getQualifiedClassName(owner), userID);
 			logEntries.push(newLog);
 
 			if (alerts && level >= alertLevel)
-				Alert.show(newLog.AlertString());
+				Alert.show(newLog.toString());
 
 			events.dispatchEvent(new Event(NEW_LOG_EVENT));
 			return newLog;
+		}
+
+		public static function LogDebug(text:String, owner:Object = null):LogEntry
+		{
+			return Log(text, owner, LogEntry.DEBUG);
+		}
+		
+		public static function LogWarning(text:String, owner:Object = null):LogEntry
+		{
+			return Log(text, owner, LogEntry.WARNING);
+		}
+		
+		public static function LogError(text:String, owner:Object = null):LogEntry
+		{
+			return Log(text, owner, LogEntry.ERROR);
+		}
+		
+		public static function LogCritical(text:String, owner:Object = null):LogEntry
+		{
+			return Log(text, owner, LogEntry.CRITICAL);
 		}
 		
 		public static function LastLog():LogEntry
@@ -33,6 +53,16 @@ package Collage.Logger
 				return logEntries[logEntries.length - 1];
 			else
 				return null;
+		}
+		
+		public static function toString():String
+		{
+			var output:String = "";
+			for each (var entry:LogEntry in logEntries)
+			{
+				output += entry.toString() + "\n";
+			}
+			return output;
 		}
 	}
 }

@@ -7,12 +7,16 @@
 	xmlns:clgdoc="Collage.Document.*"
 	menu="{nativeMenu}"
 	showStatusBar="false"
-	minHeight="480"	minWidth="640"
+	minHeight="650"	minWidth="900"
 	height="700" width="1000"
 	title="Collage"
 	applicationComplete="Initialize()"
+	close="clgApp.Quit();"
+	nativeDragEnter="clgApp.onDragIn(event)"
+	nativeDragDrop="clgApp.onDrop(event)"
 	>
 	<fx:Script><![CDATA[
+		import Collage.Document.*;
 		import Desktop.Application.*;
 		import mx.controls.Alert;
 		import Collage.Clip.*;
@@ -21,9 +25,8 @@
 		
 		private function Initialize():void
 		{
-			app = new AppMain(editDoc);
-			nativeMenu.collageApp = app;
-			editDoc.toolbar = toolbar;
+			nativeMenu.collageApp = clgApp;
+			clgApp.window = this;
 		}
 		
 		private function Fullscreen():void
@@ -37,7 +40,7 @@
 		protected function ClickHandler(event:MouseEvent):void
 		{
 			if(event) {
-				if (event.target is EditDocument) {
+				if (event.target is EditPage) {
 					app.document.DeselectAll();
 				}
 			}
@@ -47,22 +50,5 @@
 		<clg:CollageMenu id="nativeMenu" showRoot="false"
 			labelField="@label"	keyEquivalentField="@key" mnemonicIndexField="@mnemonicIndex" />
 	</fx:Declarations>
-
-	<s:SkinnableContainer id="toolbar" right="0" left="0" top="0" bottom="45" />
-
-	<s:BorderContainer id="docContainer" backgroundColor="0x555555"
-		borderWeight="0" borderColor="0xffffff" dropShadowVisible="false"
-		right="0" left="0" top="45" bottom="20">
-		<s:Scroller hasFocusableChildren="true" tabEnabled="false">
-			<s:Group horizontalScrollPosition="20" verticalScrollPosition="30" top="0" bottom="0" right="0" left="0" clipAndEnableScrolling="true">
-				<s:BorderContainer top="50" bottom="50" right="50" left="50"
-					borderWeight="0" borderColor="0xffffff" 
-					dropShadowVisible="true" backgroundColor="0xffffff">
-					<clgdoc:EditDocument id="editDoc" width="1024" height="768" click="ClickHandler(event);"/>
-				</s:BorderContainer>
-			</s:Group>
-		</s:Scroller>
-	</s:BorderContainer>
-
-	<s:SkinnableContainer id="appStatusBar" right="0" left="0" top="0" bottom="45" />
+	<clg:AppMain id="clgApp" skinClass="Collage.Application.Skins.ApplicationSkin" height="100%" width="100%" />
 </s:WindowedApplication>

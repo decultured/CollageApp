@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:clg="Collage.Clip.*"
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		alpha.disabled="0.5"
+		creationComplete="CreationCompleteHandler(event)">
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipView")]
+        ]]>
+    </fx:Metadata> 
+	<fx:Script><![CDATA[
+		import mx.events.PropertyChangeEvent;
+		import mx.events.FlexEvent;
+
+		protected function EnterEditState(event:FlexEvent):void
+		{
+		}
+
+		protected function CreationCompleteHandler(event:FlexEvent):void
+		{
+			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+		}
+
+		protected function ModelChanged(event:PropertyChangeEvent):void
+		{
+			if (event && event.property != "x" && event.property != "y" && event.property != "width" && event.property != "height")
+			{
+				chart.invalidateDisplayList();
+				gridLines.invalidateDisplayList();
+			}
+		}
+	]]></fx:Script>
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" enterState="{EnterEditState(event);}"/>
+    </s:states>
+	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%" >
+	     <mx:ColumnChart id="chart" 
+			minWidth="5" minHeight="5"
+			height="100%" width="100%" 
+			color="0x323232" showDataTips="true"
+			dataProvider="{hostComponent.model.query.resultRows}"
+			seriesFilters="[]" >
+			<mx:verticalAxis>
+				<mx:LinearAxis id="vaxis" baseAtZero="false"/>
+			</mx:verticalAxis>			
+		    <mx:verticalAxisRenderers>
+		        <mx:AxisRenderer
+		            axis="{vaxis}"
+					minorTickPlacement="none"
+		            tickPlacement="none"
+		            showLine="{hostComponent.model.vAxisVisible}"
+					fontSize="{hostComponent.model.vAxisLabelSize}"
+					color="{hostComponent.model.vAxisLabelColor}"
+					alpha="{hostComponent.model.vAxisLabelAlpha}"
+		            labelGap="{hostComponent.model.vAxisLabelGap}" >
+		            <mx:axisStroke>
+				    	<s:SolidColorStroke id="vAxisStroke" color="{hostComponent.model.vAxisColor}" weight="{hostComponent.model.vAxisWeight}" alpha="{hostComponent.model.vAxisAlpha}" caps="none"/>
+		            </mx:axisStroke>
+				</mx:AxisRenderer>
+		    </mx:verticalAxisRenderers>
+		    <mx:horizontalAxis>
+		        <mx:CategoryAxis id="haxis" categoryField="{hostComponent.model.group}" />
+		    </mx:horizontalAxis>
+		    <mx:horizontalAxisRenderers>
+		        <mx:AxisRenderer
+		            axis="{haxis}"
+		            showLine="{hostComponent.model.hAxisVisible}"
+					minorTickPlacement="none"
+		            tickPlacement="none"
+					fontSize="{hostComponent.model.hAxisLabelSize}"
+					color="{hostComponent.model.hAxisLabelColor}"
+					alpha="{hostComponent.model.hAxisLabelAlpha}"
+		            labelGap="{hostComponent.model.hAxisLabelGap}" >
+		            <mx:axisStroke>
+				    	<s:SolidColorStroke id="hAxisStroke" color="{hostComponent.model.hAxisColor}" weight="{hostComponent.model.hAxisWeight}" alpha="{hostComponent.model.hAxisAlpha}" caps="none"/>
+		            </mx:axisStroke>
+				</mx:AxisRenderer>
+		    </mx:horizontalAxisRenderers>
+		    <mx:backgroundElements>
+		        <mx:GridLines
+					id="gridLines"
+		 			gridDirection="{hostComponent.model.gridDirection}"
+		            verticalShowOrigin="{hostComponent.model.gridHOriginVisible}"
+		            horizontalShowOrigin="{hostComponent.model.gridHOriginVisible}"
+					visible="{hostComponent.model.gridVisible}" >
+			 	 	<mx:verticalOriginStroke>
+					    <mx:SolidColorStroke id="gridVOriginStroke" color="{hostComponent.model.gridVOriginColor}" weight="{hostComponent.model.gridVOriginWeight}" alpha="{hostComponent.model.gridVOriginAlpha}" caps="none"/>
+				 	</mx:verticalOriginStroke>
+			 	 	<mx:horizontalOriginStroke>
+					    <mx:SolidColorStroke id="gridHOriginStroke" color="{hostComponent.model.gridHOriginColor}" weight="{hostComponent.model.gridHOriginWeight}" alpha="{hostComponent.model.gridHOriginAlpha}" caps="none"/>
+				 	</mx:horizontalOriginStroke>
+				 	<mx:horizontalStroke>
+					    <mx:SolidColorStroke id="hgridStroke" color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
+					</mx:horizontalStroke>
+					<mx:verticalStroke>
+					    <mx:SolidColorStroke id="vgridStroke" color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
+					</mx:verticalStroke>
+				</mx:GridLines>
+		    </mx:backgroundElements>
+	        <mx:series>
+				<mx:ColumnSeries
+					labelPosition="outside"
+					yField="{hostComponent.model.data}"
+					xField="{hostComponent.model.group}"
+	                stroke="{null}" 
+					filters="[]" >
+					<mx:fill>
+						<mx:SolidColor id="barfill" color="{hostComponent.model.barColor}" alpha="{hostComponent.model.barAlpha}"/>
+					</mx:fill>
+	            </mx:ColumnSeries>
+	        </mx:series>
+	    </mx:ColumnChart>
+	</clg:ClipBackground>
+</s:Skin>

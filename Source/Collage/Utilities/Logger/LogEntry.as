@@ -1,4 +1,4 @@
-package Collage.Logger
+package Collage.Utilities.Logger
 {
 	public class LogEntry
 	{
@@ -24,9 +24,25 @@ package Collage.Logger
 			this.userID = userID;
 		}
 		
-		public function AlertString():String
+		public function toString():String
 		{
-			return text + "\nFrom: " + className + " At: " + time.toLocaleString() + "\nBy: " +  userID;
+			var levelString:String = "";
+			switch (level)
+			{
+				case DEBUG: levelString = 		"DEBUG   "; break;
+				case INFO: levelString = 		"INFO    "; break;
+				case WARNING: levelString = 	"WARNING "; break;
+				case ERROR: levelString = 		"ERROR   "; break;
+				case CRITICAL: levelString = 	"CRITICAL"; break;
+			}		
+			
+			var outString:String = userID + ":" + time.toLocaleString() + " # " + levelString + " # " + text;
+			
+			if (className != "null")
+				outString += " at: " + className;
+				
+			return outString;
+			
 		}
 	}
 }

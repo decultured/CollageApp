@@ -4,3 +4,4 @@
 Build/Debug/*
 Build/Release/*
 Build/Package/*
+*.tmproj

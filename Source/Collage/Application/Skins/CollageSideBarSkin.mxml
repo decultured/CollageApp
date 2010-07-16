@@ -48,10 +48,10 @@
 			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
 		}
 
-	]]></fx:Script>
+    ]]></fx:Script>
 	<fx:Metadata><![CDATA[ 
-			[HostComponent("Collage.Application.CollageSideBar")]
-		]]></fx:Metadata>
+        	[HostComponent("Collage.Application.CollageSideBar")]
+        ]]></fx:Metadata>
 	<s:transitions>
 		<s:Transition fromState="hidden" toState="extended">
 			<s:Resize target="{hostComponent}" duration="200"/>
@@ -63,7 +63,6 @@
 	<s:layout>
 		<s:BasicLayout/>
 	</s:layout>
-	
 	<s:Rect width="100%" height="100%">
 		<s:fill>
 			<s:SolidColor color="#dee4ea" alpha="1.0"/>
@@ -87,11 +86,11 @@
 		</s:stroke>
 	</s:Line>
 	<s:Group right="0" left="18" height="50%" visible.hidden="false" visible.extended="true">
-		<s:Rect width="100%" height="100%" >
-			<s:fill>
+	    <s:Rect width="100%" height="100%" >
+	        <s:fill>
 				<s:SolidColor color="0x555555" alpha="1.0"/>
-			</s:fill>
-		</s:Rect>
+	        </s:fill>
+	    </s:Rect>
 		<s:List requireSelection="true" contentBackgroundColor="#dee4ea" borderVisible="false" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
 			<s:itemRenderer>
 				<fx:Component>

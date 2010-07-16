@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+	 xmlns:clg="Collage.Clip.*"
+	 xmlns:s="library://ns.adobe.com/flex/spark" 
+	 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	 xmlns:mx="library://ns.adobe.com/flex/mx"
+	 alpha.disabled="0.5">
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipView")]
+        ]]>
+    </fx:Metadata> 
+	<fx:Script><![CDATA[
+	]]></fx:Script>
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" />
+    </s:states>
+	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
+		<clg:Picture id="viewBitmap" bitData="@{hostComponent.model.bitData}" fileID="@{hostComponent.model.fileID}" fillMode="{hostComponent.model.fillMode}" source="@{hostComponent.model.URL}" showUnloadedBG="true" showErrors="true" aspectRatio="@{hostComponent.model.aspectRatio}" width="100%" height="100%" minWidth="5" minHeight="5"/>
+	</clg:ClipBackground>
+</s:Skin>

@@ -98,10 +98,12 @@
 			<s:layout>
 				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" gap="15" verticalAlign="middle"/>
 			</s:layout>
+
 			<ep:ImageButton text="Open" image="@Embed('/Assets/icons/document-open.png')" click="hostComponent.OpenFromCloud()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 			<ep:ImageButton text="Save" image="@Embed('/Assets/icons/document-save.png')" click="hostComponent.SaveToCloud()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 			<ep:ImageButton text="Copy" image="@Embed('/Assets/icons/edit-copy.png')" click="hostComponent.Copy(null)" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 			<ep:ImageButton text="Paste" image="@Embed('/Assets/icons/edit-paste.png')" click="hostComponent.Paste(null)" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+
 	        <s:Line x="0" xTo="0" y="0" yTo="20" horizontalCenter="0" verticalCenter="0">
 	            <s:stroke>
 	                <s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#575757"/>
@@ -125,6 +127,7 @@
 				<mx:Image visible="{editPage.singleClipSelected}" includeInLayout="{editPage.singleClipSelected}" click="editPage.MoveSelectedForward()" source="@Embed('/Assets/icons/object-order-raise.png')" />
 				<mx:Image visible="{editPage.singleClipSelected}" includeInLayout="{editPage.singleClipSelected}" click="editPage.MoveSelectedToBack()" source="@Embed('/Assets/icons/object-order-back.png')" />
 				<mx:Image visible="{editPage.singleClipSelected}" includeInLayout="{editPage.singleClipSelected}" click="editPage.MoveSelectedToFront()" source="@Embed('/Assets/icons/object-order-front.png')" />
+
 		        <s:Line x="0" xTo="0" y="9" yTo="15" horizontalCenter="0" verticalCenter="0">
 		            <s:stroke>
 		                <s:SolidColorStroke caps="none" joints="miter" miterLimit="4" weight="1" color="#575757"/>
