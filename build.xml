@@ -17,7 +17,7 @@
 		
 		<exec executable="fcshctl-mxmlc" failonerror="true">
 			<arg line="+configname=air" />
-			<arg line="-source-path '${src.dir}' '${assets.dir}'" />
+			<arg line="-source-path '${src.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
 			<arg line="-library-path+=${lib.dir}as3corelib.swc"/>
 			<arg line="-library-path+=${lib.dir}as3base64.swc"/>

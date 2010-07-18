@@ -17,8 +17,10 @@ package Collage.Application
 	import flash.desktop.*;
 	import flash.display.*;
 	import flash.utils.*;
+	import Collage.Utilities.KeyCodes;
 	import Collage.Utilities.Logger.*;
 	import mx.events.ResizeEvent;
+	import flash.events.KeyboardEvent;
 	
 	public class CollageApp extends CollageBaseApp
 	{
@@ -73,6 +75,15 @@ package Collage.Application
 			clgClipboard = new CollageClipboard(this);
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);
 			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
+			addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown, false, 0, true);
+		}
+		
+		protected function OnKeyDown(event:KeyboardEvent):void {
+			if(event.keyCode == KeyCodes.BACKSPACE || event.keyCode == KeyCodes.DELETE) {
+				if(editPage.IsSelectedDeletable() == true) {
+					editPage.DeleteSelected();
+				}
+			}
 		}
 		
 		protected function PropertyChangeHandler(event:PropertyChangeEvent):void

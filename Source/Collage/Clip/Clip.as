@@ -83,6 +83,7 @@ package Collage.Clip
 						event.property == "rotatable" || 
 						event.property == "aspectLocked") {
 				// TODO : Reset Object Handles
+				/*applyConstraints*/
 			} else if (event.property == "aspectRatio") {
 				Resized();
 			}
