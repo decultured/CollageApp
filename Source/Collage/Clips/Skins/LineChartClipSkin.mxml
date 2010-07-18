@@ -24,12 +24,13 @@
 
 		protected function CreationCompleteHandler(event:FlexEvent):void
 		{
+			ModelChanged(null);
 			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
 		}
 
 		protected function ModelChanged(event:PropertyChangeEvent):void
 		{
-			if (event.property == "xAxisType") {
+			if (!event || event.property == "xAxisType") {
 				if (hostComponent.model.xAxisType == "numeric") {
 					horizontalAxisRenderer.axis = numeric_haxis;
 					linechart.horizontalAxis = numeric_haxis;

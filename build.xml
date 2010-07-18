@@ -15,7 +15,6 @@
 	
 	<target name="air-debug" depends="clean,copy-ep-flex4">
 		<property name="deploy.dir" value="${basedir}/Build/Debug/Desktop" />
-		
 		<exec executable="fcshctl-mxmlc" failonerror="true">
 			<arg line="+configname=air" />
 			<arg line="-source-path '${src.dir}' '${assets.dir}'" />

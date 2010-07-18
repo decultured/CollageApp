@@ -13,16 +13,16 @@ package Collage.Clips
 		[Savable][Bindable] public var pieBorderWeight:Number = 2;
 		
 		[Savable][Bindable] public var radialColor:Number = 0x000000;
-		[Savable][Bindable] public var radialAlpha:Number = 0.5;
-		[Savable][Bindable] public var radialWeight:Number = 2;
+		[Savable][Bindable] public var radialAlpha:Number = 0.0;
+		[Savable][Bindable] public var radialWeight:Number = 0;
 		
 		[Savable][Bindable] public var calloutColor:Number = 0x000000;
-		[Savable][Bindable] public var calloutAlpha:Number = 0.5;
-		[Savable][Bindable] public var calloutWeight:Number = 2;
+		[Savable][Bindable] public var calloutAlpha:Number = 0.0;
+		[Savable][Bindable] public var calloutWeight:Number = 0;
 		
-		[Savable][Bindable] public var labelPosition:String = "callout";
+		[Savable][Bindable] public var labelPosition:String = "inside";
 		[Savable][Bindable] public var labelColor:Number = 0x333333;
-		[Savable][Bindable] public var labelSize:Number = 10;
+		[Savable][Bindable] public var labelSize:Number = 12;
 		[Savable][Bindable] public var innerRadius:Number = 0;
 		[Savable][Bindable] public var explodeRadius:Number = 0;
 

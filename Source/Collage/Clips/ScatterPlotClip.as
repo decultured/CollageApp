@@ -53,7 +53,7 @@ package Collage.Clips
 		[Bindable][Savable] public var hAxisLabelAlpha:Number = 1;
         [Bindable][Savable] public var hAxisLabelGap:Number = 10;
 
-		[Bindable][Savavle] public var xAxisType:String = "numeric";
+		[Bindable][Savable] public var xAxisType:String = "numeric";
 		[Bindable][Savable] public var xAxis:String = "";
 		[Bindable][Savable] public var yAxis:String = "";
 

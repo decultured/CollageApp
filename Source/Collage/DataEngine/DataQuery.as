@@ -241,6 +241,7 @@ package Collage.DataEngine
 			
 			query["limit"] = limit;
 			query["dataset"] = dataset;
+
 			if (filters.length)
 				query["filters"] = BuildFiltersString();
 			if (firstSort) {
@@ -404,7 +405,7 @@ package Collage.DataEngine
 						if (colObj["datatype"] == "numeric") {
 							rowObj[rowFieldKey] = parseFloat(rowObj[rowFieldKey]);
 						} else if (colObj["datatype"] == "datetime" && rowObj[rowFieldKey] is String) {
-							rowObj[rowFieldKey] = new Date(rowObj[rowFieldKey]);
+//							rowObj[rowFieldKey] = new Date(rowObj[rowFieldKey]);
 							//Logger.Log("DateField: " + rowObj[rowFieldKey].toString(), this);
 						} else if (colObj["datatype"] == "boolean") {
 							if (rowObj[rowFieldKey] == "true")
