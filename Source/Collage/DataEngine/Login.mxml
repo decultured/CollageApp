@@ -41,8 +41,8 @@
 			<s:TextInput id="password" displayAsPassword="true" width="100%" color="#444444"/>
 		</mx:FormItem>
 	</mx:Form>
-	<s:HGroup width="100%" bottom="20" right="20" textAlign="left" horizontalAlign="right" verticalAlign="middle">
-		<mx:Label text="Authentication failed message here." width="100%" textAlign="left" color="#8A1515" fontWeight="bold" fontSize="14" id="authMsg"/>
-		<mx:Button id="loginBtn" click="processLogin();" label="Login"  textAlign="center" fontSize="16" color="#333333"/>
+	<s:HGroup width="100%" bottom="20" left="20" right="20" textAlign="left" horizontalAlign="right" verticalAlign="middle">
+		<mx:Label text="Authentication failed message here." width="100%" textAlign="left" color="#de0d0d" fontWeight="bold" fontSize="14" id="authMsg"/>
+		<mx:Button id="loginBtn" click="processLogin();" label="Login"	textAlign="center" fontSize="16" color="#333333"/>
 	</s:HGroup>
 </s:Group>

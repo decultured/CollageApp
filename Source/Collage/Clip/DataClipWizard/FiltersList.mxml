@@ -126,7 +126,7 @@
 					</s:Label>
 					<s:DropDownList id="modifierSelector" requireSelection="true" width="145" labelField="label" change="DropDownChanged()"/>
 					<s:TextInput maxChars="5" width="60" text="@{data.value}" />
-					<mx:Image click="DeleteItem()" source="@Embed('../../../../Assets/icons/delete.png')" />
+					<mx:Image click="DeleteItem()" source="@Embed('/Assets/icons/delete.png')" />
 				</s:HGroup>
 			</s:ItemRenderer>
 		</fx:Component>

@@ -22,6 +22,7 @@
 		
 		protected function CreationCompleteHandler(event:FlexEvent):void
 		{
+			ModelChanged(null);
 			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
 		}
 
@@ -49,7 +50,7 @@
 			</s:fill>
 		</s:Rect>
 		<s:VGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" visible="{showError}" >
-			<s:BitmapImage id="errorImg" source="@Embed('../../../../Assets/icons/48cancel.png')" minWidth="5" minHeight="5" />
+			<s:BitmapImage id="errorImg" source="@Embed('/Assets/icons/48cancel.png')" minWidth="5" minHeight="5" />
 			<s:Label text="No data has been set." color="#222222" maxDisplayedLines="1" fontWeight="bold" fontSize="12" textAlign="center" />
 		</s:VGroup>
 		<mx:PieChart id="chart" height="100%" width="100%" innerRadius="{hostComponent.model.innerRadius}"

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
- 		 xmlns:ep="com.endlesspaths.components.*">
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+ 		xmlns:ep="com.endlesspaths.components.*">
     <s:states>
         <s:State name="normal" />
         <s:State name="disabled" />
@@ -17,7 +17,7 @@
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
 	<s:Group>
-		<ep:ImageButton text="Background" image="@Embed('../../../../Assets/icons/fill-color.png')" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Background" image="@Embed('/Assets/icons/fill-color.png')" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Background">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.backgroundColor}" selectedAlpha="@{hostComponent.model.backgroundAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
@@ -25,7 +25,7 @@
 		</ep:AutoPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Color" image="@Embed('../../../../Assets/icons/format-text-color.png')" click="colorEditorPopup.popUpOpen = !colorEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Color" image="@Embed('/Assets/icons/format-text-color.png')" click="colorEditorPopup.popUpOpen = !colorEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 		<ep:AutoPopUpAnchor id="colorEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="colorEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.color}" selectedAlpha="@{hostComponent.model.alpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />

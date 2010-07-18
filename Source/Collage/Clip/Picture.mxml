@@ -144,6 +144,6 @@
 			</s:LinearGradient>
 		</s:fill>
 	</s:Rect>
-	<s:BitmapImage id="errorImg" visible="{showErrors &amp;&amp; !_BitData}" source="@Embed('../../../Assets/icons/unknown.png')" horizontalCenter="0" verticalCenter="0" minWidth="5" minHeight="5" />
+	<s:BitmapImage id="errorImg" visible="{showErrors &amp;&amp; !_BitData}" source="@Embed('/Assets/icons/unknown.png')" horizontalCenter="0" verticalCenter="0" minWidth="5" minHeight="5" />
 	<s:BitmapImage id="bmpImg" source="{_BitData}" fillMode="{fillMode}" horizontalCenter="0" verticalCenter="0" width="100%" height="100%" smooth="true" minWidth="5" minHeight="5" />
 </s:Group>

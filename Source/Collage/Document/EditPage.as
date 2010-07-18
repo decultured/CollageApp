@@ -90,6 +90,7 @@ package Collage.Document
 		{
 			if (newClip) {
 				var handles:Array = [];
+				var constraints:Array = null;
 
 				if (newClip.verticalSizable && newClip.horizontalSizable) {
 					handles.push( new HandleDescription( HandleRoles.RESIZE_UP + HandleRoles.RESIZE_LEFT, new Point(0,0), new Point(0,0)));
@@ -108,10 +109,11 @@ package Collage.Document
 				if (newClip.rotatable)
 					handles.push( new HandleDescription( HandleRoles.ROTATE, new Point(100,50), new Point(20,0))); 
 				if (newClip.aspectLocked) {
-					// TODO : MaintainProportionConstraint???
+					constraints = [];
+					constraints.push(new MaintainProportionConstraint());
 				}
-					
-				objectHandles.registerComponent(newClip, newClip.view, handles);
+				
+				objectHandles.registerComponent(newClip, newClip.view, handles, true, constraints);
 				DeselectAll();
 				objectHandles.selectionManager.addToSelected(newClip);
 			}
@@ -315,6 +317,24 @@ package Collage.Document
 			}
 
 			objectHandles.selectionManager.clearSelection();
+		}
+		
+		public function IsSelectedDeletable():Boolean
+		{
+			if(objectHandles.selectionManager.currentlySelected.length == 0) {
+				return false;
+			}
+			
+			for (var i:int = 0; i < objectHandles.selectionManager.currentlySelected.length; i++) {
+				if (objectHandles.selectionManager.currentlySelected[i] != null && objectHandles.selectionManager.currentlySelected[i] is Clip) {
+					var clip:Clip = objectHandles.selectionManager.currentlySelected[i] as Clip;
+					if(clip.isLocked == true) {
+						return false;
+					}
+				}
+			}
+			
+			return true;
 		}
 
 		public function ToggleEditSelected():void

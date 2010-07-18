@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <project name="Collage" default="air-build-debug-and-run">
-	<property name="assets.dir" value="${basedir}/Assets/"/>
 	<property name="src.dir" value="${basedir}/Source/"/>
 	<property name="lib.dir" value="${basedir}/Libraries/"/>
 	
@@ -17,7 +16,7 @@
 		<property name="deploy.dir" value="${basedir}/Build/Debug/Desktop" />
 		<exec executable="fcshctl-mxmlc" failonerror="true">
 			<arg line="+configname=air" />
-			<arg line="-source-path '${src.dir}' '${assets.dir}'" />
+			<arg line="-source-path '${src.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
 			<arg line="-library-path+=${lib.dir}as3corelib.swc"/>
 			<arg line="-library-path+=${lib.dir}as3base64.swc"/>
@@ -35,6 +34,11 @@
 			<arg line="-debug=false" />
 			<arg line="-source-path '${src.dir}'" />
 			<arg line="-output '${deploy.dir}/Main.swf'"/>
+			<arg line="-library-path+=${lib.dir}as3corelib.swc"/>
+			<arg line="-library-path+=${lib.dir}as3base64.swc"/>
+			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
+			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
+			<arg line="-keep-as3-metadata+=Theme,Savable"/>
 			<arg line="${src.dir}/Desktop/Main.mxml"/>
 		</exec>
 	</target>
