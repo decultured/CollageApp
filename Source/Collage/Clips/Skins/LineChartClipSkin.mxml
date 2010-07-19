@@ -20,6 +20,7 @@
 
 		protected function EnterEditState(event:FlexEvent):void
 		{
+			
 		}
 
 		protected function CreationCompleteHandler(event:FlexEvent):void

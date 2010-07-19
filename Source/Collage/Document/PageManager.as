@@ -8,7 +8,6 @@ package Collage.Document
 	public class PageManager extends EventDispatcher
 	{
 		[Bindable]public var pages:ArrayList = new ArrayList();
-		[Bindable]public var pageImages:ArrayList = new ArrayList();
 		private var _CurrentPage:uint = 0;
 		private var pagesAdded:uint = 0;
 		

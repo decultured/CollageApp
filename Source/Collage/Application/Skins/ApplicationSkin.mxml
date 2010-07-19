@@ -29,6 +29,10 @@
 		<s:BitmapImage id="pieChart"		source="@Embed('/Assets/components/office-chart-pie.png')" />
 		<s:BitmapImage id="dataLabel"		source="@Embed('/Assets/components/list-add-font.png')" />
 		<s:BitmapImage id="table"			source="@Embed('/Assets/components/insert-table.png')" />
+		<s:BitmapImage id="rss"			source="@Embed('/Assets/components/rss.png')" />
+		<s:BitmapImage id="multiseries"			source="@Embed('/Assets/components/multiseries.png')" />
+		<s:BitmapImage id="twitter"			source="@Embed('/Assets/components/twitter.png')" />
+		<s:BitmapImage id="map"			source="@Embed('/Assets/components/map.png')" />
 		
 		<s:ArrayList id="arrComponentList">
 			<fx:Object label="Label" image="{textPage}" componentType="label" />
@@ -40,6 +44,10 @@
 			<fx:Object label="Scatter Plot" image="{scatterPlot}" componentType="scatterplot" />
 			<fx:Object label="Pie Chart" image="{pieChart}" componentType="piechart" />
 			<fx:Object label="Data Label" image="{dataLabel}" componentType="datalabel" />
+			<fx:Object label="Multi Chart" image="{multiseries}" componentType="linechart" />
+			<fx:Object label="Rss Feed" image="{rss}" componentType="rssfeed" />
+			<fx:Object label="Twitter" image="{twitter}" componentType="piechart" />
+			<fx:Object label="Map" image="{map}" componentType="datalabel" />
 		</s:ArrayList>
 	</fx:Declarations>
 

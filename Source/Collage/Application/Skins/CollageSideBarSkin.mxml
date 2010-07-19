@@ -29,6 +29,7 @@
 			if (!hostComponent.appClass || !hostComponent.appClass.pageManager) return;
 			hostComponent.appClass.SaveCurrentPage();
 			hostComponent.appClass.pageManager.NewPage();
+			hostComponent.appClass.editPage.OpenPageWizard();
 			removeButton.enabled = (hostComponent.appClass.pageManager.numPages > 1);
 		}
 
@@ -86,15 +87,13 @@
 		</s:stroke>
 	</s:Line>
 	<s:Group right="0" left="18" height="50%" visible.hidden="false" visible.extended="true">
-	    <s:Rect width="100%" height="100%" >
-	        <s:fill>
-				<s:SolidColor color="0x555555" alpha="1.0"/>
-	        </s:fill>
-	    </s:Rect>
-		<s:List requireSelection="true" contentBackgroundColor="#dee4ea" borderVisible="false" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
+		<s:Group height="24" top="0" width="100%" >
+			<s:Label horizontalCenter="0" verticalCenter="0" color="#222222" fontWeight="bold" fontSize="14" text="Pages" />
+		</s:Group>
+		<s:List requireSelection="true" contentBackgroundColor="#dee4ea" borderVisible="false" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="24" bottom="30" selectedIndex="@{hostComponent.appClass.pageManager.currentPageIndex}" dataProvider="{hostComponent.appClass.pageManager.pages}">
 			<s:itemRenderer>
 				<fx:Component>
-					<s:ItemRenderer focusRect="false" width="100%" height="40" doubleClick="OpenPageWizard()" doubleClickEnabled="true">
+					<s:ItemRenderer focusRect="false" width="100%" height="28" doubleClick="OpenPageWizard()" doubleClickEnabled="true">
 						<s:states>
 							<s:State name="normal"/>
 							<s:State name="hovered"/>
@@ -130,14 +129,12 @@
 							</s:stroke>
 						</s:Line>
 						<s:Group width="100%" height="100%" >
-							<s:Graphic x="4" y="4">
-								<s:BitmapImage id="bg2" source="{CollageApp.instance.tempPageImage}" width="32" height="32" smooth="{true}"/>
-							</s:Graphic>
-							<s:Label id="txtStart" color="#222222" color.selected="#ffffff" fontWeight="bold" fontSize="14" width="100%" verticalCenter="2" left="40">
+							<s:Label id="txtStart" color="#222222" color.selected="#ffffff" fontWeight="bold" fontSize="14" width="80%" verticalCenter="2" left="10">
 								<s:filters>
 									<s:DropShadowFilter distance="1" color="#555555" blurX="1" blurY="1" includeIn="selected"/>
 								</s:filters>
 							</s:Label>
+							<mx:Image includeIn="selected" click="OpenPageWizard()" source="@Embed('/Assets/icons/edit.png')" verticalCenter="0" right="10"/>
 						</s:Group>
 					</s:ItemRenderer>
 				</fx:Component>
@@ -165,10 +162,13 @@
 		</s:Group>
 	</s:Group>
 	<s:Group bottom="0" left="18" right="0" height="50%" visible.hidden="false" visible.extended="true">
-		<s:List id="dataSetsList" contentBackgroundColor="#dee4ea" requireSelection="false" borderVisible="false" changing="event.preventDefault()" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="0" bottom="29" dataProvider="{DataEngine.datasets}">
+		<s:Group height="24" top="0" width="100%" >
+			<s:Label horizontalCenter="0" verticalCenter="0" color="#222222" fontWeight="bold" fontSize="14" text="Datasets" />
+		</s:Group>
+		<s:List id="dataSetsList" contentBackgroundColor="#dee4ea" requireSelection="false" borderVisible="false" changing="event.preventDefault()" dragEnabled="true" dragMoveEnabled="true" dropEnabled="true" width="100%" top="24" bottom="29" dataProvider="{DataEngine.datasets}">
 			<s:itemRenderer>
 				<fx:Component>
-					<s:ItemRenderer focusRect="false" width="100%" height="35" doubleClick="OpenDataSetWindow()" doubleClickEnabled="true">
+					<s:ItemRenderer focusRect="false" width="100%" height="40" doubleClick="OpenDataSetWindow()" doubleClickEnabled="true">
 						<s:states>
 							<s:State name="normal"/>
 							<s:State name="hovered"/>
@@ -213,8 +213,9 @@
 							</s:stroke>
 						</s:Line>
 						<s:Group width="100%" height="100%">
-							<s:Label id="titleText" color="#222222" color.selected="#ffffff" maxDisplayedLines="1" fontWeight="bold" fontSize="12" top="5" right="10" left="10"/>
+							<s:Label id="titleText" color="#222222" color.selected="#ffffff" maxDisplayedLines="1" fontWeight="bold" fontSize="12" top="5" right="25" left="10"/>
 							<s:Label id="infoText" text="{data.totalRows} rows" color="#555555" color.selected="#ffffff" maxDisplayedLines="1" fontSize="10" bottom="5" right="10" left="10"/>
+							<mx:Image includeIn="hovered" click="OpenDataSetWindow()" source="@Embed('/Assets/icons/edit.png')" verticalCenter="0" right="10" bottom="10"/>
 						</s:Group>
 					</s:ItemRenderer>
 				</fx:Component>
@@ -236,6 +237,7 @@
 			</s:Line>
 			<s:HGroup horizontalCenter="0" verticalAlign="middle" height="100%" >
 				<ep:ImageButton width="50" toolTip="Upload a new Dataset" id="uploadDatasetButton" image="@Embed('/Assets/sidebar/upload-dataset.png')" enabled="{(!hostComponent.appClass) ? false : true}" click="hostComponent.appClass.UploadDataFile()" />
+				<ep:ImageButton width="50" toolTip="Refresh Datasets" id="refreshDatasetsButton" image="@Embed('/Assets/icons/refresh-clip.png')" enabled="{(!hostComponent.appClass) ? false : true}" click="DataEngine.LoadAllDataSets()" />
 			</s:HGroup>
 		</s:Group>
 		<s:Line width="100%" top="0">

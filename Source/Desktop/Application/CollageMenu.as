@@ -60,15 +60,10 @@ package Desktop.Application
 	                <menuitem label="Image" command="insertImage" key="3"/>
 	                <menuitem type="separator" />
 	                <menuitem label="Data Label" command="insertDataLabel"/>
-	                <menuitem label="Table" command="insertTable"/>
 	                <menuitem label="Line" command="insertLineChart"/>
 	                <menuitem label="Scatter Chart" command="insertScatterChart"/>
 	                <menuitem label="Bar Chart" command="insertBarChart"/>
 	                <menuitem label="Pie Chart" command="insertPieChart"/>
-	                <menuitem label="Guage" command="insertGuage"/>
-	                <menuitem type="separator" />
-	                <menuitem label="Web Embed" command="insertWebEmbed"/>
-	                <menuitem label="Google Maps" command="insertGoogleMaps"/>
 	            </menuitem>
 	            <menuitem label="View">
                 	<menuitem label="Fullscreen" type="check" command="fullscreen" toggled="false" key="f"/>
@@ -88,8 +83,6 @@ package Desktop.Application
 	            		<menuitem label="200%" amount="2.0" command="zoom" />
 	            		<menuitem label="400%" amount="4.0" command="zoom" />
 		            </menuitem>
-	                <menuitem type="separator" />
-					<menuitem label="Debug Log Window" command="debugger" />
 	            </menuitem>
 	        </root>;
 
@@ -151,23 +144,16 @@ package Desktop.Application
 				case "moveBackward": 	collageApp.editPage.MoveSelectedBackward(); break;
 				case "moveToFront":		collageApp.editPage.MoveSelectedToFront(); break;
 				case "moveToBack":		collageApp.editPage.MoveSelectedToBack();	break;
-				case "insertImage":		collageApp.editPage.AddClipByType('image');	break;
-				case "insertLabel":		collageApp.editPage.AddClipByType('label'); break;
-				case "insertTextBox": 	collageApp.editPage.AddClipByType('textbox'); break;
 				case "selectAll": 		collageApp.editPage.SelectAll(); break;
 				case "deselectAll": 	collageApp.editPage.DeselectAll(); break;
-/*				case "insertDataLabel":	_EditDocumentView.AddClipByType('datalabel', new Rectangle(150, 150, 300, 300)); break;
-				case "insertTable":		_EditDocumentView.AddClipByType('table', new Rectangle(150, 150, 300, 300)); break;
-				case "insertLineChart":	_EditDocumentView.AddClipByType('linechart', new Rectangle(150, 150, 300, 300)); break;
-				case "insertScatterChart":	_EditDocumentView.AddClipByType('scatterchart', new Rectangle(150, 150, 300, 300));	break;
-				case "insertBarChart":	_EditDocumentView.AddClipByType('barchart', new Rectangle(150, 150, 300, 300)); break;
-				case "insertPieChart":	_EditDocumentView.AddClipByType('piechart', new Rectangle(150, 150, 300, 300));	break;
-				case "insertGuage":		_EditDocumentView.AddClipByType('guage', new Rectangle(150, 150, 300, 300)); break;
-				case "insertWebEmbed":	_EditDocumentView.AddClipByType('webembed', new Rectangle(150, 150, 300, 300));	break;
-				case "insertGoogleMaps":_EditDocumentView.AddClipByType('googlemaps', new Rectangle(150, 150, 300, 300)); break;
-				case "refreshDatasets":	DataEngine.LoadAllDataSets();
-					break;
-*/
+				case "insertImage":			collageApp.editPage.AddClipByType('image');			break;
+				case "insertLabel":			collageApp.editPage.AddClipByType('label');			break;
+				case "insertTextBox": 		collageApp.editPage.AddClipByType('textbox');		break;
+				case "insertDataLabel":		collageApp.editPage.AddClipByType('datalabel');		break;
+				case "insertLineChart":		collageApp.editPage.AddClipByType('linechart');		break;
+				case "insertScatterChart":	collageApp.editPage.AddClipByType('scatterplot');	break;
+				case "insertBarChart":		collageApp.editPage.AddClipByType('columnchart');	break;
+				case "insertPieChart":		collageApp.editPage.AddClipByType('piechart');		break;
 				case "refreshDatasets":
 					DataEngine.LoadAllDataSets();
 					break;
@@ -191,10 +177,6 @@ package Desktop.Application
 				case "fullscreen":
 					collageApp.Fullscreen();
 					menuEvent.item.@toggled = !menuEvent.item.@toggled;
-					break;
-				case "debugger":
-//					var newLoggerWindow:LoggerWindow = new LoggerWindow();
-//					newLoggerWindow.open();
 					break;
 				default:
 					Logger.LogWarning("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);

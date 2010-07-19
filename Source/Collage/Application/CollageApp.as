@@ -59,8 +59,6 @@ package Collage.Application
 
 		[Bindable]public var statusBarVisible:Boolean = false;
 
-		[Bindable]public var tempPageImage:BitmapData = new BitmapData(32, 32, false, 0xffffff);;
-
 		private var _CloudDocument:CloudDocument;
 
 		protected var _PopupWindows:Object = new Object();
@@ -75,15 +73,15 @@ package Collage.Application
 			clgClipboard = new CollageClipboard(this);
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);
 			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
-			addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown, false, 0, true);
+//			addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown, false, 0, true);
 		}
 		
 		protected function OnKeyDown(event:KeyboardEvent):void {
-			if(event.keyCode == KeyCodes.BACKSPACE || event.keyCode == KeyCodes.DELETE) {
+			/*if(event.keyCode == KeyCodes.BACKSPACE || event.keyCode == KeyCodes.DELETE) {
 				if(editPage.IsSelectedDeletable() == true) {
 					editPage.DeleteSelected();
 				}
-			}
+			}*/
 		}
 		
 		protected function PropertyChangeHandler(event:PropertyChangeEvent):void
@@ -127,18 +125,6 @@ package Collage.Application
 
 		public override function SaveCurrentPage():void
 		{
-			//var tempBitmapData:Bitmapdata = ImageSnapshot.captureBitmapData(editPage);
-/*
-			tempPageImage.fillRect(new Rectangle(0, 0, 32, 32), 0xffffff);
-			
-			var mat:Matrix = new Matrix();
-			if (editPage.width > editPage.height)
-				mat.scale(32.0/editPage.width, 32.0/editPage.width);
-			else
-				mat.scale(32.0/editPage.height, 32.0/editPage.height);
-
-			tempPageImage.draw(editPage, mat);
-*/
 			pageManager.SetPageByUID(editPage.SaveToObject(), editPage.UID);
 		}
 

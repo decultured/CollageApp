@@ -24,6 +24,8 @@ package Collage.Clip
 				return new TableClip();
 			else if (clipType == "columnchart")
 				return new ColumnChartClip();
+			else if (clipType == "rssfeed")
+				return new RssFeedClip();
 			else if (clipType == "datalabel")
 				return new DataLabelClip();
 			else
