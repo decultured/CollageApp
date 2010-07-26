@@ -220,7 +220,7 @@ package Collage.Document
 					clip.Moved();
 				}
 				else if (event.type == ObjectChangedEvent.OBJECT_RESIZED) {
-					SnapSize(clip);
+					//SnapSize(clip);
 					clip.Resized();
 				}
 				else if (event.type == ObjectChangedEvent.OBJECT_ROTATED) {

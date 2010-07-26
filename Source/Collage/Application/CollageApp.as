@@ -132,6 +132,7 @@ package Collage.Application
 		{
 			pageManager.New(true);
 			editPage.LoadFromObject(pageManager.currentPage);
+//			_CloudDocument.ID = null;
 		}
 		
 		public override function Quit():void { }

@@ -107,7 +107,7 @@ package Collage.DataEngine
 			
 			loading = true;
 			
-			Logger.Log("Loading All Available Datasets");
+			//Logger.Log("Loading All Available Datasets");
 
 			var request:URLRequest = new URLRequest(DataEngine.getUrl("/api/v1/dataset/list"));
 			var loader:URLLoader = new URLLoader();
@@ -126,7 +126,7 @@ package Collage.DataEngine
 		private static function HttpStatusHandler(event:HTTPStatusEvent):void
 		{
             event.target.removeEventListener(HTTPStatusEvent.HTTP_STATUS, HttpStatusHandler);
-			Logger.LogDebug("Data Engine HTTP Status: " + event);
+			//Logger.LogDebug("Data Engine HTTP Status: " + event);
 		}
 		
 		private static function IOErrorHandler(event:IOErrorEvent):void
@@ -172,7 +172,7 @@ package Collage.DataEngine
 				
 				newDataSet.addEventListener(DataSet.COMPLETE, DataSetFinishedLoading);
 				newDataSet.LoadColumns();
-				Logger.LogDebug("Data Set Loading: " + results[key]["id"]);
+				//Logger.LogDebug("Data Set Loading: " + results[key]["id"]);
 			}
 			Logger.LogDebug("Data Engine Load Complete");
 		}

@@ -140,7 +140,7 @@ package Collage.DataEngine
 			
 			loading = false;
 			loaded = true;
-			Logger.LogDebug("Data Set Loaded: " + id + " Rows: " + totalRows + " " + title, this);
+			//Logger.LogDebug("Data Set Loaded: " + id + " Rows: " + totalRows + " " + title, this);
 			dispatchEvent(new Event(COMPLETE));
 		}
 

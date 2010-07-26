@@ -8,7 +8,8 @@ package Desktop.Application
 	import Collage.Application.*;
 	import Collage.DataEngine.*;
 	import Collage.Document.*;
-	import Collage.Clips.*;
+	import Collage.Clips.ImageClip.*;
+	import Collage.Clips.TextBoxClip.*;
 	import Collage.Clip.*;
 	import spark.components.TitleWindow;
 	import flash.display.StageDisplayState;
@@ -253,11 +254,12 @@ package Desktop.Application
 			var copyObject:Object = copyClip.SaveToObject();
 			Clipboard.generalClipboard.clear();
 			Clipboard.generalClipboard.setData("epaths:clipObject", JSON.encode(copyObject));
-
+/*
 			if (copyClip is LabelClip)
 				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, (copyClip as LabelClip).text);
 			else if (copyClip is TextBoxClip)
 				Clipboard.generalClipboard.setData(ClipboardFormats.HTML_FORMAT, (copyClip as TextBoxClip).text);
+*/
 			editPage.DeselectAll();
 			var scaleMat:Matrix = new Matrix();
 			scaleMat.scale(3,3);
@@ -299,8 +301,7 @@ package Desktop.Application
 				newClip = editPage.AddClipByType("image");
 				newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
 				Logger.Log("Bitmap Pasted", this);
-			} 
-			else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
+			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
 				var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
 				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
 				Logger.Log("HTML Pasted " + newTextBoxClip.text, this);

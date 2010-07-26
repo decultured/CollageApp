@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		xmlns:clg="Collage.Clip.*"
+ 		xmlns:ep="com.endlesspaths.components.*">
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" />
+    </s:states>
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipEditor")]
+        ]]>
+    </fx:Metadata> 
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+	</s:layout>
+	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
+	<s:Group>
+		<ep:ImageButton text="Title" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="titleEditorPopup.popUpOpen = !titleEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="titleEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="titleEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Line Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.titleColor}" selectedAlpha="@{hostComponent.model.titleAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Font Size:" color="0xffffff" />
+					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.titleSize}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:HGroup width="100%">
+					<s:Label text="Lines:" color="0xffffff" />
+					<s:HSlider minimum="1" maximum="5" value="@{hostComponent.model.titleLines}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	<s:Group>
+		<ep:ImageButton text="Content" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="contentEditorPopup.popUpOpen = !contentEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="contentEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="contentEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Line Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.contentColor}" selectedAlpha="@{hostComponent.model.contentAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Font Size:" color="0xffffff" />
+					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.contentSize}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:HGroup width="100%">
+					<s:Label text="Lines:" color="0xffffff" />
+					<s:HSlider minimum="1" maximum="5" value="@{hostComponent.model.contentLines}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+</s:Skin>

@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/28/trunk/src/com/adobe/xml/syndication/generic
+END
+Media.as
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Media.as
+END
+Atom10Item.as
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/27/trunk/src/com/adobe/xml/syndication/generic/Atom10Item.as
+END
+Atom03Item.as
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/27/trunk/src/com/adobe/xml/syndication/generic/Atom03Item.as
+END
+Image.as
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Image.as
+END
+Atom10Feed.as
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Atom10Feed.as
+END
+RSS10Item.as
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/27/trunk/src/com/adobe/xml/syndication/generic/RSS10Item.as
+END
+Atom03Feed.as
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Atom03Feed.as
+END
+RSS20Item.as
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/28/trunk/src/com/adobe/xml/syndication/generic/RSS20Item.as
+END
+IMetadata.as
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/IMetadata.as
+END
+FeedFactory.as
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/FeedFactory.as
+END
+RSS10Feed.as
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/RSS10Feed.as
+END
+RSS20Feed.as
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/RSS20Feed.as
+END
+UnknownFeedError.as
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/UnknownFeedError.as
+END
+Author.as
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Author.as
+END
+Atom10Metadata.as
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Atom10Metadata.as
+END
+Atom03Metadata.as
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Atom03Metadata.as
+END
+IItem.as
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/27/trunk/src/com/adobe/xml/syndication/generic/IItem.as
+END
+RSS10Metadata.as
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/RSS10Metadata.as
+END
+RSS20Metadata.as
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/RSS20Metadata.as
+END
+Excerpt.as
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/Excerpt.as
+END
+IFeed.as
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/generic/IFeed.as
+END

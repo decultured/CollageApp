@@ -84,6 +84,8 @@ package Collage.DataEngine
 
 		public function HandleSaveFailure(event:Event):void {
 			Logger.LogError("Failure saving to cloud", this);
+			if (_Dashboard)
+				_Dashboard.ID = null;
 		}
 		
 		public function Open():void {
@@ -122,6 +124,8 @@ package Collage.DataEngine
 
 		public function HandleOpenFailure(event:Event):void {
 			Logger.LogError("Failure opening from cloud", this);
+			if (_Dashboard)
+				_Dashboard.ID = null;
 		}
 		
 	}

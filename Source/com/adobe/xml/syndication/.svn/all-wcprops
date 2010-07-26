@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/28/trunk/src/com/adobe/xml/syndication
+END
+Namespaces.as
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/Namespaces.as
+END
+ParsingTools.as
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/ParsingTools.as
+END
+NewsParser.as
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/NewsParser.as
+END
+NewsFeedElement.as
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/20/trunk/src/com/adobe/xml/syndication/NewsFeedElement.as
+END

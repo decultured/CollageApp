@@ -1,6 +1,17 @@
 package Collage.Clip
 {
-	import Collage.Clips.*;
+	import Collage.Clips.ColumnChartClip.*;
+	import Collage.Clips.DataLabelClip.*;
+	import Collage.Clips.GuageClip.*;
+	import Collage.Clips.ImageClip.*;
+	import Collage.Clips.LabelClip.*;
+	import Collage.Clips.LineChartClip.*;
+	import Collage.Clips.PieChartClip.*;
+	import Collage.Clips.RssFeedClip.*;
+	import Collage.Clips.YouTubeClip.*;
+	import Collage.Clips.ScatterPlotClip.*;
+	import Collage.Clips.TableClip.*;
+	import Collage.Clips.TextBoxClip.*;
 	import Collage.Utilities.Logger.*;
 	
 	public class ClipFactory
@@ -26,6 +37,8 @@ package Collage.Clip
 				return new ColumnChartClip();
 			else if (clipType == "rssfeed")
 				return new RssFeedClip();
+			else if (clipType == "youtube")
+				return new YouTubeClip();
 			else if (clipType == "datalabel")
 				return new DataLabelClip();
 			else

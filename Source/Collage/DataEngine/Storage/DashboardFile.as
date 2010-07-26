@@ -59,6 +59,8 @@ package Collage.DataEngine.Storage
 		public function Open(fileId:String = null):void {
 			if(fileId != null)
 				this.ID = fileId;
+				
+			Logger.LogDebug("ID: " + this.ID, this);
 
 			OpenFile();
 		}
@@ -95,6 +97,7 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Save_Failure(event:Event):void {
+			this.ID = null;
 			Logger.LogError("DashboardFile::Save_Failure: " + event, this);
 		}
 	}

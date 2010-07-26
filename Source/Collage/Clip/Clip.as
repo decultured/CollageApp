@@ -33,6 +33,7 @@ package Collage.Clip
 		[Bindable][Savable(theme="true")]public var borderAlpha:Number = 1.0;
 		[Bindable][Savable(theme="true")]public var borderWeight:Number = 0;
 		[Bindable][Savable(theme="true")]public var borderRadius:Number = 0;
+		[Bindable][Savable(theme="true")]public var contentMargin:Number = 0;
 		[Bindable][Savable(theme="true")]public var dropShadowVisible:Boolean = true;
 		
 		private var _ClipEditorSkin:Class = null;

@@ -56,6 +56,9 @@ package Collage.DataEngine.Storage
 				loader.addEventListener(Event.COMPLETE, Open_CompleteHandler);
 				loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, Open_ErrorHandler);
 				loader.addEventListener(IOErrorEvent.IO_ERROR, Open_ErrorHandler);
+				
+				_ByteData = null;
+				_Content = null;
 
 				loader.load( CreateRequest( URLRequestMethod.GET, OPERATION_OPEN ) );
 			} catch(error:Error) {
@@ -94,7 +97,9 @@ package Collage.DataEngine.Storage
 
 			var params:URLVariables = new URLVariables();
 			params.aT = Session.AuthToken;
-			params.content = this._Content;
+			
+			if(operation == OPERATION_SAVE)
+				params.content = this._Content;
 
 			if(this._ByteData != null) {
 				params.filedata = Base64.encodeByteArray( this._ByteData );
@@ -121,11 +126,13 @@ package Collage.DataEngine.Storage
 			var results:Object = JSON.decode(event.target.data);
 			lastResult = results;
 
+			Logger.LogDebug(event.target.data, this);
 			if(results.hasOwnProperty("content")) {
 				_Content = results["content"];
 
 				this.dispatchEvent(new Event(OPEN_SUCCESS));
 			} else {
+				Logger.LogError("Results have no content", this);
 				this.dispatchEvent(new Event(OPEN_FAILURE));
 			}
 		}
