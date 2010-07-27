@@ -22,6 +22,8 @@ package Collage.Application
 	
 	public class CollageBaseApp extends SkinnableContainer
 	{
+		public static var PAGE_LOAD_COMPLETE:String = "page_load_complete";
+		
 		public function CollageBaseApp():void {}
 		public function SaveCurrentPage():void {}
 		public function New():void {}
@@ -37,7 +39,7 @@ package Collage.Application
 		public function SaveImage():void {}
 		public function SavePDF():void {}
 		public function SaveToCloud():void {}
-		public function OpenFromCloud():void {}
+		public function OpenFromCloud(id:String = null):void {}
 		public function SaveToObject():Object {return null;}
 		public function LoadFromObject(dataObject:Object):Boolean {return false;}
 		public function OpenFile():void {}

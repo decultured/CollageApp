@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mxmlc  -source-path="../" -source-path="../../Libraries/" -keep-as3-metadata+=Theme,Savable -library-path+="../../Libraries/as3corelib.swc" -library-path+="../../Libraries/as3base64.swc" -library-path+="../../Libraries/ObjectHandles-2.0.0008_FLEX4.swc" -library-path+="../../Libraries/endlesspathsflex4com.swc" -incremental=false -debug=false -output=test/collage_view.swf Main.mxml
+
+#cp test/collage_view.swf ~/Sites/static.local/viewer/

@@ -5,6 +5,7 @@ package Collage.Clips.RssFeedClip
 	import com.adobe.xml.syndication.rss.*;
 
 	import flash.utils.*;
+	import flash.events.TimerEvent;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
@@ -38,15 +39,52 @@ package Collage.Clips.RssFeedClip
 		
 		[Bindable][Savable]public var itemList:ArrayList = new ArrayList();
 		[Bindable][Savable]public var loaded:Boolean = false;
-
+		
+		[Savable][Bindable]public var updatable:Boolean = true;
+		[Savable][Bindable]private var _UpdateInterval:Number = 60000; // In Microseconds, -1 = no updates
+		[Savable][Bindable]public var lastUpdate:Date = new Date();
+		private var _UpdateTimer:Timer;
+		
 		public function RssFeedClip()
 		{
 			super(RssFeedClipSkin, RssFeedClipEditor, RssFeedClipEditorSmall);
 			type = "rssfeed";
 			LoadRss();
 			Resized();
+			StartTimer();
 		}
 		
+		public function get updateInterval():Number {return _UpdateInterval;}
+		public function set updateInterval(newInterval:Number):void
+		{
+			_UpdateInterval = newInterval;
+			Logger.Log("Timer changed, refreshes every: " + _UpdateInterval / 1000 + " seconds.", this);
+			StartTimer();
+		}
+		
+		public function StartTimer():void
+		{
+			if (_UpdateTimer) {
+				_UpdateTimer.stop();
+				_UpdateTimer.removeEventListener("timer", TimerUpdate);
+			}
+			if (_UpdateInterval < 1)
+				return;
+			if (_UpdateInterval < 5000)
+				_UpdateInterval = 5000;
+			_UpdateTimer = new Timer(_UpdateInterval, 0);
+			_UpdateTimer.addEventListener("timer", TimerUpdate, false, 0, true);
+			_UpdateTimer.start();
+			
+			Logger.Log("Timer started, refreshes every: " + _UpdateInterval / 1000 + " seconds.", this);
+		}
+
+		public function TimerUpdate(event:TimerEvent):void
+		{
+			Logger.Log("Timer (" + _UpdateInterval / 1000 + " seconds) updated, last update was at: " + lastUpdate.toString(), this);
+			LoadRss();
+		}
+
 		public override function Resized():void
 		{
 			contentWidth = width;
@@ -213,5 +251,3 @@ package Collage.Clips.RssFeedClip
 		}
 	}
 }
-
-

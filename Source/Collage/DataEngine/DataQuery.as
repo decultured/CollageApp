@@ -31,7 +31,7 @@ package Collage.DataEngine
 		private var _PostSortColumnType:String = null;
 
 		[Savable][Bindable]public var updatable:Boolean = true;
-		[Savable][Bindable]private var _UpdateInterval:Number = -1; // In Microseconds, -1 = no updates
+		[Savable][Bindable]private var _UpdateInterval:Number = 60000; // In Microseconds, -1 = no updates
 		[Savable][Bindable]public var lastUpdate:Date = new Date();
 		private var _UpdateTimer:Timer;
 

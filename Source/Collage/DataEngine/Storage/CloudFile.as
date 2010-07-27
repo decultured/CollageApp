@@ -126,7 +126,7 @@ package Collage.DataEngine.Storage
 			var results:Object = JSON.decode(event.target.data);
 			lastResult = results;
 
-			Logger.LogDebug(event.target.data, this);
+			//Logger.LogDebug(event.target.data, this);
 			if(results.hasOwnProperty("content")) {
 				_Content = results["content"];
 
@@ -148,7 +148,7 @@ package Collage.DataEngine.Storage
 		{
 			event.target.removeEventListener(Event.COMPLETE, Save_CompleteHandler);
 			
-			Logger.LogDebug("CloudFile Save Complete: " + event.target.data, this);
+			Logger.LogDebug("CloudFile Save Complete", this);
 
 			var results:Object = JSON.decode(event.target.data);
 			lastResult = results;

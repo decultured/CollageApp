@@ -115,6 +115,21 @@ package Collage.DataEngine
 			}
 		}
 
+		public function OpenDashboardByID(id:String):void
+		{
+			_Dashboard = null;
+			_Dashboard = new DashboardFile();
+			_Dashboard.addEventListener(CloudFile.OPEN_SUCCESS, HandleOpenSuccess)
+			_Dashboard.addEventListener(CloudFile.OPEN_FAILURE, HandleOpenFailure)
+
+			try{
+				Logger.Log("Opening from cloud - id: " + id, this);
+				_Dashboard.Open(id);
+			} catch(e:Error){
+				Logger.LogError(e.message, this);
+			}
+		}
+
 		public function HandleOpenSuccess(event:Event):void {
 			Logger.Log("Opened from cloud", this);
 

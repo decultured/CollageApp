@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+    xmlns:s="library://ns.adobe.com/flex/spark" 
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:clg="Collage.Application.*"
+	xmlns:clgdoc="Collage.Document.*"
+	applicationComplete="Initialize()">
+    <s:layout>
+        <s:BasicLayout/>
+    </s:layout>
+    <fx:Script><![CDATA[
+		import Collage.Utilities.Logger.*;
+		import Collage.Application.*;
+		import mx.core.IFlexDisplayObject;
+		import mx.events.*;
+		import flash.external.*;
+		import flash.events.*;
+		import mx.core.FlexGlobals;
+		
+		private var _DashboardURL:String = "";
+		private var _DashboardID:String = "";
+		private var _ExtCallback_DashboardLoad;
+		private var _ExtCallback_DashboardUnLoad;
+		private var _ExtCallback_PopupCreate;
+		private var _ExtCallback_PopupDestroy;
+
+		private function Initialize():void
+		{
+			Security.allowDomain('*');
+			
+			clgViewer.isWebVersion = true;
+			
+			Logger.Log("Application Started", this);
+			
+			_DashboardID = FlexGlobals.topLevelApplication.parameters.id;
+			
+			_ExtCallback_PopupCreate = FlexGlobals.topLevelApplication.parameters.onPopupCreate;
+			_ExtCallback_PopupDestroy = FlexGlobals.topLevelApplication.parameters.onPopupDestroy;
+			_ExtCallback_DashboardLoad = FlexGlobals.topLevelApplication.parameters.onDashboardLoad;
+			_ExtCallback_DashboardUnLoad = FlexGlobals.topLevelApplication.parameters.onDashboardUnLoad;
+			
+//			ExternalInterface.addCallback("openDashboardList", CloudFile_OpenDashboard);
+
+			clgViewer.CheckSessionByID(FlexGlobals.topLevelApplication.parameters.authToken);
+			OpenDashboardByID(_DashboardID);
+		}
+		
+		public function OpenDashboardByID(dashID:String):void {
+			if(dashID == null || dashID == "") {
+				//CloudFile_OpenDashboard();
+				return;
+			}
+			
+			if(_ExtCallback_DashboardUnLoad != null) {
+				ExternalInterface.call(_ExtCallback_DashboardUnLoad);
+			}
+			
+			clgViewer.addEventListener(CollageBaseApp.PAGE_LOAD_COMPLETE, OpenDashboardById_Complete);
+			clgViewer.OpenFromCloud(_DashboardID);
+		}
+		
+		public function OpenDashboardById_Complete(event:Event):void {
+			clgViewer.removeEventListener(CollageBaseApp.PAGE_LOAD_COMPLETE, OpenDashboardById_Complete);
+			if(_ExtCallback_DashboardLoad != null) {
+				ExternalInterface.call(_ExtCallback_DashboardLoad, {'height': clgViewer.viewerPage.height, 'width': clgViewer.viewerPage.width});
+			}
+		}
+		
+		public function OpenDashboardById_Failure(event:Event):void {
+			//CloudFile_OpenDashboard();
+		}
+	]]></fx:Script>
+	<clg:CollageViewer id="clgViewer" skinClass="Collage.Application.Skins.CollageViewerSkin" height="100%" width="100%" />
+</s:Application>

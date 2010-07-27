@@ -52,12 +52,22 @@ package Collage.Application
 		protected var _PopupWindows:Object = new Object();
 		protected var _PopupWindowContents:Object = new Object();
 
+		public var isWebVersion:Boolean = false;
+
 		public function CollageViewer():void
 		{
 			Logger.LogDebug("Viewer Created", this);
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);
 			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
 		}
+		
+		public function CheckSessionByID(sessID:String):void
+		{
+			Session.AuthToken = sessID;
+//			Session.events.addEventListener(Session.LOGIN_SUCCESS, HandleLoginSuccess);
+//			Session.events.addEventListener(Session.TOKEN_EXPIRED, HandleTokenExpired);
+			Session.CheckToken();
+		}		
 		
 		protected function PropertyChangeHandler(event:PropertyChangeEvent):void
 		{
@@ -107,10 +117,14 @@ package Collage.Application
 
 		public override function Fullscreen():void
 		{
-			if (stage.displayState == StageDisplayState.FULL_SCREEN_INTERACTIVE)
+			var fullscreenType:String = "fullScreenInteractive";
+			if (isWebVersion)
+				fullscreenType = "fullScreen";
+			
+			if (stage.displayState == fullscreenType)
 				stage.displayState = StageDisplayState.NORMAL;
 			else
-				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+				stage.displayState = fullscreenType;
 		}
 /*
 		private function PopUp_Create(parent:DisplayObject, className:Class, modal:Boolean = false):IFlexDisplayObject {
@@ -199,11 +213,15 @@ package Collage.Application
 		{
 		}
 		
-		public override function OpenFromCloud():void
+		public override function OpenFromCloud(id:String = null):void
 		{
 			if (!_CloudDocument)
 				_CloudDocument = new CloudDocument(this);
-			_CloudDocument.Open();
+				
+			if (id)
+				_CloudDocument.OpenDashboardByID(id);
+			else
+				_CloudDocument.Open();
 		}
 
 		public override function SaveToObject():Object

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Endless Paths Collage</title>
+	<script type="text/javascript" src="swfobject.js"></script>
+	<style>
+	 	body{
+			margin:0;
+			padding:0;
+			background:#2b2b2b;
+			color:#e9e9e9;
+			font-family: Helvetica, verdana, arial, sans-serif;
+		}
+	
+		#wrapper {
+		    background:#FF0000;
+		    position: absolute;
+		    top: 30px;
+		    left: 0;
+		    right: 0;
+		    bottom: 30px;
+			*width:expression(document.body.clientWidth);	
+			*height:expression(document.body.clientHeight-60);	
+		}
+
+		#footer {
+		    background:#2b2b2b;
+		    position: absolute;
+		    height: 24px;
+		    left: 0;
+		    right: 0;
+		    bottom: 3px;
+			text-align:right;
+			padding:3px 5px 0px;
+			*width:expression(document.body.clientWidth);	
+		}
+
+		#header {
+		    background:#2b2b2b;
+		    position: absolute;
+		    height: 18px;
+		    left: 0;
+		    right: 0;
+		    top: 0px;
+			padding:6px 5px;
+			font-weight:bold;
+			*width:expression(document.body.clientWidth);	
+		}
+
+	</style></head>
+<body>
+<div id="header">
+	&laquo; Back to Dashboard Menu
+</div>
+<div id="wrapper">
+	<div id="collage-view" ></div>
+</div>
+<div id="footer">
+	<img src="sm_endless_paths_icon.png" />
+</div>
+<script type="text/javascript">
+  var filename= "collage_view.swf?seed=" + (Math.floor(Math.random()*99999999)).toString();
+  var flashvars = {authToken: 'b5b4447c8bc268b550fc41628110cf01'};
+  var params = {};
+  var attributes = {};
+  swfobject.embedSWF(filename, "collage-view", '100%', '100%', "10.0.0", "expressInstall.swf", flashvars, params, attributes);
+</script>
+</body>
+</html>

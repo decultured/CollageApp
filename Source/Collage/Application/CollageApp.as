@@ -251,11 +251,15 @@ package Collage.Application
 			_CloudDocument.Save();
 		}
 		
-		public override function OpenFromCloud():void
+		public override function OpenFromCloud(id:String = null):void
 		{
 			if (!_CloudDocument)
 				_CloudDocument = new CloudDocument(this);
-			_CloudDocument.Open();
+				
+			if (id)
+				_CloudDocument.OpenDashboardByID(id);
+			else
+				_CloudDocument.Open();
 		}
 
 		public override function SaveToObject():Object
@@ -304,6 +308,7 @@ package Collage.Application
 			}
 			
 			editPage.LoadFromObject(pageManager.currentPage);
+			dispatchEvent(new Event(PAGE_LOAD_COMPLETE));
 			
 			return true;
 		}
