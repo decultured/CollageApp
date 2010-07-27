@@ -57,7 +57,7 @@
 				return;
 			}
 
-			title = fieldDef.title + " Data Selection";
+			title = fieldDef.title + " Selection";
 			
 			dataQueryField = query.FindFieldByInternalName(fieldDef.internalName);
 			if (!dataQueryField) {
@@ -114,7 +114,7 @@
 			
 			var selectedObject:Object = queryFields.getItemAt(columnsList.selectedIndex) as Object;
 			
-			if (selectedObject["dataTypeAllowed"] && !selectedObject["data.used"]) {
+			if (selectedObject["dataTypeAllowed"]) {
 				complete = true;
 				dataQueryField.columnID = columnsList.selectedItem["columnID"];
 			} else {
@@ -206,14 +206,14 @@
 							<s:layout>
 								<s:HorizontalLayout verticalAlign="middle"/>
 							</s:layout>
-							<s:Label id="titleText" text="{data.columnName}" color="{(!data.dataTypeAllowed||data.used)?0xa2a2a2:0x222222}" color.selected="#ffffff" maxDisplayedLines="1" fontWeight="bold" fontSize="12">
+							<s:Label id="titleText" text="{data.columnName}" color="{(!data.dataTypeAllowed)?0xa2a2a2:0x222222}" color.selected="#ffffff" maxDisplayedLines="1" fontWeight="bold" fontSize="12">
 								<s:filters>
 									<s:DropShadowFilter distance="1" color="#555555" blurX="1" blurY="1" includeIn="selected"/>
 								</s:filters>
 							</s:Label>
 							<s:Label id="typeNotAllowedLabel" visible="false" includeInLayout="false" text="Datatype not allowed" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
-							<s:Label id="typeUsedLabel" visible="false" includeInLayout="false" text="Column already used for this chart" color="#f2941b" maxDisplayedLines="1" fontSize="10" />
-							<s:Label id="typeText" text="{data.dataType}" color="{(!data.dataTypeAllowed||data.used)?0xa2a2a2:0x555555}" color.selected="#ffffff" maxDisplayedLines="1" fontSize="10" width="100%" textAlign="end"/>
+							<s:Label id="typeUsedLabel" visible="false" includeInLayout="false" text="Column already used for this chart" color="#a2a2a2" maxDisplayedLines="1" fontSize="10" />
+							<s:Label id="typeText" text="{data.dataType}" color="{(!data.dataTypeAllowed)?0xa2a2a2:0x555555}" color.selected="#ffffff" maxDisplayedLines="1" fontSize="10" width="100%" textAlign="end"/>
 						</s:Group>
 					</s:ItemRenderer>
 				</fx:Component>

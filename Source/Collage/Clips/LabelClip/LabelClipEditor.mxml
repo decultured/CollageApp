@@ -25,10 +25,10 @@
 		</ep:AutoPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Color" image="@Embed('/Assets/icons/format-text-color.png')" click="colorEditorPopup.popUpOpen = !colorEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-		<ep:AutoPopUpAnchor id="colorEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="colorEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.color}" selectedAlpha="@{hostComponent.model.alpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+		<ep:ImageButton text="Text" image="@Embed('/Assets/icons/format-text-color.png')" click="textEditorPopup.popUpOpen = !textEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="textEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="textEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.text}" selectedAlpha="@{hostComponent.model.alpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
 				<s:HGroup width="100%">
 					<s:Label text="Text Size:" color="0xffffff" />
 					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.fontSize}" liveDragging="true" width="100%"/>

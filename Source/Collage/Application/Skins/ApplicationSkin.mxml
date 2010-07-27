@@ -45,10 +45,11 @@
 			<fx:Object label="Scatter Plot" image="{scatterPlot}" componentType="scatterplot" />
 			<fx:Object label="Pie Chart" image="{pieChart}" componentType="piechart" />
 			<fx:Object label="Data Label" image="{dataLabel}" componentType="datalabel" />
-			<fx:Object label="Multi Chart" image="{multiseries}" componentType="linechart" />
 			<fx:Object label="Rss Feed" image="{rss}" componentType="rssfeed" />
-			<fx:Object label="You Tube" image="{youtube}" componentType="youtube" />
-			<fx:Object label="Map" image="{map}" componentType="datalabel" />
+
+			<!-- <fx:Object label="You Tube" image="{youtube}" componentType="youtube" />
+			<fx:Object label="Multi Chart" image="{multiseries}" componentType="linechart" />
+			<fx:Object label="Map" image="{map}" componentType="datalabel" /> -->
 		</s:ArrayList>
 	</fx:Declarations>
 
@@ -64,7 +65,7 @@
 		
 		protected function ClickHandler(event:MouseEvent):void
 		{
-			if(event && (event.target is EditPage))
+			if(event && ((event.target is EditPage) || (event.target == docsContainer)))
 				editPage.DeselectAll();
 		}
 		
@@ -163,7 +164,7 @@
 		borderWeight="0" borderColor="0xffffff" dropShadowVisible="false"
 		left="0" right="{collageSideBar.width}" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" borderVisible="false" click="ClickHandler(event);">
 		<s:Scroller hasFocusableChildren="true" tabEnabled="false" width="100%" height="100%" chromeColor="0xbbbbbb">
-			<s:Group >
+			<s:Group id="docsContainer" >
 			<s:Group width="{(hostComponent.fitToScreen)?editPage.width:editPage.width + 50}" height="{(hostComponent.fitToScreen)?editPage.height:editPage.height + 50}" >
 				<s:layout>
 					<s:BasicLayout />
