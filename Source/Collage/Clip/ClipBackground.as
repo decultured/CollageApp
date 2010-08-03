@@ -6,7 +6,8 @@ package Collage.Clip
 	public class ClipBackground extends SkinnableContainer
 	{
 		[Bindable]public var model:Object;
-		
+		[Bindable]public var editing:Boolean = false;
+
 		public function ClipBackground()
 		{
 			super();

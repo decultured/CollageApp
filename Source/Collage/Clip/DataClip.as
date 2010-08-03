@@ -117,7 +117,7 @@ package Collage.Clip
 				} catch(e:Error) { }
 			}
 			
-			
+			Refresh();
 			return true;
 		}
 	}

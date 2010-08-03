@@ -10,6 +10,21 @@
         	[HostComponent("Collage.Clip.ClipView")]
         ]]>
     </fx:Metadata> 
+	<fx:Style>
+	    @namespace mx "library://ns.adobe.com/flex/mx";
+
+		@font-face{
+	        src: url("/Assets/fonts/Vera.ttf");
+			advancedAntiAliasing: true;
+	        fontFamily: myMyriad;
+	        embedAsCFF: false; 
+	     }
+
+	     .fontStyle {
+	        fontFamily: myMyriad;
+	        fontSize: 20;
+	     }
+	</fx:Style>
 	<fx:Script><![CDATA[
 		import mx.events.PropertyChangeEvent;
 		import mx.events.FlexEvent;
@@ -39,6 +54,7 @@
     </s:states>
 	<clg:ClipBackground model="{hostComponent.model}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%" >
 	     <mx:ColumnChart id="chart" 
+			styleName="fontStyle"
 			minWidth="5" minHeight="5"
 			height="100%" width="100%" 
 			color="0x323232" showDataTips="true"
@@ -74,7 +90,8 @@
 					fontSize="{hostComponent.model.hAxisLabelSize}"
 					color="{hostComponent.model.hAxisLabelColor}"
 					alpha="{hostComponent.model.hAxisLabelAlpha}"
-		            labelGap="{hostComponent.model.hAxisLabelGap}" >
+		            labelGap="{hostComponent.model.hAxisLabelGap}"
+					labelRotation="{hostComponent.model.hAxisLabelRotation}" >
 		            <mx:axisStroke>
 				    	<s:SolidColorStroke id="hAxisStroke" color="{hostComponent.model.hAxisColor}" weight="{hostComponent.model.hAxisWeight}" alpha="{hostComponent.model.hAxisAlpha}" caps="none"/>
 		            </mx:axisStroke>
@@ -103,7 +120,6 @@
 		    </mx:backgroundElements>
 	        <mx:series>
 				<mx:ColumnSeries
-					labelPosition="outside"
 					yField="{hostComponent.model.data}"
 					xField="{hostComponent.model.group}"
 	                stroke="{null}" 

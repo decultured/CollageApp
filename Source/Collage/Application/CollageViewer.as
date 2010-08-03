@@ -41,7 +41,7 @@ package Collage.Application
 		[Bindable]public var viewerPageContainer:BorderContainer;
 		
 		[Bindable]public var zoom:Number = 1.0;
-		[Bindable]public var fitToScreen:Boolean = false;
+		[Bindable]public var fitToScreen:Boolean = true;
 
 		[Bindable]public var pageManager:PageManager = new PageManager();
 

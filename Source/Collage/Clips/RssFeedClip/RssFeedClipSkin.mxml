@@ -11,20 +11,6 @@
     </fx:Metadata> 
 	<fx:Script><![CDATA[
 		import mx.events.FlexEvent;
-
-	/*protected function CreationCompleteHandler(event:FlexEvent):void
-	{
-		ModelChanged(null);
-		hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
-	}
-
-	protected function ModelChanged(event:PropertyChangeEvent):void
-	{
-		if (!event || event.property == "width")
-		{
-			rssList.width = hostComponent.model.width;
-		}
-	}*/
 	]]></fx:Script>
     <s:states>
         <s:State name="normal" />
@@ -59,6 +45,16 @@
 						</s:states>
 						<fx:Script><![CDATA[
 							import Collage.Utilities.Logger.*;
+							import flash.net.navigateToURL;
+
+							private function TitleClickHandler( event:Event ):void {
+								Logger.LogDebug("RSS Link Clicked", this);
+								if (!data['link'])
+									return;
+									
+								var url:URLRequest = new URLRequest(data['link']);
+								navigateToURL(url, '_blank');
+							}
 							
 							override public function set data(value:Object):void {
 								super.data = value;
@@ -74,7 +70,7 @@
 							<s:layout>
 								<s:VerticalLayout />
 							</s:layout>
-							<s:Label id="titleText" color="{outerDocument.hostComponent.model.titleColor}" alpha="{outerDocument.hostComponent.model.titleAlpha}" maxDisplayedLines="{outerDocument.hostComponent.model.titleLines}" fontSize="{outerDocument.hostComponent.model.titleSize}" fontWeight="bold" width="100%"/>
+							<s:Label id="titleText" color="{outerDocument.hostComponent.model.titleColor}" alpha="{outerDocument.hostComponent.model.titleAlpha}" maxDisplayedLines="{outerDocument.hostComponent.model.titleLines}" fontSize="{outerDocument.hostComponent.model.titleSize}" click="TitleClickHandler(event)" fontWeight="bold" width="100%"/>
 							<s:Label id="infoText" color="{outerDocument.hostComponent.model.contentColor}" alpha="{outerDocument.hostComponent.model.contentAlpha}" maxDisplayedLines="{outerDocument.hostComponent.model.contentLines}" fontSize="{outerDocument.hostComponent.model.contentSize}"  width="100%" left="10"/>
 						</s:Group>
 					</s:ItemRenderer>

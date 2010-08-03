@@ -69,6 +69,10 @@
 					<s:Label text="Label Gap:" color="0xffffff" />
 					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.hAxisLabelGap}" liveDragging="true" width="100%"/>
 				</s:HGroup>
+				<s:HGroup width="100%">
+					<s:Label text="Label Rotation:" color="0xffffff" />
+					<s:HSlider minimum="0" maximum="90" value="@{hostComponent.model.hAxisLabelRotation}" stepSize="45" liveDragging="true" width="100%"/>
+				</s:HGroup>
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>
 	</s:Group>
