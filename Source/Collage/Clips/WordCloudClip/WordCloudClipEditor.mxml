@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		xmlns:clg="Collage.Clip.*"
+ 		xmlns:ep="com.endlesspaths.components.*"
+		creationComplete="CreationCompleteHandler(event)">
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" />
+    </s:states>
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipEditor")]
+        ]]>
+    </fx:Metadata> 
+	<fx:Script><![CDATA[
+		import mx.events.*;
+		import flash.events.*;
+
+		protected function CreationCompleteHandler(event:FlexEvent):void
+		{
+			//callLater(GradientChanged, [null]);
+		}
+		
+		
+
+		protected function GradientChanged(event:Event):void
+		{
+//			hostComponent.model.selectedColors = gradientSelector.selectedColors;
+		}
+	]]></fx:Script>
+
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+	</s:layout>
+	<s:Group>
+		<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	</s:Group>
+	<s:Group>
+		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="gridEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
+				<ep:GradientSelector id="gradientSelector" verticalCenter="0" horizontalCenter="0" selectedColors="{hostComponent.model.selectedColors}" />
+				<s:Label text="Horizontal Alignment:" color="0xffffff" />
+				<s:ButtonBar id="hAlignBar" requireSelection="true" selectedItem="@{hostComponent.model.horizontalAlignment}" width="250"> 
+					<mx:ArrayCollection> 
+						<fx:String>left</fx:String> 
+						<fx:String>right</fx:String> 
+						<fx:String>center</fx:String> 
+						<fx:String>justify</fx:String> 
+					</mx:ArrayCollection> 
+				</s:ButtonBar>
+				<s:Label text="Vertical Alignment:" color="0xffffff" />
+				<s:ButtonBar id="vAlignBar" requireSelection="true" selectedItem="@{hostComponent.model.verticalAlignment}" width="250"> 
+					<mx:ArrayCollection> 
+						<fx:String>top</fx:String> 
+						<fx:String>bottom</fx:String> 
+						<fx:String>middle</fx:String> 
+						<fx:String>justify</fx:String> 
+					</mx:ArrayCollection> 
+				</s:ButtonBar>
+				<s:HGroup width="100%">
+					<s:Label text="Min Text Size:" color="0xffffff" />
+					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.minSize}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+				<s:HGroup width="100%">
+					<s:Label text="Max Text Size:" color="0xffffff" />
+					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.maxSize}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	
+	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
+</s:Skin>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin	xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:clg="Collage.Clip.*"
+		xmlns:wcc="Collage.Clips.WordCloudClip.*"
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		alpha.disabled="0.5"
+		creationComplete="CreationCompleteHandler(event)">
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipView")]
+        ]]>
+    </fx:Metadata> 
+	<fx:Script><![CDATA[
+		import mx.events.PropertyChangeEvent;
+		import mx.events.FlexEvent;
+		import Collage.Clips.*;
+		import mx.events.CollectionEvent;
+		import mx.collections.ArrayList;
+
+		protected function EnterEditState(event:FlexEvent):void
+		{
+		
+		}
+
+		protected function CreationCompleteHandler(event:FlexEvent):void
+		{
+			ModelChanged(null);
+			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+		}
+
+		protected function ModelChanged(event:PropertyChangeEvent):void
+		{
+			if (event && event.property != "x" && event.property != "y" && event.property != "width" && event.property != "height")
+			{
+				wordCloud.invalidateSize();
+				
+				var tempList:ArrayList = hostComponent.model.query.resultRows;
+				
+				hostComponent.model.query.resultRows = new ArrayList();
+				hostComponent.model.query.resultRows = tempList;
+			}
+		}
+	]]></fx:Script>
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" enterState="{EnterEditState(event);}"/>
+    </s:states>
+	<clg:ClipBackground model="{hostComponent.model}" editing="{currentState=='editing'}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
+		<s:Rect width="100%" height="100%" visible="{!hostComponent.model.query.loaded}" >
+			<s:fill>
+				<s:LinearGradient rotation="90">
+					<s:GradientEntry alpha="0.5" color="#E2E2E2" ratio="0"/>
+					<s:GradientEntry alpha="0.5" color="#B7B7B7" ratio="1"/>
+				</s:LinearGradient>
+			</s:fill>
+		</s:Rect>
+		<s:VGroup horizontalAlign="center" horizontalCenter="0" verticalCenter="0" visible="{!hostComponent.model.query.loaded}" >
+			<s:BitmapImage id="errorImg" source="@Embed('/Assets/icons/48cancel.png')" minWidth="5" minHeight="5" />
+			<s:Label text="No data has been set." color="#222222" maxDisplayedLines="1" fontWeight="bold" fontSize="12" textAlign="center" />
+		</s:VGroup>
+		<s:DataGroup id="wordCloud"
+			contentBackgroundAlpha="0"
+			width="100%" height="100%"
+			dataProvider="{hostComponent.model.query.resultRows}">
+			<s:layout>
+				<wcc:WordCloudLayout clipAndEnableScrolling="true" horizontalAlign="{hostComponent.model.horizontalAlignment}" verticalAlign="{hostComponent.model.verticalAlignment}" />
+			</s:layout>
+			<s:itemRenderer>
+				<fx:Component>
+					<s:ItemRenderer focusRect="false" width="100%" autoDrawBackground="false">
+						<s:states>
+							<s:State name="normal"/>
+						</s:states>
+						<fx:Script><![CDATA[
+							import Collage.Utilities.*;
+							import Collage.Utilities.Logger.*;
+							import Collage.Clips.WordCloudClip.*;
+							
+							override public function set data(value:Object):void {
+								var clip:WordCloudClip = outerDocument.hostComponent.model as WordCloudClip;
+
+								super.data = value;
+								if (data == null) // a renderer's data is set to null when it goes out of view
+									return;
+								
+								var colorResult:Object = GradientUtil.FindColorValue(clip.selectedColors, data[clip.colorValue], clip.minColorValue, clip.maxColorValue);
+									
+								var size:Number = ((data[clip.sizeValue] - clip.minSizeValue) / (clip.maxSizeValue - clip.minSizeValue)) * (clip.maxSize - clip.minSize) + clip.minSize;
+								//Logger.Log("Size: " + size + " Label: " + data[clip.text] + " " + data[clip.sizeValue] + " " + clip.maxSizeValue + " " + clip.minSizeValue);
+								titleText.text = data[clip.text];
+								titleText.setStyle("fontSize", size);
+								titleText.setStyle("color", colorResult.color);
+								titleText.setStyle("alpha", colorResult.alpha);
+							}
+						]]></fx:Script>
+						<s:Label id="titleText" color="#000000" alpha="1.0" maxDisplayedLines="1" fontSize="12" horizontalCenter="0" bottom="0"/>
+					</s:ItemRenderer>
+				</fx:Component>
+			</s:itemRenderer>
+		</s:DataGroup>
+	</clg:ClipBackground>
+</s:Skin>

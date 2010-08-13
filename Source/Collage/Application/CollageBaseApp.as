@@ -45,6 +45,5 @@ package Collage.Application
 		public function OpenFile():void {}
 		public function SaveFile():void {}
 		public function UploadDataFile():void {}
-
 	}	
 }

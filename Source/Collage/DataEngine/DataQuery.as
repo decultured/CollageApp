@@ -12,8 +12,8 @@ package Collage.DataEngine
 		public static var COMPLETE:String = "complete";
 		public static var FIELDS_CHANGED:String = "fields_changed";
 
-		public var loaded:Boolean = false;
-		public var loading:Boolean = false;
+		[Bindable] public var loaded:Boolean = false;
+		[Bindable] public var loading:Boolean = false;
 	
 		public var queryString:String = "";
 

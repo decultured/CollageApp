@@ -21,6 +21,7 @@ package Collage.Clip
 			super(_clipViewSkin, _clipEditorSkin, _smallClipEditorSkin);
 			_QueryDefinition = new QueryDefinition();
 			query.addEventListener(DataQuery.FIELDS_CHANGED, QueryFieldsChangedHandler, false, 0, true);
+			query.addEventListener(DataQuery.COMPLETE, QueryCompleteHandler, false, 0, true);
 		}
 
 		public function ClearFields():void
@@ -31,6 +32,11 @@ package Collage.Clip
 		public function SetField(internalName:String, fieldName:String):void
 		{
 			datasetFields[internalName] = fieldName;
+		}
+
+		protected function QueryCompleteHandler(event:Event):void
+		{
+			return;
 		}
 		
 		protected function QueryFieldsChangedHandler(event:Event):void
