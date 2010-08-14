@@ -34,7 +34,8 @@
 		<s:BitmapImage id="multiseries"		source="@Embed('/Assets/components/multiseries.png')" />
 		<s:BitmapImage id="twitter"			source="@Embed('/Assets/components/twitter.png')" />
 		<s:BitmapImage id="map"				source="@Embed('/Assets/components/map.png')" />
-		<s:BitmapImage id="wordcloud"				source="@Embed('/Assets/components/map.png')" />
+		<s:BitmapImage id="wordcloud"		source="@Embed('/Assets/components/wordcloud.png')" />
+		<s:BitmapImage id="graph"			source="@Embed('/Assets/components/graph.png')" />
 		
 		<s:ArrayList id="arrComponentList">
 			<fx:Object label="Label" image="{textPage}" componentType="label" />
@@ -47,7 +48,8 @@
 			<fx:Object label="Pie Chart" image="{pieChart}" componentType="piechart" />
 			<fx:Object label="Data Label" image="{dataLabel}" componentType="datalabel" />
 			<fx:Object label="Rss Feed" image="{rss}" componentType="rssfeed" />
-			<fx:Object label="Word Cloud" image="{map}" componentType="wordcloud" />
+			<fx:Object label="Word Cloud" image="{wordcloud}" componentType="wordcloud" />
+			<fx:Object label="Graph" image="{graph}" componentType="graph" />
 
 			<!-- <fx:Object label="You Tube" image="{youtube}" componentType="youtube" />
 			<fx:Object label="Multi Chart" image="{multiseries}" componentType="linechart" />

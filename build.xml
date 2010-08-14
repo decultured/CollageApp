@@ -24,6 +24,7 @@
 			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
 			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
 			<arg line="-keep-as3-metadata+=Theme,Savable"/>
+			<arg line="-compiler.warn-no-constructor=false"/>
 			<arg line="${src.dir}/Desktop/Main.mxml"/>
 		</exec>
 	</target>
@@ -40,6 +41,7 @@
 			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
 			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
 			<arg line="-keep-as3-metadata+=Theme,Savable"/>
+			<arg line="-compiler.warn-no-constructor=false"/>
 			<arg line="${src.dir}/Desktop/Main.mxml"/>
 		</exec>
 	</target>
