@@ -12,6 +12,8 @@ package Collage.Clip
 	import Collage.Clips.ScatterPlotClip.*;
 	import Collage.Clips.TableClip.*;
 	import Collage.Clips.TextBoxClip.*;
+	import Collage.Clips.WordCloudClip.*;
+	import Collage.Clips.GraphClip.*;
 	import Collage.Utilities.Logger.*;
 	
 	public class ClipFactory
@@ -41,6 +43,10 @@ package Collage.Clip
 				return new YouTubeClip();
 			else if (clipType == "datalabel")
 				return new DataLabelClip();
+			else if (clipType == "wordcloud")
+				return new WordCloudClip();
+			else if (clipType == "graph")
+				return new GraphClip();
 			else
 				Logger.LogError("Clip type not found: " + clipType); 
 			return null;
