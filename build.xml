@@ -44,6 +44,22 @@
 		</exec>
 	</target>
 	
+	<target name="web-release" depends="clean,copy-ep-flex4">
+		<property name="deploy.dir" value="./Build/Release/Web"/>
+		
+		<exec executable="mxmlc" failonerror="true">
+			<arg line="-debug=false" />
+			<arg line="-source-path '${src.dir}'" />
+			<arg line="-output '${deploy.dir}/collage_view.swf'"/>
+			<arg line="-library-path+=${lib.dir}as3corelib.swc"/>
+			<arg line="-library-path+=${lib.dir}as3base64.swc"/>
+			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
+			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
+			<arg line="-keep-as3-metadata+=Theme,Savable"/>
+			<arg line="${src.dir}/WebViewer/Main.mxml"/>
+		</exec>
+	</target>
+	
 	<target name="air-run">
 		<property name="deploy.dir" value="${basedir}/Build/Debug/Desktop"/>
 		
@@ -59,7 +75,7 @@
 	<target name="air-build-debug-and-run" depends="air-debug,air-run" />
 	
 	<target name="air-package" depends="air-release">
-		<property name="assets.dir" value="${basedir}/Assets/"/>
+		<property name="assets.dir" value="${basedir}/Source/Assets/"/>
 		<property name="release.dir" value="${basedir}/Build/Release/Desktop/"/>
 		<property name="package.dir" value="${basedir}/Build/Package/Desktop/"/>
 		
