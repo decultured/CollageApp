@@ -3,17 +3,35 @@
 	    xmlns:clg="Collage.Clip.*"
 	    xmlns:flare="Collage.Clips.GraphClip.*"
         xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
-		alpha.disabled="0.5">
+		alpha.disabled="0.5"
+		creationComplete="CreationCompleteHandler(event)">
     <fx:Metadata>
         <![CDATA[ 
         	[HostComponent("Collage.Clip.ClipView")]
         ]]>
     </fx:Metadata> 
 	<fx:Script><![CDATA[
+		import mx.events.PropertyChangeEvent;
 		import mx.events.FlexEvent;
+		import flare.vis.data.Data;
+		import Collage.Utilities.Logger.*;
 
 		protected function EnterEditState(event:FlexEvent):void
 		{
+		}
+		
+		protected function CreationCompleteHandler(event:FlexEvent):void
+		{
+			ModelChanged(null);
+			hostComponent.model.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
+		}
+
+		protected function ModelChanged(event:PropertyChangeEvent):void
+		{
+			if (event && event.property == "graphData" && hostComponent.model.graphData && hostComponent.model.graphData is Data) {
+				graphLayout.Stop();
+				graphLayout.visualize(hostComponent.model.graphData);
+			}
 		}
 	]]></fx:Script>
     <s:states>
@@ -22,6 +40,6 @@
         <s:State name="editing" enterState="{EnterEditState(event);}"/>
     </s:states>
 	<clg:ClipBackground model="{hostComponent.model}" editing="{currentState=='editing'}" skinClass="Collage.Clip.Skins.ClipBackgroundSkin" width="100%" height="100%">
-		<flare:GraphLayout width="100%" height="100%" />
+		<flare:GraphLayout id="graphLayout" width="100%" height="100%" />
 	</clg:ClipBackground>
 </s:Skin>

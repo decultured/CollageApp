@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:ColumnSeries
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+   	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:clg="Collage.Clip.*"
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	dataProvider="{model.query.resultRows}"
+	yField="{model.data}"
+	xField="{model.group}"
+    stroke="{null}" 
+	filters="[]" >
+	<fx:Script><![CDATA[
+		[Bindable]public var model:ColumnSeriesPart;
+	]]></fx:Script>
+	<mx:fill>
+		<mx:SolidColor id="barfill" color="{model.barColor}" alpha="{model.barAlpha}"/>
+	</mx:fill>
+</mx:ColumnSeries>

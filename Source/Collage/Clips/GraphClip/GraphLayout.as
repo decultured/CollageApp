@@ -1,5 +1,9 @@
 package Collage.Clips.GraphClip
 {
+	import flare.animate.FunctionSequence;
+	import flare.animate.Transition;
+	import flare.animate.TransitionEvent;
+	import flare.animate.Transitioner;
 	import flare.analytics.graph.BetweennessCentrality;
 	import flare.data.DataSet;
 	import flare.data.DataSource;
@@ -9,13 +13,16 @@ package Collage.Clips.GraphClip
 	import flare.util.palette.ColorPalette;
 	import flare.vis.Visualization;
 	import flare.vis.controls.DragControl;
+	import flare.vis.controls.ClickControl;
 	import flare.vis.controls.ExpandControl;
 	import flare.vis.controls.PanZoomControl;
 	import flare.vis.data.Data;
 	import flare.vis.data.NodeSprite;
+	import flare.vis.data.DataList;
 	import flare.vis.operator.OperatorList;
 	import flare.vis.operator.encoder.ColorEncoder;
 	import flare.vis.operator.encoder.SizeEncoder;
+	import flare.vis.operator.encoder.PropertyEncoder;
 	import flare.vis.operator.label.Labeler;
 	import flare.vis.operator.layout.Layout;
 	import flare.vis.operator.layout.NodeLinkTreeLayout;
@@ -28,27 +35,37 @@ package Collage.Clips.GraphClip
 	import flash.geom.Rectangle;
 	import flash.net.URLLoader;
 	
+	import mx.events.ResizeEvent;
 	import spark.components.Group;
+	
+//	import Collage.Clips.GraphClip.util.*;
 
 	public class GraphLayout extends Group
 	{
- 		// Visualization is the generic class for representing an interactive data visualization
-		// We will use Visualization class to generate graphs (in this example)
-		//
-		// In this example:
-		//     - Attache controllers to vis
 		private var vis:Visualization;
+		private var visLayout:ForceDirectedLayout;
+		
  
         public function GraphLayout()
         {
-        	//stage.align = StageAlign.TOP_LEFT;
-        	//stage.scaleMode = StageScaleMode.NO_SCALE;
-            loadData();
+            //loadData();
+			addEventListener(ResizeEvent.RESIZE, Resized, false, 0, true);
         }
+
+		public function Resized(event:ResizeEvent):void
+		{
+			if (!vis || !vis.bounds)
+				return;
+				
+            vis.bounds.width = width;
+			vis.bounds.height = height;
+		}
 
         private function loadData():void
         {
-            var ds:DataSource = new DataSource( "file://Users/jgraves/Desktop/flare-tutorial.xml", "graphml" );
+//			visualize(GraphUtil.balancedTree(3,3));
+
+            /*var ds:DataSource = new DataSource( "file://Users/jgraves/Desktop/flare-tutorial.xml", "graphml" );
             var loader:URLLoader = ds.load();
             loader.addEventListener( Event.COMPLETE, 
             	function( evt:Event ):void
@@ -56,55 +73,54 @@ package Collage.Clips.GraphClip
 	                var dataSet:DataSet = loader.data as DataSet;
     	            visualize( Data.fromDataSet( dataSet ) );
         	    }
-        	);
+        	);*/
         }
  
-        private function visualize( data:Data ):void
+		public function Stop():void
+		{
+			if (vis)
+				vis.continuousUpdates = false;
+		}
+
+        public function visualize( data:Data ):void
         {
+			if (vis) {
+				Stop();
+				this.removeElement(vis);
+				vis = null;
+			}
+
         	// Add 'vis' to display list
         	vis = new Visualization( data );
-            vis.bounds = new Rectangle( 0, 0, 400, 400 );
-            vis.graphics.lineStyle( 0 );
-            vis.graphics.drawRect( 0, 0, 400, 450 );
+            vis.bounds = new Rectangle( 0, 0, width, height);
             vis.x = 0;
             vis.y = 0;
             this.addElement(vis);
             
             // Define edge and node properties
             data.edges[ "lineWidth" ] = 1;
-//            data.nodes.setProperties( { fillAlpha: 0, lineAlpha: 0 } );
             data.nodes.setProperties( { fillAlpha: 1, lineAlpha: 0, shape: Shapes.CIRCLE, size: 1.5 } );
-            
-			// Three ways to apply operators to vis
-            // var treeLayout:Layout = new NodeLinkTreeLayout();
-			
-			// Method #1
-			// Un-named operators
-			// vis.operators.add( treeLayout );
-			vis.update();
-			
-			// Method #2
-			// Named operators
-//			vis.setOperator( "tree", treeLayout );
-//			vis.update( null, "tree" );
-			
-			// Method #3
-			// Apply operator to a Visualization object once
-//            treeLayout.visualization = vis;
-//            treeLayout.operate();
             
             // Remove all un-named operators
 			vis.operators.clear();
 
 			// Apply force-directed layout
-			// Be sure to exclude NodeLinkTreeLayout() from un-named/automaticaly updated operator list
-			vis.operators.add( new ForceDirectedLayout( true ) );
+			visLayout = new ForceDirectedLayout(true);
+			
+			visLayout.simulation.dragForce.drag = 1.0,
+			visLayout.simulation.nbodyForce.maxDistance = 150;
+			visLayout.simulation.nbodyForce.gravitation = -100;
+			visLayout.defaultParticleMass	= 3,
+			visLayout.defaultSpringLength	= 100,
+			visLayout.defaultSpringTension	= 0.01
+			
+			
+			vis.operators.add(visLayout);
 			vis.continuousUpdates = true;
             
             // Add controls to Visualization
 			vis.controls.add( new DragControl( NodeSprite ) );  
-			//vis.controls.add( new PanZoomControl( vis ) );
-			//vis.controls.add( new ExpandControl( ) );  // Requires un-named NodeLinkTreeLayout()
+			vis.controls.add( new ClickControl( NodeSprite ) );  
             vis.update();
 			
 			// Displays hand-cursor
@@ -114,14 +130,28 @@ package Collage.Clips.GraphClip
             addLabels();
 
 			// Color the nodes
-			colorNodes();
-//			colorByCentrality();
+//			colorNodes();
+			colorByCentrality();
+			
+			// Finally, if performing a force-directed layout, set up
+			// continuous updates and ease in the edge tensions.
+			/*visLayout.defaultSpringTension = 0;
+			var nodes:DataList = vis.data.nodes;
+			var edges:DataList = vis.data.edges;
+			vis.setOperator("nodes", new PropertyEncoder(visLayout.nodes, "nodes"));
+			vis.setOperator("edges", new PropertyEncoder(visLayout.edges, "edges"));
+			var t:Transitioner = vis.update(2);//, "nodes", "edges");
+			t.$(visLayout).defaultSpringTension = 0.5;
+			t.play();
+			vis.continuousUpdates = true;*/
         }
         
 		private function addLabels():void
 		{
 			var labeler:Labeler = new Labeler( "data.label" );
 			labeler.textMode = TextSprite.DEVICE;
+			labeler.yOffset = 20;
+			labeler.textFormat.size = 8;
 			vis.setOperator( "labels", labeler );
 			vis.update( null, "labels" );
 		}
@@ -136,7 +166,7 @@ package Collage.Clips.GraphClip
 			);
             vis.update( 2, "size" ).play();
 		}
-				
+
 		private function colorByCentrality():void
 		{
 			// The Centrality algorithm due to Ulrik Brandes, 
@@ -146,7 +176,7 @@ package Collage.Clips.GraphClip
 			vis.setOperator( "centrality", 
 				new OperatorList(
             		new BetweennessCentrality(),
-            		new ColorEncoder( "props.centrality", Data.NODES, "props.label.color", ScaleType.LINEAR, ColorPalette.ramp(0xff000000, 0xffff0088) )
+            		new ColorEncoder( "props.centrality", Data.NODES, "props.label.color", ScaleType.LINEAR, ColorPalette.diverging(0xffff0000, 0xffffff00, 0x00ff00) )
             	)
             );
             vis.update( 2, "centrality" ).play();

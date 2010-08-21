@@ -1,0 +1,146 @@
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	xmlns:ep="com.endlesspaths.components.*"
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	clipAndEnableScrolling="true" >
+	<fx:Script><![CDATA[
+		[Bindable]public var viewObject:Object;
+	]]></fx:Script>
+	<ep:ImageButton text="PartEditor" image="@Embed('/Assets/toolbar/multiseriesparts.png')" click="partEditorPopup.popUpOpen = !partEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	<ep:AutoPopUpAnchor id="partEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:CalloutPanel id="partEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Chart Parts">
+			<s:List id="partsList"
+					requireSelection="false"
+					width="300"
+					height="250"
+					contentBackgroundColor="#dee4ea"
+					borderVisible="false"
+					selectedIndex="@{viewObject.seriesSelectedIndex}"
+					dataProvider="{viewObject.series}"
+					dragEnabled="true"
+					dragMoveEnabled="true"
+					dropEnabled="true"
+					creationComplete="Reset()">
+				<fx:Script><![CDATA[
+					import Collage.Utilities.Logger.*;
+					import Collage.Clips.MultiseriesClip.Components.LineSeries.*;
+					import Collage.Clips.MultiseriesClip.Components.ColumnSeries.*;
+					import Collage.Clips.MultiseriesClip.Components.PlotSeries.*;
+					import flash.events.Event;
+					import mx.collections.ArrayList;
+
+					public function Reset():void {
+
+					}
+
+					public function AddLine():void
+					{
+						var newLine:LineSeriesPart = new LineSeriesPart();
+						viewObject.series.addItem(newLine);
+					}
+
+					public function AddColumn():void
+					{
+						var newColumn:ColumnSeriesPart = new ColumnSeriesPart();
+						viewObject.series.addItem(newColumn);
+					}
+
+					public function AddScatter():void
+					{
+						var newPlot:PlotSeriesPart = new PlotSeriesPart();
+						viewObject.series.addItem(newPlot);
+					}
+
+				]]></fx:Script>
+				<s:itemRenderer>
+					<fx:Component>
+						<s:ItemRenderer focusRect="false" width="100%" height="35">
+							<s:states>
+								<s:State name="normal"/>
+								<s:State name="hovered"/>
+								<s:State name="editing"/>
+								<s:State name="selected"/>
+							</s:states>
+							<fx:Script><![CDATA[
+								import Collage.Utilities.Logger.*;
+								import Collage.DataEngine.*;
+								import Collage.Clip.*;
+								import flashx.textLayout.formats.*;
+								import Collage.Clips.MultiseriesClip.Components.LineSeries.*;
+								import Collage.Clips.MultiseriesClip.Components.ColumnSeries.*;
+								import Collage.Clips.MultiseriesClip.Components.PlotSeries.*;
+
+								override public function set data(value:Object):void {
+									super.data = value;
+									if (data == null) // a renderer's data is set to null when it goes out of view
+										return;
+									
+									typeText.text = itemIndex + 1 + " ";
+									description.text = "Click here for Setup";
+									if (data is LineSeriesPart) {
+										var linePart:LineSeriesPart = data as LineSeriesPart;
+										typeText.text += "Line Series";
+										if (!linePart.query.dataset || linePart.query.dataset.length < 1 || !linePart.xAxis || !linePart.yAxis)
+											description.text = "Click here for Setup";
+										else
+											description.text = linePart.query.dataset + " - XAxis:" + linePart.xAxis + ", YAxis:" + linePart.yAxis;
+									} else if (data is PlotSeriesPart) {
+//											var linePart:LineSeriesPart = data as LineSeriesPart;
+											typeText.text += "Scatter Plot Series";
+											/*if (!linePart.query.dataset || linePart.query.dataset.length < 1 || !linePart.xAxis || !linePart.yAxis)
+												description.text = "Click here for Setup";
+											else
+												description.text = linePart.query.dataset + " - XAxis:" + linePart.xAxis + ", YAxis:" + linePart.yAxis;*/
+									} else if (data is ColumnSeriesPart) {
+										typeText.text += "ColumnSeries";
+									}
+								}
+								public function DeleteItem():void {
+									outerDocument.partsList.dataProvider.removeItemAt(itemIndex);
+								}
+								public function EditSeriesData():void {
+									var clip:DataClip = data as DataClip;
+									clip.OpenDataWizard();
+								}
+							]]></fx:Script>
+							<s:Rect width="100%" top="0" bottom="0" includeIn="selected">
+								<s:fill>
+									<s:LinearGradient rotation="90">
+										<s:GradientEntry alpha="1.0" color="#b0bed7" ratio="0"/>
+										<s:GradientEntry alpha="1.0" color="#8295b7" ratio="1"/>
+									</s:LinearGradient>
+								</s:fill>
+							</s:Rect>
+							<s:Line width="100%" top="0" includeIn="selected">
+								<s:stroke>
+									<s:SolidColorStroke caps="none" color="#a2b0cb" weight="1"/>
+								</s:stroke>
+							</s:Line>
+							<mx:Image right="5" verticalCenter="0" click="DeleteItem()" source="@Embed('/Assets/icons/delete.png')" />
+							<s:HGroup left="5" right="32" top="5" verticalAlign="middle" >
+								<s:Label text="Line Series" id="typeText" color="0x222222" color.selected="0xffffff" maxDisplayedLines="1" fontWeight="bold" fontSize="12" >
+									<s:filters>
+										<s:DropShadowFilter distance="1" color="#555555" blurX="1" blurY="1" includeIn="selected"/>
+									</s:filters>
+								</s:Label>
+							</s:HGroup>
+							<s:HGroup left="5" right="32" width="100%" bottom="5" verticalAlign="middle" >
+								<s:Label id="description" text="Table - X:column, Y:Column" color="0x2222ff" color.selected="0x2222ff" maxDisplayedLines="1" fontSize="10" click="EditSeriesData()" textDecoration="underline">
+									<s:filters>
+										<s:DropShadowFilter distance="1" color="#555555" blurX="1" blurY="1" includeIn="selected"/>
+									</s:filters>
+								</s:Label>
+							</s:HGroup>
+						</s:ItemRenderer>
+					</fx:Component>
+				</s:itemRenderer>
+			</s:List>
+			<s:HGroup>
+				<s:Button click="AddLine()" label="Add Line" enabled="{viewObject.series.length &lt; 10}"/>
+				<s:Button click="AddColumn()" label="Add Columns" enabled="{viewObject.series.length &lt; 10}"/>
+				<s:Button click="AddScatter()" label="Add Scatter" enabled="{viewObject.series.length &lt; 10}"/>
+			</s:HGroup>
+		</ep:CalloutPanel>
+	</ep:AutoPopUpAnchor>
+</s:Group>

@@ -14,7 +14,7 @@
 		import Collage.Clip.*;
 		import mx.collections.ArrayList;
 		
-		[Bindable]public var clip:DataClip;
+		[Bindable]public var clip:Clip;
 		[Bindable]public var query:DataQuery;
 		[Bindable]public var queryDefinition:QueryDefinition;
 

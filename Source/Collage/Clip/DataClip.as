@@ -16,7 +16,7 @@ package Collage.Clip
         [Bindable][Savable]public var datasetID:String = null;
 		[Bindable][Savable]public var datasetFields:Object = new Object();
 
-		public function DataClip(_clipViewSkin:Class, _clipEditorSkin:Class, _smallClipEditorSkin:Class = null):void
+ 		public function DataClip(_clipViewSkin:Class, _clipEditorSkin:Class, _smallClipEditorSkin:Class = null):void
 		{
 			super(_clipViewSkin, _clipEditorSkin, _smallClipEditorSkin);
 			_QueryDefinition = new QueryDefinition();

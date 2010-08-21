@@ -63,7 +63,7 @@
 			showDataTips="true" dataProvider="{hostComponent.model.query.resultRows}" seriesFilters="[]" 
 			horizontalAxis="{numeric_haxis}">
 			<mx:verticalAxis>
-				<mx:LinearAxis id="vaxis" baseAtZero="false" />
+				<mx:LinearAxis id="vaxis" baseAtZero="false"/>
 			</mx:verticalAxis>			
 		    <mx:verticalAxisRenderers>
 		        <mx:AxisRenderer
