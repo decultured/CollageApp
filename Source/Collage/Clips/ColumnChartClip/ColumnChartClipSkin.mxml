@@ -62,7 +62,7 @@
 			seriesFilters="[]" >
 			<mx:verticalAxis>
 				<mx:LinearAxis id="vaxis" baseAtZero="false"/>
-			</mx:verticalAxis>			
+			</mx:verticalAxis>
 		    <mx:verticalAxisRenderers>
 		        <mx:AxisRenderer
 		            axis="{vaxis}"

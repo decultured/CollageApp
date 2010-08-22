@@ -12,7 +12,7 @@ package Collage.Clip.DataClipWizard
 		
 		[Bindable]public var title:String = "Data Query Wizard";
 
-		[Bindable]public var clip:DataClip;
+		[Bindable]public var clip:Clip;
 		[Bindable]public var query:DataQuery;
 		[Bindable]public var queryDefinition:QueryDefinition;
 

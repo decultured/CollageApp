@@ -1,0 +1,21 @@
+<mx:AxisRenderer
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:clg="Collage.Clip.*"
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+    axis="{model.axis}"
+	minorTickPlacement="none"
+    tickPlacement="none"
+    showLine="{model.vAxisVisible}"
+	fontSize="{model.vAxisLabelSize}"
+	alpha="{model.vAxisLabelAlpha}"
+	color="{model.vAxisLabelColor}"
+    labelGap="{model.vAxisLabelGap}" >
+	<fx:Script><![CDATA[
+		[Bindable]public var model:VAxisPart;
+	]]></fx:Script>
+    <mx:axisStroke>
+	    <s:SolidColorStroke id="vAxisStroke" color="{model.vAxisColor}" weight="{model.vAxisWeight}" alpha="{model.vAxisAlpha}" caps="none"/>
+	</mx:axisStroke>
+</mx:AxisRenderer>

@@ -15,7 +15,8 @@ package Collage.Clip
 			super();
 			model = _model;
 			doubleClickEnabled = true;
-			setStyle("skinClass", _clipViewSkin);
+			if (_clipViewSkin)
+				setStyle("skinClass", _clipViewSkin);
 			setStyle("minWidth", 5);
 			setStyle("minHeight", 5);
 		}

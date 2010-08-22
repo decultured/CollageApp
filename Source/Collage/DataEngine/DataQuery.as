@@ -375,9 +375,9 @@ package Collage.DataEngine
 			}
 
 			Logger.Log("Data Query Loaded Successfully. #Rows: " + resultRows.length + " #Columns: " +  resultColumns.length, this);
-			dispatchEvent(new Event(COMPLETE));
 			loading = false;
 			loaded = true;
+			dispatchEvent(new Event(COMPLETE));
 		}
 
 		private function SortResultRows(a:Object, b:Object):Number {

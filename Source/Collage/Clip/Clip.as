@@ -55,8 +55,10 @@ package Collage.Clip
 			_ClipEditorSkin = _clipEditorSkin;
 			_SmallClipEditorSkin = _smallClipEditorSkin;
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, ModelChanged, false, 0, true);
-			view.addEventListener(MouseEvent.DOUBLE_CLICK, OnDoubleClick, false, 0, true);
-			view.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown, false, 0, true);
+			if (view) {
+				view.addEventListener(MouseEvent.DOUBLE_CLICK, OnDoubleClick, false, 0, true);
+				view.addEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown, false, 0, true);
+			}
 		}
 		
 		public function CreateEditor():ClipEditor
@@ -142,11 +144,13 @@ package Collage.Clip
 
 		public function Reposition():void
 		{
-			view.x = x;
-			view.y = y;
-			view.width = width;
-			view.height = height;
-			view.rotation = rotation;
+			if (view) {
+				view.x = x;
+				view.y = y;
+				view.width = width;
+				view.height = height;
+				view.rotation = rotation;
+			}
 		}
 
 		public function Resized():void

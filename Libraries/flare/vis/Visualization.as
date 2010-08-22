@@ -12,7 +12,7 @@ package flare.vis
 	import flare.vis.events.DataEvent;
 	import flare.vis.events.VisualizationEvent;
 	import flare.vis.operator.IOperator;
-	import flare.vis.operator.OperatorList;
+	import flare.vis.operator.OperatorList;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;

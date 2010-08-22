@@ -50,9 +50,9 @@
 			<fx:Object label="Rss Feed" image="{rss}" componentType="rssfeed" />
 			<fx:Object label="Word Cloud" image="{wordcloud}" componentType="wordcloud" />
 			<fx:Object label="Graph" image="{graph}" componentType="graph" />
+			<fx:Object label="Multi Trend" image="{multiseries}" componentType="multiseries" />
 
 			<!-- <fx:Object label="You Tube" image="{youtube}" componentType="youtube" />
-			<fx:Object label="Multi Chart" image="{multiseries}" componentType="linechart" />
 			<fx:Object label="Map" image="{map}" componentType="datalabel" /> -->
 		</s:ArrayList>
 	</fx:Declarations>

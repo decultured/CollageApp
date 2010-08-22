@@ -52,68 +52,20 @@ package Collage.Utilities
 			}
 			
 			if (startIndex < 0 && endIndex < 0) {
-//				Logger.Log("2 Ratio: " + ratio + " color: " + result.color);
 				return result;
 			} else if (startIndex < 0) {
 				result.color = gradientArray[endIndex].color;
 				result.alpha = gradientArray[endIndex].alpha;
-//				Logger.Log("2 Ratio: " + ratio + " ratio: " + gradientArray[endIndex].ratio + " color: " + gradientArray[endIndex].color);
 				return result;
 			} else if (endIndex < 0) {
 				result.color = gradientArray[startIndex].color;
 				result.alpha = gradientArray[startIndex].alpha;
-//				Logger.Log("3 Ratio: " + ratio + " ratio: " + gradientArray[startIndex].ratio + " color: " + gradientArray[startIndex].color);
 				return result;
 			} else {
 				result.color = InterpolateColor(ratio, startRatio, endRatio, gradientArray[startIndex].color, gradientArray[endIndex].color);
 				result.alpha = InterpolateAlpha(ratio, startRatio, endRatio, gradientArray[startIndex].alpha, gradientArray[endIndex].alpha);
-//				Logger.Log("4 Ratio: " + ratio + " ratio: " + gradientArray[endIndex].ratio + " color: " + gradientArray[endIndex].color);
 				return result;
 			}
-
-/*			if (numColors == 1) {
-				result.color = gradientArray[0].color;
-				result.alpha = gradientArray[0].alpha;
-				Logger.Log("1 Ratio: " + ratio + " ratio: " + gradientArray[0].ratio + " color: " + gradientArray[0].color);
-				return result;
-			}
-
-			if (ratio >= gradientArray[numColors - 1].ratio) {
-				result.color = gradientArray[numColors - 1].color;
-				result.alpha = gradientArray[numColors - 1].alpha;
-				Logger.Log("2 Ratio: " + ratio + " ratio: " + gradientArray[numColors - 1].ratio + " color: " + gradientArray[numColors - 1].color);
-				return result;
-			}
-
-			for (var i:uint = 1; i < numColors; i++) {
-				if (ratio <= gradientArray[i].ratio) {
-					if (gradientArray[i].ratio == gradientArray[i - 1].ratio)
-						continue;
-					
-					var percent:Number = (ratio - gradientArray[i - 1].ratio) / (gradientArray[i].ratio - gradientArray[i - 1].ratio);
-					
-					var r1:Number = (gradientArray[i - 1].color >> 16 ) & 0xff;
-					var g1:Number = (gradientArray[i - 1].color >> 8 ) & 0xff;
-					var b1:Number = (gradientArray[i - 1].color & 0xff);
-
-					var r2:Number = (gradientArray[i].color >> 16 ) & 0xff;
-					var g2:Number = (gradientArray[i].color >> 8 ) & 0xff;
-					var b2:Number = (gradientArray[i].color & 0xff);
-
-					r1 = (r2 - r1) * percent + r1;
-					g1 = (g2 - g1) * percent + g1;
-					b1 = (b2 - b1) * percent + b1;
-					result.color = (r1 << 16 | g1 << 8 | b1);
-					
-					var a1:Number = gradientArray[i - 1].alpha;
-					var a2:Number = gradientArray[i].alpha;
-					result.alpha = (a2 - a1) * percent + a1;
-					
-					Logger.Log("3 Ratio: " + ratio + " ratio: " + gradientArray[i].ratio + " color: " + gradientArray[i].color);
-										
-					return result;
-				}
-			}*/
 			
 			return result;
 		}
