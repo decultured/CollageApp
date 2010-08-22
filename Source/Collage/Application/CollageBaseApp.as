@@ -29,6 +29,8 @@ package Collage.Application
 		public function New():void {}
 		public function Quit():void	{}
 		public function Fullscreen():void {}
+		public function HideApplication():void {}
+		public function ShowApplication(event:Event):void {}
 		public function OpenPopup(contents:UIComponent, name:String, modal:Boolean = true, size:Point = null):void {}
         public function ClosePopup(name:String):void {}
 		public function ZoomOut():void {}

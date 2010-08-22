@@ -29,7 +29,9 @@ package Desktop.Application
 	{
 		public var window:DisplayObject;
  		private var _ViewerWindow:CollageViewerWindow;
-
+		
+		public var nativeWindow:NativeWindow;
+		
 		public function AppMain():void
 		{
 			super();
@@ -41,6 +43,8 @@ package Desktop.Application
 			Session.events.addEventListener(Session.LOGIN_SUCCESS, HandleLoginSuccess);
 			Session.events.addEventListener(Session.TOKEN_EXPIRED, HandleTokenExpired);
 			Session.CheckToken();
+			
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, ShowApplication) // listening for the invoke event if the user clicks on the dock icon
 		}
 		
 		public function HandleLoginSuccess(event:Event):void {
@@ -174,6 +178,31 @@ package Desktop.Application
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 		}
 		
+		/* This is to emulate the OSX behavior for apple+H */
+		public override function HideApplication():void {
+			if(_ViewerWindow) {
+				_ViewerWindow.visible = false;
+				_ViewerWindow.orderToBack();
+			} else if(nativeWindow) {
+				/*nativeWindow.visible = false;*/
+				nativeWindow.orderToBack();
+			}
+		}
+		
+		public override function ShowApplication(event:Event):void {
+			if(!nativeWindow && NativeApplication.nativeApplication.activeWindow) {
+				nativeWindow = NativeApplication.nativeApplication.activeWindow;
+			}
+			
+			if(_ViewerWindow) {
+				_ViewerWindow.visible = true;
+				_ViewerWindow.activate();
+			} else if(nativeWindow) {
+				/*window.visible = true;*/
+				nativeWindow.activate();
+			}
+		}
+		
 		public override function SaveFile():void
 		{
 			var file:File = File.desktopDirectory.resolvePath("file.clg");
@@ -251,7 +280,11 @@ package Desktop.Application
 		
 		public override function Copy(event:Event):void
 		{
-			if(NativeApplication.nativeApplication.activeWindow.stage.focus is Clip) {
+			var focusObj:Object = NativeApplication.nativeApplication.activeWindow.stage.focus;
+			
+			if(focusObj != null && (focusObj is RichEditableText || focusObj is TextArea)) {
+				NativeApplication.nativeApplication.copy();
+			} else {
 				var copyClip:Clip = editPage.GetSelectedClip();
 				if (!copyClip)
 					return;
@@ -270,25 +303,30 @@ package Desktop.Application
 				scaleMat.scale(3,3);
 				Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, ImageSnapshot.captureBitmapData(copyClip.view, scaleMat, null, null, null, true));
 				editPage.SelectClip(copyClip);
-			} else {
-				NativeApplication.nativeApplication.copy();
 			}
 		}
 
 		public override function Cut(event:Event):void
 		{
-			var copyClip:Clip = editPage.GetSelectedClip();
-			if (!copyClip)
-				return;
-
-			Copy(null);
-			editPage.DeleteClip(copyClip);
+			var focusObj:Object = NativeApplication.nativeApplication.activeWindow.stage.focus;
+			
+			if(focusObj != null && (focusObj is RichEditableText || focusObj is TextArea)) {
+				NativeApplication.nativeApplication.cut();
+			} else {
+				var copyClip:Clip = editPage.GetSelectedClip();
+				if (!copyClip)
+					return;
+				
+				Copy(null);
+				editPage.DeleteClip(copyClip);
+			}
 		}
 
 		public override function Paste(event:Event):void
 		{
-			/*Logger.Log(describeType(NativeApplication.nativeApplication.activeWindow.stage.focus));*/
-			if(NativeApplication.nativeApplication.activeWindow.stage.focus is RichEditableText || NativeApplication.nativeApplication.activeWindow.stage.focus is TextArea) {
+			var focusObj:Object = NativeApplication.nativeApplication.activeWindow.stage.focus;
+			
+			if(focusObj != null && (focusObj is RichEditableText || focusObj is TextArea)) {
 				NativeApplication.nativeApplication.paste();
 			} else {
 				var formatsString:String = "Formats: ";

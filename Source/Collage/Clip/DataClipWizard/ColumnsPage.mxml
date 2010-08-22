@@ -10,6 +10,8 @@
 		import Collage.DataEngine.*;
 		import spark.events.IndexChangeEvent;
 		import mx.collections.ArrayList;
+		import mx.events.CollectionEvent;
+		import mx.events.CollectionEventKind;
 		
 		[Bindable]public var dataQueryField:DataQueryField = null;
 		[Bindable]public var fieldDef:QueryFieldDefinition = null;
@@ -68,9 +70,14 @@
 				dataQueryField.isGrouped = fieldDef.grouped;
 				query.AddField(dataQueryField);
 			}
-
+			
+			var allowedFieldTypes:Array = fieldDef.allowedTypes;
+			if(modifierList.selectedItem && modifierList.selectedItem['data'] == "count") {
+				allowedFieldTypes = null;
+			}
+			
 			queryFields = query.GetColumnSelectionsArrayList(fieldDef.allowedTypes, fieldDef.internalName);
-
+			
 			groupAllowed = (fieldDef.groupable && !query.GroupFieldExists(fieldDef.internalName));
 			groupCheckbox.selected = dataQueryField.isGrouped;
 			groupCheckbox.visible = groupAllowed;
@@ -91,7 +98,9 @@
 			modifierList.dataProvider = DataEngine.modifierSelections;
 			modifierList.visible= allowModifiers;
 			modifierList.includeInLayout= allowModifiers;
-
+			
+			modifierList.addEventListener(Event.CHANGE, modifierList_Change, false, 0, true);
+			
 			if (dataQueryField.modifier) {
 				for (i = 0; i < DataEngine.modifierSelections.length; i++)
 				{
@@ -103,6 +112,15 @@
 			}
 			
 			AdjustDateTimeGrouping(dataQueryField.columnID);
+		}
+		
+		private function modifierList_Change(event:Event):void {
+			var allowedFieldTypes:Array = fieldDef.allowedTypes;
+			if(modifierList.selectedItem && modifierList.selectedItem['data'] == "count") {
+				allowedFieldTypes = null;
+			}
+			
+			queryFields = query.GetColumnSelectionsArrayList(allowedFieldTypes, fieldDef.internalName);
 		}
 		
 		private function SelectionChanged():void

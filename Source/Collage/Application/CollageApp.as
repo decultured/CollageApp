@@ -140,6 +140,9 @@ package Collage.Application
 		public override function Fullscreen():void
 		{
 		}
+		
+		public override function HideApplication():void {}
+		public override function ShowApplication(event:Event):void {}
 
 		public function Copy(event:Event):void
 		{
