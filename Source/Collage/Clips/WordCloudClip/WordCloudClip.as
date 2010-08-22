@@ -4,6 +4,12 @@ package Collage.Clips.WordCloudClip
 	import Collage.DataEngine.*;
 	import Collage.Utilities.Logger.*;
 	import mx.events.PropertyChangeEvent;
+	import mx.collections.ArrayList;
+	
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
+	
+	import com.endlesspaths.components.GradientColorEntry;
 	
 	public class WordCloudClip extends DataClip
 	{
@@ -13,7 +19,7 @@ package Collage.Clips.WordCloudClip
 		[Bindable][Savable] public var maxSizeValue:Number = 1;
 		[Bindable][Savable] public var minSizeValue:Number = 0;
 
-		[Bindable][Savable] public var selectedColors:Array = new Array();
+		[Bindable][Savable] public var selectedColors:ArrayList = new ArrayList();
 		
 		[Bindable][Savable] public var maxColorValue:Number = 100;
 		[Bindable][Savable] public var minColorValue:Number = 0;
@@ -32,24 +38,12 @@ package Collage.Clips.WordCloudClip
 			rotatable = false;
 
 			// Initialize Gradient
-			var gradEntry:Object = new Object();
-			gradEntry.alpha = 1.0;
-			gradEntry.color = 0xff0000;
-			gradEntry.ratio = 0;
-			selectedColors[0] = gradEntry;
-
-			gradEntry = new Object();
-			gradEntry.alpha = 1.0;
-			gradEntry.color = 0xaaaaaa;
-			gradEntry.ratio = 0.5;
-			selectedColors[1] = gradEntry;
-
-			gradEntry = new Object();
-			gradEntry.alpha = 1.0;
-			gradEntry.color = 0x00ff00;
-			gradEntry.ratio = 1.0;
-			selectedColors[2] = gradEntry;
-
+			selectedColors.addItem(new GradientColorEntry(1.0, 0xff0000, 0.0));
+			selectedColors.addItem(new GradientColorEntry(1.0, 0xaaaaaa, 0.5));
+			selectedColors.addItem(new GradientColorEntry(1.0, 0x00ff00, 1.0));
+			
+			selectedColors.addEventListener(CollectionEvent.COLLECTION_CHANGE, CollectionUpdated);
+			
 			_QueryDefinition.queryTitle = "Word Cloud";
 			_QueryDefinition.queryDescription = "Data setup for the Word Cloud";
 			_QueryDefinition.minRowsReturned = 2;
@@ -103,6 +97,14 @@ package Collage.Clips.WordCloudClip
 			}
 			
 			return;
+		}
+		
+		protected function CollectionUpdated(event:CollectionEvent):void {
+			var change:CollectionEvent = new CollectionEvent(CollectionEvent.COLLECTION_CHANGE);
+			change.kind = CollectionEventKind.RESET;
+			query.resultRows.dispatchEvent(change);
+			
+			Logger.LogDebug('Collection Updated!!!!!!!!1');
 		}
 		
 		protected override function ModelChanged(event:PropertyChangeEvent):void
