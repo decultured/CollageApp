@@ -6,3 +6,8 @@ Build/Release/*
 Build/Package/*
 *.tmproj
 Libraries/endlesspathsflex4com.swc
+build.properties
+.settings/*
+.project
+.flexProperties
+.actionScriptProperties
