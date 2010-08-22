@@ -21,11 +21,17 @@ package Desktop.Application
 	import flash.geom.*;
 	import flash.net.*;
 	
+	import spark.components.RichEditableText;
+	import spark.components.TextInput;
+	import spark.components.TextArea;
+	
 	public class AppMain extends CollageApp
 	{
 		public var window:DisplayObject;
  		private var _ViewerWindow:CollageViewerWindow;
-
+		
+		public var nativeWindow:NativeWindow;
+		
 		public function AppMain():void
 		{
 			super();
@@ -37,6 +43,8 @@ package Desktop.Application
 			Session.events.addEventListener(Session.LOGIN_SUCCESS, HandleLoginSuccess);
 			Session.events.addEventListener(Session.TOKEN_EXPIRED, HandleTokenExpired);
 			Session.CheckToken();
+			
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, ShowApplication) // listening for the invoke event if the user clicks on the dock icon
 		}
 		
 		public function HandleLoginSuccess(event:Event):void {
@@ -170,6 +178,31 @@ package Desktop.Application
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 		}
 		
+		/* This is to emulate the OSX behavior for apple+H */
+		public override function HideApplication():void {
+			if(_ViewerWindow) {
+				_ViewerWindow.visible = false;
+				_ViewerWindow.orderToBack();
+			} else if(nativeWindow) {
+				/*nativeWindow.visible = false;*/
+				nativeWindow.orderToBack();
+			}
+		}
+		
+		public override function ShowApplication(event:Event):void {
+			if(!nativeWindow && NativeApplication.nativeApplication.activeWindow) {
+				nativeWindow = NativeApplication.nativeApplication.activeWindow;
+			}
+			
+			if(_ViewerWindow) {
+				_ViewerWindow.visible = true;
+				_ViewerWindow.activate();
+			} else if(nativeWindow) {
+				/*window.visible = true;*/
+				nativeWindow.activate();
+			}
+		}
+		
 		public override function SaveFile():void
 		{
 			var file:File = File.desktopDirectory.resolvePath("file.clg");
@@ -247,68 +280,86 @@ package Desktop.Application
 		
 		public override function Copy(event:Event):void
 		{
-			var copyClip:Clip = editPage.GetSelectedClip();
-			if (!copyClip)
-				return;
+			var focusObj:Object = NativeApplication.nativeApplication.activeWindow.stage.focus;
+			
+			if(focusObj != null && (focusObj is RichEditableText || focusObj is TextArea)) {
+				NativeApplication.nativeApplication.copy();
+			} else {
+				var copyClip:Clip = editPage.GetSelectedClip();
+				if (!copyClip)
+					return;
 				
-			var copyObject:Object = copyClip.SaveToObject();
-			Clipboard.generalClipboard.clear();
-			Clipboard.generalClipboard.setData("epaths:clipObject", JSON.encode(copyObject));
+				var copyObject:Object = copyClip.SaveToObject();
+				Clipboard.generalClipboard.clear();
+				Clipboard.generalClipboard.setData("epaths:clipObject", JSON.encode(copyObject));
 /*
-			if (copyClip is LabelClip)
-				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, (copyClip as LabelClip).text);
-			else if (copyClip is TextBoxClip)
-				Clipboard.generalClipboard.setData(ClipboardFormats.HTML_FORMAT, (copyClip as TextBoxClip).text);
+				if (copyClip is LabelClip)
+					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, (copyClip as LabelClip).text);
+				else if (copyClip is TextBoxClip)
+					Clipboard.generalClipboard.setData(ClipboardFormats.HTML_FORMAT, (copyClip as TextBoxClip).text);
 */
-			editPage.DeselectAll();
-			var scaleMat:Matrix = new Matrix();
-			scaleMat.scale(3,3);
-			Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, ImageSnapshot.captureBitmapData(copyClip.view, scaleMat, null, null, null, true));
-			editPage.SelectClip(copyClip);
+				editPage.DeselectAll();
+				var scaleMat:Matrix = new Matrix();
+				scaleMat.scale(3,3);
+				Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, ImageSnapshot.captureBitmapData(copyClip.view, scaleMat, null, null, null, true));
+				editPage.SelectClip(copyClip);
+			}
 		}
 
 		public override function Cut(event:Event):void
 		{
-			var copyClip:Clip = editPage.GetSelectedClip();
-			if (!copyClip)
-				return;
-
-			Copy(null);
-			editPage.DeleteClip(copyClip);
+			var focusObj:Object = NativeApplication.nativeApplication.activeWindow.stage.focus;
+			
+			if(focusObj != null && (focusObj is RichEditableText || focusObj is TextArea)) {
+				NativeApplication.nativeApplication.cut();
+			} else {
+				var copyClip:Clip = editPage.GetSelectedClip();
+				if (!copyClip)
+					return;
+				
+				Copy(null);
+				editPage.DeleteClip(copyClip);
+			}
 		}
 
 		public override function Paste(event:Event):void
 		{
-			var formatsString:String = "Formats: ";
-			for each (var format:String in Clipboard.generalClipboard.formats) {
-				formatsString += format + ", ";
-			}
-			Logger.Log("Formats Pasted: " + formatsString, this);
+			var focusObj:Object = NativeApplication.nativeApplication.activeWindow.stage.focus;
 			
-			
-			if (Clipboard.generalClipboard.hasFormat("epaths:clipObject")) {
-				var clipDataObject:Object = JSON.decode(Clipboard.generalClipboard.getData("epaths:clipObject") as String);
-				if (!clipDataObject || !clipDataObject["type"])
-					return;
-					
-				var newClip:Clip = editPage.AddClipByType(clipDataObject["type"]);
-				if (newClip) {
-					newClip.LoadFromObject(clipDataObject);
-					newClip.x = 17;
-					newClip.y = 17;
+			if(focusObj != null && (focusObj is RichEditableText || focusObj is TextArea)) {
+				NativeApplication.nativeApplication.paste();
+			} else {
+				var formatsString:String = "Formats: ";
+				for each (var format:String in Clipboard.generalClipboard.formats) {
+					formatsString += format + ", ";
 				}
-			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
-				newClip = editPage.AddClipByType("image");
-				newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
-				Logger.Log("Bitmap Pasted", this);
-			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
-				var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
-				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
-				Logger.Log("HTML Pasted " + newTextBoxClip.text, this);
-			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
-				newTextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
-				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
-				Logger.Log("Text Pasted " + newTextBoxClip.text, this);
+				Logger.Log("Formats Pasted: " + formatsString, this);
+			
+			
+				if (Clipboard.generalClipboard.hasFormat("epaths:clipObject")) {
+					var clipDataObject:Object = JSON.decode(Clipboard.generalClipboard.getData("epaths:clipObject") as String);
+					if (!clipDataObject || !clipDataObject["type"])
+						return;
+					
+					var newClip:Clip = editPage.AddClipByType(clipDataObject["type"]);
+					if (newClip) {
+						newClip.LoadFromObject(clipDataObject);
+						newClip.x = 17;
+						newClip.y = 17;
+					}
+				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
+					newClip = editPage.AddClipByType("image");
+					newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
+					Logger.Log("Bitmap Pasted", this);
+				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
+					var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+					newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
+					Logger.Log("HTML Pasted " + newTextBoxClip.text, this);
+				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
+					newTextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+					newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
+					Logger.Log("Text Pasted " + newTextBoxClip.text, this);
+				}
 			}
 		}
 		

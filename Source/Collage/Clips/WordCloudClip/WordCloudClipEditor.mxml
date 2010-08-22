@@ -37,12 +37,12 @@
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
 	<s:Group>
-		<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="gridEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
+			<ep:CalloutPanel id="gridEditorPanel" arrowPosition="top" title="Text Color">
 				<ep:GradientSelector id="gradientSelector" verticalCenter="0" horizontalCenter="0" selectedColors="@{hostComponent.model.selectedColors}" />
 				<s:Label text="Horizontal Alignment:" color="0xffffff" />
 				<s:ButtonBar id="hAlignBar" requireSelection="true" selectedItem="@{hostComponent.model.horizontalAlignment}" width="250"> 

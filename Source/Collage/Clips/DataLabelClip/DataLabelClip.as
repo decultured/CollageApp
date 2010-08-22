@@ -9,7 +9,13 @@ package Collage.Clips.DataLabelClip
 		[Bindable][Savable]public var text:String = "No Data";
 		[Bindable][Savable(theme="true")]public var color:Number = 0x444444;
 		[Bindable][Savable(theme="true")]public var alpha:Number = 1.0;
+		[Bindable][Savable(theme="true")]public var fontFamily:String = "Helvetica";
 		[Bindable][Savable(theme="true")]public var fontSize:Number = 18;
+		[Bindable][Savable(theme="true")]public var textAlign:String = "left";
+		[Bindable][Savable(theme="true")]public var textBold:Boolean = false;
+		[Bindable][Savable(theme="true")]public var textItalic:Boolean = false;
+		[Bindable][Savable(theme="true")]public var textUnderline:Boolean = false;
+		
 		[Bindable][Savable]public var precision:int = 2;
 		
 		[Bindable][Savable] public var textColumnType:String = "string";
@@ -20,7 +26,8 @@ package Collage.Clips.DataLabelClip
 		
 		public function DataLabelClip()
 		{
-			super(DataLabelClipSkin, DataLabelClipEditor);
+			super(DataLabelClipSkin, DataLabelClipEditor, DataLabelClipEditorSmall);
+			
 			type = "datalabel";
 			height = fontSize;
 			verticalSizable = false;

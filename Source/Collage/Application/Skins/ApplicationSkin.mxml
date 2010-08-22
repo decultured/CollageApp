@@ -116,10 +116,10 @@
 				<s:HorizontalLayout paddingLeft="10" paddingRight="10" paddingTop="3" paddingBottom="3" gap="15" verticalAlign="middle"/>
 			</s:layout>
 
-			<ep:ImageButton text="Open" image="@Embed('/Assets/icons/document-open.png')" click="hostComponent.OpenFromCloud()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-			<ep:ImageButton text="Save" image="@Embed('/Assets/icons/document-save.png')" click="hostComponent.SaveToCloud()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-			<ep:ImageButton text="Copy" image="@Embed('/Assets/icons/edit-copy.png')" click="hostComponent.Copy(null)" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-			<ep:ImageButton text="Paste" image="@Embed('/Assets/icons/edit-paste.png')" click="hostComponent.Paste(null)" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+			<ep:ImageButton text="Open" image="@Embed('/Assets/icons/document-open.png')" click="hostComponent.OpenFromCloud()" />
+			<ep:ImageButton text="Save" image="@Embed('/Assets/icons/document-save.png')" click="hostComponent.SaveToCloud()" />
+			<ep:ImageButton text="Copy" image="@Embed('/Assets/icons/edit-copy.png')" click="hostComponent.Copy(null)" />
+			<ep:ImageButton text="Paste" image="@Embed('/Assets/icons/edit-paste.png')" click="hostComponent.Paste(null)" />
 
 			<s:Line x="0" xTo="0" y="0" yTo="20" horizontalCenter="0" verticalCenter="0">
 				<s:stroke>
@@ -253,7 +253,7 @@
 			</s:Group>
 		</s:Graphic>
 		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="above" enabled="true" bottom="32">
-			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="bottom" title="Components">
+			<ep:CalloutPanel id="backgroundEditorPanel" arrowPosition="bottom" title="Components">
 				<s:List id="componentList" initialize="componentList_Init()" dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.skins.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
 					<s:layout>
 						<s:TileLayout horizontalGap="8" verticalGap="8" requestedColumnCount="5" />

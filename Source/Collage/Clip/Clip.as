@@ -19,6 +19,7 @@ package Collage.Clip
 
 		[Bindable] public var selected:Boolean = false;
 		[Bindable] public var isLocked:Boolean = false;
+		[Bindable] public var isEditing:Boolean = false;
 
 		[Bindable][Savable] public var x:Number = 10;
 		[Bindable][Savable] public var y:Number  = 10;
@@ -109,8 +110,10 @@ package Collage.Clip
 			Logger.LogWarning("Clip Cannot Refresh", this);
 		}
 
-		public function SetEditMode(isEditing:Boolean):void
+		public function SetEditMode(_isEditing:Boolean):void
 		{
+			isEditing = _isEditing;
+			
 			if (!isEditing && view.skin && view.skin.currentState == "editing") {
 				isLocked = false;
 				view.skin.currentState = "normal";
@@ -122,13 +125,7 @@ package Collage.Clip
 
 		public function ToggleEditMode():void
 		{
-			if (view.skin && view.skin.currentState == "editing") {
-				isLocked = false;
-				view.skin.currentState = "normal";
-			} else if (view.skin && view.skin.currentState == "normal") {
-				isLocked = true;
-				view.skin.currentState = "editing";
-			}
+			SetEditMode(!isEditing);
 		}
 		
 		public function ToggleLocked():void

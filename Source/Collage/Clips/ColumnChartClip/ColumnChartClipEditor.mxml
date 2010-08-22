@@ -18,27 +18,27 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
-		<ep:ImageButton text="Columns" image="@Embed('/Assets/toolbar/columnChartColumns.png')" click="columnEditorPopup.popUpOpen = !columnEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Columns" image="@Embed('/Assets/toolbar/columnChartColumns.png')" click="columnEditorPopup.popUpOpen = !columnEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="columnEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="columnEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Column Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.barColor}" selectedAlpha="@{hostComponent.model.barAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			<ep:CalloutPanel id="columnEditorPanel" arrowPosition="top" title="Column Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.barColor}" selectedAlpha="@{hostComponent.model.barAlpha}" />
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="V-Axis" image="@Embed('/Assets/toolbar/columnChartVAxis.png')" click="vAxisEditorPopup.popUpOpen = !vAxisEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="V-Axis" image="@Embed('/Assets/toolbar/columnChartVAxis.png')" click="vAxisEditorPopup.popUpOpen = !vAxisEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="vAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="vAxisEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Axis Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisColor}" selectedAlpha="@{hostComponent.model.vAxisAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			<ep:CalloutPanel id="vAxisEditorPanel" arrowPosition="top" title="Axis Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisColor}" selectedAlpha="@{hostComponent.model.vAxisAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Axis Weight:" color="0xffffff" />
 					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.vAxisWeight}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 				<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisLabelColor}" selectedAlpha="@{hostComponent.model.vAxisLabelAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisLabelColor}" selectedAlpha="@{hostComponent.model.vAxisLabelAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Label Size:" color="0xffffff" />
 					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.vAxisLabelSize}" liveDragging="true" width="100%"/>
@@ -51,16 +51,16 @@
 		</ep:AutoPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="H-Axis" image="@Embed('/Assets/toolbar/columnChartHAxis.png')" click="hAxisEditorPopup.popUpOpen = !hAxisEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="H-Axis" image="@Embed('/Assets/toolbar/columnChartHAxis.png')" click="hAxisEditorPopup.popUpOpen = !hAxisEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="hAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="hAxisEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Axis Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisColor}" selectedAlpha="@{hostComponent.model.hAxisAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			<ep:CalloutPanel id="hAxisEditorPanel" arrowPosition="top" title="Axis Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisColor}" selectedAlpha="@{hostComponent.model.hAxisAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Axis Weight:" color="0xffffff" />
 					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.hAxisWeight}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 				<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisLabelColor}" selectedAlpha="@{hostComponent.model.hAxisLabelAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisLabelColor}" selectedAlpha="@{hostComponent.model.hAxisLabelAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Label Size:" color="0xffffff" />
 					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.hAxisLabelSize}" liveDragging="true" width="100%"/>
@@ -77,10 +77,10 @@
 		</ep:AutoPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="gridEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.gridColor}" selectedAlpha="@{hostComponent.model.gridAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			<ep:CalloutPanel id="gridEditorPanel" arrowPosition="top" title="Text Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.gridColor}" selectedAlpha="@{hostComponent.model.gridAlpha}" />
 				<s:ButtonBar id="gridDirectionBar" requireSelection="true" selectedItem="@{hostComponent.model.gridDirection}" width="250"> 
 					<mx:ArrayCollection> 
 						<fx:String>both</fx:String> 

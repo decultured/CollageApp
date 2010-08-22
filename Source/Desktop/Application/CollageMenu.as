@@ -13,6 +13,8 @@ package Desktop.Application
 		public var menuData:XML = <root>
 	            <menuitem label="Collage">
 	                <menuitem label="About" command="about" enabled="false"/>
+					/*<menuitem type="separator"/>*/
+					/*<menuitem label="Hide Collage" command="hide-window" key="h" />*/
 					<menuitem type="separator"/>
 					<menuitem label="Logout" command="logout" />
 	                <menuitem label="Quit" command="quit" key="q"/>
@@ -41,7 +43,7 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 					<menuitem label="Cut" command="cut" key="x"/>
 					<menuitem label="Copy" command="copy" key="c"/>
-					<menuitem label="Paste" command="paste" />
+					<menuitem label="Paste" command="paste" key="v" />
 					<menuitem label="Delete" command="delete" />
 	                <menuitem type="separator"/>
 					<menuitem label="Refresh datasets" command="refreshDatasets" key="r"/>
@@ -177,6 +179,9 @@ package Desktop.Application
 				case "fullscreen":
 					collageApp.Fullscreen();
 					menuEvent.item.@toggled = !menuEvent.item.@toggled;
+					break;
+				case "hide-window":
+					collageApp.HideApplication();
 					break;
 				default:
 					Logger.LogWarning("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);

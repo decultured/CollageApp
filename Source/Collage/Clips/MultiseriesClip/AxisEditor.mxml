@@ -7,9 +7,9 @@
 	<fx:Script><![CDATA[
 		[Bindable]public var viewObject:Object;
 	]]></fx:Script>
-	<ep:ImageButton text="AxisEditor" image="@Embed('/Assets/toolbar/multiseriesparts.png')" click="axisEditorPopup.popUpOpen = !axisEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	<ep:ImageButton text="AxisEditor" image="@Embed('/Assets/toolbar/multiseriesparts.png')" click="axisEditorPopup.popUpOpen = !axisEditorPopup.popUpOpen;" />
 	<ep:AutoPopUpAnchor id="axisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-		<ep:CalloutPanel id="axisEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Chart Axis Editor">
+		<ep:CalloutPanel id="axisEditorPanel" arrowPosition="top" title="Chart Axis Editor">
 			<s:List id="vAxisList"
 					requireSelection="false"
 					width="300"

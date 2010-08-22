@@ -72,13 +72,13 @@
 			</s:fill>
 		</s:Rect>
 		<s:HGroup verticalAlign="middle" height="100%" left="25" right="25" gap="15">
-			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/view-fullscreen.png')" click="viewerApp.Fullscreen()" skinClass="com.endlesspaths.skins.ImageButtonPlain"/>
-			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-in.png')" click="viewerApp.ZoomIn()" skinClass="com.endlesspaths.skins.ImageButtonPlain"/>
-			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-out.png')" click="viewerApp.ZoomOut()" skinClass="com.endlesspaths.skins.ImageButtonPlain"/>
-			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-original.png')" click="viewerApp.Zoom(1)" skinClass="com.endlesspaths.skins.ImageButtonPlain"/>
-			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-fit-best.png')" click="{viewerApp.fitToScreen = !viewerApp.fitToScreen}" skinClass="com.endlesspaths.skins.ImageButtonPlain"/>
-			<ep:ImageButton image="@Embed('/Assets/toolbar/go-previous.png')" click="viewerApp.pageManager.PrevPage()" skinClass="com.endlesspaths.skins.ImageButtonPlain" visible="{viewerApp.pageManager.numPages > 1}" includeInLayout="{viewerApp.pageManager.numPages > 1}"/>
-			<ep:ImageButton image="@Embed('/Assets/toolbar/go-next.png')" click="viewerApp.pageManager.NextPage()" skinClass="com.endlesspaths.skins.ImageButtonPlain" visible="{viewerApp.pageManager.numPages > 1}" includeInLayout="{viewerApp.pageManager.numPages > 1}"/>
+			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/view-fullscreen.png')" click="viewerApp.Fullscreen()"/>
+			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-in.png')" click="viewerApp.ZoomIn()"/>
+			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-out.png')" click="viewerApp.ZoomOut()"/>
+			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-original.png')" click="viewerApp.Zoom(1)"/>
+			<ep:ImageButton alpha="0.75" image="@Embed('/Assets/toolbar/zoom-fit-best.png')" click="{viewerApp.fitToScreen = !viewerApp.fitToScreen}"/>
+			<ep:ImageButton image="@Embed('/Assets/toolbar/go-previous.png')" click="viewerApp.pageManager.PrevPage()" visible="{viewerApp.pageManager.numPages > 1}" includeInLayout="{viewerApp.pageManager.numPages > 1}"/>
+			<ep:ImageButton image="@Embed('/Assets/toolbar/go-next.png')" click="viewerApp.pageManager.NextPage()" visible="{viewerApp.pageManager.numPages > 1}" includeInLayout="{viewerApp.pageManager.numPages > 1}"/>
 		</s:HGroup>
 	</s:SkinnableContainer>
 	</s:SkinnableContainer>

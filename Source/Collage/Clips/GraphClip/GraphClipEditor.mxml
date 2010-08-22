@@ -18,10 +18,10 @@
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
 	<s:Group>
-		<ep:ImageButton text="Node Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenNodesDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Node Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenNodesDataWizard()" />
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Edge Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenEdgesDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Edge Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenEdgesDataWizard()" />
 	</s:Group>
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 </s:Skin>

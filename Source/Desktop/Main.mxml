@@ -21,6 +21,8 @@
 		import mx.controls.Alert;
 		import Collage.Clip.*;
 		
+		import mx.controls.FlexNativeMenu;
+		
 		private var app:AppMain;
 		
 		private function Initialize():void
