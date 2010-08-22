@@ -1,4 +1,8 @@
 package Collage {
+		import Collage.Clips.BubbleChartClip.BubbleChartClip; BubbleChartClip;
+		import Collage.Clips.BubbleChartClip.BubbleChartClipEditor; BubbleChartClipEditor;
+		import Collage.Clips.BubbleChartClip.BubbleChartClipSkin; BubbleChartClipSkin;
+	
 		import Collage.Clips.ColumnChartClip.ColumnChartClip; ColumnChartClip;
 		import Collage.Clips.ColumnChartClip.ColumnChartClipEditor; ColumnChartClipEditor;
 		import Collage.Clips.ColumnChartClip.ColumnChartClipSkin; ColumnChartClipSkin;

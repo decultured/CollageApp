@@ -9,6 +9,7 @@ package Collage.Clip
 	import Collage.Clips.PieChartClip.*;
 	import Collage.Clips.RssFeedClip.*;
 	import Collage.Clips.YouTubeClip.*;
+	import Collage.Clips.BubbleChartClip.*;
 	import Collage.Clips.ScatterPlotClip.*;
 	import Collage.Clips.TableClip.*;
 	import Collage.Clips.TextBoxClip.*;
@@ -32,6 +33,8 @@ package Collage.Clip
 				return new LineChartClip();
 			else if (clipType == "piechart")
 				return new PieChartClip();
+			else if (clipType == "bubblechart")
+				return new BubbleChartClip();
 			else if (clipType == "scatterplot")
 				return new ScatterPlotClip();
 			else if (clipType == "table")
