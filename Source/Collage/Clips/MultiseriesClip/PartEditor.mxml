@@ -7,9 +7,9 @@
 	<fx:Script><![CDATA[
 		[Bindable]public var viewObject:Object;
 	]]></fx:Script>
-	<ep:ImageButton text="PartEditor" image="@Embed('/Assets/toolbar/multiseriesparts.png')" click="partEditorPopup.popUpOpen = !partEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	<ep:ImageButton text="PartEditor" image="@Embed('/Assets/toolbar/multiseriesparts.png')" click="partEditorPopup.popUpOpen = !partEditorPopup.popUpOpen;" />
 	<ep:AutoPopUpAnchor id="partEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-		<ep:CalloutPanel id="partEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Chart Parts">
+		<ep:CalloutPanel id="partEditorPanel" arrowPosition="top" title="Chart Parts">
 			<s:List id="partsList"
 					requireSelection="false"
 					width="300"

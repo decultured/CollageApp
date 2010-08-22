@@ -18,12 +18,12 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
-		<ep:ImageButton text="Sections" image="@Embed('/Assets/toolbar/pieChartSections.png')" click="sectionsEditorPopup.popUpOpen = !sectionsEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Sections" image="@Embed('/Assets/toolbar/pieChartSections.png')" click="sectionsEditorPopup.popUpOpen = !sectionsEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="sectionsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="sectionsEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Sections">
+			<ep:CalloutPanel id="sectionsEditorPanel" arrowPosition="top" title="Sections">
 				<s:HGroup width="100%">
 					<s:Label text="Inside Radius:" color="0xffffff" />
 					<s:HSlider minimum="0" maximum="1" snapInterval="0" value="@{hostComponent.model.innerRadius}" liveDragging="true" width="100%"/>
@@ -36,16 +36,16 @@
 		</ep:AutoPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Borders" image="@Embed('/Assets/toolbar/pieChartBorders.png')" click="bordersEditorPopup.popUpOpen = !bordersEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Borders" image="@Embed('/Assets/toolbar/pieChartBorders.png')" click="bordersEditorPopup.popUpOpen = !bordersEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="bordersEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="bordersEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Radial Borders">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.radialColor}" selectedAlpha="@{hostComponent.model.radialAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			<ep:CalloutPanel id="bordersEditorPanel" arrowPosition="top" title="Radial Borders">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.radialColor}" selectedAlpha="@{hostComponent.model.radialAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Radial Weight:" color="0xffffff" />
 					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.radialWeight}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 				<s:Label text="Outside Borders" color="0xffffff" textAlign="center" width="100%"/>
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.pieBorderColor}" selectedAlpha="@{hostComponent.model.pieBorderAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.pieBorderColor}" selectedAlpha="@{hostComponent.model.pieBorderAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Border Weight:" color="0xffffff" />
 					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.pieBorderWeight}" liveDragging="true" width="100%"/>
@@ -54,10 +54,10 @@
 		</ep:AutoPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Labels" image="@Embed('/Assets/toolbar/pieChartLabels.png')" click="labelsEditorPopup.popUpOpen = !labelsEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Labels" image="@Embed('/Assets/toolbar/pieChartLabels.png')" click="labelsEditorPopup.popUpOpen = !labelsEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="labelsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="labelsEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Label Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.labelColor}" selectedAlpha="@{hostComponent.model.labelAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			<ep:CalloutPanel id="labelsEditorPanel" arrowPosition="top" title="Label Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.labelColor}" selectedAlpha="@{hostComponent.model.labelAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Label Size:" color="0xffffff" />
 					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.labelSize}" liveDragging="true" width="100%"/>
@@ -72,7 +72,7 @@
 					</mx:ArrayCollection> 
 				</s:DropDownList>
 				<s:Label text="Callouts" color="0xffffff" textAlign="center" width="100%"/>
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.calloutColor}" selectedAlpha="@{hostComponent.model.calloutAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.calloutColor}" selectedAlpha="@{hostComponent.model.calloutAlpha}" />
 				<s:HGroup width="100%">
 					<s:Label text="Border Weight:" color="0xffffff" />
 					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.calloutWeight}" liveDragging="true" width="100%"/>

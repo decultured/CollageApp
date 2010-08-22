@@ -18,12 +18,12 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	<s:Group>
-		<ep:ImageButton text="Columns" image="@Embed('/Assets/toolbar/columnChartColumns.png')" click="columnEditorPopup.popUpOpen = !columnEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:ImageButton text="Columns" image="@Embed('/Assets/toolbar/columnChartColumns.png')" click="columnEditorPopup.popUpOpen = !columnEditorPopup.popUpOpen;" />
 		<ep:AutoPopUpAnchor id="columnEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="columnEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Column Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.barColor}" selectedAlpha="@{hostComponent.model.barAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			<ep:CalloutPanel id="columnEditorPanel" arrowPosition="top" title="Column Color">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.barColor}" selectedAlpha="@{hostComponent.model.barAlpha}" />
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>
 	</s:Group>
