@@ -2,6 +2,7 @@ package Collage.Utilities
 {
 	import Collage.Utilities.Logger.*;
 	import com.adobe.serialization.json.JSON;
+	import mx.collections.ArrayList;
 
 	// alpha: elem.alpha,
 	// color: elem.color,
@@ -9,15 +10,15 @@ package Collage.Utilities
 
 	public class GradientUtil
 	{
-		public static function FindColorValue(gradientArray:Array, value:Number, minVal:Number, maxVal:Number):Object
+		public static function FindColorValue(gradientArray:ArrayList, value:Number, minVal:Number, maxVal:Number):Object
 		{
 			var result:Object = new Object();
 			if (!gradientArray || !gradientArray.length) {
 				result.color = 0x000000;
 				result.alpha = 1.0;
 			} else {
-				result.color = gradientArray[0].color;
-				result.alpha = gradientArray[0].alpha;
+				result.color = gradientArray.getItemAt(0).color;
+				result.alpha = gradientArray.getItemAt(0).alpha;
 			}
 			
 			if (maxVal <= minVal || !gradientArray || gradientArray.length < 2)
@@ -34,13 +35,13 @@ package Collage.Utilities
 			var curRatio:Number = 0;
 			for (var i:uint = 0; i < numColors; i++) {
 
-				Logger.Log(JSON.encode(gradientArray[i]) + " Gradient Ratio: " + gradientArray[i].ratio + " color: " + gradientArray[i].color + " alpha: " + gradientArray[i].alpha);
+				/*Logger.Log(JSON.encode(gradientArray[i]) + " Gradient Ratio: " + gradientArray[i].ratio + " color: " + gradientArray[i].color + " alpha: " + gradientArray[i].alpha);*/
 
-				curRatio = gradientArray[i].ratio;
+				curRatio = gradientArray.getItemAt(i).ratio;
 				
 				if (curRatio == ratio) {
-					result.color = gradientArray[i].color;
-					result.alpha = gradientArray[i].alpha;
+					result.color = gradientArray.getItemAt(i).color;
+					result.alpha = gradientArray.getItemAt(i).alpha;
 					return result;
 				} else if (curRatio < ratio && curRatio >= startRatio) {
 					startRatio = startRatio;
@@ -54,16 +55,16 @@ package Collage.Utilities
 			if (startIndex < 0 && endIndex < 0) {
 				return result;
 			} else if (startIndex < 0) {
-				result.color = gradientArray[endIndex].color;
-				result.alpha = gradientArray[endIndex].alpha;
+				result.color = gradientArray.getItemAt(endIndex).color;
+				result.alpha = gradientArray.getItemAt(endIndex).alpha;
 				return result;
 			} else if (endIndex < 0) {
-				result.color = gradientArray[startIndex].color;
-				result.alpha = gradientArray[startIndex].alpha;
+				result.color = gradientArray.getItemAt(startIndex).color;
+				result.alpha = gradientArray.getItemAt(startIndex).alpha;
 				return result;
 			} else {
-				result.color = InterpolateColor(ratio, startRatio, endRatio, gradientArray[startIndex].color, gradientArray[endIndex].color);
-				result.alpha = InterpolateAlpha(ratio, startRatio, endRatio, gradientArray[startIndex].alpha, gradientArray[endIndex].alpha);
+				result.color = InterpolateColor(ratio, startRatio, endRatio, gradientArray.getItemAt(startIndex).color, gradientArray.getItemAt(endIndex).color);
+				result.alpha = InterpolateAlpha(ratio, startRatio, endRatio, gradientArray.getItemAt(startIndex).alpha, gradientArray.getItemAt(endIndex).alpha);
 				return result;
 			}
 			
