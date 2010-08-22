@@ -16,5 +16,12 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<ep:TextFlowEditor editor="{hostComponent.model.view.editorLabel}" skinClass="com.endlesspaths.skins.TextFlowEditorSkin" disabled="{!hostComponent.model.isEditing}" />
+	<ep:TextFlowEditor
+		selectionAlignment="@{hostComponent.model.textAlign}"
+		selectionFontFamily="@{hostComponent.model.fontFamily}"
+		selectionFontSize="@{hostComponent.model.fontSize}"
+		selectionFontColor="@{hostComponent.model.color}"
+		selectionBold="@{hostComponent.model.textBold}"
+		selectionItalic="@{hostComponent.model.textItalic}"
+		selectionUnderline="@{hostComponent.model.textUnderline}" />
 </s:Skin>

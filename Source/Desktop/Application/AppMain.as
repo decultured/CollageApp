@@ -21,6 +21,10 @@ package Desktop.Application
 	import flash.geom.*;
 	import flash.net.*;
 	
+	import spark.components.RichEditableText;
+	import spark.components.TextInput;
+	import spark.components.TextArea;
+	
 	public class AppMain extends CollageApp
 	{
 		public var window:DisplayObject;
@@ -247,24 +251,28 @@ package Desktop.Application
 		
 		public override function Copy(event:Event):void
 		{
-			var copyClip:Clip = editPage.GetSelectedClip();
-			if (!copyClip)
-				return;
+			if(NativeApplication.nativeApplication.activeWindow.stage.focus is Clip) {
+				var copyClip:Clip = editPage.GetSelectedClip();
+				if (!copyClip)
+					return;
 				
-			var copyObject:Object = copyClip.SaveToObject();
-			Clipboard.generalClipboard.clear();
-			Clipboard.generalClipboard.setData("epaths:clipObject", JSON.encode(copyObject));
+				var copyObject:Object = copyClip.SaveToObject();
+				Clipboard.generalClipboard.clear();
+				Clipboard.generalClipboard.setData("epaths:clipObject", JSON.encode(copyObject));
 /*
-			if (copyClip is LabelClip)
-				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, (copyClip as LabelClip).text);
-			else if (copyClip is TextBoxClip)
-				Clipboard.generalClipboard.setData(ClipboardFormats.HTML_FORMAT, (copyClip as TextBoxClip).text);
+				if (copyClip is LabelClip)
+					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, (copyClip as LabelClip).text);
+				else if (copyClip is TextBoxClip)
+					Clipboard.generalClipboard.setData(ClipboardFormats.HTML_FORMAT, (copyClip as TextBoxClip).text);
 */
-			editPage.DeselectAll();
-			var scaleMat:Matrix = new Matrix();
-			scaleMat.scale(3,3);
-			Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, ImageSnapshot.captureBitmapData(copyClip.view, scaleMat, null, null, null, true));
-			editPage.SelectClip(copyClip);
+				editPage.DeselectAll();
+				var scaleMat:Matrix = new Matrix();
+				scaleMat.scale(3,3);
+				Clipboard.generalClipboard.setData(ClipboardFormats.BITMAP_FORMAT, ImageSnapshot.captureBitmapData(copyClip.view, scaleMat, null, null, null, true));
+				editPage.SelectClip(copyClip);
+			} else {
+				NativeApplication.nativeApplication.copy();
+			}
 		}
 
 		public override function Cut(event:Event):void
@@ -279,36 +287,41 @@ package Desktop.Application
 
 		public override function Paste(event:Event):void
 		{
-			var formatsString:String = "Formats: ";
-			for each (var format:String in Clipboard.generalClipboard.formats) {
-				formatsString += format + ", ";
-			}
-			Logger.Log("Formats Pasted: " + formatsString, this);
-			
-			
-			if (Clipboard.generalClipboard.hasFormat("epaths:clipObject")) {
-				var clipDataObject:Object = JSON.decode(Clipboard.generalClipboard.getData("epaths:clipObject") as String);
-				if (!clipDataObject || !clipDataObject["type"])
-					return;
-					
-				var newClip:Clip = editPage.AddClipByType(clipDataObject["type"]);
-				if (newClip) {
-					newClip.LoadFromObject(clipDataObject);
-					newClip.x = 17;
-					newClip.y = 17;
+			/*Logger.Log(describeType(NativeApplication.nativeApplication.activeWindow.stage.focus));*/
+			if(NativeApplication.nativeApplication.activeWindow.stage.focus is RichEditableText || NativeApplication.nativeApplication.activeWindow.stage.focus is TextArea) {
+				NativeApplication.nativeApplication.paste();
+			} else {
+				var formatsString:String = "Formats: ";
+				for each (var format:String in Clipboard.generalClipboard.formats) {
+					formatsString += format + ", ";
 				}
-			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
-				newClip = editPage.AddClipByType("image");
-				newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
-				Logger.Log("Bitmap Pasted", this);
-			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
-				var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
-				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
-				Logger.Log("HTML Pasted " + newTextBoxClip.text, this);
-			} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
-				newTextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
-				newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
-				Logger.Log("Text Pasted " + newTextBoxClip.text, this);
+				Logger.Log("Formats Pasted: " + formatsString, this);
+			
+			
+				if (Clipboard.generalClipboard.hasFormat("epaths:clipObject")) {
+					var clipDataObject:Object = JSON.decode(Clipboard.generalClipboard.getData("epaths:clipObject") as String);
+					if (!clipDataObject || !clipDataObject["type"])
+						return;
+					
+					var newClip:Clip = editPage.AddClipByType(clipDataObject["type"]);
+					if (newClip) {
+						newClip.LoadFromObject(clipDataObject);
+						newClip.x = 17;
+						newClip.y = 17;
+					}
+				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
+					newClip = editPage.AddClipByType("image");
+					newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
+					Logger.Log("Bitmap Pasted", this);
+				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
+					var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+					newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
+					Logger.Log("HTML Pasted " + newTextBoxClip.text, this);
+				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
+					newTextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
+					newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
+					Logger.Log("Text Pasted " + newTextBoxClip.text, this);
+				}
 			}
 		}
 		

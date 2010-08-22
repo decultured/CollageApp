@@ -10,14 +10,19 @@ package Collage.Clips.LabelClip
 		[Bindable][Savable]public var text:String = "";
 		[Bindable][Savable(theme="true")]public var color:Number = 0x444444;
 		[Bindable][Savable(theme="true")]public var alpha:Number = 1.0;
+		[Bindable][Savable(theme="true")]public var fontFamily:String = "Helvetica";
 		[Bindable][Savable(theme="true")]public var fontSize:Number = 18;
+		[Bindable][Savable(theme="true")]public var textAlign:String = "left";
+		[Bindable][Savable(theme="true")]public var textBold:Boolean = false;
+		[Bindable][Savable(theme="true")]public var textItalic:Boolean = false;
+		[Bindable][Savable(theme="true")]public var textUnderline:Boolean = false;
 		
 		private static var DEFAULT_LABEL_TEXT:String = "Double-click to edit";
 		[Bindable]public var displayText:String = DEFAULT_LABEL_TEXT;
 		
 		public function LabelClip()
 		{
-			super(LabelClipSkin, LabelClipEditor);
+			super(LabelClipSkin, LabelClipEditor, LabelClipEditorSmall);
 			type = "label";
 			height = fontSize;
 			verticalSizable = false;

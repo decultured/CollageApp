@@ -19,16 +19,4 @@
 	</s:layout>
 	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
-	<s:Group>
-		<ep:ImageButton text="Color" image="@Embed('/Assets/icons/format-text-color.png')" click="colorEditorPopup.popUpOpen = !colorEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-		<ep:AutoPopUpAnchor id="colorEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="colorEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Text Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.color}" selectedAlpha="@{hostComponent.model.alpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
-				<s:HGroup width="100%">
-					<s:Label text="Text Size:" color="0xffffff" />
-					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.fontSize}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
-	</s:Group>
 </s:Skin>

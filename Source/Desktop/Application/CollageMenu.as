@@ -41,7 +41,7 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 					<menuitem label="Cut" command="cut" key="x"/>
 					<menuitem label="Copy" command="copy" key="c"/>
-					<menuitem label="Paste" command="paste" />
+					<menuitem label="Paste" command="paste" key="v" />
 					<menuitem label="Delete" command="delete" />
 	                <menuitem type="separator"/>
 					<menuitem label="Refresh datasets" command="refreshDatasets" key="r"/>
