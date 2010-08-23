@@ -16,6 +16,7 @@ package Collage.Clip
 	import Collage.Clips.WordCloudClip.*;
 	import Collage.Clips.GraphClip.*;
 	import Collage.Clips.MultiseriesClip.*;
+	import Collage.Clips.Map.*;
 	import Collage.Utilities.Logger.*;
 	
 	public class ClipFactory
@@ -53,6 +54,8 @@ package Collage.Clip
 				return new GraphClip();
 			else if (clipType == "multiseries")
 				return new MultiseriesClip();
+			else if (clipType == "map")
+				return new MapClip();
 			else
 				Logger.LogError("Clip type not found: " + clipType); 
 			return null;

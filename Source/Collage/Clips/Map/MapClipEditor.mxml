@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		xmlns:clg="Collage.Clip.*"
+ 		xmlns:ep="com.endlesspaths.components.*">
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" />
+    </s:states>
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.ClipEditor")]
+        ]]>
+    </fx:Metadata> 
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"/>
+	</s:layout>
+	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
+	<s:Group>
+		<ep:ImageButton text="Borders" image="@Embed('/Assets/icons/fill-color.png')" click="borderEditorPopup.popUpOpen = !borderEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="borderEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="borderEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Borders">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.objectBorderColor}" selectedAlpha="@{hostComponent.model.objectBorderAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Border Size:" color="0xffffff" width="85"/>
+					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.objectBorderWeight}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	<s:Group>
+		<ep:ImageButton text="Fills" image="@Embed('/Assets/icons/fill-color.png')" click="fillsEditorPopup.popUpOpen = !fillsEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="fillsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="fillsEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Borders">
+				<ep:GradientSelector id="gradientSelector" verticalCenter="0" horizontalCenter="0" selectedColors="@{hostComponent.model.colorGradient}" height="45"/>
+				<s:Label text="Default Color (No DAta):" color="0xffffff" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.defaultFillColor}" selectedAlpha="@{hostComponent.model.defaultFillAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:Label text="Mouse Hover Color:" color="0xffffff" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hoverFillColor}" selectedAlpha="@{hostComponent.model.hoverFillAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+</s:Skin>
