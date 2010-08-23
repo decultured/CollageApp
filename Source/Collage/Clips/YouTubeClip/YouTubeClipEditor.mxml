@@ -19,8 +19,8 @@
 	</s:layout>
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
-		<ep:ImageButton text="Title" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="titleEditorPopup.popUpOpen = !titleEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="titleEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Title" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="titleEditorPopup.displayPopUp = !titleEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="titleEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="titleEditorPanel" arrowPosition="top" title="Line Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.titleColor}" selectedAlpha="@{hostComponent.model.titleAlpha}" />
 				<s:HGroup width="100%">
@@ -32,11 +32,11 @@
 					<s:HSlider minimum="1" maximum="5" value="@{hostComponent.model.titleLines}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Content" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="contentEditorPopup.popUpOpen = !contentEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="contentEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Content" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="contentEditorPopup.displayPopUp = !contentEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="contentEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="contentEditorPanel" arrowPosition="top" title="Line Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.contentColor}" selectedAlpha="@{hostComponent.model.contentAlpha}" />
 				<s:HGroup width="100%">
@@ -48,6 +48,6 @@
 					<s:HSlider minimum="1" maximum="5" value="@{hostComponent.model.contentLines}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 </s:Skin>

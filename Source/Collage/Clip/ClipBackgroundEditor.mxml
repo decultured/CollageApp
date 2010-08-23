@@ -7,24 +7,21 @@
 	<fx:Script><![CDATA[
 		[Bindable]public var viewObject:Object;
 	]]></fx:Script>
-	<ep:ImageButton text="Background" image="@Embed('/Assets/icons/fill-color.png')" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" />
-	<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-		<ep:CalloutPanel id="backgroundEditorPanel" arrowPosition="top" title="Background">
-			<ep:ColorSwatchAlphaSelector selectedColor="@{viewObject.backgroundColor}" selectedAlpha="@{viewObject.backgroundAlpha}" />
-			<s:Label text="Border" color="0xffffff" textAlign="center" width="100%"/>
-			<ep:ColorSwatchAlphaSelector selectedColor="@{viewObject.borderColor}" selectedAlpha="@{viewObject.borderAlpha}" />
-			<s:HGroup width="100%">
-				<s:Label text="Border Size:" color="0xffffff" width="85"/>
-				<s:HSlider minimum="0" maximum="72" value="@{viewObject.borderWeight}" liveDragging="true" width="100%"/>
-			</s:HGroup>
-			<s:HGroup width="100%">
-				<s:Label text="Corner Radius:" color="0xffffff" width="85"/>
-				<s:HSlider minimum="0" maximum="72" value="@{viewObject.borderRadius}" liveDragging="true" width="100%"/>
-			</s:HGroup>
-			<s:HGroup width="100%">
-				<s:Label text="Margins:" color="0xffffff" width="85"/>
-				<s:HSlider minimum="0" maximum="72" value="@{viewObject.contentMargin}" liveDragging="true" width="100%"/>
-			</s:HGroup>
-		</ep:CalloutPanel>
-	</ep:AutoPopUpAnchor>
+	<ep:PopUpButton label="Background" image="@Embed('/Assets/icons/fill-color.png')" title="Background" width="60">
+		<ep:ColorSwatchAlphaSelector selectedColor="@{viewObject.backgroundColor}" selectedAlpha="@{viewObject.backgroundAlpha}" />
+		<s:Label text="Border" color="0xffffff" textAlign="center" width="100%"/>
+		<ep:ColorSwatchAlphaSelector selectedColor="@{viewObject.borderColor}" selectedAlpha="@{viewObject.borderAlpha}" />
+		<s:HGroup width="100%">
+			<s:Label text="Border Size:" color="0xffffff" width="85"/>
+			<s:HSlider minimum="0" maximum="72" value="@{viewObject.borderWeight}" liveDragging="true" width="100%"/>
+		</s:HGroup>
+		<s:HGroup width="100%">
+			<s:Label text="Corner Radius:" color="0xffffff" width="85"/>
+			<s:HSlider minimum="0" maximum="72" value="@{viewObject.borderRadius}" liveDragging="true" width="100%"/>
+		</s:HGroup>
+		<s:HGroup width="100%">
+			<s:Label text="Margins:" color="0xffffff" width="85"/>
+			<s:HSlider minimum="0" maximum="72" value="@{viewObject.contentMargin}" liveDragging="true" width="100%"/>
+		</s:HGroup>
+	</ep:PopUpButton>
 </s:Group>

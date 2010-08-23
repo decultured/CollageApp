@@ -29,32 +29,11 @@
 	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
-		<ep:ImageButton text="Plots" image="@Embed('/Assets/toolbar/plotChartPlot.png')" click="plotEditorPopup.popUpOpen = !plotEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="plotEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="plotEditorPanel" arrowPosition="top" title="Plot Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.plotColor}" selectedAlpha="@{hostComponent.model.plotAlpha}" />
-				<s:ButtonBar id="myButtonBar" requireSelection="true" selectedIndex="@{hostComponent.model.plotShapeID}" change="PlotShapeChangeHandler(event)" width="250"> 
-					<mx:ArrayCollection> 
-						<fx:String>Cir</fx:String> 
-						<fx:String>Dmd</fx:String> 
-						<fx:String>Box</fx:String> 
-						<fx:String>Tri</fx:String> 
-						<fx:String>Crs</fx:String> 
-					</mx:ArrayCollection> 
-				</s:ButtonBar>
-				<s:HGroup width="100%">
-					<s:Label text="Size:" color="0xffffff" />
-					<s:HSlider id="plotRadius" minimum="1" maximum="30" value="@{hostComponent.model.plotRadius}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
-	</s:Group>
-	<s:Group>
 		<clg:SharedEditorPart skinClass="Collage.Clip.Skins.VerticalAxisEditor" model="{hostComponent.model}" />
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="H-Axis" image="@Embed('/Assets/toolbar/plotChartHAxis.png')" click="hAxisEditorPopup.popUpOpen = !hAxisEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="hAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="H-Axis" image="@Embed('/Assets/toolbar/plotChartHAxis.png')" click="hAxisEditorPopup.displayPopUp = !hAxisEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="hAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="hAxisEditorPanel" arrowPosition="top" title="Axis Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisColor}" selectedAlpha="@{hostComponent.model.hAxisAlpha}" />
 				<s:HGroup width="100%">
@@ -72,11 +51,11 @@
 					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.hAxisLabelGap}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.displayPopUp = !gridEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="gridEditorPanel" arrowPosition="top" title="Text Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.gridColor}" selectedAlpha="@{hostComponent.model.gridAlpha}" />
 				<s:ButtonBar id="gridDirectionBar" requireSelection="true" selectedItem="@{hostComponent.model.gridDirection}" width="250"> 
@@ -92,6 +71,6 @@
 					<s:HSlider id="gridWeight" minimum="0" maximum="15" snapInterval="1" value="@{hostComponent.model.gridWeight}" liveDragging="true" width="100%" />
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 </s:Skin>

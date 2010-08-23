@@ -40,8 +40,8 @@
 		<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.displayPopUp = !gridEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="gridEditorPanel" arrowPosition="top" title="Text Color">
 				<ep:GradientSelector id="gradientSelector" verticalCenter="0" horizontalCenter="0" selectedColors="@{hostComponent.model.selectedColors}" />
 				<s:Label text="Horizontal Alignment:" color="0xffffff" />
@@ -71,7 +71,7 @@
 					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.maxSize}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 	
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />

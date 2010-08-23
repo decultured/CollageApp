@@ -7,8 +7,8 @@
 	<fx:Script><![CDATA[
 		[Bindable]public var viewObject:Object;
 	]]></fx:Script>
-	<ep:ImageButton text="PartEditor" image="@Embed('/Assets/toolbar/multiseriesparts.png')" click="partEditorPopup.popUpOpen = !partEditorPopup.popUpOpen;" />
-	<ep:AutoPopUpAnchor id="partEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+	<ep:ImageButton text="PartEditor" image="@Embed('/Assets/toolbar/multiseriesparts.png')" click="partEditorPopup.displayPopUp = !partEditorPopup.displayPopUp;" />
+	<ep:StatefulPopUpAnchor id="partEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 		<ep:CalloutPanel id="partEditorPanel" arrowPosition="top" title="Chart Parts">
 			<s:List id="partsList"
 					requireSelection="false"
@@ -142,5 +142,5 @@
 				<s:Button click="AddScatter()" label="Add Scatter" enabled="{viewObject.series.length &lt; 10}"/>
 			</s:HGroup>
 		</ep:CalloutPanel>
-	</ep:AutoPopUpAnchor>
+	</ep:StatefulPopUpAnchor>
 </s:Group>

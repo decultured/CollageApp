@@ -83,7 +83,7 @@
 		
 		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
 			editPage.AddClipByType(event.item.componentType);
-			backgroundEditorPopup.popUpOpen = false;
+			backgroundEditorPopup.displayPopUp = false;
 		}
 
 	]]></fx:Script>
@@ -227,7 +227,7 @@
 	<clgapp:CollageSideBar id="collageSideBar" appClass="{hostComponent}" right="0" top="{toolbarContainer.height}" bottom="{appStatusBar.height}" skinClass="Collage.Application.Skins.CollageSideBarSkin" />
 
 	<s:Group bottom="{appStatusBar.height + 20}" left="10">
-		<s:Graphic click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" toolTip="Select a Component">
+		<s:Graphic click="backgroundEditorPopup.displayPopUp = !backgroundEditorPopup.displayPopUp;" toolTip="Select a Component">
 			<s:Ellipse height="30" width="30" x="0" y="0">
 				<s:fill>
 					<s:SolidColor alpha="0.5"/>
@@ -253,7 +253,7 @@
 				</s:Line>
 			</s:Group>
 		</s:Graphic>
-		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="above" enabled="true" bottom="32">
+		<ep:StatefulPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="above" enabled="true" bottom="32">
 			<ep:CalloutPanel id="backgroundEditorPanel" arrowPosition="bottom" title="Components">
 				<s:List id="componentList" initialize="componentList_Init()" dataProvider="{arrComponentList}" itemRenderer="com.endlesspaths.skins.TiledImageItemRenderer" contentBackgroundAlpha="0.0" color="#FFFFFF" borderVisible="false" width="100%">
 					<s:layout>
@@ -261,7 +261,7 @@
 					</s:layout>
 				</s:List>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 	
 	<s:HGroup visible="{hostComponent.pageManager.numPages > 1}" bottom="{appStatusBar.height + 20}" right="{collageSideBar.width + 20}" >
