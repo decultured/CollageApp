@@ -26,51 +26,9 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
-	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
+	<clg:SharedEditorPart skinClass="Collage.Clip.Skins.DataWizardEditor" model="{hostComponent.model}" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
-	<s:Group>
-		<clg:SharedEditorPart skinClass="Collage.Clip.Skins.VerticalAxisEditor" model="{hostComponent.model}" />
-	</s:Group>
-	<s:Group>
-		<ep:ImageButton text="H-Axis" image="@Embed('/Assets/toolbar/plotChartHAxis.png')" click="hAxisEditorPopup.displayPopUp = !hAxisEditorPopup.displayPopUp;" />
-		<ep:StatefulPopUpAnchor id="hAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="hAxisEditorPanel" arrowPosition="top" title="Axis Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisColor}" selectedAlpha="@{hostComponent.model.hAxisAlpha}" />
-				<s:HGroup width="100%">
-					<s:Label text="Axis Weight:" color="0xffffff" />
-					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.hAxisWeight}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-				<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisLabelColor}" selectedAlpha="@{hostComponent.model.hAxisLabelAlpha}" />
-				<s:HGroup width="100%">
-					<s:Label text="Label Size:" color="0xffffff" />
-					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.hAxisLabelSize}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-				<s:HGroup width="100%">
-					<s:Label text="Label Gap:" color="0xffffff" />
-					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.hAxisLabelGap}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-			</ep:CalloutPanel>
-		</ep:StatefulPopUpAnchor>
-	</s:Group>
-	<s:Group>
-		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.displayPopUp = !gridEditorPopup.displayPopUp;" />
-		<ep:StatefulPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="gridEditorPanel" arrowPosition="top" title="Text Color">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.gridColor}" selectedAlpha="@{hostComponent.model.gridAlpha}" />
-				<s:ButtonBar id="gridDirectionBar" requireSelection="true" selectedItem="@{hostComponent.model.gridDirection}" width="250"> 
-					<mx:ArrayCollection> 
-						<fx:String>both</fx:String> 
-						<fx:String>horizontal</fx:String> 
-						<fx:String>vertical</fx:String> 
-						<fx:String>none</fx:String> 
-					</mx:ArrayCollection> 
-				</s:ButtonBar>
-				<s:HGroup width="100%">
-					<s:Label text="Grid Weight:" color="0xffffff" />
-					<s:HSlider id="gridWeight" minimum="0" maximum="15" snapInterval="1" value="@{hostComponent.model.gridWeight}" liveDragging="true" width="100%" />
-				</s:HGroup>
-			</ep:CalloutPanel>
-		</ep:StatefulPopUpAnchor>
-	</s:Group>
+	<clg:SharedEditorPart skinClass="Collage.Clip.Skins.VerticalAxisEditor" model="{hostComponent.model}" />
+	<clg:SharedEditorPart skinClass="Collage.Clip.Skins.HorizontalAxisEditor" model="{hostComponent.model}" />
+	<clg:SharedEditorPart skinClass="Collage.Clip.Skins.GridEditor" model="{hostComponent.model}" />
 </s:Skin>
