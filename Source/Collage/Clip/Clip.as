@@ -20,6 +20,7 @@ package Collage.Clip
 		[Bindable] public var selected:Boolean = false;
 		[Bindable] public var isLocked:Boolean = false;
 		[Bindable] public var isEditing:Boolean = false;
+		[Bindable] public var isInEditor:Boolean = false;
 
 		[Bindable][Savable] public var x:Number = 10;
 		[Bindable][Savable] public var y:Number  = 10;

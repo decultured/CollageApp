@@ -2,15 +2,15 @@
 <s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		xmlns:mx="library://ns.adobe.com/flex/mx"
- 	    xmlns:clg="Collage.Clip.*"
-        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+		xmlns:clg="Collage.Clip.*"
+		xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
 		alpha.disabled="0.5"
 		creationComplete="CreationCompleteHandler(event)">
-    <fx:Metadata>
-        <![CDATA[ 
-        	[HostComponent("Collage.Clip.ClipView")]
-        ]]>
-    </fx:Metadata> 
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("Collage.Clip.ClipView")]
+		]]>
+	</fx:Metadata> 
 	<fx:Script><![CDATA[
 		import mx.events.PropertyChangeEvent;
 		import mx.events.FlexEvent;
@@ -98,11 +98,11 @@
 			}
 		}
 	]]></fx:Script>
-    <s:states>
-        <s:State name="normal" />
-        <s:State name="disabled" />
-        <s:State name="editing" enterState="{EnterEditState(event);}"/>
-    </s:states>
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+		<s:State name="editing" enterState="{EnterEditState(event);}"/>
+	</s:states>
 	<fx:Declarations>
 		<mx:DateTimeAxis id="datetime_haxis" direction="normal" disabledDays="[]" />
 		<mx:LinearAxis id="numeric_haxis" baseAtZero="false" />
@@ -115,58 +115,60 @@
 			<mx:verticalAxis>
 				<mx:LinearAxis id="vaxis" baseAtZero="false"/>
 			</mx:verticalAxis>			
-		    <mx:verticalAxisRenderers>
-		        <mx:AxisRenderer
-		            axis="{vaxis}"
+			<mx:verticalAxisRenderers>
+				<mx:AxisRenderer
+					axis="{vaxis}"
 					minorTickPlacement="none"
-		            tickPlacement="none"
-		            showLine="{hostComponent.model.vAxisVisible}"
+					tickPlacement="none"
+					showLine="{hostComponent.model.vAxisVisible}"
+					showLabels="{hostComponent.model.vAxisLabelVisible}"
 					fontSize="{hostComponent.model.vAxisLabelSize}"
 					alpha="{hostComponent.model.vAxisLabelAlpha}"
 					color="{hostComponent.model.vAxisLabelColor}"
-		            labelGap="{hostComponent.model.vAxisLabelGap}" >
-		            <mx:axisStroke>
-					    <s:SolidColorStroke id="vAxisStroke" color="{hostComponent.model.vAxisColor}" weight="{hostComponent.model.vAxisWeight}" alpha="{hostComponent.model.vAxisAlpha}" caps="none"/>
+					labelGap="{hostComponent.model.vAxisLabelGap}" >
+					<mx:axisStroke>
+						<s:SolidColorStroke id="vAxisStroke" color="{hostComponent.model.vAxisColor}" weight="{hostComponent.model.vAxisWeight}" alpha="{hostComponent.model.vAxisAlpha}" caps="none"/>
 					</mx:axisStroke>
 				</mx:AxisRenderer>
-		    </mx:verticalAxisRenderers>
-		    <mx:horizontalAxisRenderers>
-		        <mx:AxisRenderer
+			</mx:verticalAxisRenderers>
+			<mx:horizontalAxisRenderers>
+				<mx:AxisRenderer
 					id="horizontalAxisRenderer"
 					axis="{datetime_haxis}"
-		            showLine="{hostComponent.model.hAxisVisible}"
+					showLine="{hostComponent.model.hAxisVisible}"
+					showLabels="{hostComponent.model.hAxisLabelVisible}"
 					minorTickPlacement="none"
-		            tickPlacement="none"
+					tickPlacement="none"
 					fontSize="{hostComponent.model.hAxisLabelSize}"
 					alpha="{hostComponent.model.hAxisLabelAlpha}"
 					color="{hostComponent.model.hAxisLabelColor}"
-		            labelGap="{hostComponent.model.hAxisLabelGap}">
+					labelGap="{hostComponent.model.hAxisLabelGap}">
 					<mx:axisStroke>
 						<s:SolidColorStroke id="hAxisStroke" color="{hostComponent.model.hAxisColor}" weight="{hostComponent.model.hAxisWeight}" alpha="{hostComponent.model.hAxisAlpha}" caps="none"/>
 					</mx:axisStroke>
 				</mx:AxisRenderer>
-		    </mx:horizontalAxisRenderers>
-		    <mx:backgroundElements>
-		        <mx:GridLines
+			</mx:horizontalAxisRenderers>
+			<mx:backgroundElements>
+				<mx:GridLines
 					id="gridLines"
 					verticalShowOrigin="{hostComponent.model.gridHOriginVisible}"
-		 			gridDirection="{hostComponent.model.gridDirection}"
+					gridDirection="{hostComponent.model.gridDirection}"
 					horizontalShowOrigin="{hostComponent.model.gridHOriginVisible}"
 					visible="{hostComponent.model.gridVisible}" >
-		            <mx:horizontalStroke>
-					    <s:SolidColorStroke color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
+					<mx:horizontalStroke>
+						<s:SolidColorStroke color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
 					</mx:horizontalStroke>
-		            <mx:verticalStroke>
-					    <s:SolidColorStroke color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
+					<mx:verticalStroke>
+						<s:SolidColorStroke color="{hostComponent.model.gridColor}" weight="{hostComponent.model.gridWeight}" alpha="{hostComponent.model.gridAlpha}" caps="none"/>
 					</mx:verticalStroke>
 					<mx:verticalOriginStroke>
-					    <s:SolidColorStroke id="gridVOriginStroke" color="{hostComponent.model.gridVOriginColor}" weight="{hostComponent.model.gridVOriginWeight}" alpha="{hostComponent.model.gridVOriginAlpha}" caps="none"/>
+						<s:SolidColorStroke id="gridVOriginStroke" color="{hostComponent.model.gridVOriginColor}" weight="{hostComponent.model.gridVOriginWeight}" alpha="{hostComponent.model.gridVOriginAlpha}" caps="none"/>
 					</mx:verticalOriginStroke>
 					<mx:horizontalOriginStroke>
-					    <s:SolidColorStroke id="gridHOriginStroke" color="{hostComponent.model.gridHOriginColor}" weight="{hostComponent.model.gridHOriginWeight}" alpha="{hostComponent.model.gridHOriginAlpha}" caps="none"/>
+						<s:SolidColorStroke id="gridHOriginStroke" color="{hostComponent.model.gridHOriginColor}" weight="{hostComponent.model.gridHOriginWeight}" alpha="{hostComponent.model.gridHOriginAlpha}" caps="none"/>
 					</mx:horizontalOriginStroke>
 				</mx:GridLines>
-		    </mx:backgroundElements>
+			</mx:backgroundElements>
 		</mx:LineChart>
 	</clg:ClipBackground>
 </s:Skin>
