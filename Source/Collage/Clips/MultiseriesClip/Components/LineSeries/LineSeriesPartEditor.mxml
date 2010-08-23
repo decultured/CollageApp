@@ -22,8 +22,8 @@
 		<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Line" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="lineEditorPopup.popUpOpen = !lineEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="lineEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Line" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="lineEditorPopup.displayPopUp = !lineEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="lineEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="lineEditorPanel" arrowPosition="top" title="Line Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.lineColor}" selectedAlpha="@{hostComponent.model.lineAlpha}" />
 				<s:HGroup width="100%">
@@ -41,6 +41,6 @@
 					</mx:ArrayCollection> 
 				</s:DropDownList>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 </s:Skin>

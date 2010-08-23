@@ -57,8 +57,8 @@
 		
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="H-Axis" image="@Embed('/Assets/toolbar/lineChartHAxis.png')" click="hAxisEditorPopup.popUpOpen = !hAxisEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="hAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="H-Axis" image="@Embed('/Assets/toolbar/lineChartHAxis.png')" click="hAxisEditorPopup.displayPopUp = !hAxisEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="hAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="hAxisEditorPanel" arrowPosition="top" title="Axis Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisColor}" selectedAlpha="@{hostComponent.model.hAxisAlpha}" />
 				<s:HGroup width="100%">
@@ -76,11 +76,11 @@
 					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.hAxisLabelGap}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.popUpOpen = !gridEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Grid" image="@Embed('/Assets/toolbar/lineChartGrid.png')" click="gridEditorPopup.displayPopUp = !gridEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="gridEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="gridEditorPanel" arrowPosition="top" title="Text Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.gridColor}" selectedAlpha="@{hostComponent.model.gridAlpha}" />
 				<s:ButtonBar id="gridDirectionBar" requireSelection="true" selectedItem="@{hostComponent.model.gridDirection}" width="250"> 
@@ -96,6 +96,6 @@
 					<s:HSlider id="gridWeight" minimum="0" maximum="15" snapInterval="1" value="@{hostComponent.model.gridWeight}" liveDragging="true" width="100%" />
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 </s:Skin>

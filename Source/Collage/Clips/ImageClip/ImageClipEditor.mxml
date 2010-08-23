@@ -17,11 +17,11 @@
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
 	<s:Group>
-		<ep:ImageButton text="Background" image="@Embed('/Assets/icons/fill-color.png')" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Background" image="@Embed('/Assets/icons/fill-color.png')" click="backgroundEditorPopup.displayPopUp = !backgroundEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="backgroundEditorPanel" arrowPosition="top" title="Background">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.backgroundColor}" selectedAlpha="@{hostComponent.model.backgroundAlpha}" />
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 </s:Skin>

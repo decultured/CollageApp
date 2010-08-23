@@ -15,34 +15,30 @@
         	[HostComponent("Collage.Clip.SharedEditorPart")]
         ]]>
     </fx:Metadata> 
-	
-	<ep:ImageButton text="V-Axis" image="@Embed('/Assets/toolbar/plotChartVAxis.png')" click="vAxisEditorPopup.popUpOpen = !vAxisEditorPopup.popUpOpen;" />
-	<ep:AutoPopUpAnchor id="vAxisEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-		<ep:CalloutPanel id="vAxisEditorPanel" arrowPosition="top" title="Vertical Axis Properties">
-			<s:CheckBox label="Show axis line" selected="@{hostComponent.model.vAxisVisible}" color="0xffffff" />
-			<s:VGroup visible="{hostComponent.model.vAxisVisible}" includeInLayout="{hostComponent.model.vAxisVisible}">
-				<ep:ColorSwatchAlphaSelector 
-					selectedColor="@{hostComponent.model.vAxisColor}" 
-					selectedAlpha="@{hostComponent.model.vAxisAlpha}" />
-				
-				<s:HGroup width="100%">
-					<s:Label text="Axis Weight:" color="0xffffff" />
-					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.vAxisWeight}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-			</s:VGroup>
-			<s:CheckBox label="Show axis labels" selected="@{hostComponent.model.vAxisLabelVisible}" color="0xffffff" />
-			<s:VGroup visible="{hostComponent.model.vAxisLabelVisible}" includeInLayout="{hostComponent.model.vAxisLabelVisible}">
-				<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisLabelColor}" selectedAlpha="@{hostComponent.model.vAxisLabelAlpha}" />
-				<s:HGroup width="100%">
-					<s:Label text="Label Size:" color="0xffffff" />
-					<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.vAxisLabelSize}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-				<s:HGroup width="100%">
-					<s:Label text="Label Gap:" color="0xffffff" />
-					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.vAxisLabelGap}" liveDragging="true" width="100%"/>
-				</s:HGroup>
-			</s:VGroup>
-		</ep:CalloutPanel>
-	</ep:AutoPopUpAnchor>
+	<ep:PopUpButton label="Y Axis" title="Y Axis Properties" image="@Embed('/Assets/toolbar/plotChartVAxis.png')">
+		<s:CheckBox label="Show axis line" selected="@{hostComponent.model.vAxisVisible}" color="0xffffff" />
+		<s:VGroup visible="{hostComponent.model.vAxisVisible}" includeInLayout="{hostComponent.model.vAxisVisible}">
+			<ep:ColorSwatchAlphaSelector 
+				selectedColor="@{hostComponent.model.vAxisColor}" 
+				selectedAlpha="@{hostComponent.model.vAxisAlpha}" />
+			
+			<s:HGroup width="100%">
+				<s:Label text="Axis Weight:" color="0xffffff" />
+				<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.vAxisWeight}" liveDragging="true" width="100%"/>
+			</s:HGroup>
+		</s:VGroup>
+		<s:CheckBox label="Show axis labels" selected="@{hostComponent.model.vAxisLabelVisible}" color="0xffffff" />
+		<s:VGroup visible="{hostComponent.model.vAxisLabelVisible}" includeInLayout="{hostComponent.model.vAxisLabelVisible}">
+			<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
+			<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.vAxisLabelColor}" selectedAlpha="@{hostComponent.model.vAxisLabelAlpha}" />
+			<s:HGroup width="100%">
+				<s:Label text="Label Size:" color="0xffffff" />
+				<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.vAxisLabelSize}" liveDragging="true" width="100%"/>
+			</s:HGroup>
+			<s:HGroup width="100%">
+				<s:Label text="Label Gap:" color="0xffffff" />
+				<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.vAxisLabelGap}" liveDragging="true" width="100%"/>
+			</s:HGroup>
+		</s:VGroup>
+	</ep:PopUpButton>
 </s:Skin>

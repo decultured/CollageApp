@@ -21,8 +21,8 @@
 	<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
-		<ep:ImageButton text="Sections" image="@Embed('/Assets/toolbar/pieChartSections.png')" click="sectionsEditorPopup.popUpOpen = !sectionsEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="sectionsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Sections" image="@Embed('/Assets/toolbar/pieChartSections.png')" click="sectionsEditorPopup.displayPopUp = !sectionsEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="sectionsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="sectionsEditorPanel" arrowPosition="top" title="Sections">
 				<s:HGroup width="100%">
 					<s:Label text="Inside Radius:" color="0xffffff" />
@@ -33,11 +33,11 @@
 					<s:HSlider minimum="0" maximum="1" snapInterval="0" value="@{hostComponent.model.explodeRadius}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Borders" image="@Embed('/Assets/toolbar/pieChartBorders.png')" click="bordersEditorPopup.popUpOpen = !bordersEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="bordersEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Borders" image="@Embed('/Assets/toolbar/pieChartBorders.png')" click="bordersEditorPopup.displayPopUp = !bordersEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="bordersEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="bordersEditorPanel" arrowPosition="top" title="Radial Borders">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.radialColor}" selectedAlpha="@{hostComponent.model.radialAlpha}" />
 				<s:HGroup width="100%">
@@ -51,11 +51,11 @@
 					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.pieBorderWeight}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 	<s:Group>
-		<ep:ImageButton text="Labels" image="@Embed('/Assets/toolbar/pieChartLabels.png')" click="labelsEditorPopup.popUpOpen = !labelsEditorPopup.popUpOpen;" />
-		<ep:AutoPopUpAnchor id="labelsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+		<ep:ImageButton text="Labels" image="@Embed('/Assets/toolbar/pieChartLabels.png')" click="labelsEditorPopup.displayPopUp = !labelsEditorPopup.displayPopUp;" />
+		<ep:StatefulPopUpAnchor id="labelsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
 			<ep:CalloutPanel id="labelsEditorPanel" arrowPosition="top" title="Label Color">
 				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.labelColor}" selectedAlpha="@{hostComponent.model.labelAlpha}" />
 				<s:HGroup width="100%">
@@ -78,6 +78,6 @@
 					<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.calloutWeight}" liveDragging="true" width="100%"/>
 				</s:HGroup>
 			</ep:CalloutPanel>
-		</ep:AutoPopUpAnchor>
+		</ep:StatefulPopUpAnchor>
 	</s:Group>
 </s:Skin>
