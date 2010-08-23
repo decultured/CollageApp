@@ -1,0 +1,3 @@
+*.png -crlf -diff -merge
+*.psd -crlf -diff -merge
+*.swc -crlf -diff -merge

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:clg="Collage.Clip.*"
+    	xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+ 		 xmlns:ep="com.endlesspaths.components.*">
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+        <s:State name="editing" />
+    </s:states>
+    <fx:Metadata>
+        <![CDATA[ 
+        	[HostComponent("Collage.Clip.SharedEditorPart")]
+        ]]>
+    </fx:Metadata> 
+	<ep:PopUpButton label="X Axis" title="X Axis Properties" image="@Embed('/Assets/toolbar/plotChartHAxis.png')">
+		<s:CheckBox label="Show axis line" selected="@{hostComponent.model.hAxisVisible}" color="0xffffff" />
+		<s:VGroup visible="{hostComponent.model.hAxisVisible}" includeInLayout="{hostComponent.model.hAxisVisible}">
+			<ep:ColorSwatchAlphaSelector 
+				selectedColor="@{hostComponent.model.hAxisColor}" 
+				selectedAlpha="@{hostComponent.model.hAxisAlpha}" />
+			
+			<s:HGroup width="100%">
+				<s:Label text="Axis Weight:" color="0xffffff" />
+				<s:HSlider minimum="0" maximum="16" value="@{hostComponent.model.hAxisWeight}" liveDragging="true" width="100%"/>
+			</s:HGroup>
+		</s:VGroup>
+		<s:CheckBox label="Show axis labels" selected="@{hostComponent.model.hAxisLabelVisible}" color="0xffffff" />
+		<s:VGroup visible="{hostComponent.model.hAxisLabelVisible}" includeInLayout="{hostComponent.model.hAxisLabelVisible}">
+			<s:Label text="Horizontal Axis Labels" color="0xffffff" textAlign="center" width="100%"/>
+			<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hAxisLabelColor}" selectedAlpha="@{hostComponent.model.hAxisLabelAlpha}" />
+			<s:HGroup width="100%">
+				<s:Label text="Label Size:" color="0xffffff" />
+				<s:HSlider minimum="6" maximum="72" value="@{hostComponent.model.hAxisLabelSize}" liveDragging="true" width="100%"/>
+			</s:HGroup>
+			<s:HGroup width="100%">
+				<s:Label text="Label Gap:" color="0xffffff" />
+				<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.hAxisLabelGap}" liveDragging="true" width="100%"/>
+			</s:HGroup>
+		</s:VGroup>
+	</ep:PopUpButton>
+</s:Skin>

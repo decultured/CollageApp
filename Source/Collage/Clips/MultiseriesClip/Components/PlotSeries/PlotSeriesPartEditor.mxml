@@ -18,9 +18,7 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle" gap="7"/>
 	</s:layout>
-	<s:Group>
-		<ep:ImageButton text="Data" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenDataWizard()" />
-	</s:Group>
+	<clg:SharedEditorPart skinClass="Collage.Clip.Skins.DataWizardEditor" model="{hostComponent.model}" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
 		<ep:ImageButton text="Line" image="@Embed('/Assets/toolbar/lineChartLine.png')" click="lineEditorPopup.displayPopUp = !lineEditorPopup.displayPopUp;" />
