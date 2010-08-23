@@ -19,10 +19,26 @@
 	</s:layout>
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
-		<ep:ImageButton text="Background" image="@Embed('/Assets/icons/fill-color.png')" click="backgroundEditorPopup.popUpOpen = !backgroundEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
-		<ep:AutoPopUpAnchor id="backgroundEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
-			<ep:CalloutPanel id="backgroundEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Background">
-				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.backgroundColor}" selectedAlpha="@{hostComponent.model.backgroundAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+		<ep:ImageButton text="Borders" image="@Embed('/Assets/icons/fill-color.png')" click="borderEditorPopup.popUpOpen = !borderEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="borderEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="borderEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Borders">
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.objectBorderColor}" selectedAlpha="@{hostComponent.model.objectBorderAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:HGroup width="100%">
+					<s:Label text="Border Size:" color="0xffffff" width="85"/>
+					<s:HSlider minimum="0" maximum="72" value="@{hostComponent.model.objectBorderWeight}" liveDragging="true" width="100%"/>
+				</s:HGroup>
+			</ep:CalloutPanel>
+		</ep:AutoPopUpAnchor>
+	</s:Group>
+	<s:Group>
+		<ep:ImageButton text="Fills" image="@Embed('/Assets/icons/fill-color.png')" click="fillsEditorPopup.popUpOpen = !fillsEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
+		<ep:AutoPopUpAnchor id="fillsEditorPopup" displayPopUp="false" popUpPosition="below" enabled="true" top="48">
+			<ep:CalloutPanel id="fillsEditorPanel" skinClass="com.endlesspaths.skins.CalloutPanelBlackHUDSkin" arrowPosition="top" title="Borders">
+				<ep:GradientSelector id="gradientSelector" verticalCenter="0" horizontalCenter="0" selectedColors="@{hostComponent.model.colorGradient}" height="45"/>
+				<s:Label text="Default Color (No DAta):" color="0xffffff" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.defaultFillColor}" selectedAlpha="@{hostComponent.model.defaultFillAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
+				<s:Label text="Mouse Hover Color:" color="0xffffff" />
+				<ep:ColorSwatchAlphaSelector selectedColor="@{hostComponent.model.hoverFillColor}" selectedAlpha="@{hostComponent.model.hoverFillAlpha}" skinClass="com.endlesspaths.skins.ColorSwatchAlphaSelectorSkin" />
 			</ep:CalloutPanel>
 		</ep:AutoPopUpAnchor>
 	</s:Group>
