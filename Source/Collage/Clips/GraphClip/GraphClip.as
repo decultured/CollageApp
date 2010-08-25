@@ -77,6 +77,9 @@ package Collage.Clips.GraphClip
 			newQFD.description = "This field defines the id of the node a link connects to.";
 			newQFD.AddAllowedType("numeric");
 			_EdgesQueryDefinition.AddFieldDefinition(newQFD);
+			
+			nodesQuery.updateInterval = 0;
+			edgesQuery.updateInterval = 0;
 		}
 		
 		protected function ProcessResults():void

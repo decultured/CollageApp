@@ -63,7 +63,7 @@ package Collage.Clips.BubbleChartClip
 		public function BubbleChartClip()
 		{
 			super(BubbleChartClipSkin, BubbleChartClipEditor);
-			type = "scatterplot";
+			type = "bubblechart";
 			rotatable = false;
 
 			_QueryDefinition.queryTitle = "Bubble Chart";
