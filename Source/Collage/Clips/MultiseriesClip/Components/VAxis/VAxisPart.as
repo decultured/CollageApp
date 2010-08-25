@@ -13,6 +13,8 @@ package Collage.Clips.MultiseriesClip.Components.VAxis
 		[Bindable][Savable] public var vAxisColor:Number = 0xAAAAAA;
 		[Bindable][Savable] public var vAxisAlpha:Number = 1.0;
 		[Bindable][Savable] public var vAxisWeight:Number = 2;
+		
+		[Bindable][Savable] public var vAxisLabelVisible:Boolean = true;
 		[Bindable][Savable] public var vAxisLabelSize:Number = 10;
 		[Bindable][Savable] public var vAxisLabelColor:Number = 0x333333;
 		[Bindable][Savable] public var vAxisLabelAlpha:Number = 1;

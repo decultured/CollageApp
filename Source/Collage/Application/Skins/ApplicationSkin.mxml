@@ -82,7 +82,7 @@
 		}
 		
 		protected function componentList_itemClickHandler(event:ItemClickEvent):void {
-			editPage.AddClipByType(event.item.componentType);
+			editPage.AddClipByType(event.item.componentType, true);
 			backgroundEditorPopup.displayPopUp = false;
 		}
 

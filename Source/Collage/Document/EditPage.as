@@ -236,13 +236,10 @@ package Collage.Document
 				return null;
 			}
 			
+			newClip.isInEditor = true;
+			
 			AddObjectHandles(newClip);
 			return newClip;
-		}
-		
-		public override function AddClipByType(type:String):Clip
-		{
-			return AddClip(ClipFactory.CreateByType(type));
 		}
 		
 		public override function DeleteClip(_clip:Clip):void

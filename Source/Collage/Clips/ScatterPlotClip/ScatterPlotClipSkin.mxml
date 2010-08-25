@@ -107,6 +107,7 @@
 					id="horizontalAxisRenderer"
 					axis="{numeric_haxis}"
 					showLine="{hostComponent.model.hAxisVisible}"
+					showLabels="{hostComponent.model.hAxisLabelVisible}"
 					minorTickPlacement="none"
 					tickPlacement="none"
 					fontSize="{hostComponent.model.hAxisLabelSize}"

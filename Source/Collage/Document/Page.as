@@ -64,9 +64,15 @@ package Collage.Document
 			return null;
 		}
 
-		public function AddClipByType(type:String):Clip
+		public function AddClipByType(type:String, isUserInitiated:Boolean = false):Clip
 		{
-			return AddClip(ClipFactory.CreateByType(type));
+			var clip:Clip = AddClip(ClipFactory.CreateByType(type));
+			
+			if(isUserInitiated && clip is DataClip) {
+				(clip as DataClip).OpenDataWizard();
+			}
+			
+			return clip;
 		}
 		
 		public function DeleteClip(clip:Clip):void
