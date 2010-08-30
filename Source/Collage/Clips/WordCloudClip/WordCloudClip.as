@@ -103,8 +103,6 @@ package Collage.Clips.WordCloudClip
 			var change:CollectionEvent = new CollectionEvent(CollectionEvent.COLLECTION_CHANGE);
 			change.kind = CollectionEventKind.RESET;
 			query.resultRows.dispatchEvent(change);
-			
-			Logger.LogDebug('Collection Updated!!!!!!!!1');
 		}
 		
 		protected override function ModelChanged(event:PropertyChangeEvent):void
