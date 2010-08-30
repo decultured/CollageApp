@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:LineSeries
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark" 
+   	xmlns:mx="library://ns.adobe.com/flex/mx"
+	xmlns:clg="Collage.Clip.*"
+	xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	dataProvider="{model.query.resultRows}"
+	yField="{model.yAxis}"
+	xField="{model.xAxis}"
+	form="{model.form}"
+	filters="[]"
+	displayName="Values:" >
+	<fx:Script><![CDATA[
+		[Bindable]public var model:LineSeriesPart;
+	]]></fx:Script>
+	<mx:lineStroke>
+		<mx:SolidColorStroke id="linestroke" color="{model.lineColor}" weight="{model.lineWeight}" alpha="{model.lineAlpha}" caps="none"/>
+	</mx:lineStroke>
+</mx:LineSeries>

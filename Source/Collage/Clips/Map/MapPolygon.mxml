@@ -35,7 +35,10 @@
 
 		[Bindable]public var clip:MapClip;
 		[Bindable]public var pathData:String;
+		[Bindable]public var hasValue:Boolean = false;
 		[Bindable]public var value:Number = 0;
+		[Bindable]public var fillColor:Number = 0;
+		[Bindable]public var fillAlpha:Number = 1;
 		[Bindable]public var mouseIsOver:Boolean = false;
 		[Bindable]public var polyBorderStroke:IStroke;
 
@@ -83,7 +86,7 @@
 	]]></fx:Script>
 	<s:Path x="0" y="0" data="{pathData}" stroke="{polyBorderStroke}" >
 		<s:fill>
-			<s:SolidColor color="{(mouseIsOver)?clip.hoverFillColor:clip.defaultFillColor}" alpha="{(mouseIsOver)?clip.hoverFillAlpha:clip.defaultFillAlpha}"/>
+			<s:SolidColor color="{(mouseIsOver)?clip.hoverFillColor:fillColor}" alpha="{(mouseIsOver)?clip.hoverFillAlpha:fillAlpha}"/>
 		</s:fill>
 	</s:Path>
 </s:SkinnableContainer>

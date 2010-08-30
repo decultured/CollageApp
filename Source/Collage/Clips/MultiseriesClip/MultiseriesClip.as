@@ -15,7 +15,6 @@ package Collage.Clips.MultiseriesClip
 		[Bindable]public var seriesSelectedIndex:int = -1;
 		[Bindable]public var series:ArrayList = new ArrayList();
 		[Bindable]public var seriesViews:ArrayList = new ArrayList();
-
 		[Bindable]public var vAxis:ArrayList = new ArrayList();
 		
 		// Grid Options

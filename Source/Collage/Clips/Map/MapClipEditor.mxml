@@ -17,6 +17,8 @@
 	<s:layout>
 		<s:HorizontalLayout verticalAlign="middle"/>
 	</s:layout>
+	<clg:SharedEditorPart skinClass="Collage.Clip.Skins.DataWizardEditor" model="{hostComponent.model}" />
+	<ep:ImageButton text="Map" image="@Embed('/Assets/icons/getdata.png')" click="hostComponent.model.OpenFromCloud()" />
 	<clg:ClipBackgroundEditor viewObject="{hostComponent.model}" />
 	<s:Group>
 		<ep:ImageButton text="Borders" image="@Embed('/Assets/icons/fill-color.png')" click="borderEditorPopup.popUpOpen = !borderEditorPopup.popUpOpen;" skinClass="com.endlesspaths.skins.ImageButtonPlain" />
