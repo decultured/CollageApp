@@ -23,7 +23,6 @@
 			<arg line="-library-path+=${lib.dir}as3base64.swc"/>
 			<arg line="-library-path+=${lib.dir}ObjectHandles-2.0.0008_FLEX4.swc"/>
 			<arg line="-library-path+=${lib.dir}endlesspathsflex4com.swc"/>
-			<arg line="-include-file ${src.dir}defaults.css ${src.dir}defaults.css"/>
 			<arg line="-keep-as3-metadata+=Theme,Savable"/>
 			<arg line="-keep-all-type-selectors=true" />
 			<arg line="-debug=true" />

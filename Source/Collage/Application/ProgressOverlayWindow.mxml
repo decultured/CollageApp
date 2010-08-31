@@ -1,67 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					  xmlns:s="library://ns.adobe.com/flex/spark" 
-					  xmlns:mx="library://ns.adobe.com/flex/mx">
+					  xmlns:mx="library://ns.adobe.com/flex/mx" maxWidth="400">
 	<s:layout>
-		<s:HorizontalLayout verticalAlign="middle" gap="5" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
+		<s:HorizontalLayout verticalAlign="top" gap="10" paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
 	
 	<fx:Script>
 		<![CDATA[
-			[Bindable]public var message:String = "Replace this message..."; 
+			import spark.effects.easing.*;
+			
+			[Bindable]public var message:String = "Replace this message...";
+			
+			protected function throbber_creationComplete(event:Event):void {
+				rotateThrobber.play();
+			}
 		]]>
 	</fx:Script>
 	
-	<s:transitions>
-		<s:Transition>
-			<s:Rotate duration="2000" angleFrom="0" angleTo="360" target="throbber" />
-		</s:Transition>
-	</s:transitions>
-	
 	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:Rotate id="rotateThrobber" target="{throbber}" repeatBehavior="loop" repeatCount="0" autoCenterTransform="true" disableLayout="true" angleBy="360" duration="1500" />
 	</fx:Declarations>
-	<s:Graphic id="throbber" width="50" height="50" verticalCenter="0" left="5">
-		<s:Rect height="39" width="9" x="50.2" y="0">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect height="39" width="9" x="50.2" y="70" alpha="0.5">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect height="39" rotation="45" width="9" x="90.055" y="12.781" alpha="0.87">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect height="39" rotation="45" width="9" x="40.558" y="62.278" alpha="0.37">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect height="39" rotation="90" width="9" x="109.2" y="50" alpha="0.75">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect height="39" rotation="90" width="9" x="39.2" y="50" alpha="0.25">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect height="39" rotation="135" width="9" x="96.419" y="89.855" alpha="0.62">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
-		<s:Rect height="39" rotation="135" width="9" x="46.922" y="40.35797" alpha="0.12">
-			<s:fill>
-				<s:SolidColor color="#000000"/>
-			</s:fill>
-		</s:Rect>
+	<s:Graphic id="throbber" creationComplete="throbber_creationComplete(event)" width="60" height="60" verticalCenter="0" left="5" x="30" y="30">
+		<s:BitmapImage source="@Embed('/Assets/throbber.white.png')" smooth="true" />
 	</s:Graphic>
-	<s:Label text="{message}" fontSize="33" verticalCenter="0" left="60"/>
+	<s:Label text="{message}" color="#FFFFFF" fontSize="28" verticalCenter="0" left="60" maxWidth="390"  height="100%"/>
 </s:SkinnableContainer>
