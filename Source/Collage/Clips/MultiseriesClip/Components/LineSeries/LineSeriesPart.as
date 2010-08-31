@@ -3,9 +3,11 @@ package Collage.Clips.MultiseriesClip.Components.LineSeries
 	import Collage.Clip.*;
 	import Collage.DataEngine.*;
 	import Collage.Utilities.Logger.*;
+	import Collage.Clips.MultiseriesClip.Components.VAxis.*;
+	import Collage.Clips.MultiseriesClip.Components.*;
 	import mx.events.PropertyChangeEvent;
 	
-	public class LineSeriesPart extends DataClip
+	public class LineSeriesPart extends SeriesPart
 	{
         // Line Options
 		[Bindable][Savable] public var form:String = "segment";
@@ -18,7 +20,6 @@ package Collage.Clips.MultiseriesClip.Components.LineSeries
 		[Bindable][Savable] public var yAxis:String = "";
 		
 		[Bindable][Saveable] public var yAxisName:String = "";
-		//[Bindable] public var Axis:MultiAxisPart;
 		
 		public var series:LineSeriesPartView = new LineSeriesPartView();
 		
@@ -60,7 +61,6 @@ package Collage.Clips.MultiseriesClip.Components.LineSeries
 				var dataColumn:DataSetColumn = dataSet.GetColumnByID(xAxis);
 				if (dataColumn)
 					xAxisType = dataColumn.datatype;
-				Logger.Log(xAxisType, this);
 			}
 		}
 	}

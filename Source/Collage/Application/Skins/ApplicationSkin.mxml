@@ -16,7 +16,6 @@
 		<s:State name="normal" />
 		<s:State name="disabled" />
 	</s:states>
-
 	<fx:Declarations>
 		<s:BitmapImage id="textPage" source="@Embed('/Assets/components/draw-text.png')" />
 		<s:BitmapImage id="richText" source="@Embed('/Assets/components/text-field.png')" />

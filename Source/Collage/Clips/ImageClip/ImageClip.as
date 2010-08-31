@@ -11,7 +11,7 @@ package Collage.Clips.ImageClip
 		[Bindable][Savable] public var URL:String = null;
 		[Bindable][Savable] public var fileID:String = null;
 		[Bindable][Savable] public var fillMode:String = "scale";
-		
+
 		[Bindable] public var bitData:BitmapData = null;
 		
 		public function ImageClip()

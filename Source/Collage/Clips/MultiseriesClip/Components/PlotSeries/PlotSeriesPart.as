@@ -4,8 +4,9 @@ package Collage.Clips.MultiseriesClip.Components.PlotSeries
 	import Collage.DataEngine.*;
 	import Collage.Utilities.Logger.*;
 	import mx.events.PropertyChangeEvent;
+	import Collage.Clips.MultiseriesClip.Components.*;
 	
-	public class PlotSeriesPart extends DataClip
+	public class PlotSeriesPart extends SeriesPart
 	{
         // Line Options
 		[Bindable][Savable] public var form:String = "segment";

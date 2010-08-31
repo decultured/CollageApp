@@ -8,6 +8,7 @@
 	dataProvider="{model.query.resultRows}"
 	yField="{model.yAxis}"
 	xField="{model.xAxis}"
+	verticalAxis="{model.axis.axis}"
 	form="{model.form}"
 	filters="[]"
 	displayName="Values:" >

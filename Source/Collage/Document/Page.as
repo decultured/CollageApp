@@ -44,7 +44,6 @@ package Collage.Document
 			backgroundColor = 0xffffff;
 			DeleteAllClips();
 			_Clips = new Object();
-			Logger.LogDebug("Page Reset", this);
 		}
 
 		public function ViewResized():void
@@ -57,7 +56,6 @@ package Collage.Document
 			if (clip && !_Clips[clip.UID]) {
 				_Clips[clip.UID] = clip;
 				addElement(clip.view);
-				Logger.LogDebug("Clip Added", clip);
 				return clip;
 			}
 			Logger.LogWarning("Problem Adding Clip", clip);
@@ -78,7 +76,6 @@ package Collage.Document
 		public function DeleteClip(clip:Clip):void
 		{
 			if (clip) {
-				Logger.LogDebug("Clip Deleted", clip);
 				_Clips[clip.UID] = null;
 				removeElement(clip.view);
 			}
@@ -96,7 +93,7 @@ package Collage.Document
 		
 		public function SaveToObject():Object
 		{
-			Logger.LogDebug("PageSaving : " + UID, this);
+			// Logger.LogDebug("PageSaving : " + UID, this);
 			
 			var typeDef:XML = describeType(this);
 			var newObject:Object = new Object();
@@ -122,9 +119,7 @@ package Collage.Document
 		public function LoadFromObject(dataObject:Object):Boolean
 		{
 			New();
-
-			Logger.LogDebug("PageLoading : " + UID, this);
-			
+		
 			if (!dataObject) {
 				Logger.LogError("PageLoading - dataObject was NULL", this);
 				return false;
@@ -156,7 +151,7 @@ package Collage.Document
 				}
 			}
 			
-			Logger.Log("Page Loaded: " + displayName + " Width: " + pageWidth + " Height: " + pageHeight, this);
+			// Logger.LogDebug("Page Loaded: " + displayName + " Width: " + pageWidth + " Height: " + pageHeight, this);
 			return true;
 		}
 	} 

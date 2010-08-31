@@ -3,8 +3,9 @@ package Collage.Clips.MultiseriesClip.Components.ColumnSeries
 	import Collage.Clip.*;
 	import Collage.DataEngine.*;
 	import mx.events.PropertyChangeEvent;
+	import Collage.Clips.MultiseriesClip.Components.*;
 	
-	public class ColumnSeriesPart extends DataClip
+	public class ColumnSeriesPart extends SeriesPart
 	{
 		[Bindable][Savable] public var barAlpha:Number = 1.0;
 		[Bindable][Savable] public var barColor:Number = 0x00AA00;

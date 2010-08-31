@@ -21,7 +21,7 @@ package Collage.Clips.MultiseriesClip.Components.VAxis
         [Bindable][Savable] public var vAxisLabelGap:Number = 10;
 		
 		[Bindable]public var axis:LinearAxis = new LinearAxis();
-		public var axisRenderer:VAxisPartRenderer = new VAxisPartRenderer();
+		[Bindable]public var axisRenderer:VAxisPartRenderer = new VAxisPartRenderer();
 		
 		public function VAxisPart()
 		{
@@ -31,6 +31,7 @@ package Collage.Clips.MultiseriesClip.Components.VAxis
 			
 			axis.baseAtZero = false;
 			axisRenderer.model = this;
+			axisRenderer.axis = axis;
 		}
 	}
 }

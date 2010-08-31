@@ -22,6 +22,7 @@
 		import Collage.Clips.MultiseriesClip.Components.LineSeries.*;
 		import Collage.Clips.MultiseriesClip.Components.ColumnSeries.*;
 		import Collage.Clips.MultiseriesClip.Components.PlotSeries.*;
+		import Collage.Clips.MultiseriesClip.Components.VAxis.*;
 		
 
 		[Bindable]public var hAxis:IAxis = numeric_haxis;
@@ -44,9 +45,15 @@
 
 		protected function AxisChanged(event:CollectionEvent):void
 		{
+			linechart.verticalAxisRenderers = new Array();
 			for (var idx:uint = 0; idx < hostComponent.model.vAxis.length; idx++) {
-				// ADD AXIS TO CHART
+				if (!hostComponent.model.vAxis.getItemAt(idx) is VAxisPart)
+					continue;
+					
+				var axisPart:VAxisPart = hostComponent.model.vAxis.getItemAt(idx) as VAxisPart;
+				linechart.verticalAxisRenderers.push(axisPart.axisRenderer);
 			}			
+			ModelChanged(null);
 		}
 
 		protected function SeriesChanged(event:CollectionEvent):void
@@ -64,6 +71,7 @@
 					linechart.series.push(columnPart.series);
 				}
 			}
+			ModelChanged(null);
 		}
 
 		protected function ModelChanged(event:PropertyChangeEvent):void
@@ -93,6 +101,7 @@
 			}*/
 			if (!event || (event.property != "x" && event.property != "y" && event.property != "width" && event.property != "height"))
 			{
+				Logger.Log("Redraw axis?");
 				linechart.invalidateDisplayList();
 				gridLines.invalidateDisplayList();
 			}
@@ -112,25 +121,6 @@
 			minWidth="5" minHeight="5" 
 			showDataTips="true" seriesFilters="[]" 
 			horizontalAxis="{datetime_haxis}" >
-			<mx:verticalAxis>
-				<mx:LinearAxis id="vaxis" baseAtZero="false"/>
-			</mx:verticalAxis>			
-			<mx:verticalAxisRenderers>
-				<mx:AxisRenderer
-					axis="{vaxis}"
-					minorTickPlacement="none"
-					tickPlacement="none"
-					showLine="{hostComponent.model.vAxisVisible}"
-					showLabels="{hostComponent.model.vAxisLabelVisible}"
-					fontSize="{hostComponent.model.vAxisLabelSize}"
-					alpha="{hostComponent.model.vAxisLabelAlpha}"
-					color="{hostComponent.model.vAxisLabelColor}"
-					labelGap="{hostComponent.model.vAxisLabelGap}" >
-					<mx:axisStroke>
-						<s:SolidColorStroke id="vAxisStroke" color="{hostComponent.model.vAxisColor}" weight="{hostComponent.model.vAxisWeight}" alpha="{hostComponent.model.vAxisAlpha}" caps="none"/>
-					</mx:axisStroke>
-				</mx:AxisRenderer>
-			</mx:verticalAxisRenderers>
 			<mx:horizontalAxisRenderers>
 				<mx:AxisRenderer
 					id="horizontalAxisRenderer"
