@@ -9,10 +9,13 @@ package Collage.Clips.MultiseriesClip
 	import Collage.Clips.MultiseriesClip.Components.ColumnSeries.*;
 	import Collage.Clips.MultiseriesClip.Components.PlotSeries.*;
 	import Collage.Clips.MultiseriesClip.Components.VAxis.*;
+	import Collage.Clips.MultiseriesClip.Components.*;
 	
 	public class MultiseriesClip extends Clip
 	{
-		[Bindable]public var seriesSelectedIndex:int = -1;
+		[Bindable]public var redrawTrigger:Boolean = false;
+		
+		[Bindable]public var seriesSelectedItem:SeriesPart = null;
 		[Bindable]public var series:ArrayList = new ArrayList();
 		[Bindable]public var seriesViews:ArrayList = new ArrayList();
 		[Bindable]public var vAxis:ArrayList = new ArrayList();
@@ -79,6 +82,49 @@ package Collage.Clips.MultiseriesClip
 			}
 
 			super.ModelChanged(event);
+		}
+
+		public function addSeries(newSeries:SeriesPart):void
+		{
+			if (!newSeries)
+				return;
+				
+			series.addItem(newSeries);
+			newSeries.parentClip = this;
+			SetSeriesVAxisByUID(newSeries);
+		}
+
+		public function SetAllAxis():void
+		{
+			for (var idx:uint = 0; idx < series.length; idx++)
+			{
+				if (series.getItemAt(idx) is SeriesPart)
+					SetSeriesVAxisByUID(series.getItemAt(idx) as SeriesPart);
+			}
+		}
+		
+		public function SetSeriesVAxisByUID(seriesPart:SeriesPart):void
+		{
+			if (!seriesPart || !vAxis || !vAxis.length) {
+				return;
+			}
+
+			if (!seriesPart.axisUID) {
+				seriesPart.axisUID = (vAxis.getItemAt(0) as VAxisPart).UID;
+			} 
+			
+			for (var idx:uint = 0; idx < vAxis.length; idx++)
+			{
+				if (seriesPart.axisUID == (vAxis.getItemAt(idx) as VAxisPart).UID) {
+					seriesPart.axis = vAxis.getItemAt(idx) as VAxisPart;
+					Logger.Log("Axis UID Found!" + seriesPart.axisUID, this);
+					return;
+				}
+			}
+			
+			seriesPart.axisUID = (vAxis.getItemAt(0) as VAxisPart).UID;
+			seriesPart.axis = vAxis.getItemAt(idx) as VAxisPart;
+			Logger.LogError("No Axis with that UID Found! Changing to : " + seriesPart.axisUID, this);
 		}
 	}
 }

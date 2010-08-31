@@ -6,7 +6,8 @@
 	xmlns:clg="Collage.Application.*"
 	xmlns:clgdoc="Collage.Document.*"
 	applicationComplete="Initialize()">
-    <s:layout>
+ 	<fx:Style source="defaults.css"/>
+   	<s:layout>
         <s:BasicLayout/>
     </s:layout>
     <fx:Script><![CDATA[

@@ -17,6 +17,7 @@
 					contentBackgroundColor="#dee4ea"
 					borderVisible="false"
 					dataProvider="{viewObject.vAxis}"
+					selectedItem="@{viewObject.seriesSelectedItem.axis}"
 					dragEnabled="true"
 					dragMoveEnabled="true"
 					dropEnabled="true"

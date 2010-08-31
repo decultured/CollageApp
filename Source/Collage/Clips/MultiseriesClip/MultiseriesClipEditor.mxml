@@ -27,11 +27,11 @@
 
 		protected function ModelChanged(event:PropertyChangeEvent):void
 		{
-			if (!event || event.property == "seriesSelectedIndex") {
+			if (!event || event.property == "seriesSelectedItem") {
 				partEditorGroup.removeAllElements();
-				if (hostComponent.model.seriesSelectedIndex >= 0 && hostComponent.model.series.length > hostComponent.model.seriesSelectedIndex) {
-					if (hostComponent.model.series.getItemAt(hostComponent.model.seriesSelectedIndex) is DataClip) {
-						var clip:DataClip = hostComponent.model.series.getItemAt(hostComponent.model.seriesSelectedIndex) as DataClip;
+				if (hostComponent.model.seriesSelectedItem) {
+					if (hostComponent.model.seriesSelectedItem is DataClip) {
+						var clip:DataClip = hostComponent.model.seriesSelectedItem as DataClip;
 						partEditorGroup.addElement(clip.CreateEditor());
 					}
 				}

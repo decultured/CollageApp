@@ -16,7 +16,7 @@
 					height="250"
 					contentBackgroundColor="#dee4ea"
 					borderVisible="false"
-					selectedIndex="@{viewObject.seriesSelectedIndex}"
+					selectedItem="@{viewObject.seriesSelectedItem}"
 					dataProvider="{viewObject.series}"
 					dragEnabled="true"
 					dragMoveEnabled="true"
@@ -37,19 +37,19 @@
 					public function AddLine():void
 					{
 						var newLine:LineSeriesPart = new LineSeriesPart();
-						viewObject.series.addItem(newLine);
+						viewObject.addSeries(newLine);
 					}
 
 					public function AddColumn():void
 					{
 						var newColumn:ColumnSeriesPart = new ColumnSeriesPart();
-						viewObject.series.addItem(newColumn);
+						viewObject.addSeries(newColumn);
 					}
 
 					public function AddScatter():void
 					{
 						var newPlot:PlotSeriesPart = new PlotSeriesPart();
-						viewObject.series.addItem(newPlot);
+						viewObject.addSeries(newPlot);
 					}
 
 				]]></fx:Script>
