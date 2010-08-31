@@ -47,6 +47,8 @@ package Collage.Clip
 		[Bindable]public var aspectLocked:Boolean = false;
 		[Bindable]public var editable:Boolean = false;
 		
+		public var loading:Boolean = false;
+		
 		public var view:ClipView;
 		
 		public function Clip(_clipViewSkin:Class, _clipEditorSkin:Class, _smallClipEditorSkin:Class = null):void
@@ -133,10 +135,10 @@ package Collage.Clip
 		{
 			if (isLocked) {
 				isLocked = false;
-				Logger.Log("Un-Locked!");
+				// Logger.Log("Un-Locked!");
 			} else {
 				isLocked = true;
-				Logger.Log("Locked!");
+				// Logger.Log("Locked!");
 			}
 		}
 
@@ -153,7 +155,7 @@ package Collage.Clip
 
 		public function Resized():void
 		{
-			if (aspectLocked && height && aspectRatio) {
+			if (!loading && aspectLocked && height && aspectRatio) {
 				if (width / height > aspectRatio) {
 					width = height * aspectRatio;
 				} else {
@@ -192,6 +194,8 @@ package Collage.Clip
 
 		public function LoadFromObject(dataObject:Object):Boolean
 		{
+			loading = true;
+			
 			if (!dataObject) return false;
 
 			for(var obj_k:String in dataObject) {
@@ -201,6 +205,8 @@ package Collage.Clip
 				} catch(e:Error) { }
 			}
 			return true;
+			
+			loading = false;
 		}
 		
 		public function LoadFromData(data:Object):Boolean

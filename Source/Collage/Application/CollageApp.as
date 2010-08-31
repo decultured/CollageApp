@@ -69,7 +69,6 @@ package Collage.Application
 		public function CollageApp():void
 		{
 			instance = this;
-			Logger.LogDebug("App Created", this);
 			clgClipboard = new CollageClipboard(this);
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);
 			pageManager.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PageManagerChanged);
@@ -89,7 +88,6 @@ package Collage.Application
 			switch( event.property )
 			{
 				case "editPage":
-					Logger.Log("Edit Page Added");
 					editPage.LoadFromObject(pageManager.currentPage);
 					return;
 				case "docContainer":
@@ -108,7 +106,6 @@ package Collage.Application
 			switch( event.property )
 			{
 				case "currentPageIndex":
-					Logger.Log("Page Index Changed");
 					SaveCurrentPage();
 					editPage.LoadFromObject(pageManager.currentPage);
 					return;
@@ -288,11 +285,7 @@ package Collage.Application
 		public override function LoadFromObject(dataObject:Object):Boolean
 		{
 			if (!dataObject) return false;
-
 			New();
-			
-			Logger.Log("Document Loading", this);
-			
 			for (var key:String in dataObject)
 			{
 				if (key == "document") {

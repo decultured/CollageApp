@@ -108,7 +108,7 @@ package Collage.DataEngine
 			_Dashboard.addEventListener(CloudFile.OPEN_FAILURE, HandleOpenFailure)
 
 			try{
-				Logger.Log("Opening from cloud - id: " + _OpenWindow.DashboardID, this);
+				// Logger.Log("Opening from cloud - id: " + _OpenWindow.DashboardID, this);
 				_Dashboard.Open( _OpenWindow.DashboardID );
 			} catch(e:Error){
 				Logger.LogError(e.message, this);
@@ -123,7 +123,7 @@ package Collage.DataEngine
 			_Dashboard.addEventListener(CloudFile.OPEN_FAILURE, HandleOpenFailure)
 
 			try{
-				Logger.Log("Opening from cloud - id: " + id, this);
+				// Logger.Log("Opening from cloud - id: " + id, this);
 				_Dashboard.Open(id);
 			} catch(e:Error){
 				Logger.LogError(e.message, this);
@@ -131,8 +131,6 @@ package Collage.DataEngine
 		}
 
 		public function HandleOpenSuccess(event:Event):void {
-			Logger.Log("Opened from cloud", this);
-
 			var fileData:Object = JSON.decode( _Dashboard.Content );
 		    _AppClass.LoadFromObject(fileData);
 		}

@@ -59,9 +59,6 @@ package Collage.DataEngine.Storage
 		public function Open(fileId:String = null):void {
 			if(fileId != null)
 				this.ID = fileId;
-				
-			Logger.LogDebug("ID: " + this.ID, this);
-
 			OpenFile();
 		}
 
@@ -73,7 +70,7 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Open_Success(event:Event):void {
-			Logger.Log("DashboardFile::Open_Success: " + event, this);
+			Logger.LogDebug("DashboardFile::Open_Success: " + event, this);
 
 			if(lastResult != null) {
 				if(lastResult.hasOwnProperty('id')) {
@@ -87,7 +84,7 @@ package Collage.DataEngine.Storage
 		}
 
 		public function Save_Success(event:Event):void {
-			Logger.Log("DashboardFile::Save_Success: " + event, this);
+			Logger.LogDebug("DashboardFile::Save_Success: " + event, this);
 
 			if(lastResult != null) {
 				if(lastResult.hasOwnProperty('id')) {

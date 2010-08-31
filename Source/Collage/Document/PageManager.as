@@ -45,7 +45,6 @@ package Collage.Document
 		
 		public function New(addPage:Boolean = true):void
 		{
-			Logger.LogDebug("PageManager Reset", this);
 			currentPageIndex = 0;
 			pagesAdded = 0;
 			pages = new ArrayList();
@@ -105,7 +104,6 @@ package Collage.Document
 //				else
 					pageObject["displayName"] = GetUniqueName(pageObject["displayName"], uid);
 				pages.setItemAt(pageObject, pageIndex);
-				Logger.Log("UID FOUND!: " + uid, this);
 			} else
 				Logger.LogCritical("UID NOT FOUND: " + uid, this);
 			
@@ -164,7 +162,7 @@ package Collage.Document
 			if (!dataObject)
 				dataObject = (new Page()).SaveToObject();
 				
-			Logger.LogDebug("PageAdding : " + dataObject['UID'], this);
+			// Logger.LogDebug("PageAdding : " + dataObject['UID'], this);
 			
 			if (index >= pages.length) {
 				pages.addItem(dataObject);
@@ -173,7 +171,6 @@ package Collage.Document
 				pages.addItemAt(dataObject, index);
 				currentPageIndex = index;
 			}
-			Logger.LogDebug("Page Added", this);
 			numPages = pages.length;
 		}
 
@@ -193,7 +190,6 @@ package Collage.Document
 				pages.addItemAt(newObject, index);
 				currentPageIndex = index;
 			}
-			Logger.LogDebug("Page Added", this);
 			*/
 		}
 
@@ -205,7 +201,6 @@ package Collage.Document
 			pages.removeItemAt(index);
 			currentPageIndex = index;
 
-			Logger.LogDebug("Page Removed", this);
 			numPages = pages.length;
 		}
 
@@ -221,7 +216,6 @@ package Collage.Document
 			
 			pages.addItemAt(newObject.SaveToObject(), index);
 			currentPageIndex = index;
-			Logger.LogDebug("Page Copied", this);
 			numPages = pages.length;
 		}
 

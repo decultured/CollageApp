@@ -75,8 +75,6 @@ package Desktop.Application
 			_ViewerWindow.addEventListener(AIREvent.WINDOW_COMPLETE, HandleViewerComplete);
 			_ViewerWindow.addEventListener(Event.CLOSE, HandleViewerClose);
 			
-			Logger.LogDebug("Opened Viewer Window: " + name, this);
-
             try {
                 _ViewerWindow.open(true);
 				window.visible = false;
@@ -90,7 +88,6 @@ package Desktop.Application
 			_ViewerWindow.removeEventListener(Event.CLOSE, HandleViewerClose);
 			_ViewerWindow = null;
 			window.visible = true;
-			Logger.LogDebug("Viewer Window Closed", this);
 		}
 
 		public function HandleViewerComplete(event:AIREvent):void
@@ -126,7 +123,6 @@ package Desktop.Application
 				newWindow.addElement(contents);
 				newWindow.addEventListener(Event.CLOSE, HandlePopUpClose);
 				_PopupWindows[name] = newWindow;
-				Logger.LogDebug("Added Popup Window: " + name, this);
 			}
 
             try {
@@ -149,7 +145,6 @@ package Desktop.Application
 			if (_PopupWindows[name] && _PopupWindows[name] is CollagePopupWindow) {
 				newWindow = _PopupWindows[name] as CollagePopupWindow;
 				newWindow.close();
-				Logger.LogDebug("Closed Popup Window: " + name, this);
 			} 
 			else if (_PopupWindows[name] && _PopupWindows[name] is TitleWindow) {
 				super.ClosePopup(name);
@@ -333,7 +328,7 @@ package Desktop.Application
 				for each (var format:String in Clipboard.generalClipboard.formats) {
 					formatsString += format + ", ";
 				}
-				Logger.Log("Formats Pasted: " + formatsString, this);
+				Logger.LogDebug("Formats Pasted: " + formatsString, this);
 			
 			
 				if (Clipboard.generalClipboard.hasFormat("epaths:clipObject")) {
@@ -350,15 +345,15 @@ package Desktop.Application
 				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.BITMAP_FORMAT)) {
 					newClip = editPage.AddClipByType("image");
 					newClip.LoadFromData(Clipboard.generalClipboard.getData(ClipboardFormats.BITMAP_FORMAT) as BitmapData);
-					Logger.Log("Bitmap Pasted", this);
+					Logger.LogDebug("Bitmap Pasted", this);
 				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.HTML_FORMAT)) {
 					var newTextBoxClip:TextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
 					newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.HTML_FORMAT) as String;
-					Logger.Log("HTML Pasted " + newTextBoxClip.text, this);
+					Logger.LogDebug("HTML Pasted " + newTextBoxClip.text, this);
 				} else if (Clipboard.generalClipboard.hasFormat(ClipboardFormats.TEXT_FORMAT)) {
 					newTextBoxClip = editPage.AddClipByType("textbox") as TextBoxClip;
 					newTextBoxClip.text = Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String;
-					Logger.Log("Text Pasted " + newTextBoxClip.text, this);
+					Logger.LogDebug("Text Pasted " + newTextBoxClip.text, this);
 				}
 			}
 		}
@@ -431,19 +426,19 @@ package Desktop.Application
 		
         private static function FileUploadHttpStatusHandler(event:HTTPStatusEvent):void {
             event.target.removeEventListener(IOErrorEvent.IO_ERROR, FileUploadHttpStatusHandler);
-			Logger.Log("Data Engine File Upload HTTP Status: " + event, LogEntry.DEBUG);
+			Logger.LogDebug("Data Engine File Upload HTTP Status: " + event, LogEntry.DEBUG);
         }
 
 		private static function FileUploadIOErrorHandler(event:IOErrorEvent):void
 		{
             event.target.removeEventListener(IOErrorEvent.IO_ERROR, FileUploadIOErrorHandler);
-			Logger.Log("Data Engine File Upload IO Error: " + event, LogEntry.ERROR);
+			Logger.LogError("Data Engine File Upload IO Error: " + event, LogEntry.ERROR);
 		}
 
         private static function FileUploadSecurityErrorHandler(event:SecurityErrorEvent):void
 		{
             event.target.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, FileUploadSecurityErrorHandler);
-			Logger.Log("Data Engine File Upload Security Error: " + event, LogEntry.ERROR);
+			Logger.LogError("Data Engine File Upload Security Error: " + event, LogEntry.ERROR);
         }
 
 		private static function FileUploadCompleteHandler(event:Event):void

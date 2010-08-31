@@ -80,7 +80,7 @@ package Collage.Document
 
 			SetToolbar();
 
-			Logger.LogDebug("ObjectHandles Initialized", this);
+			// Logger.LogDebug("ObjectHandles Initialized", this);
 
 //			decoratorManager = new DecoratorManager( objectHandles, this );
 //			decoratorManager.addDecorator( new AlignmentDecorator() );
@@ -148,9 +148,8 @@ package Collage.Document
 				var newSmallEditor:ClipEditor = selectedClip.CreateSmallEditor();
 				if (newSmallEditor) {
 					smallToolbar.addElement(newSmallEditor);
-					Logger.Log("Small Clip Editor Found!");
 				} else {
-					Logger.LogDebug("No Small Clip Editor available for this clip: " + selectedClip.type);
+					// Logger.LogDebug("No Small Clip Editor available for this clip: " + selectedClip.type);
 				}
 				clipOptionsEnabled = true;
 				selectedRefreshable = (selectedClip is DataClip);

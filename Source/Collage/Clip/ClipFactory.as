@@ -23,7 +23,6 @@ package Collage.Clip
 	{
 		public static function CreateByType(clipType:String):Clip
 		{
-			Logger.LogDebug("Attempting to create clip of type " + clipType); 
 			if (clipType == "image")
 				return new ImageClip();
 			else if (clipType == "label")

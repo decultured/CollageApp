@@ -2,6 +2,7 @@ package Desktop.Application
 {
 	import flash.system.*;
 	import flash.ui.*;
+	import flash.geom.*;
 	import mx.events.*;
 	import mx.controls.Alert;
 	import mx.controls.FlexNativeMenu;
@@ -26,8 +27,6 @@ package Desktop.Application
 	                <menuitem type="separator"/>
 					<menuitem label="Save to Cloud..." command="cloudstorage_savedashboard" key="s" />
 	                <menuitem label="Save Local File..." command="save" />
-	                <menuitem type="separator"/>
-	                <menuitem label="Save Debug Log File..." command="savelog" key="l" />
 					<menuitem type="separator"/>
 					<menuitem label="Export">
 		                <menuitem label="PNG Image" command="saveImage"/>
@@ -85,6 +84,9 @@ package Desktop.Application
 	            		<menuitem label="200%" amount="2.0" command="zoom" />
 	            		<menuitem label="400%" amount="4.0" command="zoom" />
 		            </menuitem>
+	                <menuitem type="separator"/>
+	                <menuitem label="Debug Log Viewer" command="logviewer" key="l" />
+	                <menuitem label="Save Debug Log File..." command="savelog" />
 	            </menuitem>
 	        </root>;
 
@@ -182,6 +184,14 @@ package Desktop.Application
 					break;
 				case "hide-window":
 					collageApp.HideApplication();
+					break;
+				case "logviewer":
+					var loggerPopup:LoggerWindow = new LoggerWindow();
+					loggerPopup.setStyle("top", "0");
+					loggerPopup.setStyle("bottom", "0");
+					loggerPopup.setStyle("left", "0");
+					loggerPopup.setStyle("right", "0");
+					collageApp.OpenPopup(loggerPopup, "logger", false, new Point(600, 500));
 					break;
 				default:
 					Logger.LogWarning("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);

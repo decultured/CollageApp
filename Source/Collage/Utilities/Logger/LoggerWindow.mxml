@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:fb="http://ns.adobe.com/flashbuilder/2009"
+	    xmlns:mx="library://ns.adobe.com/flex/mx"
+		width="100%" height="100%"
+		>
+	<fx:Script><![CDATA[
+		import mx.collections.ArrayList;
+		import mx.events.PropertyChangeEvent;
+		import Collage.Utilities.Logger.*;
+	]]></fx:Script>
+    <s:layout>
+        <s:BasicLayout/>
+    </s:layout>
+	<s:List id="loggerList"
+		contentBackgroundColor="#dee4ea" 
+		requireSelection="false"
+		borderVisible="false"
+		top="20" bottom="20" right="20" left="20"
+		dataProvider="{Logger.logEntries}">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer focusRect="false" width="100%" doubleClickEnabled="true">
+					<s:states>
+						<s:State name="normal"/>
+						<s:State name="hovered"/>
+						<s:State name="editing"/>
+						<s:State name="selected"/>
+					</s:states>
+				    <s:layout>
+				        <s:BasicLayout/>
+				    </s:layout>
+					<fx:Script><![CDATA[
+						import Collage.Utilities.Logger.*;
+					
+						override public function set data(value:Object):void {
+							super.data = value;
+							if (data == null) // a renderer's data is set to null when it goes out of view
+								return;
+								
+							var entry:LogEntry = value as LogEntry;
+							
+							levelText.text = entry.levelName;
+							levelText.setStyle("color", entry.color);
+							infoText.text = entry.text;
+							infoText.setStyle("color", entry.color);
+							logClass.text = entry.className;
+						}
+						
+						/*public function OpenDataSetWindow():void {
+							var datasetPopup:DataSetWizard = new DataSetWizard();
+							datasetPopup.dataSet = data as DataSet;
+							datasetPopup.setStyle("top", "0");
+							datasetPopup.setStyle("bottom", "0");
+							datasetPopup.setStyle("left", "0");
+							datasetPopup.setStyle("right", "0");
+
+							CollageApp.instance.OpenPopup(datasetPopup, "dataset", false, new Point(400, 350));
+						}*/
+					]]></fx:Script>
+					<s:Rect width="100%" top="0" bottom="0" includeIn="selected">
+						<s:fill>
+							<s:LinearGradient rotation="90">
+								<s:GradientEntry alpha="1.0" color="#b0bed7" ratio="0"/>
+								<s:GradientEntry alpha="1.0" color="#8295b7" ratio="1"/>
+							</s:LinearGradient>
+						</s:fill>
+					</s:Rect>
+					<s:Line width="100%" top="0" includeIn="selected">
+						<s:stroke>
+							<s:SolidColorStroke caps="none" color="#a2b0cb" weight="1"/>
+						</s:stroke>
+					</s:Line>
+					<s:VGroup width="100%" height="100%" left="10" right="10" top="5" bottom="5" gap="10">
+						<s:HGroup width="100%">
+							<s:Label id="infoText" color="#222222" color.selected="#ffffff" fontWeight="bold" maxDisplayedLines="4" fontSize="10" width="100%" lineBreak="toFit" />
+						</s:HGroup>
+						<s:HGroup width="100%">
+							<s:Label id="levelText" text="data.text" color="#555555" color.selected="#ffffff" maxDisplayedLines="1" fontSize="10" width="100%"/>
+							<s:Label id="logClass" text="data.text" color="#555555" color.selected="#ffffff" maxDisplayedLines="1" fontSize="10" width="220" textAlign="right"/>
+						</s:HGroup>
+					</s:VGroup>
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+</s:Group>

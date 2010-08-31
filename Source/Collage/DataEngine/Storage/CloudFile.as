@@ -115,7 +115,7 @@ package Collage.DataEngine.Storage
             request.requestHeaders.push(new URLRequestHeader("X-Requested-With", "XMLHttpRequest"));
 			request.method = method;
 
-			Logger.LogDebug("CloudFile Save Request: " + requestUrl, this);
+			Logger.LogDebug("CloudFile Request: " + requestUrl, this);
 
 			return request;
 		}
