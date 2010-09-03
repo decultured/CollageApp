@@ -26,7 +26,7 @@ package Collage.Clips.MultiseriesClip.Components.LineSeries
 		public function LineSeriesPart()
 		{
 			super(null, LineSeriesPartEditor);
-			type = "linechart";
+			type = "linepart";
 			rotatable = false;
 			
 			series.model = this;

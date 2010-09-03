@@ -17,8 +17,9 @@ package Collage.Application
 	import flash.desktop.*;
 	import flash.display.*;
 	import flash.utils.*;
-	import Collage.Utilities.KeyCodes;
+	import Collage.Utilities.WindowManager.*;
 	import Collage.Utilities.Logger.*;
+	import Collage.Utilities.KeyCodes;
 	import mx.events.ResizeEvent;
 	import flash.events.KeyboardEvent;
 	
@@ -68,6 +69,8 @@ package Collage.Application
 
 		public function CollageApp():void
 		{
+			if (!WindowManager.instance)
+				WindowManager.instance = new WindowManager();
 			instance = this;
 			clgClipboard = new CollageClipboard(this);
 			addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, PropertyChangeHandler);

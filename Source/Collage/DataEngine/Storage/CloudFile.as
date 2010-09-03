@@ -7,6 +7,7 @@ package Collage.DataEngine.Storage
 	import com.adobe.serialization.json.JSON;
 	import Collage.DataEngine.*;
 	import Collage.Utilities.Logger.*;
+	import Collage.Utilities.WindowManager.*;
 
 	public class CloudFile extends EventDispatcher
 	{

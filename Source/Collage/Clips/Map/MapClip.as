@@ -343,6 +343,8 @@ package Collage.Clips.Map
 			}
 			
 			GenerateNameList();
+			QueryCompleteHandler(null);
+			ApplyGradientColors();
 			Resized();
 
 			return true;
@@ -365,6 +367,23 @@ package Collage.Clips.Map
 			else
 				_CloudMap.Open();
 		}
+
+		public override function SaveToObject(onlyTheme:Boolean = false):Object
+		{
+			var newObject:Object = super.SaveToObject(onlyTheme);
+			if (_CloudMap.id) {
+				newObject["map_id"] = _CloudMap.id;
+			}
+			return newObject;
+		}
+
+		public override function LoadFromObject(dataObject:Object):Boolean
+		{
+			super.LoadFromObject(dataObject);
+			if (dataObject["map_id"])
+				OpenFromCloud(dataObject["map_id"]);
+			return true;
+		}		
 		
 	}
 }

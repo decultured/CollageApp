@@ -34,22 +34,16 @@
 
 					}
 
-					public function AddLine():void
-					{
-						var newLine:LineSeriesPart = new LineSeriesPart();
-						viewObject.addSeries(newLine);
+					public function AddLine():void {
+						viewObject.AddSeriesByName("linepart");
 					}
 
-					public function AddColumn():void
-					{
-						var newColumn:ColumnSeriesPart = new ColumnSeriesPart();
-						viewObject.addSeries(newColumn);
+					public function AddColumn():void {
+						viewObject.AddSeriesByName("columnpart");
 					}
 
-					public function AddScatter():void
-					{
-						var newPlot:PlotSeriesPart = new PlotSeriesPart();
-						viewObject.addSeries(newPlot);
+					public function AddScatter():void {
+						viewObject.AddSeriesByName("plotpart");
 					}
 
 				]]></fx:Script>

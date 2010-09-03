@@ -26,6 +26,8 @@
 		
 
 		[Bindable]public var hAxis:IAxis = numeric_haxis;
+		private var defaultVAxisRenderer:AxisRenderer = new AxisRenderer(); 
+		private var defaultAxis:LinearAxis = new LinearAxis();
 
 		protected function EnterEditState(event:FlexEvent):void
 		{
@@ -40,12 +42,26 @@
 			(hostComponent.model.series as ArrayList).addEventListener(CollectionEvent.COLLECTION_CHANGE, SeriesChanged, false, 0, true);
 			(hostComponent.model.vAxis as ArrayList).addEventListener(CollectionEvent.COLLECTION_CHANGE, AxisChanged, false, 0, true);
 			
+			defaultVAxisRenderer.visible = false; 
+			defaultVAxisRenderer.height = 0; 
+			defaultVAxisRenderer.width = 0;
+			defaultVAxisRenderer.axis = defaultAxis;
+			defaultVAxisRenderer.setStyle("showLabels", false);
+			
+			linechart.verticalAxisRenderer = defaultVAxisRenderer;
+			linechart.verticalAxis = defaultAxis;
+			
 			AxisChanged(null);
 		}
 
 		protected function AxisChanged(event:CollectionEvent):void
 		{
 			linechart.verticalAxisRenderers = new Array();
+//			linechart.verticalAxisRenderers.push(defaultVAxisRenderer);
+
+			if (hostComponent.model.vAxis.length)
+				linechart.verticalAxis = (hostComponent.model.vAxis.getItemAt(0) as VAxisPart).axis;
+
 			for (var idx:uint = 0; idx < hostComponent.model.vAxis.length; idx++) {
 				if (!hostComponent.model.vAxis.getItemAt(idx) is VAxisPart)
 					continue;
@@ -59,6 +75,7 @@
 		protected function SeriesChanged(event:CollectionEvent):void
 		{
 			linechart.series = new Array();
+			
 			for (var idx:uint = 0; idx < hostComponent.model.series.length; idx++) {
 				if (hostComponent.model.series.getItemAt(idx) is LineSeriesPart) {
 					var linePart:LineSeriesPart = hostComponent.model.series.getItemAt(idx) as LineSeriesPart;
@@ -101,7 +118,6 @@
 			}*/
 			if (!event || (event.property != "x" && event.property != "y" && event.property != "width" && event.property != "height"))
 			{
-				Logger.Log("Redraw axis?");
 				linechart.invalidateDisplayList();
 				gridLines.invalidateDisplayList();
 			}

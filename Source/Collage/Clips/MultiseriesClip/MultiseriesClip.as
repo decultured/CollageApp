@@ -1,15 +1,16 @@
 package Collage.Clips.MultiseriesClip
 {
-	import mx.collections.ArrayList;
 	import Collage.Clip.*;
 	import Collage.DataEngine.*;
 	import Collage.Utilities.Logger.*;
-	import mx.events.PropertyChangeEvent;
 	import Collage.Clips.MultiseriesClip.Components.LineSeries.*;
 	import Collage.Clips.MultiseriesClip.Components.ColumnSeries.*;
 	import Collage.Clips.MultiseriesClip.Components.PlotSeries.*;
 	import Collage.Clips.MultiseriesClip.Components.VAxis.*;
 	import Collage.Clips.MultiseriesClip.Components.*;
+	import mx.events.PropertyChangeEvent;
+	import mx.collections.ArrayList;
+	import flash.utils.*;
 	
 	public class MultiseriesClip extends Clip
 	{
@@ -84,14 +85,35 @@ package Collage.Clips.MultiseriesClip
 			super.ModelChanged(event);
 		}
 
-		public function addSeries(newSeries:SeriesPart):void
+		public function AddSeriesByName(type:String, setAxis:Boolean = true, data:Object = null):void
+		{
+			if (type == "linepart") {
+				var newLine:LineSeriesPart = new LineSeriesPart();
+				if (data)
+					newLine.LoadFromObject(data);
+				addSeries(newLine, setAxis);
+			} else if (type == "columnpart") {
+				var newColumn:ColumnSeriesPart = new ColumnSeriesPart();
+				if (data)
+					newColumn.LoadFromObject(data);
+				addSeries(newColumn, setAxis);
+			} else if (type == "plotpart") {
+				var newPlot:PlotSeriesPart = new PlotSeriesPart();
+				if (data)
+					newPlot.LoadFromObject(data);
+				addSeries(newPlot, setAxis);
+			}
+		}
+
+		public function addSeries(newSeries:SeriesPart, setAxis:Boolean = true):void
 		{
 			if (!newSeries)
 				return;
-				
+
 			series.addItem(newSeries);
 			newSeries.parentClip = this;
-			SetSeriesVAxisByUID(newSeries);
+			if (setAxis)
+				SetSeriesVAxisByUID(newSeries);
 		}
 
 		public function SetAllAxis():void
@@ -126,5 +148,75 @@ package Collage.Clips.MultiseriesClip
 			seriesPart.axis = vAxis.getItemAt(idx) as VAxisPart;
 			Logger.LogError("No Axis with that UID Found! Changing to : " + seriesPart.axisUID, this);
 		}
+		
+		public override function SaveToObject(onlyTheme:Boolean = false):Object
+		{
+			var typeDef:XML = describeType(this);
+			var newObject:Object = new Object();
+			for each (var metadata:XML in typeDef..metadata) {
+				if (metadata["@name"] != "Savable")
+					continue;
+				if (onlyTheme) {
+					var isTheme:Boolean = false;
+					for each (var args:XML in metadata..arg) {
+						if (args["@key"] == "theme" && args["@value"] == "true") {
+							isTheme = true;
+							break;
+						}
+					}
+					if (!isTheme)
+						continue;
+				}
+				if (this.hasOwnProperty(metadata.parent()["@name"])) {
+					newObject[metadata.parent()["@name"]] = this[metadata.parent()["@name"]];
+				}
+			}
+			var idx:uint = 0;
+			newObject["series"] = new Array();
+			for (idx = 0; idx < series.length; idx++) {
+				newObject["series"].push((series.getItemAt(idx) as SeriesPart).SaveToObject() );
+				Logger.LogDebug("Saving Series - " + (series.getItemAt(idx) as SeriesPart).type, this);
+			}
+
+			newObject["vAxis"] = new Array();
+			for (idx = 0; idx < series.length; idx++) {
+				newObject["vAxis"].push((vAxis.getItemAt(idx) as VAxisPart).SaveToObject());
+			}
+
+			return newObject;
+		}
+		
+		public override function LoadFromObject(dataObject:Object):Boolean
+		{
+			if (!dataObject) return false;
+
+			vAxis = new ArrayList();
+
+			for(var obj_k:String in dataObject) {
+				try {
+					var idx:uint = 0;
+					var dataArray:Array;
+					if (obj_k == "series" && dataObject[obj_k] is Array) {
+						dataArray = dataObject[obj_k] as Array;
+						for (idx = 0; idx < dataArray.length; idx++) {
+							Logger.LogDebug("Series Load :" + dataArray[idx]["type"], this);
+							AddSeriesByName(dataArray[idx]["type"], false, dataArray[idx]);
+						}
+					} else if (obj_k == "vAxis" && dataObject[obj_k] is Array) {
+						dataArray = dataObject[obj_k] as Array;
+						var newAxisObj:Object;
+						for (idx = 0; idx < dataArray.length; idx++) {
+							var newVAxis:VAxisPart = new VAxisPart();
+							newVAxis.LoadFromObject(dataArray[idx]);
+							vAxis.addItem(newVAxis);
+						}
+					} else if(this.hasOwnProperty(obj_k))
+						this[obj_k] = dataObject[obj_k];
+				} catch(e:Error) { }
+			}
+			
+			SetAllAxis();
+			return true;
+		}		
 	}
 }

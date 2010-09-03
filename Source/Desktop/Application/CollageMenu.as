@@ -7,6 +7,7 @@ package Desktop.Application
 	import mx.controls.Alert;
 	import mx.controls.FlexNativeMenu;
 	import Collage.Utilities.Logger.*;
+	import Collage.Utilities.WindowManager.*;
 	import Collage.DataEngine.*;
 	
 	public class CollageMenu extends FlexNativeMenu
@@ -186,12 +187,7 @@ package Desktop.Application
 					collageApp.HideApplication();
 					break;
 				case "logviewer":
-					var loggerPopup:LoggerWindow = new LoggerWindow();
-					loggerPopup.setStyle("top", "0");
-					loggerPopup.setStyle("bottom", "0");
-					loggerPopup.setStyle("left", "0");
-					loggerPopup.setStyle("right", "0");
-					collageApp.OpenPopup(loggerPopup, "logger", false, new Point(600, 500));
+					WindowManager.Open(new LoggerWindow(), null, "logger", false, new Point(600, 500));
 					break;
 				default:
 					Logger.LogWarning("Unrecognized Menu Command: " + command + "  " + menuEvent.item.@label);

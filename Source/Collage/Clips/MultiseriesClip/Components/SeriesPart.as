@@ -23,16 +23,15 @@ package Collage.Clips.MultiseriesClip.Components
 		{
 		 	if (parentClip) {
 				parentClip.dispatchEvent(PropertyChangeEvent.createUpdateEvent(parentClip, "redrawTrigger", false, true));
-				Logger.Log("Query done, Redraw axis?");
+				var tempAxis:VAxisPart;
+				axis = null;
+				axis = tempAxis;
 			}
 		}
 		
 		protected override function ModelChanged(event:PropertyChangeEvent):void
 		{
-		 	if (parentClip)
-				parentClip.dispatchEvent(PropertyChangeEvent.createUpdateEvent(parentClip, "redrawTrigger", false, true));
-
-			if (event && event.property == "axisUID" && parentClip) {
+			if (parentClip) {
 				parentClip.SetSeriesVAxisByUID(this);
 				return;
 			} else if (event && event.property == "axis" && axis) {

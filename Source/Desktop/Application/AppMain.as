@@ -3,6 +3,7 @@ package Desktop.Application
 	import mx.graphics.ImageSnapshot;
 	import mx.events.AIREvent;
 	import mx.core.*;
+	import Collage.Utilities.WindowManager.*;
 	import Collage.Utilities.Logger.*;
 	import Collage.Utilities.json.*;
 	import Collage.Application.*;
@@ -34,6 +35,7 @@ package Desktop.Application
 		
 		public function AppMain():void
 		{
+			WindowManager.instance = new AirWindowManager();
 			super();
 
 			// load the auth token

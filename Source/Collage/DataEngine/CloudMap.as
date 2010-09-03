@@ -24,6 +24,12 @@ package Collage.DataEngine
 		private var _AppClass:CollageBaseApp;
 		private var _MapClip:MapClip;
 
+		public function get id():String
+		{
+			if (_Map && _Map.ID && _Map.ID.length > 1)
+				return _Map.ID;
+			return null;
+		}
 
 		public function CloudMap(appClass:CollageBaseApp, mapClip:MapClip)
 		{
